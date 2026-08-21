@@ -1,0 +1,250 @@
+---
+name: tech-video-editor
+description: End-to-end edit for a technical talking-head video shot as two simultaneous clips — a face camera carrying the audio and a silent screen recording of slides, a terminal, an IDE or a live demo. Runs stages 1, 2, 4 and 5 (no AI b-roll by design) and delivers the full treatment: hook title, lower third, graphics on every beat that earns one, a demo scene with the face inset over the screen, a verdict card, an end card, music bed and sound effects. Use when a job's raw/ holds a face clip plus a screen clip. Not for other video types — those get their own skill.
+argument-hint: "projects/<job>"
+user-invocable: true
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion
+---
+
+# tech-video-editor
+
+**The shape this skill is for:** one recording session, two clips in `raw/`.
+
+- a **face camera** — talking head, carries the only usable audio,
+- a **screen recording** — slides, terminal, IDE, browser, silent or effectively silent.
+
+Both run the full session length and start within a few frames of each other, so once that offset is
+measured (see below — it is never assumed) they share one timeline and the section
+boundaries are a transcript problem, not a footage problem.
+
+If the job does not look like that — no screen clip, three cameras, an interview, a pure motion
+graphic — **this is the wrong skill.** Say so rather than forcing the shape.
+
+## Recording spec — check incoming footage against this
+
+These are measured, verified numbers from a real capture chain (Sony ZV-E10 II → OBS with two Source
+Record filters → Shure MV7+). **Check every new job's footage against them and report drift before
+editing** — a recording can measure perfect on resolution and still be unusable.
+
+| What | Spec | How to check |
+|---|---|---|
+| Resolution, both clips | 3840×2160 | `ffprobe` |
+| Frame rate, both clips | 30, identical on both | mixed rates drift on composite |
+| Camera bitrate | ~45 Mbps | `size*8/duration` |
+| Screen bitrate | ~40 Mbps (HEVC) | as above |
+| **Duplicate frames** | **camera <5%, screen <10% while moving** | `mpdecimate` |
+| **Encoding lag** | **zero lines in the OBS log** | `grep "encoding lag"` |
+| Audio | 1 track, PCM 24-bit, 48 kHz, mono | six identical tracks means OBS is writing every track |
+| Voice level | −18 to −22 LUFS, peaks −6 to −10 dBFS | `ebur128`, `astats` |
+| **Flat factor** | **0** | non-zero means a limiter is clamping normal speech, not catching accidents |
+| Noise floor | ≤ −65 dB, rumble (<100 Hz) ≤ −75 dB | quiet window + band filters |
+| Face luma | 130–145 | `signalstats` on a face crop |
+| Face key/fill split | within ~25 units | two crops across the face |
+| Background | below face luma; saturation below the face's | region crops |
+
+```bash
+# the two checks that catch a silently broken recording
+ffmpeg -i <clip> -vf mpdecimate=hi=64:lo=32:frac=0.001 -an -f null -   # unique vs total frames
+grep -c "encoding lag" ~/Library/Application\ Support/obs-studio/logs/<latest>.txt
+```
+
+**Known-good rig settings** (for diagnosing a regression, not for repeating blindly):
+camera 4K30 full-width readout — not 4K60, which is a cropped, less detailed readout on this body;
+OBS Source Record per source with **different codecs** (camera H.264, screen HEVC) because two
+simultaneous hardware H.264 sessions fail with `VTCompressionSessionCreate -12903`; a
+**Scale / Aspect Ratio filter above** the screen's Source Record filter, since Source Record has no
+scaling of its own and taps the frame at its own position in the chain; Record Mode "Virtual Camera"
+so the main recording never runs as a third encode; MV7+ manual gain (not Auto-level, which lifts
+room tone in every pause), limiter on, HPF 75 Hz, denoiser and popper stopper off, LEDs off or solid.
+
+**Clips are NOT frame-locked.** Source Record stops both filters at the same instant but starts them
+a few frames apart — observed 14 frames under encoder load, 2 frames when healthy. **Align at the
+tail** and trim the head of the longer clip. Never assume equal durations, and never assume the
+offset is zero because it was last time.
+
+## What this skill does without being asked
+
+The prompt for a job is "edit the video in `projects/<job>`". Everything below happens by default, so
+no one has to remember to ask for it:
+
+**Decided by measurement — never asked about:** which clip carries the voice; the base frame rate;
+delivery resolution; the offset between the two clips; where the section boundaries fall; where the
+speaker sits in frame and therefore which zones are free; the background luma under each graphic and
+therefore its panel treatment; which beats are dead air; every safe zone and level in `style.json`.
+
+**Shown to the human before it is acted on, without being asked:**
+1. **Footage check against the recording spec** — before any editing, with drift reported.
+2. **The cutsheet as readable text** — the whole edit checkable without watching anything.
+3. **The graphics plan** — the beat table, before a single composition is built.
+4. **Any conflict** between local direction and the style file, or inside the style file itself.
+5. **Every composition-review finding** — fixed, or raised as a decision with options. Hard rule 10:
+   they are never downgraded to nits and skipped. The human is relying on this pipeline for the craft
+   calls a checklist cannot make.
+6. **The export dry run** — what would be promoted, retired and deleted.
+
+**Asked about — taste that no measurement settles:** which music track when `audio/soundtracks/`
+holds more than one; which of three candidate hook lines; whether an ambiguous beat earns a graphic;
+anything the human's direction contradicts.
+
+**Never asked:** anything `ffprobe`, `signalstats`, the transcript or the style files already answer.
+A question whose answer is in the footage is a defect in this skill, not a gap in the prompt.
+
+## Run order
+
+Stages **1, 2, 4 and 5** from `CLAUDE.md`, using the `rough-cut`, `graphics`, `finishing` and
+`export` skills for the mechanics. This skill owns the decisions specific to the two-clip technical
+video.
+
+**Stage 3 (`ai-broll`) does not run for this format. That is a decision, not an omission.** Every
+beat in a two-clip technical video already has footage — the speaker or the screen — so a generated
+clip would be filling a gap that does not exist, and AI footage sits badly next to a real terminal
+and a real face. The `graphics` plan therefore never emits a `broll-slot` beat here.
+
+If a beat genuinely has nothing to show, the answer is a diagram, a stat card or a plain `head` beat
+— not generated footage. Say so and move on; do not reach for `ai-broll`, and do not treat the
+missing Higgsfield MCP as a blocker, because nothing in this format needs it.
+
+## Step 0 — measure before deciding anything
+
+```bash
+ffprobe -v error -show_entries stream=index,codec_type,width,height,r_frame_rate,channels \
+        -show_entries format=duration -of default=noprint_wrappers=1 raw/<clip>
+```
+
+Establish, and report:
+
+- **which clip carries the voice** — measure every audio stream, do not assume. A screen recorder
+  often writes a silent or near-silent track (−91 dB on job1), and a camera recorder may write
+  several identical mono copies (six of them on job1). Pick one and say which.
+- **the base frame rate**, exactly, as a rational. Everything downstream matches it.
+- **delivery resolution** = min(style `delivery`, source). Never the authoring canvas. Report any
+  downscale as a decision.
+
+## Step 1 — rough cut
+
+Per the `rough-cut` skill, plus these, which are specific to this shape:
+
+- **Transcribe the face clip's voice track only.** The screen clip has nothing to transcribe.
+- **Measure the clip offset first, then cut both clips with identical ranges.** Compare durations;
+  the difference is the head offset, because both stop together. Trim the head of the longer clip so
+  the two share a timeline, and only then cut ranges. Skipping this puts the screen out of step with
+  the voice for the whole demo.
+- **Snap every cut to the frame grid** (hard rule 5) and run the drift gate before assembling.
+- **Cut depth differs by section.** The talking-head sections take the tight treatment — filler,
+  stutters, silences over ~0.4s. The screen sections take only the long dead air (a wait while a
+  command runs), because cutting inside a screen recording makes the screen jump. On job1 that was
+  0.7s threshold on the face and 2.5s on the screen.
+- **Housekeeping is a kill.** "Can you see my screen", "let me make my font bigger", the first take
+  of a line that gets restated 20 seconds later. Take the last one, always.
+
+## Step 2 — find the section boundaries
+
+Two independent signals, and they should agree. If they disagree, trust the transcript and report it.
+
+1. **The transcript.** "Let me show you", "let's get into the demo", "so that's it" — the presenter
+   always announces the switch.
+2. **Screen activity.** The screen is idle while they talk to camera and starts changing when they
+   present:
+
+```bash
+ffmpeg -v info -i raw/<screen> -vf "fps=1,scale=426:-2,select='gt(scene,0.06)',metadata=print:file=-" \
+       -an -f null - 2>/dev/null | grep pts_time
+```
+
+On job1 these agreed within four seconds, which is the confirmation you want before cutting.
+
+## Step 3 — the treatment
+
+Default structure, all of it, unless told otherwise:
+
+| Element | Where | Notes |
+|---|---|---|
+| Hook title card | opens the video | the hook is already in the footage — pull the line verbatim, do not write one |
+| Lower third | ~5–15s in, on the self-introduction | name + role, from `brand.md` |
+| Graphics through the talk | every beat that earns one | default to no. See the `graphics` skill's earn test |
+| **demo scene** | the whole screen section | screen full frame, face inset, enters once, leaves once |
+| Chips inside the demo | 2–3 maximum | the screen needs its pixels |
+| Stat / finding cards | the payoff beats | numbers count up, never appear |
+| Verdict card | the answer to the hook | biggest type in the video, lower band, callback to the hook card |
+| End card | the closing call-to-action | rows land **on the cue word**, one per channel — see below |
+| Music bed | intro and outro only | flat, no ducking |
+| SFX | transitions + the hook | sparse, real samples |
+
+**The demo scene is the signature move of this format.** Full-frame screen with the face inset in a
+corner, composited in FFmpeg — never through a browser, because minutes of footage round-tripped
+through a headless render costs ~3% luma on every frame. Geometry and entry/exit come from
+`style.md`. It enters once and leaves once; no bouncing.
+
+The inset occludes part of the screen wherever it sits. Bottom-right costs less than bottom-left,
+because line *ends* matter less than line *starts* in a terminal. Say which content it covers rather
+than pretending it covers nothing.
+
+### The closing card is an overlay beside the face, and it is cue-triggered
+
+**This is not a full-frame outro.** The speaker stays on camera, full frame, talking to the lens for
+the whole closing sequence. The card is an **overlay** in the negative space beside their face, and
+the footage never cuts away, never reframes, never goes to a graphic-only screen. It is `class:
+overlay` on a `head` scene — the same treatment as a lower third, just taller and built up over
+several seconds.
+
+The closing lines name each channel in turn — "subscribe to my channel", "follow along at my blog",
+"get the full code from my github repo", "connect with me on linkedin". **Each row appears on its own
+cue word**, timed from the remapped transcript. Rows **accumulate** and hold to the last frame; none
+of them exit.
+
+Take the channels, labels, values and cue words from `brand.md` → `links`. Do not hardcode a handle
+here — a changed username must be one edit in `brand.md`, not a hunt through skills.
+
+- **Timing:** find the first spoken cue for each channel in `outputs/transcript-cut.json` and land
+  that row on it. A row that arrives before its word is a spoiler; one that arrives after reads as
+  lag. Land it *with* the word, not 0.4s later — the stagger rule exists to separate simultaneous
+  entrances, and speech already separates these.
+- **A channel whose cue is never spoken still gets its row** (X, usually) — it lands with the final
+  cued row rather than being dropped. `brand.md` records that as `noCueFallback`.
+- **If the closing lines are re-ordered or a channel goes unmentioned**, follow the transcript, not
+  this list. The spoken order wins.
+- **Anatomy:** label in caption 500 at 28px `$muted`, value in display 700 at 36px `$ink`, on one
+  panel whose treatment is measured like any other. Each row clip-mask wipes up over 0.35s
+  `power3.out`. **Exactly one `$accent` element across the whole card** — the rule under the first
+  row — not one per row.
+- **Geometry:** the panel sits in the left column, `x 96 → 680`, vertically centred on the rows it
+  currently holds so it grows downward as they accumulate. It must clear the speaker's silhouette,
+  which starts around `x 700` — measure it, do not assume — and it satisfies the long-form
+  "right 40% clear" rule for YouTube's end-screen cards by construction.
+- **Check the longest value fits before building.** The GitHub URL is the widest row; at 36px in a
+  584px column it fits, but a longer handle would not. Measure the rendered width, do not eyeball it.
+- The card holds under the final "thank you" to the last frame. If the recording stops dead on the
+  last word, say so — that is a record-time fix (hold three seconds), not something to paper over.
+
+## Step 4 — finishing and review
+
+Per the `finishing` skill. For this format specifically:
+
+- **Long form ships uncaptioned.**
+- **Verify effects by measurement, across each effect's full span.** A woosh is a slow swell; a
+  narrow window samples its quiet onset and reads as missing. Compare RMS envelope against the
+  pre-finishing render at 50ms resolution.
+- Do not null-test two AAC encodes against each other — different priming delay means they never
+  null, and the residual looks like signal. And watch channel counts: mono against stereo shows a
+  −3 dB difference that is conversion, not content.
+
+## Step 5 — export
+
+Per the `export` skill. **Promote and copy without asking; never reclaim without the human having
+read the plan.** Print the dry run and leave the scratch.
+
+## What this format gets wrong most often
+
+- **Type composited bare onto footage.** It is legible over a pale wall and mud over a dark shirt.
+  Every card gets the panel fill. Check a real frame over the actual footage, not a snapshot on white.
+- **Hero type over the speaker's face.** Lower band, face clear above.
+- **A looped still heading an FFmpeg filter chain.** The output never ends. The base must be the main
+  input. This wrote a 142GB file on job1 before it was caught.
+- **Claiming a graphic works without looking at it.** Every part gets a frame pulled from the
+  composited render, not from the composition in isolation.
+
+## Ask only what footage cannot answer
+
+Measure the frame rate, the voice track, the boundaries, the safe zones. Ask about taste: which
+music track, how hard to cut, whether a section earns a graphic the transcript is ambiguous about.
+Never ask a question whose answer is in `ffprobe` output.
