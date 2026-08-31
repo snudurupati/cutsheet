@@ -114,16 +114,20 @@ below are measured from the footage rather than assumed. Canvas coordinates, 192
 | Zone | Canvas box | Use |
 |------|-----------|-----|
 | Left column | `x 96 → 840`, `y 100 → 980` | Side cards, stats, stacks, quote cards. The full-height negative space. |
-| Lower band | `x 96 → 1824`, `y 690 → 980` | Full-width cards: punchline, findings, verdict, end card. Crosses the chest and mic, never the face. |
+| Lower band | `x 96 → 1824`, `y 720 → 972` | Full-width strips only: lower thirds and chips. Hero type does NOT go here (see below). |
+| Hero left | `x 96 → 820`, `y 300 → 940` | Title, hook and verdict cards. The left negative space, clear of the face entirely. |
 | Top band | `x 96 → 1200`, `y 60 → 280` | Pipeline diagrams and horizontal node rows. Stops at 1200 — the framed picture starts there. |
 
-The speaker's silhouette begins at roughly `x 900`. **Nothing readable goes right of `x 840` outside
-the lower band.**
+The speaker's silhouette begins at roughly `x 840`, with the shadow it casts starting near `x 720`.
+**Nothing readable goes right of `x 820` outside the lower band.** The chin sits between `y 710` and
+`y 820` depending on posture, which is why the lower band starts at 720 rather than 690.
 
 Re-measure these when the room or framing changes: sample a frame in vertical strips and read the
-luma profile. The subject reads 100–110; the empty wall reads 140–155. Last measured **2026-08-20**
-on `still-data-engineer` — wall 140–165 out to `x 820`, subject ~100 at `x 980`. The previous
-`700`/`620` pair predated this framing and cost about 240px of usable column.
+luma profile, and measure the chin line as well as the subject edge. Last measured **2026-08-30** on
+`02-first-agent` — clean wall 159–166 out to `x 560`, 146–153 to `x 720`, the cast shadow 128–140
+across `720–840`, subject 102–126 from `x 840`. The wall now reads 152–166 overall, above the 150
+threshold, so left-column parts take the **inverted** treatment. The speaker also gestures into the
+left column, reaching `x 290` on one beat, so lower-left content can be crossed by a hand.
 
 ## Panel treatment is measured, not assumed
 
@@ -243,5 +247,12 @@ Corrections that should apply to every future video get appended here (and to `l
   bare on footage is type positioned over a region measured to be light for the whole beat.
 - **2026-08-19 — the biggest type never covers the face.** A 160px verdict centred on the frame
   landed across the speaker's mouth. Hero type belongs in the lower band with the face clear above it.
+- **2026-08-30: hero cards go in the LEFT negative space, not the full-width lower band.** "Face clear
+  above" was not enough: the lower band runs `x 96 → 1824`, so it passes under the chin and mouth. The
+  hook card and the verdict card both landed on the speaker's face, and the human noted this had
+  happened in earlier videos too. Title, hook and verdict cards now sit in the `heroLeft` zone,
+  `x 96 → 820`, `y 300 → 940`, which is clear wall in this room. Headline wraps to two or three lines
+  at 72-84px rather than running one line across the frame. The full-width lower band remains available
+  for lower thirds and chips, which are small enough to sit beside the face rather than over it.
 - **2026-08-19 — `demo` scene added.** Screen recordings with the speaker present get a corner inset
   over a full-frame screen, not the `panel` split, which shrinks dense screen text past legibility.

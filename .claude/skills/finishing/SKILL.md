@@ -76,6 +76,18 @@ the mix.
 `outputs/audio-plan.json` — the effects plan and the exact filtergraph. When a graphics tweak later
 re-renders the base, re-apply the same plan instead of re-deciding every placement from scratch.
 
+**Record the file you wrote, as `output`.** A relative path from the job root:
+
+```json
+{ "output": "outputs/finished.mov", "music": { ... }, "sfx": [ ... ] }
+```
+
+This is the only place in the pipeline that knows which render is the finished one. Without it
+`export` has to guess, and it guesses by mtime and file extension. On 2026-08-31 that guess filtered
+candidates to `*.mp4`, could not see `finished.mov` at all, and planned to promote the graphics pass
+(no music, no sound effects) and then retire the only file that had them. The finishing stage knows
+the answer for free. Write it down.
+
 ---
 
 # The review loop — the part everyone misses

@@ -60,6 +60,10 @@ Replace this section with the winning line from the first real video, once one e
 What goes on an end card or a lower third. Shared across every video type — the format decides how
 they appear, this file decides what they say.
 
+**Name on screen:** Sreeram Nudurupati. **Role line:** AI for the Working Data Engineer.
+These two are what a lower third says, and they had to be guessed on 2026-08-30 because this file
+only carried the channel name and the handle.
+
 **Channel:** AI for the Working Data Engineer — handle `@srnudurupati`.
 The handle is a person's name by choice; the channel name is carried on screen above it
 where a format has room for two lines, and omitted where it does not.
@@ -111,6 +115,16 @@ downstream) or the heard form is a real English word that might be genuinely mea
 | DBT, D B T, debt | dbt | flag (lowercase brand, "debt" is a real word) |
 | Terra form, terror form | Terraform | flag (two words) |
 | Tera form | Terraform | auto |
+| dbdcore, dbt core | dbt-core | auto |
+| duck DB, duckdb | DuckDB | auto |
+| duckdbt, duck dbt | dbt-duckdb | flag (could be dbt or the adapter, check context) |
+| wipe coding, white coding | vibe coding | flag (two words) |
+| ei agent, a i agent | AI agent | flag (two words) |
+| XRUS, ex rus | across | flag (real word once split) |
+| chat gbd, chat gpt, chatgpt | ChatGPT | flag (two words) |
+| the green | the grain | flag (real word, and "grain" is the whole subject of a modelling video) |
+| agents.md, agents dot md | AGENTS.md | auto |
+| codecs, co decks | Codex | flag ("codecs" is a real word this channel also uses) |
 
 The dictionary pass in `rough-cut` grows this list from real transcripts: anything neither ordinary
 English nor already listed gets judged in context. A recurring brand name lands here permanently; a
@@ -148,6 +162,11 @@ Skills parse this. Keep it in sync with the tables above.
     "rule": "rough-cut proposes three candidate hook lines verbatim from the transcript's boldest claim, ranked; human picks before graphics start",
     "fallback": "Here's the part nobody tells you."
   },
+  "presenter": {
+    "name": "Sreeram Nudurupati",
+    "role": "AI for the Working Data Engineer",
+    "_why": "what the lower third says. Added 2026-08-30; before that the skill had to infer a name from the mishear list and the handle."
+  },
   "channel": {
     "name": "AI for the Working Data Engineer",
     "handle": "@srnudurupati",
@@ -164,7 +183,8 @@ Skills parse this. Keep it in sync with the tables above.
     { "id": "linkedin", "label": "linkedin", "value": "in/snudurupati",
       "cues": ["linkedin", "connect"] },
     { "id": "x",        "label": "x",        "value": "@srnudurupati",
-      "cues": ["twitter"], "noCueFallback": "lands with the final cued row" }
+      "cues": ["twitter"], "noCueFallback": "lands with the final cued row" },
+    { "_note": "noCueFallback is NOT specific to x. Whichever channel goes unmentioned takes it. On 02-first-agent, x WAS cued (\"or Twitter\") and BLOG was never spoken, so blog took the fallback. Match cues against the closing section only: \"repo\" appears 10 times earlier in that video and would have fired the github row at 2:22 instead of 12:33." }
   ],
   "misheard": [
     { "heard": ["Sriram", "Shriram", "Sreeraam", "Shreeram"], "correct": "Sreeram", "mode": "auto" },

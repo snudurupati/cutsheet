@@ -96,6 +96,43 @@ count, and **gate the splice**: sum video and audio duration across all segments
 python3 -c "...sum ffprobe stream=duration for v:0 and a:0 across segments; exit 1 if |drift| > 0.040"
 ```
 
+**Counting gates are not enough, and a content gate that reads the cutsheet is circular.** Comparing
+the render's audio against `outputs/transcript-cut.json` proves nothing: both were generated from the
+same cutsheet, so they agree with each other while both disagree with the picture. The check has to
+compare the render against something **upstream of every artefact the edit produced**, which means
+the raw footage. Sample a dozen points across the timeline, map each through the cutsheet to its
+source frame, pull both frames and compare:
+
+```bash
+# a match reads ~0.1 mean pixel difference, a misplaced frame ~3
+ffmpeg -v error -ss $CUT_T  -i outputs/base-cut.mov -frames:v 1 -vf scale=480:-2 a.png
+ffmpeg -v error -ss $SRC_T  -i raw/<clip>           -frames:v 1 -vf scale=480:-2 b.png
+```
+
+**Sample the very start, not just the middle.** When a segment is lifted to the front, the wrong-order
+and right-order timelines re-converge after it, so any window past that point matches under both and
+reports a pass. Three windows at 45s, 400s and 735s all passed at 98% on a render whose first 73
+seconds were out of sync.
+
+**The `select` filter cannot reorder frames, and fails silently when you ask it to.**
+`select='between(n,a,b)+between(n,c,d)'` picks frames but always emits them in **source decode
+order**. Every video-type skill lifts the hook out of the middle of the take and puts it first, so a
+`select`-based splice quietly ignores that move: the audio, built with `atrim`+`concat`, honours the
+cutsheet's order while the video does not. The result is a file whose first minute has picture and
+sound from different parts of the recording, and it passes **every** count-based gate because the
+frames, the samples and the drift are all still correct. Assemble video per segment and join with the
+concat demuxer, which respects order.
+
+**Segments must not overlap in the source.** Two kept ranges sharing even one frame diverge between
+streams: `select` unions them and emits the frame once, while audio `concat` duplicates it. That is a
+33ms video/audio mismatch **per overlap** which sails under the 40ms drift gate while genuinely
+repeating a slice of speech. Assert non-overlap on the frame values before splicing.
+
+**A span end must not bisect a word.** Reading word *start* times from a transcript dump and adding a
+margin lands the boundary inside the last word, and the splice clips it mid-syllable. On one job this
+silently truncated twelve words ("It worked fine", "let's get started", "environment properly").
+Select words by start time, then derive the segment edge from the last word's **end**.
+
 **ffmpeg eats stdin and will swallow your job list.** A `while read` loop feeding segment jobs to
 ffmpeg silently loses lines — it processed 34 of 92 and then mis-parsed. Always `ffmpeg -nostdin`
 inside a read loop.

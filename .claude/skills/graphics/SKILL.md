@@ -230,10 +230,59 @@ This is the category that wastes days, because nothing errors. It just quietly c
   a real hang.
 - **Transparent overlays have nothing behind them**, so backdrop blur does not happen. Design frosted
   panels to read on their own fill.
+- **Fonts must live INSIDE the project root.** The renderer serves the project directory as its web
+  root, so an `@font-face` path that climbs out of it (`../../../../assets/fonts/...`) is never
+  fetched. There is no error: the browser falls back to a system sans and the render looks almost
+  right. `CLAUDE.md` forbids relying on system fonts, and this is how it happens silently. Copy the
+  font files into the build folder and reference them relatively.
+- **Alpha renders reject `--resolution`.** `--format mov|webm|png-sequence` cannot be combined with an
+  output-resolution preset, so an overlay authored on a 1920x1080 canvas renders at 1920x1080 and has
+  to be upscaled, which softens type. Instead declare the composition at delivery size and put the
+  canvas on a scaled stage, so Chrome rasterises text at full resolution:
+  `<div id="root" data-width="3840" data-height="2160"><div id="stage" style="width:1920px;height:1080px;transform:scale(2);transform-origin:top left">`
+- **`--format webm` produced `yuv420p` with no alpha at all.** Use `--format mov` for overlays; it
+  gives ProRes 4444 `yuva444p12le`. Probe `pix_fmt` and fail the render if an overlay part comes back
+  without `yuva`.
+- **A CSS `transform` plus a GSAP tween on the same property means the element never enters.** This is
+  the `gsap_css_transform_conflict` lint rule and it is worth knowing the symptom: a lower third whose
+  card sat at `transform:translateY(100%)` while GSAP animated `yPercent` rendered **only its accent
+  rule** for its whole run. It passed the render gate, the layout gate and the duplicate check,
+  because the rule alone still produced a plausible bounding box. Set the start state in the tween.
 
 ## The composite traps
 
 FFmpeg problems, not HyperFrames problems — but they only show up when you assemble.
+
+- **Align overlays with `trim`/`setpts`, never input-side `-ss`.** Seeking the overlay input
+  desynchronises its PTS from the base, `eof_action=pass` then passes the bare footage through, and
+  **the overlay silently never appears**. It looks correct only for a part that starts at 00:00, where
+  both seeks coincide, so a spot check on the first graphic passes while every later one is missing.
+
+  ```bash
+  # WRONG: overlay never appears for any part that does not start at 0
+  ffmpeg -ss $ABS -i base.mov -ss $OFF -i part.mov -filter_complex "[0:v][1:v]overlay=0:0" ...
+  # RIGHT
+  ffmpeg -ss $ABS -i base.mov -i part.mov \
+    -filter_complex "[1:v]trim=start=$OFF,setpts=PTS-STARTPTS[o];[0:v][o]overlay=0:0:eof_action=pass" ...
+  ```
+
+- **`zoompan`'s `x` and `y` are in SOURCE coordinates, capped at `iw - iw/zoom`.** They are not
+  positions in the zoomed image. Feed it zoomed-space values and FFmpeg silently **clamps to the
+  bottom-right corner** with no error, so every punch-in lands on whatever happens to be in that
+  corner. To centre a punch-in on source point `(cx, cy)`:
+
+  ```
+  zoompan=z='Z':x='cx-(iw/Z)/2':y='cy-(ih/Z)/2':d=1:s=<out>:fps=<fps>
+  ```
+
+- **Verify a punch-in crop CONTAINS its target, not merely that it does not move.** Checking
+  frame-to-frame stability is worthless on its own: a blank region is perfectly stable and scores zero
+  drift. One punch-in passed a stability check at 0.0 while sitting on empty page for its whole run.
+  Render the crop and read it.
+
+- **A single crop cannot serve a long window on a scrolling page.** Deriving one from the union of
+  content across a 50s span returns the whole screen and collapses the zoom to nothing. Use short
+  windows on content measured to be static.
 
 - **Match every part to the base frame rate exactly.** Mixed frame rates drift. Probe it, never guess.
 - **Segments carry their own base slice, cut once from the base**, so the first and last frame match
@@ -254,9 +303,24 @@ FFmpeg problems, not HyperFrames problems — but they only show up when you ass
   25%.** Wire this into `assemble.sh` and fail above 8%. Do **not** mask it by forcing a frame rate —
   the output is already constant.
 
+  **Count them by frame hash, not `mpdecimate`.** The command in this skill until 2026-08-30 could
+  never fire, for two independent reasons. `mpdecimate=hi=64:lo=32:frac=0.001` sets thresholds 12x
+  below FFmpeg's defaults, so nothing is ever called a duplicate (measured: 0% on a provably frozen
+  200s window where the defaults gave 99.9%). And `-loglevel debug` prints `drop_count` for **every**
+  frame, so `grep -c` counts total frames rather than dropped ones. Real footage carries sensor noise,
+  so genuine duplicates are ~0% and the judder bug stands out unmistakably:
+
   ```bash
-  ffmpeg -i outputs/graphics-pass.mp4 -vf mpdecimate=hi=64:lo=32:frac=0.001 -loglevel debug -f null - 2>&1 \
-    | grep -c 'drop_count' # dupes / total frames → fail if > 8%
+  ffmpeg -v error -i outputs/graphics-pass.mp4 -map 0:v:0 -f framemd5 /tmp/gp.md5
+  python3 - <<'PY'
+  prev=None; dup=tot=0
+  for line in open("/tmp/gp.md5"):
+      if line.startswith("#"): continue
+      h=line.rsplit(",",1)[-1].strip(); tot+=1
+      if h==prev: dup+=1
+      prev=h
+  print(f"{dup}/{tot} = {100*dup/tot:.2f}%")   # fail above 8%
+  PY
   ```
 
   **The one exception** is a deliberately held frame, like an outro push-in that should not zoom back

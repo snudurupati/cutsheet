@@ -66,3 +66,6 @@ projects/*/*.md
 projects/*/transcript/*.json
 projects/*/transcript/*.txt
 projects/*/transcript/CUTSHEET.txt
+
+# WhisperX run logs are transient noise, not system source
+projects/*/transcript/*.log

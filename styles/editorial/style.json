@@ -125,9 +125,10 @@
           1824
         ],
         "y": [
-          690,
-          980
-        ]
+          720,
+          972
+        ],
+        "_why": "y690 crossed the jaw. The chin measured y710-820 across this recording depending on posture, so hero type starts at 720 and stops at the 972 title-safe line."
       },
       "topBand": {
         "x": [
@@ -139,9 +140,25 @@
           280
         ]
       },
-      "subjectStartsAtX": 900,
-      "nothingReadableRightOf": 840,
-      "_remeasured": "2026-08-20, still-data-engineer. Vertical luma strips at 0:55/1:05/30:30 by the method in style.md: wall reads 140-165 out to x820, subject drops to ~100 at x980. The previous 700/620 pair was measured against different framing and cost ~240px of usable left column - both tweet cards were sized to it and came out small. Re-measure if the camera or chair moves."
+      "subjectStartsAtX": 840,
+      "nothingReadableRightOf": 820,
+      "_remeasured": "2026-08-30, 02-first-agent. Vertical luma strips over five frames: clean wall reads 159-166 out to x560, 146-153 at 560-720, 128-140 at 720-840 (the shadow the speaker casts), and the subject itself at 102-126 from x840. So the usable left column ends near x700 and the subject starts at x840, not the 900 measured on still-data-engineer. The left wall now reads 152-166, clearly above the 150 threshold, so left-column parts are INVERTED where the previous job straddled it at 147-156. The speaker also gestures into the left column (hand reached x290-580 at one point), so lower-left content can be crossed. Re-measure per job.",
+      "heroLeft": {
+        "x": [
+          96,
+          820
+        ],
+        "y": [
+          300,
+          940
+        ],
+        "_why": "hero cards sit here. x820 stops short of the subject edge measured at ~840."
+      },
+      "_chinRange": [
+        710,
+        820
+      ],
+      "_chinWhy": "measured across this recording: the chin ranges y710-820 with posture, so the stored lowerBand y690 crosses the jaw. Re-measure per job."
     },
     "panelContrast": {
       "_how": "sample mean luma of the base render inside the part's box across its window",
@@ -240,16 +257,20 @@
     "_cardsLandOnSpokenCueWhy": "any card whose copy quotes spoken content lands on the cue measured from outputs/transcript-cut.json, not on the card's entrance. The verdict hero would have arrived 6.4s before the line was spoken, and both stat counters finished before their numbers were said.",
     "_heroTypeIsBandLimited": "the 120px headline and 220px stat are FULL-FRAME figures. The lower band is 290px tall: a 120px headline over two lines overflows it by 62px and a 220px numeral overlaps its own label. In-band: headline one line at ~100px, stat at the 160px floor with its sub-line in the card's right column. Verdict is the exception at 180px.",
     "cueTimesLiveInTheCutsheet": true,
-    "_cueTimesWhy": "any timing derived from the transcript is re-derived at build time and range-checked against the part that owns it. Hardcoded cues left the end card firing against the wrong words the moment the cut was re-timed, and a mm:ss value read as seconds scheduled five of a diagram's six nodes AFTER the card had ended, so they never rendered and nothing errored."
+    "_cueTimesWhy": "any timing derived from the transcript is re-derived at build time and range-checked against the part that owns it. Hardcoded cues left the end card firing against the wrong words the moment the cut was re-timed, and a mm:ss value read as seconds scheduled five of a diagram's six nodes AFTER the card had ended, so they never rendered and nothing errored.",
+    "heroTypeZone": "leftColumn",
+    "_heroTypeZoneWhy": "Title, hook and verdict cards live in the LEFT NEGATIVE SPACE, never across the frame. The lower band spans the full width and therefore crosses the speaker's chin and mouth; 'face clear above' is not enough when the band itself runs under the face. Requested by the human 2026-08-30 after the hook and verdict cards both landed on his face, and noted as a repeat of the same mistake in earlier videos."
   },
   "audio": {
-    "musicBedDb": -18,
+    "musicBedDb": -9,
     "_levelsAreRelativeToVoice": "musicBedDb and sfxDb are dB relative to the MEASURED integrated loudness of the voice on the render, not raw gains on the source files. Measure the voice, measure each source, compute the gain. A licensed track mastered at -10 LUFS and one mastered at -20 LUFS must land at the same bed level; a flat gain puts them 10 dB apart. Measured 2026-08-20 on still-data-engineer: voice -22.3 LUFS -> bed -40.3 LUFS (gain -30.1 dB); all five effects -> -32.3 LUFS (gains -13.7 to -27.9 dB).",
     "musicDucking": false,
     "musicFadeIn": false,
     "musicFadeOutSeconds": 1.5,
     "sfxDb": -10,
-    "sfxPerVideoMax": 6
+    "sfxPerVideoMax": 6,
+    "_musicBedDbWhy": "Changed from -18 to -9 on 2026-08-31: the human could not hear the bed at -18 and picked -9 from a four-way A/B at -18/-12/-9/-6. Still NOT ducked; if a future bed fights the voice, lower it before reaching for a sidechain.",
+    "_voiceEq": "140Hz +1, 280Hz -3 (Q1.1), 3400Hz +4.0 (Q2.0), then a de-esser. Chosen by ear. The presence bell must stay NARROW: a first attempt at 3.8kHz Q0.9 lifted 5-9kHz with the consonants and read as harsh and sibilant."
   },
   "render": {
     "hyperframesVersion": "0.8.3",
@@ -340,6 +361,42 @@
     {
       "date": "2026-08-20",
       "rule": "Cue times live in the cutsheet and are range-checked against their own part, never hardcoded in the builder."
+    },
+    {
+      "date": "2026-08-30",
+      "rule": "Title, hook and verdict cards go in the LEFT negative space (heroLeft zone), never in the full-width lower band. The lower band crosses the face. This had happened in earlier videos too."
+    },
+    {
+      "date": "2026-08-30",
+      "rule": "Never add a corrective filter to chase a marginal spec number. An 80 Hz high-pass moved the rumble figure from -72 to -78 dB against a -75 dB spec and cost ~1 dB of chest in the voice. Measure the cost in the band that matters before applying the fix."
+    },
+    {
+      "date": "2026-08-30",
+      "rule": "select cannot reorder frames: a splice built on it silently ignores any segment the cutsheet lifts out of chronological order, so the hook stayed at 1:53 in video while the audio had it at 0:00. Assemble per segment and join with the concat demuxer."
+    },
+    {
+      "date": "2026-08-30",
+      "rule": "zoompan x/y are SOURCE coordinates capped at iw-iw/zoom, not positions in the zoomed image. Zoomed-space values are silently clamped to the bottom-right corner, so every punch-in landed on blank page. Use x='cx-(iw/Z)/2'."
+    },
+    {
+      "date": "2026-08-30",
+      "rule": "Overlays must be aligned with trim/setpts, never input-side -ss, which desyncs their PTS and makes the overlay vanish with no error. It only looks right for a part starting at 00:00."
+    },
+    {
+      "date": "2026-08-30",
+      "rule": "Fonts must live inside the render project root; a path that climbs out of it is never served and the render falls back to a system font silently."
+    },
+    {
+      "date": "2026-08-30",
+      "rule": "Verify a punch-in crop CONTAINS its target. Frame-to-frame stability is not evidence: a blank region is perfectly stable and scored 0.0 drift while sitting on empty page."
+    },
+    {
+      "date": "2026-08-31",
+      "rule": "Music bed is -9 dB under the measured voice, not -18. Judge a bed by ear, not by the number."
+    },
+    {
+      "date": "2026-08-31",
+      "rule": "A corrective presence lift needs a NARROW bell. At Q 0.9 a 3.8kHz lift spills into the 5-9kHz sibilance band and turns clarity into harshness. Q 2.0 at 3.4kHz plus a de-esser is the shape."
     }
   ]
 }
