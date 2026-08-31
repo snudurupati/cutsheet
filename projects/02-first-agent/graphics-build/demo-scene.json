@@ -1,0 +1,123 @@
+{
+  "_what": "The demo scene is FFmpeg geometry, not a HyperFrames part. Style says minutes of footage round-tripped through a headless render costs ~3% luma per frame, so screen + face inset + punch-ins are all composited in FFmpeg. HyperFrames parts from cutsheet.json composite OVER the result.",
+  "span": {
+    "start": 151.07,
+    "end": 712.0,
+    "_note": "cut 2:31.07 to 11:52.00, the whole demo section"
+  },
+  "base": "outputs/base-cut.mov",
+  "screen": "outputs/base-screen.mp4",
+  "inset": {
+    "_canvas": {
+      "width": 480,
+      "height": 480,
+      "left": 1368,
+      "top": 528,
+      "radius": 24
+    },
+    "_delivery": {
+      "width": 960,
+      "height": 960,
+      "left": 2736,
+      "top": 1056,
+      "radius": 48
+    },
+    "border": "1px $rule",
+    "shadow": "0 8px 32px rgba(0,0,0,0.35)",
+    "entersOnce": true,
+    "enterSeconds": 0.5,
+    "exitSeconds": 0.35,
+    "occludes": "nothing. Measured across three sampled frames: the agent UI keeps its content in a centre column (x655-1265 sidebar closed, x770-1380 open). The bottom-right inset lands on empty canvas. Only contact is ~12px of the composer's right padding when the sidebar is open.",
+    "hiddenDuring": [
+      {
+        "start": 367.47,
+        "end": 438.63,
+        "why": "g008 takeover covers the frame"
+      }
+    ],
+    "sourceCrop": {
+      "w": 1760,
+      "h": 1760,
+      "x": 1120,
+      "y": 400,
+      "_why": "was 1480@1340,300 which cut the shoulder and sometimes the chin while wasting headroom. Chosen from a four-way A/B on real frames."
+    },
+    "reposition": [
+      {
+        "start": 238.0,
+        "end": 260.13,
+        "corner": "bottomLeft",
+        "_why": "bottom-right while he reads CONVENTIONS.md in the LEFT pane (3:36-3:56), then left from 3:58 once 'my staging.yaml' at 3:56.31 makes the RIGHT pane the subject. Moving at 3:38 put the inset over the pane he was actually reading."
+      }
+    ]
+  },
+  "punchIns": {
+    "_why": "The agent UI renders its content in about 27% of the frame width and the code measures ~13px in canvas terms: legible at 4K, unreadable at 1080p where most of YouTube watches.",
+    "_how": "FFmpeg zoompan with a smoothstep ease. Centres are MEASURED and each crop is RENDERED AND READ before use. An earlier version checked only that the crop was stable frame to frame, which a blank region passes perfectly: one punch-in scored 0.0 drift while sitting on empty page. Verify the crop CONTAINS the target, not merely that it does not move.",
+    "items": [
+      {
+        "id": "z01",
+        "start": 246.0,
+        "end": 259.5,
+        "cx": 3000,
+        "cy": 1420,
+        "zoom": 2.4,
+        "target": "_staging.yml lines 161-181, so 169-180 (stg_pos__transactions and its wrong [unique, not_null] on transaction_id) are all visible",
+        "_verified": "crop rendered and read at 1100px wide",
+        "_note": "cy shifted down from 1230 so lines 169-180 sit ABOVE the bottom-left inset"
+      },
+      {
+        "id": "z02",
+        "start": 295.5,
+        "end": 307.0,
+        "cx": 2000,
+        "cy": 950,
+        "zoom": 2.4,
+        "target": "ChatGPT's YAML answer: dbt_utils.unique_combination_of_columns",
+        "_verified": "crop rendered and read at 1100px wide",
+        "_note": "shortened so it clears g007, which starts at 306.8 and sat over the zoomed YAML"
+      }
+    ]
+  },
+  "privacyMasks": {
+    "_why": "Two different leaks, each with its own region. (1) The Codex sidebar lists personal projects. (2) At 7:41-7:45 a macOS file picker exposes the home folder (ada, agentic-data-analytics, autobooks, autonomous-knowledge-fabric, mcap-primer and others). The picker was found by scanning for the luma drop a modal sheet causes, after a frame-by-frame composition sweep caught it by eye. The 'Create project' dialog at 7:33-7:40 is demo content and is NOT masked. Neither is the repo file tree at 2:32-2:50 or 3:38-4:22.",
+    "spans": [
+      {
+        "start": 267.0,
+        "end": 274.0,
+        "x": 0,
+        "y": 430,
+        "w": 500,
+        "h": 1730,
+        "what": "Codex sidebar"
+      },
+      {
+        "start": 444.0,
+        "end": 458.0,
+        "x": 0,
+        "y": 430,
+        "w": 500,
+        "h": 1730,
+        "what": "Codex sidebar"
+      },
+      {
+        "start": 460.4,
+        "end": 466.2,
+        "x": 1220,
+        "y": 700,
+        "w": 1400,
+        "h": 760,
+        "what": "macOS file picker: home folder names"
+      },
+      {
+        "start": 522.0,
+        "end": 712.0,
+        "x": 0,
+        "y": 430,
+        "w": 500,
+        "h": 1730,
+        "what": "Codex sidebar"
+      }
+    ]
+  }
+}
