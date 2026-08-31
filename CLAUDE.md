@@ -184,10 +184,24 @@ this pipeline does not use (WhisperX handles transcription, music is user-suppli
     and a scorecard whose "win" cards were styled quieter than its "miss" cards, undercutting the
     argument the video was making. The human had to ask what had been suppressed.
 
-11. **Verify content, not just counts.** Every gate in this pipeline measures frames, samples and
-    durations, and a stale or mismatched source can satisfy all of them exactly. After assembling any
-    cut, transcribe a window of the render and compare it against `outputs/transcript-cut.json` for
-    the same window. Fail below about 70% word match on the leading words.
+11. **Verify content, not just counts, and verify it against the RAW FOOTAGE.** Every gate in this
+    pipeline measures frames, samples and durations, and a stale or mismatched source can satisfy all
+    of them exactly. After assembling any cut, transcribe a window of the render and compare it
+    against `outputs/transcript-cut.json`. Fail below about 70% word match on the leading words.
+
+    **That check alone is circular and will pass a broken render.** `transcript-cut.json` is
+    generated from the cutsheet, so it agrees with anything else generated from the cutsheet. On
+    2026-08-30 a graphics pass shipped with video in source order and audio in play order: the first
+    73 seconds had picture and sound from different parts of the recording, and it scored 98% on this
+    gate because the audio and the transcript were both right and only the picture was wrong. Counts
+    were perfect too: frames, samples and 0.0000ms drift.
+
+    So the gate has two halves and both are required. Compare the render's **audio** against the cut
+    transcript, **and** compare the render's **video** against the raw footage, mapping a dozen
+    timestamps through the cutsheet to their source frames. A match reads about 0.1 mean pixel
+    difference and a misplaced frame about 3. Sample the **first two seconds**, not only the middle:
+    when a segment is lifted to the front the two orderings re-converge after it, so every later
+    window passes under both.
 
     This rule exists because on 2026-08-20 a re-cut shipped **old audio on new video**, 4.47 seconds
     out of sync through the whole demo, the verdict and the end card. It passed the frame count, the

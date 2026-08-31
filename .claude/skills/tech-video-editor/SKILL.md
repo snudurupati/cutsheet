@@ -32,7 +32,7 @@ editing** — a recording can measure perfect on resolution and still be unusabl
 | Frame rate, both clips | 30, identical on both | mixed rates drift on composite |
 | Camera bitrate | ~45 Mbps | `size*8/duration` |
 | Screen bitrate | ~40 Mbps (HEVC) | as above |
-| **Duplicate frames** | **camera <5%, screen <10% while moving** | `mpdecimate` |
+| **Duplicate frames** | **camera <5% on DEFAULT thresholds** | `mpdecimate` (see the warning below; it cannot judge a screen recording) |
 | **Encoding lag** | **zero lines in the OBS log** | `grep "encoding lag"` |
 | Audio | 1 track, PCM 24-bit, 48 kHz, mono | six identical tracks means OBS is writing every track |
 | Voice level | −18 to −22 LUFS, peaks −6 to −10 dBFS | `ebur128`, `astats` |
@@ -44,9 +44,29 @@ editing** — a recording can measure perfect on resolution and still be unusabl
 
 ```bash
 # the two checks that catch a silently broken recording
-ffmpeg -i <clip> -vf mpdecimate=hi=64:lo=32:frac=0.001 -an -f null -   # unique vs total frames
+ffmpeg -i <clip> -vf mpdecimate -an -f null -    # DEFAULT thresholds. see the warning below
 grep -c "encoding lag" ~/Library/Application\ Support/obs-studio/logs/<latest>.txt
 ```
+
+> **Do not pass `mpdecimate=hi=64:lo=32:frac=0.001`.** That was the command here until 2026-08-30 and
+> it detects nothing. FFmpeg's defaults are `hi=768:lo=320:frac=0.33`; `hi=64` is **12x lower**, so
+> almost any block difference disqualifies a frame from counting as a duplicate. Proof: on a 200s
+> window of a screen recording that was provably frozen (first scene change at t=240s), the tuned
+> command reported **0 of 6000 frames duplicated** while default `mpdecimate` reported **5996 of
+> 6000**. A check that reports 0% on a completely frozen screen would also report 0% on a recording
+> that was half repeated frames, which is the whole failure it exists to catch.
+>
+> **And `mpdecimate` alone cannot answer this question for a screen recording**, because it cannot
+> tell "the encoder repeated a frame" from "the content did not change". An idle screen is *supposed*
+> to produce identical frames. Use it on the camera, where the subject always moves, and confirm
+> encoder health on the screen from the OBS log plus arithmetic instead:
+>
+> ```bash
+> # frames / fps must equal the wall-clock recording duration. If the encoder dropped or
+> # repeated frames to keep up, these disagree.
+> ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames,r_frame_rate -of csv=p=0 <clip>
+> grep -E "Total frames output|Total drawn frames" ~/Library/Application\ Support/obs-studio/logs/<latest>.txt
+> ```
 
 **Known-good rig settings** (for diagnosing a regression, not for repeating blindly):
 camera 4K30 full-width readout — not 4K60, which is a cropped, less detailed readout on this body;
@@ -71,6 +91,10 @@ no one has to remember to ask for it:
 delivery resolution; the offset between the two clips; where the section boundaries fall; where the
 speaker sits in frame and therefore which zones are free; the background luma under each graphic and
 therefore its panel treatment; which beats are dead air; every safe zone and level in `style.json`.
+
+**Title and verdict cards live in the left negative space.** The full-width lower band passes under
+the speaker's chin and mouth, so "face clear above" is not enough on its own. This was got wrong on
+more than one video before it was written down on 2026-08-30; the zone is `heroLeft` in `style.json`.
 
 **Shown to the human before it is acted on, without being asked:**
 1. **Footage check against the recording spec** — before any editing, with drift reported.
@@ -159,13 +183,13 @@ Default structure, all of it, unless told otherwise:
 
 | Element | Where | Notes |
 |---|---|---|
-| Hook title card | opens the video | the hook is already in the footage — pull the line verbatim, do not write one |
+| Hook title card | opens the video | the hook is already in the footage — pull the line verbatim, do not write one. **Left negative space, never across the frame** |
 | Lower third | ~5–15s in, on the self-introduction | name + role, from `brand.md` |
 | Graphics through the talk | every beat that earns one | default to no. See the `graphics` skill's earn test |
 | **demo scene** | the whole screen section | screen full frame, face inset, enters once, leaves once |
 | Chips inside the demo | 2–3 maximum | the screen needs its pixels |
 | Stat / finding cards | the payoff beats | numbers count up, never appear |
-| Verdict card | the answer to the hook | biggest type in the video, lower band, callback to the hook card |
+| Verdict card | the answer to the hook | biggest type in the video, **left negative space** (not the lower band, which runs under the chin), callback to the hook card |
 | End card | the closing call-to-action | rows land **on the cue word**, one per channel — see below |
 | Music bed | intro and outro only | flat, no ducking |
 | SFX | transitions + the hook | sparse, real samples |
@@ -178,6 +202,39 @@ through a headless render costs ~3% luma on every frame. Geometry and entry/exit
 The inset occludes part of the screen wherever it sits. Bottom-right costs less than bottom-left,
 because line *ends* matter less than line *starts* in a terminal. Say which content it covers rather
 than pretending it covers nothing.
+
+**Which corner depends on the app, so measure it.** For a chat-style agent UI the content sits in a
+narrow centre column and the bottom-right is empty canvas, so the inset covers nothing. For a
+**split-pane editor** the right pane is the thing being read, and bottom-right lands on it: move the
+inset to bottom-left for that span, jumping on an existing cut boundary so the move is invisible.
+
+**Frame the inset from the footage, not from a guess.** A square crop that is too tight cuts the
+shoulder and clips the chin whenever the speaker leans, while wasting headroom above. Test three or
+four crops on real frames spread across the demo and look at them side by side. On `02-first-agent`
+the working crop was `1760x1760` at `(1120, 400)` of a 3840x2160 source, where the first attempt at
+`1480x1480 @ (1340, 300)` was too tight.
+
+**Punch in on the specific line, not the general area.** A screen recording of an IDE renders code at
+about 11px in canvas terms: fine at 4K, unreadable at 1080p where most of the audience watches. A
+gentle overall zoom does not fix that; a 2.4x push framed on the exact lines being discussed does.
+Keep each punch-in short and on content measured to be static, and **render the crop and read it**
+before committing to it.
+
+### Screen recordings leak
+
+Check every frame of the screen clip for things the video is not meant to publish. On
+`02-first-agent` the agent's sidebar listed unrelated personal projects for nearly four minutes.
+Detect it rather than trusting a timestamp someone read off a player: scan the strip for populated
+text and blur the region for the spans where it appears. Blur in **source space**, before any
+punch-in, so the mask scales with the content.
+
+```bash
+# find the runs, then blur them
+[screen]split[a][b];[b]crop=W:H:X:Y,boxblur=24:2[blur];[a][blur]overlay=X:Y:enable='between(t,s1,e1)+between(t,s2,e2)'
+```
+
+Be precise about what is private: a repository file tree the video is actively demonstrating is
+content, not a leak. Only mask what is genuinely unrelated.
 
 ### The closing card is an overlay beside the face, and it is cue-triggered
 
@@ -227,6 +284,16 @@ Per the `finishing` skill. For this format specifically:
 - Do not null-test two AAC encodes against each other — different priming delay means they never
   null, and the residual looks like signal. And watch channel counts: mono against stereo shows a
   −3 dB difference that is conversion, not content.
+- **Do not add a corrective filter to chase a marginal spec number.** On `02-first-agent` the rumble
+  figure sat 2.4 dB over a −75 dB target, and an 80 Hz high-pass moved it to −78 dB while costing
+  about 1 dB of chest in the voice. Measure the cost in the band that matters before applying the fix;
+  a number inside spec is not worth a voice that sounds thinner.
+- **Judge voice tone by listening, not by a target curve.** Build two or three EQ variants of the same
+  20 second excerpt at matched loudness and let the human pick. On `02-first-agent` the raw voice
+  peaked at 200–350 Hz with the presence band 11–12 dB below it, which reads as boxy and smears
+  consonants; the chosen correction was −3 dB at 280 Hz and +4.5 dB at 3.8 kHz. A stronger version of
+  the same move was rejected as sounding "like a phonograph", which no measurement would have told
+  you.
 
 ## Step 5 — export
 
