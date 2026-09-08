@@ -1,0 +1,165 @@
+{
+  "source": "outputs/transcript-cut.json",
+  "fps": 60,
+  "totalSeconds": 607.78,
+  "candidates": [
+    {
+      "start": 33.07,
+      "end": 39.85,
+      "cue": "quotation",
+      "scene": "card",
+      "marker": "i saw a",
+      "draw": "Quote card, tweet mock or the real screenshot. Attribute it.",
+      "section": "intro",
+      "text": "I saw a tweet, actually a set of tweets recently when Opus 5 was launched where someone wrote"
+    },
+    {
+      "start": 417.82,
+      "end": 473.93,
+      "cue": "enumeration",
+      "scene": "strike-list",
+      "marker": "three kinds",
+      "draw": "Counted build. Rows land on their own cues, never all at once.",
+      "section": "demo",
+      "text": "and it could already identify the data correctness window, the lateness window, how late can data arrive? How does pointing and reporting happen? It also saw the ground rule that there are no hard deletes. So if the data is deleted in the source system, for historical reasons, we will mark it as delete, but we'll still have a record in the warehouse. There are three kinds of dates, three kinds of customer lists, and the standards say that data lands in landing, And then we'll build staging and so on and so forth. So it looks like these are the kind of conventions that I would be looking for or go ask someone, interview someone and record this thing. So I made sure that cloud is not speculating and it's going and following. It has all the information it needs without biasing it one way or the other. The same thing I would do for a senior engineer or even a junior data engineer."
+    },
+    {
+      "start": 557.92,
+      "end": 561.1,
+      "cue": "open-question",
+      "scene": "card",
+      "marker": "the question is",
+      "draw": "Ask it on screen now, answer it later. Open loop.",
+      "section": "outro",
+      "text": "so again the question is hey you know is ai replacing my job"
+    }
+  ],
+  "signals": [
+    {
+      "kind": "repeated-word",
+      "at": 152.69,
+      "seconds": 13.06,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 183.71,
+      "seconds": 21.07,
+      "why": "21.1s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 183.71,
+      "seconds": 21.07,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 213.91,
+      "seconds": 76.22,
+      "why": "76.2s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 213.91,
+      "seconds": 76.22,
+      "why": "'order' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 213.91,
+      "seconds": 76.22,
+      "why": "'branch' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 213.91,
+      "seconds": 76.22,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 213.91,
+      "seconds": 76.22,
+      "why": "'from' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 213.91,
+      "seconds": 76.22,
+      "why": "'systems' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 213.91,
+      "seconds": 76.22,
+      "why": "'fact' said 5 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 302.45,
+      "seconds": 30.82,
+      "why": "30.8s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 334.27,
+      "seconds": 56.91,
+      "why": "56.9s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 334.27,
+      "seconds": 56.91,
+      "why": "'already' said 5 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 334.27,
+      "seconds": 56.91,
+      "why": "'data' said 6 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 334.27,
+      "seconds": 56.91,
+      "why": "'claude' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 392.18,
+      "seconds": 24.64,
+      "why": "24.6s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 392.18,
+      "seconds": 24.64,
+      "why": "'cloud' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 392.18,
+      "seconds": 24.64,
+      "why": "'rules' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 392.18,
+      "seconds": 24.64,
+      "why": "'it's' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 417.82,
+      "seconds": 56.11,
+      "why": "56.1s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 417.82,
+      "seconds": 56.11,
+      "why": "'data' said 5 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    }
+  ]
+}

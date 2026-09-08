@@ -282,6 +282,56 @@ This is the category that wastes days, because nothing errors. It just quietly c
   rule** for its whole run. It passed the render gate, the layout gate and the duplicate check,
   because the rule alone still produced a plausible bounding box. Set the start state in the tween.
 
+## Things that silently do not render: found on job1, 2026-09-07
+
+Four more in the same family: valid markup, clean lint, and the wrong picture.
+
+- **A paused timeline that is never REGISTERED renders a still frame.** Creating
+  `gsap.timeline({paused:true})` is not enough. The runtime discovers timelines from
+  `window.__timelines`, keyed by the composition id:
+  ```js
+  window.__timelines = window.__timelines || {};
+  window.__timelines["g001"] = tl;      // must equal data-composition-id
+  ```
+  Registering an extra `"root"` key with no matching element fails
+  `timeline_id_mismatch`, so register **exactly one** key and make it the real id.
+
+- **`svgOrigin`, never `transformOrigin`, when rotating an SVG element.**
+  `transformOrigin` on an SVG `<g>` is resolved against that element's **own bounding
+  box**, not the user coordinate space. A one-dot orbit group whose bbox was 30x30 at
+  (1245,525) took `transformOrigin:'960px 540px'` as (2205,1065) and swung the dot
+  outside the frame for most of its cycle. It rendered **zero** accent pixels, lint
+  passed, and the markup was perfectly valid. Use `svgOrigin:'960 540'` instead: user space,
+  unitless.
+
+- **A `fromTo` that starts hidden must state the VISIBLE end in its destination
+  vars.** `gsap.set(el,{opacity:0})` then `fromTo(el,{opacity:1},{x:100})` looks right
+  in sequential snapshots and can encode invisible, because cold render workers
+  restore the authored hidden state on every seek. Put `opacity:1` in the destination
+  too. The linter catches this as `gsap_cold_seek_hidden_fromto_missing_reveal`, and
+  it is worth reading rather than silencing.
+
+- **Never position text character by character.** Laying out per-character spans at a
+  fixed advance width (`size * 0.615`) breaks the font's real metrics: Satoshi
+  rendered "DATA ENGINEER" as "DATA ENGI NEER" because `I` is narrow. For a typing
+  reveal, keep the text as ONE element and wipe it with a **stepped `clip-path`**:
+  ```js
+  tl.fromTo(el, {clipPath:'inset(0 100% 0 0)'},
+                {clipPath:'inset(0 0% 0 0)', duration:0.9, ease:'steps(13)'}, 0.05);
+  ```
+  Perfect kerning, still reads as typing, and it is seek-safe. `clip-path` is not a
+  filter, so unlike blur and grayscale it survives the render.
+
+- **Measure text in the DOM for anything that has to fit it.** Strike-through rules
+  sized from character count overshot on narrow letters and undershot on wide ones, so
+  a list of nine rows came out visibly ragged. Read `getBoundingClientRect()` once at
+  setup, divide by the stage scale, and set the geometry from that.
+
+- **A nested template literal in the build script can emit literal `${...}` into the
+  composition.** `${'${cells.map(...)}'}` evaluates to the *text* `${cells.map(...)}`,
+  which lands in the output as invalid JS and fails `invalid_inline_script_syntax`.
+  Build repeated markup into a variable **before** the template, never inside it.
+
 ## The composite traps
 
 FFmpeg problems, not HyperFrames problems — but they only show up when you assemble.
@@ -317,6 +367,22 @@ FFmpeg problems, not HyperFrames problems — but they only show up when you ass
   content across a 50s span returns the whole screen and collapses the zoom to nothing. Use short
   windows on content measured to be static.
 
+- **A render cache keyed on existence alone will reuse a PREVIOUS BUILD's parts.**
+  `[ -f renders/$id.mov ] && skip` let 2.7GB of parts from an earlier, already-shipped
+  cut sheet satisfy the render loop on job1. Six of them would have composited the old
+  graphics into the new video, and every count-based gate downstream would have passed.
+  Gate reuse on the render being **newer than the composition that produced it**
+  (`[ "renders/$id.$ext" -nt "$d/index.html" ]`), and move superseded renders out of the
+  folder rather than trusting the guard alone.
+- **Which parts need ALPHA is read from the cut sheet, never listed in the script.** A
+  hardcoded list omitted the end card, so it rendered opaque and would have covered the
+  closing shot with a solid page. Derive it: `class == 'overlay'` plus any part that
+  flags it.
+- **Do not write a ProRes 4444 intermediate the composite pass will just read again.**
+  job1's demo inset was encoded to its own file before compositing and passed **45GB**
+  in 260 seconds, roughly 4x the expected rate for that frame size, for a layer the
+  composite has to read anyway. Composite the face strip and its art directly into the
+  segment: same output, one fewer generation, and the disk stays sane.
 - **Match every part to the base frame rate exactly.** Mixed frame rates drift. Probe it, never guess.
 - **Segments carry their own base slice, cut once from the base**, so the first and last frame match
   at the seam.

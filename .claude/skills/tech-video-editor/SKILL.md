@@ -41,6 +41,32 @@ editing** — a recording can measure perfect on resolution and still be unusabl
 | Face luma | 130–145 | `signalstats` on a face crop |
 | Face key/fill split | within ~25 units | two crops across the face |
 | Background | below face luma; saturation below the face's | region crops |
+| **Lens / framing** | **35mm on APS-C. A clear region of at least 500x260 canvas px, LEFT of the face** | `python3 styles/measure_zones.py` |
+
+### Framing is part of the spec, and it is the one that cannot be fixed in the edit
+
+Everything else in this table can be worked around. Framing cannot: you can crop in, never out, and
+delivery is `min(style, source)` so cropping to make room costs resolution.
+
+**Shoot 35mm on APS-C, and leave the left of the face clear.** `job1` was shot on a **50mm on
+APS-C** (around a 75mm full-frame equivalent) and came out a tight head-and-shoulders close-up
+with no usable negative space anywhere in the frame. `measure_zones.py` found no region reaching
+500x260: the largest clear areas were a 240px sliver at the right edge and a 420x360 patch on the
+left. Every stored zone in `styles/editorial/style.json` measured as sitting on his face, and the
+verdict card in the shipped video crosses his mouth as a direct result.
+
+The correction, from the human on 2026-09-07: subsequent videos are shot on a **35mm**, which leaves
+**plenty of room to the left of the face and none at the bottom**.
+
+- **Left of the face is the working zone.** Side cards, stats, lists, hero type.
+- **The bottom is not available.** Even at 35mm there is no room under the chin in this setup, so a
+  full-width lower band is not a placement to plan for. Lower thirds go left, not along the bottom.
+- **Measure it anyway, every job.** `styles/measure_zones.py` writes `graphics-build/zones.json` and
+  that file is authoritative. Two videos from the same person in the same room with the same lights
+  gave completely different zone maps; only the lens changed.
+- **If no region reaches 500x260, the job cannot carry overlay graphics at all.** Say so before
+  editing. The beats that would have been cards become full-frame takeovers or reframes, which is a
+  bigger change than it sounds and should not be discovered halfway through a build.
 
 ```bash
 # the two checks that catch a silently broken recording

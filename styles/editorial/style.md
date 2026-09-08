@@ -138,19 +138,37 @@ x415 y775 and started an `$accent` dot there before travelling it up into the ca
 element and the final accent rule are one element throughout, which keeps a flourish inside the
 one-accent budget.
 
-## The hook opens on motion
+## The hook is a drawn object, not a card
 
-The first three seconds are where the audience decides, and the hook was spending them on the same
-card anatomy the video uses a dozen more times.
+The first three seconds are where the audience decides. The hook used to spend them on the same card
+anatomy the video uses a dozen more times, and "open on motion" did not fix that: a headline that
+animates in is still a headline.
 
-- Frame 1 already carries movement. A static opening frame is a frame people leave on.
-- Where the video has an `analogy` scene later, the hook shows that object for about two seconds,
-  unresolved and unlabelled, then drops it. Its return is then a payoff rather than an introduction,
-  and it costs nothing because the object is already built.
-- The animation runs underneath the first spoken line. Holding the audio for a graphic trades the
-  thing people came for against decoration.
-- A logo sting or a channel bumper is the opposite of this: those delay the content instead of
+**The hook is a drawn object that performs something.** It is never a type card, and it never sets
+the spoken hook line as on-screen type. The viewer hears the question already; repeating it in
+Satoshi Black adds nothing and spends the one moment they are deciding.
+
+- **Take the video's own subject and put it under load.** The object is whatever the video is
+  actually about, drawn as line art, then pushed until it strains, jams, stalls or fails. That
+  failure is the hook: it poses the question the video answers, without stating it.
+- **Frame 1 already carries movement.** A static opening frame is a frame people leave on.
+- **The object is chosen by the human**, offered as two or three candidates the way `rough-cut`
+  offers three hook lines. What is *not* a choice is whether the hook is drawn.
+- **Where the object recurs later, the hook is its first, unresolved appearance.** Its return is
+  then a payoff rather than an introduction, and it costs nothing because the object already exists.
+- **The animation runs underneath the first spoken line.** Holding the audio for a graphic trades
+  the thing people came for against decoration.
+- **A logo sting or a channel bumper is the opposite of this**: those delay the content instead of
   delivering it faster.
+- The only type allowed is a small eyebrow label, and even that is optional.
+
+Worked example, job1, 2026-09-07, "the pipe that chokes". One clean pipe, one feed, data flowing
+through it evenly. A second feed joins, a different shape, still flowing. A third and fourth crash
+in, shapes mismatched, and the junction jams with everything backing up behind it. The video's
+thesis is "data analytics is not software engineering, it depends on external context", and the hook
+shows exactly that without a word of it on screen. Two alternatives were mocked and offered: a
+strike-list of job titles where the strike stalls on DATA ENGINEER, and an autocomplete that tries
+to replace the job title and gives up.
 
 ## Transitions — the mechanic at every boundary
 
@@ -213,7 +231,7 @@ below are measured from the footage rather than assumed. Canvas coordinates, 192
 | Zone | Canvas box | Use |
 |------|-----------|-----|
 | Left column | `x 96 → 840`, `y 100 → 980` | Side cards, stats, stacks, quote cards. The full-height negative space. |
-| Lower band | `x 96 → 1824`, `y 720 → 972` | Full-width strips only: lower thirds and chips. Hero type does NOT go here (see below). |
+| Lower band | `x 96 → 1824`, `y 720 → 972` | **Largely unavailable in this setup. See below.** Full-width strips only; hero type never. |
 | Hero left | `x 96 → 820`, `y 300 → 940` | Title, hook and verdict cards. The left negative space, clear of the face entirely. |
 | Top band | `x 96 → 1200`, `y 60 → 280` | Pipeline diagrams and horizontal node rows. Stops at 1200 — the framed picture starts there. |
 
@@ -221,9 +239,23 @@ The speaker's silhouette begins at roughly `x 840`, with the shadow it casts sta
 **Nothing readable goes right of `x 820` outside the lower band.** The chin sits between `y 710` and
 `y 820` depending on posture, which is why the lower band starts at 720 rather than 690.
 
-Re-measure these when the room or framing changes: sample a frame in vertical strips and read the
-luma profile, and measure the chin line as well as the subject edge. Last measured **2026-08-30** on
-`02-first-agent` — clean wall 159–166 out to `x 560`, 146–153 to `x 720`, the cast shadow 128–140
+**These boxes are a fallback and a shape reference. They are not the numbers to build against.**
+Zones are measured PER JOB into `graphics-build/zones.json` with `styles/measure_zones.py`, and that
+file is authoritative. On 2026-09-07 job1 proved why: same person, same room, same lighting, but a
+tight close-up instead of a wide shot, and all three boxes below measured as sitting on his face.
+The shipped verdict card crosses his mouth because the plan trusted this table.
+
+**There is no room at the bottom of this frame, and there is room to the left.** Confirmed by the
+human on 2026-09-07 as a property of the setup rather than of one recording: graphics go LEFT of the
+face, and the full-width lower band is not a placement to plan for. `job1` looks different only
+because it was shot on a 50mm on APS-C instead of the 35mm used since; that is a recording defect,
+logged in the `tech-video-editor` recording spec, not an editing choice to design around.
+
+Measure **detail** (mean within-frame standard deviation), not just luma. Detail separates face from
+wall unambiguously (a clean wall reads under 10 and a face reads 60+) where luma called the
+face-covering boxes 128 and the clean wall 178, a difference that looks like degree rather than kind.
+
+Last measured **2026-08-30** on `02-first-agent`: clean wall 159–166 out to `x 560`, 146–153 to `x 720`, the cast shadow 128–140
 across `720–840`, subject 102–126 from `x 840`. The wall now reads 152–166 overall, above the 150
 threshold, so left-column parts take the **inverted** treatment. The speaker also gestures into the
 left column, reaching `x 290` on one beat, so lower-left content can be crossed by a hand.
@@ -259,6 +291,10 @@ lighting on any given day — the wall measured 173 before the key light was tur
 after, which crosses a threshold without anything in this file changing.
 
 ## Title card anatomy
+
+**A card is an exception, not a default.** Ask what a beat could *do* before reaching for what it
+could *say*. Type earns the frame where type IS the content: a verbatim quote, a lower-third name,
+an end card. Everywhere else a drawn scene beats a card, and the hook may never be one at all.
 
 Top to bottom, on `$bg` with a 1px `$rule` hairline grid at 10% opacity:
 

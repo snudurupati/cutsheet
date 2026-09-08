@@ -71,7 +71,7 @@
   "hook": {
     "everyVideoOpensOnTheHook": true,
     "source": "$brand.defaultHook",
-    "card": true,
+    "card": false,
     "holdSeconds": 2.5,
     "scene": "push",
     "shortFormRaw": {
@@ -80,7 +80,14 @@
     },
     "opensOnMotion": true,
     "payoffObjectPreview": true,
-    "_opensOnMotionWhy": "frame 1 carries movement. The hook was type landing by 0.8s over a push, which makes the first beat of the video look like every other card in it, and the first three seconds are where the audience decides. Where the video has an analogy scene later, the hook previews that object unresolved and unlabelled, so its return is a payoff. This is the content arriving faster, not decoration in front of it: a logo sting or a channel bumper is the opposite of this rule, and audio is not delayed for the animation."
+    "_opensOnMotionWhy": "frame 1 carries movement. The hook was type landing by 0.8s over a push, which makes the first beat of the video look like every other card in it, and the first three seconds are where the audience decides. Where the video has an analogy scene later, the hook previews that object unresolved and unlabelled, so its return is a payoff. This is the content arriving faster, not decoration in front of it: a logo sting or a channel bumper is the opposite of this rule, and audio is not delayed for the animation.",
+    "mustBeDrawnObject": true,
+    "typeOnlyHookForbidden": true,
+    "headlineCardOnHook": false,
+    "defaultObject": "the video's own subject, drawn as line art and put under load until it fails or strains",
+    "_mustBeDrawnObjectWhy": "2026-09-07, job1. The hook was a type card: eyebrow, headline, accent rule. The human's words: 'the graphics are unimaginative, its just text, text is not motion graphics'. He is right, and 'opensOnMotion' did not fix it \u2014 a headline that animates in is still a headline. The hook is now a DRAWN OBJECT that performs something, and the spoken line is not repeated on screen: the viewer already hears the question, so setting it in Satoshi Black adds nothing and costs the one moment the audience is deciding. Three concepts were mocked for job1 (a strike-list of jobs that stalls, a pipe that jams on mismatched feeds, an autocomplete that gives up) and the human's instruction was that the drawn-object hook 'should always win automatically' and be the default, with the others offered as a choice. So this is not a job-local preference.",
+    "alternativesOfferedToHuman": true,
+    "_alternativesWhy": "the OBJECT is still a human choice, offered as two or three candidates the way rough-cut offers three hook lines. What is not a choice is whether the hook is drawn."
   },
   "graphics": {
     "kinds": [
@@ -166,7 +173,11 @@
         710,
         820
       ],
-      "_chinWhy": "measured across this recording: the chin ranges y710-820 with posture, so the stored lowerBand y690 crosses the jaw. Re-measure per job."
+      "_chinWhy": "measured across this recording: the chin ranges y710-820 with posture, so the stored lowerBand y690 crosses the jaw. Re-measure per job.",
+      "measurePerJob": true,
+      "measuredZonesFile": "graphics-build/zones.json",
+      "script": "styles/measure_zones.py",
+      "_measurePerJobWhy": "2026-09-07, job1. Every zone in this block was measured on 02-first-agent, a wide shot with the speaker right of a two-display desk. job1 is a tight close-up of the same person in the same room and the numbers do not transfer at all: leftColumn, heroLeft and lowerBand ALL measured as sitting on his face (detail 63.6, 67.1 and 79.7 against a clean-wall reading under 10). The only clear space was a 400x580 strip at x0-400 y180-760 and a 720x220 strip at x1180-1900 y520-740. The shipped job1 verdict card sits across his mouth as a direct result. The boxes below are now a FALLBACK and a shape reference; the authoritative numbers for a job live in its own zones.json. Detail (mean within-frame stdev) separates face from wall far better than luma does \u2014 luma called the face-covering boxes 128 and the clean wall 178, which looks like a difference of degree rather than the difference between 'wall' and 'a man's head'."
     },
     "panelContrast": {
       "_how": "sample mean luma of the base render inside the part's box across its window",
@@ -266,7 +277,7 @@
     "_heroTypeIsBandLimited": "the 120px headline and 220px stat are FULL-FRAME figures. The lower band is 290px tall: a 120px headline over two lines overflows it by 62px and a 220px numeral overlaps its own label. In-band: headline one line at ~100px, stat at the 160px floor with its sub-line in the card's right column. Verdict is the exception at 180px.",
     "cueTimesLiveInTheCutsheet": true,
     "_cueTimesWhy": "any timing derived from the transcript is re-derived at build time and range-checked against the part that owns it. Hardcoded cues left the end card firing against the wrong words the moment the cut was re-timed, and a mm:ss value read as seconds scheduled five of a diagram's six nodes AFTER the card had ended, so they never rendered and nothing errored.",
-    "heroTypeZone": "leftColumn",
+    "heroTypeZone": "heroLeft",
     "_heroTypeZoneWhy": "Title, hook and verdict cards live in the LEFT NEGATIVE SPACE, never across the frame. The lower band spans the full width and therefore crosses the speaker's chin and mouth; 'face clear above' is not enough when the band itself runs under the face. Requested by the human 2026-08-30 after the hook and verdict cards both landed on his face, and noted as a repeat of the same mistake in earlier videos.",
     "_sceneTypesWhy": "analogy, contrast, loop, strike-list and self-demonstrating were all built by hand on real jobs and then died with them: g003/g009 (loop) and g008 (analogy) on 02-first-agent, g005 (self-demonstrating), g007 (strike-list). Rule 9 writes CORRECTIONS back to the style file and nothing wrote INVENTIONS back, so each one had to be re-imagined from scratch or requested by the human. Anatomy for all five is in style.md.",
     "nonTypographicMinimum": {
@@ -281,7 +292,10 @@
       "proposesNeverDecides": true,
       "_why": "the plan step scans for showable nouns and numbers, which is why every graphic came out as a layout of the words being spoken. On 02-first-agent 'a brain sitting in a jar' sat in the transcript at 373.19 and the pipeline read past it; the human supplied the jar. The scan finds the beat and names the scene type. The human picks the object.",
       "_markersAreStructural": "cue patterns match sentence shape, never topic. 'brain' would have found the jar on this one video and nothing on any other."
-    }
+    },
+    "typographicCardIsNotADefault": true,
+    "_typographicCardWhy": "reach for a drawn scene first and a card only where type IS the content \u2014 a verbatim quote, a lower-third name, an end card. 'What could this beat DO instead of say it' is the question asked of every beat, before any card anatomy is opened. 02-first-agent shipped 10 of 12 as type on a panel and job1 shipped 18 of 18.",
+    "_heroTypeZoneFixed": "2026-09-07: this knob read 'leftColumn' while style.md named heroLeft in two places and zones.heroLeft._why said 'hero cards sit here'. Three sources to one, so the knob was the typo, left behind when the 2026-08-30 correction was written into the prose and the zones block. Resolved with the human's authorisation and reported, never silently. check_style.py now compares the two so it cannot drift again."
   },
   "audio": {
     "musicBedDb": -9,
@@ -427,6 +441,18 @@
     {
       "date": "2026-09-07",
       "rule": "The hook opens on motion and previews the payoff object. A static or type-only first frame spends the one moment the audience is deciding on the same card anatomy used twelve more times later."
+    },
+    {
+      "date": "2026-09-07",
+      "rule": "The hook is a DRAWN OBJECT, never a type card, and the spoken hook line is not repeated on screen. 'Opens on motion' was not enough: a headline that animates in is still a headline. Asked what the graphics were, the human said 'its just text, text is not motion graphics'."
+    },
+    {
+      "date": "2026-09-07",
+      "rule": "Zones are measured per job into graphics-build/zones.json, not read from this file. job1 is the same person in the same room as 02-first-agent and all three stored zones landed on his face, because it is a tight close-up and the stored numbers came from a wide shot. Measure DETAIL, not just luma: detail cleanly separates face (60+) from wall (under 10)."
+    },
+    {
+      "date": "2026-09-07",
+      "rule": "graphics.heroTypeZone said 'leftColumn' while style.md and zones.heroLeft._why said 'heroLeft'. A correction written into the prose had not been written into the knob. check_style.py compares them now."
     }
   ]
 }
