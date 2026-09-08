@@ -77,7 +77,10 @@
     "shortFormRaw": {
       "card": true,
       "onlyGraphic": true
-    }
+    },
+    "opensOnMotion": true,
+    "payoffObjectPreview": true,
+    "_opensOnMotionWhy": "frame 1 carries movement. The hook was type landing by 0.8s over a push, which makes the first beat of the video look like every other card in it, and the first three seconds are where the audience decides. Where the video has an analogy scene later, the hook previews that object unresolved and unlabelled, so its return is a payoff. This is the content arriving faster, not decoration in front of it: a logo sting or a channel bumper is the opposite of this rule, and audio is not delayed for the animation."
   },
   "graphics": {
     "kinds": [
@@ -96,7 +99,12 @@
       "takeover",
       "push",
       "slot",
-      "demo"
+      "demo",
+      "analogy",
+      "contrast",
+      "loop",
+      "strike-list",
+      "self-demonstrating"
     ],
     "defaultToNoGraphic": true,
     "pipEntersOncePerRun": true,
@@ -259,7 +267,21 @@
     "cueTimesLiveInTheCutsheet": true,
     "_cueTimesWhy": "any timing derived from the transcript is re-derived at build time and range-checked against the part that owns it. Hardcoded cues left the end card firing against the wrong words the moment the cut was re-timed, and a mm:ss value read as seconds scheduled five of a diagram's six nodes AFTER the card had ended, so they never rendered and nothing errored.",
     "heroTypeZone": "leftColumn",
-    "_heroTypeZoneWhy": "Title, hook and verdict cards live in the LEFT NEGATIVE SPACE, never across the frame. The lower band spans the full width and therefore crosses the speaker's chin and mouth; 'face clear above' is not enough when the band itself runs under the face. Requested by the human 2026-08-30 after the hook and verdict cards both landed on his face, and noted as a repeat of the same mistake in earlier videos."
+    "_heroTypeZoneWhy": "Title, hook and verdict cards live in the LEFT NEGATIVE SPACE, never across the frame. The lower band spans the full width and therefore crosses the speaker's chin and mouth; 'face clear above' is not enough when the band itself runs under the face. Requested by the human 2026-08-30 after the hook and verdict cards both landed on his face, and noted as a repeat of the same mistake in earlier videos.",
+    "_sceneTypesWhy": "analogy, contrast, loop, strike-list and self-demonstrating were all built by hand on real jobs and then died with them: g003/g009 (loop) and g008 (analogy) on 02-first-agent, g005 (self-demonstrating), g007 (strike-list). Rule 9 writes CORRECTIONS back to the style file and nothing wrote INVENTIONS back, so each one had to be re-imagined from scratch or requested by the human. Anatomy for all five is in style.md.",
+    "nonTypographicMinimum": {
+      "perConceptCandidate": 1,
+      "floorPerVideo": 2,
+      "_how": "styles/scan_concepts.py reads outputs/transcript-cut.json and returns concept-beat candidates. Each accepted candidate resolves to a non-typographic scene, and a cut sheet carries at least floorPerVideo of them. 02-first-agent hit 2 of 12 naturally (g005, g008) and both were the strongest graphics in it; job1 hit 0 of 18.",
+      "_notAQuota": "a candidate the human declines is closed with a reason in the cut sheet, not padded with a drawn object nobody wanted. The floor exists so a cut sheet of pure type is a decision someone made, rather than the default nobody noticed."
+    },
+    "conceptScan": {
+      "runsBeforeThePlan": true,
+      "script": "styles/scan_concepts.py",
+      "proposesNeverDecides": true,
+      "_why": "the plan step scans for showable nouns and numbers, which is why every graphic came out as a layout of the words being spoken. On 02-first-agent 'a brain sitting in a jar' sat in the transcript at 373.19 and the pipeline read past it; the human supplied the jar. The scan finds the beat and names the scene type. The human picks the object.",
+      "_markersAreStructural": "cue patterns match sentence shape, never topic. 'brain' would have found the jar on this one video and nothing on any other."
+    }
   },
   "audio": {
     "musicBedDb": -9,
@@ -397,6 +419,14 @@
     {
       "date": "2026-08-31",
       "rule": "A corrective presence lift needs a NARROW bell. At Q 0.9 a 3.8kHz lift spills into the 5-9kHz sibilance band and turns clarity into harshness. Q 2.0 at 3.4kHz plus a de-esser is the shape."
+    },
+    {
+      "date": "2026-09-07",
+      "rule": "Graphics vocabulary was one family deep. Ten of twelve parts on 02-first-agent and eighteen of eighteen on job1 were type on a panel, because style.md carried anatomy for the title card and nothing else. The two exceptions (g005, g008) were the best graphics in either video and both were human-directed. Five scene types added, plus a concept scan that proposes them and a floor that fails a cut sheet with none."
+    },
+    {
+      "date": "2026-09-07",
+      "rule": "The hook opens on motion and previews the payoff object. A static or type-only first frame spends the one moment the audience is deciding on the same card anatomy used twelve more times later."
     }
   ]
 }

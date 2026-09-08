@@ -38,7 +38,9 @@ headlines, 700 for chips and captions, 500 for support.
 
 ## Scene vocabulary
 
-Six scene types. Every beat in a cut sheet is one of these, by name.
+Twelve scene types in two groups. The first seven carry the video's layout: where the face sits and
+what shares the frame with it. The last five carry its ideas, and their anatomy is below the table.
+Every beat in a cut sheet is one of these, by name.
 
 | Name | What it is | When it runs |
 |------|-----------|--------------|
@@ -49,9 +51,106 @@ Six scene types. Every beat in a cut sheet is one of these, by name.
 | `push` | Face full-frame with a slow camera move on it. | Payoff lines, the hook, the last line before a turn. |
 | `slot` | A generated or shot B-roll clip fills the frame. | A beat with no real footage. |
 | `demo` | A screen recording fills the frame with the face inset in a corner. | A live demo or walkthrough that needs every pixel *and* the speaker's presence. |
+| `analogy` | A drawn object built in movements, line art on the full frame. | The speaker reaches for a comparison: "imagine", "think of it as", "it's basically a". |
+| `contrast` | Split frame, two states side by side, both still visible at the end. | "the difference between", "instead of", "it used to be, now it". |
+| `loop` | A closed circuit or path, one node lit at a time, a dot travelling between. | A cycle, a chain of consequences, a fork, a route from A to B. |
+| `strike-list` | Rows that land on their cues and get struck through as they are dismissed. | A counted list, or an absence: what a thing cannot see or is not given. |
+| `self-demonstrating` | The graphic performs the thing being described. | The speaker points at the screen and refers to what is on it. |
 
 Rhythm: `head` is the floor and everything returns to it. Never more than two consecutive non-`head`
 scenes without a `head` beat between them, except inside one continuous `panel` run (see below).
+
+## Anatomy of the five drawn scenes
+
+These five carry the video's ideas. The seven above carry its layout. A cut sheet built only from
+the layout scenes is a video where every graphic is the words being spoken in a nicer font, which is
+what job1 shipped: eighteen parts, eighteen type cards.
+
+`styles/scan_concepts.py` reads the cut transcript and proposes which beats these belong on. It
+finds the beat and names the shape. The object itself is a human choice, offered as two or three
+candidates rather than assumed.
+
+### `analogy`
+
+The centrepiece scene, and the one worth the most. Full frame on `$bg` with the 1px `$rule` grid at
+6% and the `$accent-soft` radial at 8%, so it reads as a page rather than a slide.
+
+One object, drawn as line art, 2px `$ink` strokes. It builds in **movements**, each keyed to a
+spoken cue, and the movements are the argument: the first establishes the thing, the second changes
+it. Where the analogy is a comparison, both states hold on screen together at the end, so the
+contrast is the frame rather than a memory of the previous shot.
+
+Labels are display 700 at 34px in `$muted`, set beside the object, not on it. Exactly one `$accent`
+element across the whole scene, usually the part being added in the current movement.
+
+Between cues the connecting lines pulse slowly, so a sixty second scene keeps moving without
+anything new arriving. This is the shape g008 took on 02-first-agent: a brain in a jar wired to a
+terminal, then the same jar growing limbs, a spine and a document, side by side by the end.
+
+The registry has the drawing mechanic ready: `whiteboard-ink` draws one measured stroke at a time
+with a pen nib following the active tip and takes multi-stroke SVG paths, with `data-ink=accent`
+riding the accent token. `svg-stroke-trace` and `hw-pipeline` cover the simpler cases.
+
+### `contrast`
+
+A vertical hairline `$rule` divides the frame. The old state occupies the left, the new state the
+right, and the divider draws down first over 0.5s so the split exists before either side fills it.
+
+The two sides use the **same** object at the same scale, changed rather than replaced. A before and
+after built from two different pictures reads as two cards, and the viewer compares the layouts
+instead of the content. Where the beat is temporal ("it used to be, now it is"), the object morphs
+across the divider rather than cutting.
+
+One `$accent` element, on the side being argued for.
+
+### `loop`
+
+Nodes on a closed circuit: a ring for a cycle, a line with a fork for a branch, a path for a
+journey. The circuit draws in over about 1.2s on the cue that names it, then each node lifts to
+`$accent` as it is narrated and drops back to `$muted` when the speaker moves on, so exactly one
+node is accent at a time and the one-accent-per-scene rule holds without special-casing.
+
+A dot travels the circuit continuously between highlights. That is what lets this scene sit under an
+eighty second beat, as g009 did, without a frozen frame.
+
+A `loop` introduced early and paid off later is worth more than two unrelated diagrams: g003 set up
+the copy-paste circuit with a human in it, and g009 returned to the same shape with the human gone.
+Reuse the geometry deliberately when the script makes the same move.
+
+### `strike-list`
+
+Rows in the left column, each clip-mask wiping up 0.35s `power3.out` **on its own spoken cue**,
+accumulating rather than replacing. Row label display 700 at 34px `$ink`, optional sub-line caption
+500 at 24px `$muted`.
+
+For an absence beat, a 2px `$muted` strike draws across each row 0.3s after it lands. The strike is
+the content: the beat is about what is missing, so the rows arrive in order to be crossed out.
+
+One `$accent` element for the whole stack, on the header rule, not one per row.
+
+### `self-demonstrating`
+
+The graphic does the thing the line describes. It earns its place when the speaker refers to the
+screen directly, and it fails badly when forced, so it stays rare.
+
+Anchor it to a measured point in the real frame, not to a zone: g005 measured the fingertip at
+x415 y775 and started an `$accent` dot there before travelling it up into the card. The travelling
+element and the final accent rule are one element throughout, which keeps a flourish inside the
+one-accent budget.
+
+## The hook opens on motion
+
+The first three seconds are where the audience decides, and the hook was spending them on the same
+card anatomy the video uses a dozen more times.
+
+- Frame 1 already carries movement. A static opening frame is a frame people leave on.
+- Where the video has an `analogy` scene later, the hook shows that object for about two seconds,
+  unresolved and unlabelled, then drops it. Its return is then a payoff rather than an introduction,
+  and it costs nothing because the object is already built.
+- The animation runs underneath the first spoken line. Holding the audio for a graphic trades the
+  thing people came for against decoration.
+- A logo sting or a channel bumper is the opposite of this: those delay the content instead of
+  delivering it faster.
 
 ## Transitions — the mechanic at every boundary
 
