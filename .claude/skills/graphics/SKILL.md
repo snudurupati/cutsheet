@@ -20,7 +20,31 @@ HyperFrames is pinned: **always `npx hyperframes@0.8.3`, never `@latest`.**
 
 # Part A — the plan
 
-## Read three things before deciding a single beat
+## Run the concept scan first, then read three things
+
+**Before deciding a single beat, run the scan.** It reads the cut transcript and returns the beats
+where the language itself is figurative, structural or comparative, and a drawn object is available.
+
+```bash
+python3 styles/scan_concepts.py projects/<job>/outputs/transcript-cut.json \
+  --expect-fps <fps> --expect-seconds <duration> --json graphics-build/concepts.json
+```
+
+It proposes; it does not decide. Each candidate comes back with a cue class, the scene type it maps
+to, and what to draw. Take each one to the human as a choice between two or three objects, the same
+way `rough-cut` offers three hook lines. A candidate the human declines is closed with a reason in
+the cut sheet, not padded with a drawn object nobody wanted.
+
+**Why this step exists.** The rest of the plan scans for showable nouns and numbers, which is why
+every graphic used to come out as a layout of the words being spoken. On 02-first-agent the phrase
+"a brain sitting in a jar" sat in the transcript at 373.19 and the plan read straight past it. The
+graphic that came out of that beat was the best in the video and the human had to ask for it.
+
+The scan also returns non-lexical signals that need no vocabulary at all: landing pauses, beats above
+the style's continuous-motion floor, and a word repeated inside one breath group (that word is the
+concept, so promote it to type and drop the rest).
+
+Then read three things:
 
 1. `outputs/transcript-cut.json` — the finished transcript from the rough cut.
 2. **Comments left on the script document.** Pull these out with the document's XML, not a library —
@@ -52,6 +76,11 @@ the face alone.
 Think in rich terms first, then flatten to the fixed set the build step can actually handle:
 
 `stat` · `card` · `screenshot` · `takeover` · `zoom` · `diagram` · `broll-slot`
+
+And the five drawn scenes, which carry the video's ideas rather than its layout. Anatomy for each is
+in `styles/<style>/style.md`, and `scan_concepts.py` proposes where they go:
+
+`analogy` · `contrast` · `loop` · `strike-list` · `self-demonstrating`
 
 **Reach for showing over telling.** Screen recordings, screenshots, diagrams and stats beat text
 cards almost every time. Reserve `card` for the hook and the punchlines, and even then give it motion
@@ -97,6 +126,10 @@ Plus a human-readable table in `graphics-build/PLAN.md` for review.
 - sorted ascending,
 - no overlaps,
 - **consecutive beats either abut exactly or leave a gap of more than one second.**
+- **the non-typographic floor from `style.json` is met.** A cut sheet whose every part is type on a
+  panel fails. job1 shipped eighteen parts and eighteen type cards, and nothing noticed, because
+  nothing was counting. Each accepted concept-scan candidate resolves to a drawn scene, and the
+  floor is the minimum across the whole video.
 
 That last rule is not obvious and it matters. Anything in between — a gap of a few tenths — flashes
 raw un-graphiced footage for a fraction of a second during the composite, and almost always means the
