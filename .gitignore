@@ -63,9 +63,12 @@ projects/*/*.md
 # Transcript DATA is held back until the videos it belongs to are published.
 # The scripts that produce and consume it are all here; only the recorded words
 # are withheld. Remove this block to publish the worked examples in full.
-projects/*/transcript/*.json
-projects/*/transcript/*.txt
-projects/*/transcript/CUTSHEET.txt
+# ** so these match at ANY depth. Single-level globs left the WhisperX
+# alignment output in transcript/align-large/ tracked: 696K of the recorded
+# words, in the one directory the rules were written to withhold.
+projects/*/transcript/**/*.json
+projects/*/transcript/**/*.txt
+projects/*/transcript/**/CUTSHEET.txt
 
 # WhisperX run logs are transient noise, not system source
-projects/*/transcript/*.log
+projects/*/transcript/**/*.log

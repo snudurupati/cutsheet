@@ -34,7 +34,11 @@ Voice, casing, chunking and safe-zone position all come from `brand.md` → `cap
 
 ## 2. Music
 
-- A **flat bed at about −18 dB**.
+- A **flat bed at `style.json` → `audio.musicBedDb`**, relative to the measured voice.
+  Read the number from the style file rather than repeating it here: it was −18 until
+  2026-08-31, when the human A/B'd −18/−12/−9/−6 and picked **−9**, because at −18 they
+  could not hear the bed at all. A number pinned in this skill just goes stale against
+  the decision that overruled it.
 - **No ducking. No fade-in.** A short fade-out on the tail.
 - The track is **user-supplied and licensed**. This skill never downloads one. If `audio/` is empty,
   stop and ask.
@@ -68,7 +72,8 @@ produced false alarms on one job:
   whose per-sample mean sits ~3 dB below the mono source. That is channel conversion, not level loss.
 
 A bed at `musicBedDb` under speech shifts the programme mean by only a few tenths of a dB. That is
-what a bed *is* — check its LUFS against the voice's LUFS (15–16 dB down is right), not the mean of
+what a bed *is* — check its LUFS against the voice's LUFS (it should land `musicBedDb` down, so
+9 dB down at the current setting), not the mean of
 the mix.
 
 ## Write the plan to disk
@@ -192,7 +197,7 @@ reviews it ran on itself.
 ## Done when
 
 - Captions are burned in exactly once, or deliberately skipped for long form.
-- Music sits at −18 dB flat with a tail fade and no ducking.
+- Music sits flat at `audio.musicBedDb` below the measured voice, with a tail fade and no ducking.
 - SFX are real samples at −10 dB, or the step was skipped.
 - `outputs/audio-plan.json` exists.
 - Both review passes come back clean on the current render.

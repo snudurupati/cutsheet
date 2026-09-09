@@ -270,9 +270,25 @@ Sample the mean luma of the base render inside the part's box across its window,
 
 | Measured background luma | Treatment |
 |--------------------------|-----------|
-| `< 110` | Light panel: `$bg` at 92%, 1px `$rule` border. |
-| `110 – 150` | Light panel plus a 2px `$rule` border and a soft drop shadow, so the edge survives. |
+| `< 110` | Light panel: `$bg` at 92%. |
+| `110 – 150` | Light panel, same fill; the edge treatment below is what makes it survive. |
 | `> 150` | **Inverted panel**: `$ink` at 92% fill, `$bg` text, `$accent` unchanged. |
+
+### The card edge — a 6px white border and a real shadow, on every card
+
+This is not per-treatment and not optional. Whatever the fill, every card carries a
+**6px white border** (`$bg` on inverted and opaque panels) and a **`0 16px 52px rgba(0,0,0,.38)`
+drop shadow**, .50 on dark fills.
+
+A card has to read as an **object sitting in front of the room**, not as a rectangle painted
+onto it. The moment the speaker overlaps a flat, borderless card, the boundary reads as a
+cutout, and no amount of matte quality fixes that on its own — the two problems are
+independent and both have to be solved.
+
+The previous 2px `$rule` border with a `.20` shadow was not a weaker version of this, it was
+**nothing at all**: measured across a card's bottom edge, the frame moved 147 → 142 luma over
+140px, and the border sat between the wall and the card as a soft ramp rather than an edge.
+If you are tempted to soften these numbers, measure the edge first.
 
 When a part's own window **crosses** a threshold, take the more robust treatment rather
 than the mean's — this room's left wall reads 147–156 and straddles the 150 line, so

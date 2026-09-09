@@ -332,9 +332,127 @@ Four more in the same family: valid markup, clean lint, and the wrong picture.
   which lands in the output as invalid JS and fails `invalid_inline_script_syntax`.
   Build repeated markup into a variable **before** the template, never inside it.
 
+## A positional edit is a change to TWO things, and only one is visible
+
+Every gate here counts frames, samples and pixels against a reference. **None of them
+can see that one element was nudged on top of another.** A card that overlaps the
+artwork renders perfectly, has the right frame count, and passes the composite check.
+
+This has now shipped twice from the same mistake — moving an element to fix a collision
+without checking what was at the *destination*:
+
+- the hook's `?` was enlarged and centred, and landed on two of the questions;
+- g028's side labels were lifted 56px to clear the accent ticks, and landed inside the
+  skyline. The human's report was "the architect is smashed into buildings". The ticks
+  were what had to move, not the labels.
+
+Three habits, in order. Each is cheap; skipping them costs a full re-render.
+
+**1. Measure the art, do not read its coordinates.** The label centres in g028 were
+wrong by 52px and 47px against art whose extents the source *looked* like it declared.
+Render the part and measure the ink bounding box: g028's skyline measured x186-439
+(centre 312) and its jar x1459-1694 (centre 1576). Then centre with
+`left:<centre>px; transform:translateX(-50%)` so it stays centred whatever the text
+width, instead of an eyeballed `left:` that silently drifts when the copy changes.
+
+**2. Assert the geometry at BUILD time.** `lib.mjs` exports `textBox`, `assertClear`
+and `assertCentred` for this. Declare the boxes a scene cares about and let the build
+throw. It is the only check that runs before anything expensive happens.
+
+Exclude deliberate adjacencies explicitly. g028's accent ticks rise *out of* the ask
+rule, so asserting on that pair only produces a false failure — the guard's first run
+did exactly that, and the fix is a comment saying why the pair is excluded, not a
+loosened tolerance.
+
+**3. Gate the RENDERED parts before compositing.** `check_parts.py` measures each
+part's ink bounding box at several points and fails on content clipped at the frame
+edge or a part that renders nothing. Run it on every part after any change to shared
+geometry, not just the part you edited: a change to a shared helper touches all of them.
+
+And **verify the verifier before believing it.** `check_parts.py`'s first implementation
+flattened each overlay by compositing it onto a `lavfi` colour source, and reported three
+perfectly good parts as empty — seeking a ProRes 4444 overlay against an infinite colour
+source lands on frames where the overlay has produced nothing. Measured on g030 at
+t=7.64: the lavfi method read 0 ink, a direct extract of the same frame read 1910. A
+gate that fails on good input will be ignored the third time it cries wolf. Extract the
+frame with alpha and flatten it in PIL.
+
+## Cards must read as objects, and the key must be anti-aliased
+
+Two independent problems that look like one. Both have to be fixed, and fixing either alone
+leaves the shot looking wrong.
+
+**1. Every card carries a 6px white border and a real drop shadow.** Whatever the fill, on
+every card, in every style. A card without an edge is a rectangle painted onto the room, and
+the moment the speaker overlaps it the boundary reads as a cutout. Before assuming a border
+and shadow are already there, **measure them**: on 2026-09-09 a 2px `$rule` border with a
+`0 10px 34px rgba(0,0,0,.20)` shadow turned out to be invisible — across the card's bottom
+edge the frame moved 147 → 142 luma over 140px, and the border read as a soft ramp between
+wall and card rather than an edge. The numbers live in `style.json` → `graphics.panelContrast`.
+
+**2. Feather the subject matte's ALPHA.** `hyperframes remove-background` returns a **binary**
+key. Measured on a 4K matte: the silhouette edge goes 0 → 255 with **exactly 0px of partial
+alpha**. A smooth contour like a cheek or a jaw then renders as visible stair-steps and the
+whole shot reads like a cheap virtual background — which is precisely how it was reported.
+
+Blur the alpha and only the alpha, in the composite chain rather than by re-encoding the
+mattes (exact, and it keeps tens of GB of ProRes 4444 off the disk):
+
+```
+[N:v]setpts=...,format=rgba,split=2[mc][mx];
+[mx]alphaextract,format=gray,gblur=sigma=2.0[ma];
+[mc][ma]alphamerge[m]
+```
+
+`sigma=2.0` gives about 11px of transition at 4K, ~5px at 1080p. **Do not follow the blur with
+a contrast or levels push** to "tighten" the edge: that re-binarises it and silently undoes the
+fix, which is exactly what happened on the first attempt — the measured transition width came
+back 0px again and looked identical to no fix at all. Verify by measuring partial-alpha width
+on the extracted alpha, never by eyeballing the composited colour: a review that measured the
+composited RGB called this same binary edge "soft but clean".
+
 ## The composite traps
 
 FFmpeg problems, not HyperFrames problems — but they only show up when you assemble.
+
+- **Every layer the composite is asked for is mandatory. A missing input file is a hard
+  exit, never a skip.** `if path and os.path.exists(path):` reads like defensive
+  programming and is actually a silent data-loss bug: pass a wrong path and that layer
+  is simply absent from the render, with no warning and exit 0.
+
+  On 2026-09-09 a re-composite was pointed at `graphics-build/renders/demo-scene.mp4`
+  instead of `outputs/demo-scene.mp4`. The entire 19-minute screen recording was
+  dropped and the raw talking head played in its place. **The counting gates could not
+  have caught it**: the base footage is the main input, so it alone sets the output
+  length, and the broken file landed within 0.002% of the correct one's size. Frames,
+  samples and drift were all still exactly right. It was found by pulling one frame and
+  looking at it.
+
+  So the rule has two halves. Exit on any input the caller named but that does not
+  exist, **and** cross-check the derived spans (`demo-spec.json`'s `span` against
+  `demo-scene.json`'s `enters`/`leaves`, and both against the cut sheet's total) before
+  building the filter graph. A layer that is genuinely optional is opted out by not
+  passing the flag, never by passing a path that happens to be wrong.
+
+  Then gate the result with `verify_composite.py`, which is to the composite what
+  `verify_cut.py` is to the cut, and is not interchangeable with it. `verify_cut.py`
+  compares the render against the raw camera, so it cannot be pointed at a graphics
+  pass at all: wherever a screen recording or a full-frame takeover is deliberately on
+  screen, the camera is deliberately not, and every one of those marks reads as
+  misplaced. `verify_composite.py` asks the composite's own question instead, sampling
+  each span against **the layer that is supposed to be there**:
+
+  | span | must match | must differ from |
+  |------|-----------|------------------|
+  | plain talking head | the base cut | — |
+  | demo window | `demo-scene.mp4` | the base cut |
+  | full-frame takeover | that part's render | the base cut |
+  | card | — | the layer underneath |
+
+  The "must differ from the base" column is the one that catches a dropped layer, and
+  the measured separation is not marginal: a present layer matches at 0.0-0.4 mean
+  pixel difference and differs from the base by **113**, while a re-encode of the same
+  picture sits at 0.11. Anything in between is worth investigating, not explaining.
 
 - **Align overlays with `trim`/`setpts`, never input-side `-ss`.** Seeking the overlay input
   desynchronises its PTS from the base, `eof_action=pass` then passes the bare footage through, and
