@@ -1,0 +1,97 @@
+{
+ "span": {
+  "start": 205.33,
+  "end": 1351.73
+ },
+ "_spanWhy": "These two numbers are DERIVED and must be re-derived whenever the cut changes. They were left at 209.0/1396.0 from the 26:38 cut while the cut had become 26:15, a 44-second error on the exit that would have run the demo scene 44s into the talking-head closing. validate_cutsheet.py now asserts them against the cutsheet so this cannot drift silently again.",
+ "base": "outputs/base-cut.mov",
+ "screen": "outputs/base-screen.mp4",
+ "_screenWhy": "cut from the SAME cutsheet segments as the camera, using the stored screenStartFrame/screenEndFrame. It covers the demo section only and therefore starts at the span start, so demo_scene.py is given --screen-offset to line its trims up.",
+ "inset": {
+  "sourceCrop": {
+   "w": 1760,
+   "h": 1760,
+   "x": 1250,
+   "y": 330
+  },
+  "_sourceCropWhy": "Framed on real frames, not guessed. Four candidates were cut and compared (1500@1350,420 / 1760@1250,330 / 1900@1150,260 / 1650@1300,500) and this one was then checked at six points across the demo (source 400, 800, 1200, 1700, 2100, 2500). It keeps headroom, holds the chin clear when he leans or looks down, and never clips. The 1500 and 1650 crops put the chin on the bottom edge; the 1900 pulled in the picture frame and bookshelf and read busy behind him.",
+  "_delivery": {
+   "width": 960,
+   "height": 960,
+   "left": 2736,
+   "top": 1056
+  },
+  "_deliveryWhy": "style.json pip.demoInset 480x480 at (1368,528) on the 1920x1080 canvas, doubled for 4K.",
+  "entersOnce": true,
+  "enterSeconds": 0.5,
+  "exitSeconds": 0.35,
+  "occludes": "The right-hand ends of code lines in the editor pane, and the right edge of the user's own message bubbles, which are right-aligned in this UI. It does not cover the file tree, the chat response text, or the sidebar.",
+  "hiddenDuring": [
+   {
+    "start": 420.0,
+    "end": 434.0,
+    "why": "punch-in g008; the inset lands on the content the punch-in exists to make readable"
+   },
+   {
+    "start": 492.0,
+    "end": 506.0,
+    "why": "punch-in g010; the inset lands on the content the punch-in exists to make readable"
+   },
+   {
+    "start": 815.0,
+    "end": 832.0,
+    "why": "punch-in g017; the inset lands on the content the punch-in exists to make readable"
+   }
+  ],
+  "_hiddenDuringWhy": "Set 2026-09-09 after reviewing the first demo-scene render: during g010 the inset covered the billing columns and during g017 the Staging row naming audit columns. style.json pip.demoInset.mayHide allows this and it is not the forbidden bounce, because the FRAME never reframes.",
+  "reposition": [
+   {
+    "start": 354.0,
+    "end": 562.0,
+    "why": "Director 2026-09-09: inset LEFT from 'let me open up the terminal' (5:54) until the RUN B chip at 9:22, cards on the right."
+   },
+   {
+    "start": 696.0,
+    "end": 1242.0,
+    "why": "Inset LEFT again from 11:36 to 20:42, cards on the right. Between 9:22 and 11:36 it returns to its default right corner, which is his final call."
+   }
+  ],
+  "_repositionWhy": "Superseded 2026-09-09 by the director. The measurement below stands as fact and is kept because it explains the ORIGINAL default: bottom-right is occupied 1.91% of keyframes against bottom-left's 5.53%. But the layout question is not only which corner is emptier, it is which side the CARDS are on, and he wants the cards right through the demo. Measured, and it contradicted the first guess. The screen spends 31.9 min of the 38.7 min demo with content in the right third, so the skill's split-pane rule looked like it wanted bottom-left. Measuring occlusion in both candidate boxes across 1220 demo keyframes says otherwise: bottom-right is occupied 1.91% on average against bottom-left's 5.53%, and bottom-right is essentially clear on 29% of keyframes against 10%. Inspecting the boxes drawn over real frames shows why. This is a three-pane layout, and bottom-left lands on the chat prose and on the START of lines; bottom-right lands on the tail of the YAML and on whitespace. Line ends matter less than line starts.",
+  "slideSeconds": 0.6
+ },
+ "punchIns": {
+  "items": [
+   {
+    "id": "g008",
+    "start": 420.0,
+    "end": 434.0,
+    "cx": 2850,
+    "cy": 560,
+    "zoom": 2.4,
+    "target": "_crm__sources.yml lines 9-14: the meta block and external_location. Crop rendered and read before commit."
+   },
+   {
+    "id": "g010",
+    "start": 492.0,
+    "end": 506.0,
+    "cx": 2850,
+    "cy": 800,
+    "zoom": 2.2,
+    "target": "_stg_crm__models.yml columns list, account_id through account_owner. What is legible here is the ABSENCE: no surrogate key, no inserted_at/updated_at."
+   },
+   {
+    "id": "g017",
+    "start": 815.0,
+    "end": 832.0,
+    "cx": 2870,
+    "cy": 636,
+    "zoom": 2.2,
+    "target": "STANDARDS.md Layers table. cy moved 700 -> 636 on 2026-09-09: at 700 the crop's top edge cut the 'Warehouse standards' heading to its bottom third, so the block the punch-in exists to name was unreadable. Verified on a real frame at cut t=820 before committing."
+   }
+  ]
+ },
+ "privacyMasks": {
+  "spans": [],
+  "_why": "none needed. The only personal-data exposure was the bare desktop at source 351.6-353.5, and it now falls inside the kill at 337.50-354.60 and is removed outright. The sidebar project names were left visible by the human's decision 2026-09-08."
+ }
+}

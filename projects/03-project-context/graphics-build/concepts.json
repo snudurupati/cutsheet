@@ -1,0 +1,707 @@
+{
+  "source": "projects/03-project-context/outputs/transcript-cut.json",
+  "fps": 30.0,
+  "totalSeconds": 1575.733,
+  "candidates": [
+    {
+      "start": 18.24,
+      "end": 45.93,
+      "cue": "analogy",
+      "scene": "analogy",
+      "marker": "imagine",
+      "draw": "One drawn object, line art, built in movements on the spoken cues.",
+      "section": null,
+      "text": "Imagine an example. You are an architecture firm who builds buildings. and you hire a brilliant architect with 15 years of experience building both commercial as well as residential buildings and then have a proven track record so you hire them and then you have an esteemed client who's who's looking to build a residence so you hand your architect the budget and a few basic requirements and ask them to come back with the design"
+    },
+    {
+      "start": 57.77,
+      "end": 90.05,
+      "cue": "failure",
+      "scene": "screenshot",
+      "marker": "went wrong",
+      "draw": "The real terminal, the real error, the real diff. Not a recreation.",
+      "section": null,
+      "text": "Things went wrong because you failed to inform your architect that the client is a professor of Greek studies and avid fan of Greek architecture. And you also failed to mention that your firm exclusively deals with classical architecture and does not build anything with modern architecture. So if you had passed on these requirements and the binder full of all the previous architectures that the firm designed to the architect, things would have been much more better and the client would have been much more happier. And that's an agent for you."
+    },
+    {
+      "start": 148.77,
+      "end": 199.13,
+      "cue": "enumeration",
+      "scene": "strike-list",
+      "marker": "two ways",
+      "draw": "Counted build. Rows land on their own cues, never all at once.",
+      "section": null,
+      "text": "So to set the stage, if you have been following my series, I took an example of a wholesale distributor which does multi-channel sales and then we are trying to set up an end-to-end data pipeline for them so in this specific demo we'll take an example where we are trying to build a staging model for the CRM part of the model and then we'll do it two ways one way we will just create a bare bones repo and then ask Claude to build the source and the staging models. And in another run, in another experiment, I will give Claude Code a set of business rules and design standards and tell it exactly how I want the model to be built, give it a little more"
+    },
+    {
+      "start": 338.41,
+      "end": 355.75,
+      "cue": "deixis",
+      "scene": "self-demonstrating",
+      "marker": "right here",
+      "draw": "Annotation anchored to the real thing. Measure the point.",
+      "section": null,
+      "text": "Okay, so Claude Code came back. It tells me it created a few files, ran a few tests, and it tells me that it ran six tests. All six of them passed. So let me verify Claude's work. So let me open up the terminal right here."
+    },
+    {
+      "start": 433.73,
+      "end": 480.95,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "rather than",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "So I opened up the sources.yaml. It's reading the external file using a wildcard. But I don't see a union or a CSV. So what this means is if the file has columns in a different order or If the file has more or less columns in the future, the entire read will fail, which is good. The job will fail, but it also means that if the job fails, everything else downstream fails. So I want this handled via test rather than failing the job. So I would have expected it to use a union all, which it did not. So let's look at the CRM underscore models, the staging model."
+    },
+    {
+      "start": 513.39,
+      "end": 521.35,
+      "cue": "superlative",
+      "scene": "card",
+      "marker": "the biggest",
+      "draw": "Typographic hit. Scale jump, not another row.",
+      "section": null,
+      "text": "And now here I see the biggest miss. So it's doing a row number and doing an extract recency,"
+    },
+    {
+      "start": 521.78,
+      "end": 561.81,
+      "cue": "cycle",
+      "scene": "loop",
+      "marker": "every time, every time",
+      "draw": "Closed ring. Travelling dot so a long beat is never still.",
+      "section": null,
+      "text": "which is the ranking function. It's doing equals one. That means every time new data arrives, it's just overwriting the old data. And for a data warehouse, it's a big miss because Storing history is the cardinal principle of a data warehouse. And in this case, my model decided that I don't need to save any history. This is overriding new data, old data, every time some new data arrives. So those are some big misses. But again, I did not tell Claude Code any ground rules. So this was one experiment. Now let's do another experiment"
+    },
+    {
+      "start": 597.92,
+      "end": 602.09,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "versus",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "Let's run a git diff with the new repo versus the old repo."
+    },
+    {
+      "start": 766.67,
+      "end": 833.06,
+      "cue": "magnitude",
+      "scene": "stat",
+      "marker": "15 days",
+      "draw": "Count-up or proportion bar. Lands ON the number being said.",
+      "section": null,
+      "text": "And I'm also telling how the data arrives for each one. So CRM arrives for a managed connector. And there is an ingestion tool. So the data that we get might have an ingestion ingested at timestamp. And let's see if Claude Code is able to make use of that. and more business rules if feed is late I'm telling when to expect the file if it's late you know what is the late arrival threshold it should be somewhere around 15 days is when we cut off late arrival data and a few other you know business rules as to how this business runs let's open the standards document so this tells what are the coding standards the design standards for data engineering or the data analytics team in this organization so we are telling that here we have four or five layers we have a landing zone we have sources we have staging and then we have marts the dims and the facts and description of what each one is and who handles that given it some naming conventions"
+    },
+    {
+      "start": 990.91,
+      "end": 1249.81,
+      "cue": "before-after",
+      "scene": "contrast",
+      "marker": "now it's",
+      "draw": "One object, two states, morph between them. Never two cards.",
+      "section": null,
+      "text": "okay so it's taking today's data yesterday's data uh doing a compared operation and then uh it's testing if the row is missing uh if it's not uh or if it's the very first load uh the easily then for the row is set to be false uh but then if it's actually missing then it's setting the isDeleted column as true so now it's doing a proper diff so last time we saw without when not give it any conventions or uh any standards it it skipped the history entirely it over overwrote my history and now this time uh since the standards clearly conveyed that we get daily snapshots I didn't have to tell it that it had to store history it already knew that hey this is a warehouse we're getting daily snapshots and the rule the standard said that you know hey if the row is missing that means it's deleted so it kind of understood as a data engineer would that we are storing history and then it did a diff operation and then you know marking anything that's deleted as is deleted and then storing the entire history and also adding the audit columns I mentioned. So just to summarize, right, so I did two experiments, one with the bare bones. barebones repo with just some basic instructions and then ask it to build source and staging did a bunch of mistakes to the point of it blundered where it did not even store any history you know for the for the table at all in my data warehouse and then once i gave it some business rules and some design and coding standards it did everything by the book as a seasoned data engineer would do and build everything properly so this was just one test I showed you I ran a best of four tests and the behavior is consistent when I did not give it the standards and the business rules. Claude made the same set of four or five mistakes over and over again. And the fix was very easy. All I had to do was go and tell it, hey, this is how things work. This is how this data arrives. This is the business rule for handling this. And once I had codified all the tasks of knowledge, Claude Code instantly behaved like a seasoned senior data engineer and did everything by the book. so at this point you might be wondering hey this is good right so you went beyond a poc or a demo and then you showed me how you deal with messy data but hey we have years of uh history you know things are spread everywhere we have uh bug fixes in uh in jira uh we have so many confluence pages and then we also have discussions that go on in slack threads codifying everything would be just too painful I'm not saying you have to codify all those things. Providing all those things is useful, but you can start with something simpler and then keep refining your standards. So in this case, I discovered that having two files, one for business standards and one for design and coding standards, which I call them CONVENTIONS.md and STANDARDS.md, respectively, helped me. So this is something I discovered and invented on the fly. And then if you want to follow the same process, you don't have to sit and write conventions and standards. Claude already knows of all these tools from its training distribution. So it knows its Kimball. It knows its Inmon. It knows slowly changing dimensions. It knows how warehouses work, what kind of, how do we calculate history, the delta. It knows all those things. It's just that sometimes when you ask it a question, it sees a gap. it probabilistically fills the gap so you'll have to point it in the right direction so basically the standards and the conventions give it a kind of SOP to tell it how it needs to operate so what i can do is go back to my previous experiment where i do not have conventions and standards and basically i'll give it a new prompt"
+    },
+    {
+      "start": 1290.06,
+      "end": 1349.82,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "instead of",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "Okay, so I asked Claude Code a question. Hey, you looked at my repo. What are you guessing? What are your blind spots? What do you need for you to write better models? And then it came back with a list of seven things, and all of them which, you know, I would have codified into some kind of standards document given it to it. So now you can see in action that, you know, Claude Code or any large language generative model already knows its blind spot. You just have to ask it. So now, instead of me sitting and codifying everything, I can simply say, hey, put this into a conventions and standards document. And then I have a few rules the way I wanted to write the documentation. So I'll tell it. And then it'll go and create those documents for me. And the next time when you're building other models, you know, Claude Code is more informed. It'll make less mistakes. It can leverage all the smartness, all the learning it has in a much focused, in a much more efficient way."
+    },
+    {
+      "start": 1351.88,
+      "end": 1372.94,
+      "cue": "open-question",
+      "scene": "card",
+      "marker": "how does it",
+      "draw": "Ask it on screen now, answer it later. Open loop.",
+      "section": null,
+      "text": "So what are my takeaways from this experiment? One thing is Claude Code already knows its blind spots. So the question might arise in your mind as to, hey, how does Claude Code or a generated UAI model, the frontier models we have today, how does it know its blind spots? So, I mean,"
+    },
+    {
+      "start": 1373.37,
+      "end": 1393.66,
+      "cue": "analogy",
+      "scene": "analogy",
+      "marker": "think of a",
+      "draw": "One drawn object, line art, built in movements on the spoken cues.",
+      "section": null,
+      "text": "I don't want to personify a language model. It's still a probabilistic model. It predicts. But it was trained on a lot of data. So think of a typical data engineering project. We have a bunch of documents, right? We have coding standards. We have ETL mapping documents."
+    },
+    {
+      "start": 1490.4,
+      "end": 1502.49,
+      "cue": "analogy",
+      "scene": "analogy",
+      "marker": "analogy",
+      "draw": "One drawn object, line art, built in movements on the spoken cues.",
+      "section": null,
+      "text": "So if you go back to the architect analogy I gave in the beginning, the architect had 15 years of experience. They had built so many different kinds of buildings. It's just that since we did not ask them,"
+    },
+    {
+      "start": 1502.91,
+      "end": 1506.92,
+      "cue": "before-after",
+      "scene": "contrast",
+      "marker": "used to",
+      "draw": "One object, two states, morph between them. Never two cards.",
+      "section": null,
+      "text": "and they're so used to dealing with ambiguity and vague requirements, they just fill in the gaps."
+    },
+    {
+      "start": 1507.07,
+      "end": 1518.21,
+      "cue": "branch",
+      "scene": "loop",
+      "marker": "unless",
+      "draw": "Fork. Two paths from one node, the taken one in accent.",
+      "section": null,
+      "text": "And AI models in a way behave the same way. They have a set of knowledge, but unless we ask, they don't know that you need that knowledge. So that's knowledge elicitation for you."
+    },
+    {
+      "start": 1529.54,
+      "end": 1572.39,
+      "cue": "journey",
+      "scene": "loop",
+      "marker": "all the way to",
+      "draw": "Path draw from A to B. The route is the graphic.",
+      "section": null,
+      "text": "knowledge elicitation phenomenon out of your AI model. But in the next episode, I'll run this. model end-to-end from data ingestion all the way to building data marts your goal layer and then see how much of this conventions and standards document can get us and also show you if they need to evolve what all things what all patterns we observe and what all things that can help us evolve those documents So until then, keep following the space. All the links for this YouTube video, the GitHub, LinkedIn, Twitter, everything should be available on the screen. And with that, thank you."
+    }
+  ],
+  "signals": [
+    {
+      "kind": "long-pause",
+      "at": 308.44,
+      "seconds": 1.73,
+      "why": "1.73s of silence before 'with'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 408.68,
+      "seconds": 2.34,
+      "why": "2.34s of silence before 'Open'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 417.25,
+      "seconds": 2.04,
+      "why": "2.04s of silence before 'Let'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 460.02,
+      "seconds": 1.94,
+      "why": "1.94s of silence before 'which'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 546.68,
+      "seconds": 1.54,
+      "why": "1.54s of silence before 'old'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 592.57,
+      "seconds": 2.32,
+      "why": "2.32s of silence before 'let's'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 652.87,
+      "seconds": 1.94,
+      "why": "1.94s of silence before 'Let's'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 805.5,
+      "seconds": 1.94,
+      "why": "1.94s of silence before 'let's'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 1071.8,
+      "seconds": 2.34,
+      "why": "2.34s of silence before 'barebones'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 1132.44,
+      "seconds": 1.94,
+      "why": "1.94s of silence before 'Claude'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 1167.6,
+      "seconds": 1.76,
+      "why": "1.76s of silence before 'I'm'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 1242.86,
+      "seconds": 2.24,
+      "why": "2.24s of silence before 'previous'. He is landing something."
+    },
+    {
+      "kind": "long-beat",
+      "at": 18.24,
+      "seconds": 27.69,
+      "why": "27.7s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 57.77,
+      "seconds": 32.28,
+      "why": "32.3s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 57.77,
+      "seconds": 32.28,
+      "why": "'architecture' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 90.28,
+      "seconds": 19.08,
+      "why": "'data' said 5 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 125.53,
+      "seconds": 22.83,
+      "why": "22.8s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 148.77,
+      "seconds": 50.36,
+      "why": "50.4s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 148.77,
+      "seconds": 50.36,
+      "why": "'model' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 205.47,
+      "seconds": 58.14,
+      "why": "58.1s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 205.47,
+      "seconds": 58.14,
+      "why": "'repo' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 205.47,
+      "seconds": 58.14,
+      "why": "'give' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 205.47,
+      "seconds": 58.14,
+      "why": "'models' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 205.47,
+      "seconds": 58.14,
+      "why": "'claude' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 264.05,
+      "seconds": 22.35,
+      "why": "22.4s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 303.69,
+      "seconds": 21.27,
+      "why": "21.3s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 412.0,
+      "seconds": 21.3,
+      "why": "21.3s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 412.0,
+      "seconds": 21.3,
+      "why": "'file' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 433.73,
+      "seconds": 47.22,
+      "why": "47.2s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 433.73,
+      "seconds": 47.22,
+      "why": "'file' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 497.06,
+      "seconds": 15.9,
+      "why": "'also' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 521.78,
+      "seconds": 10.96,
+      "why": "'it's' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 521.78,
+      "seconds": 10.96,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 533.2,
+      "seconds": 28.61,
+      "why": "28.6s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 533.2,
+      "seconds": 28.61,
+      "why": "'data' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 570.66,
+      "seconds": 26.83,
+      "why": "26.8s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 602.53,
+      "seconds": 59.88,
+      "why": "59.9s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 602.53,
+      "seconds": 59.88,
+      "why": "'repo' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 602.53,
+      "seconds": 59.88,
+      "why": "'conventions' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 732.99,
+      "seconds": 33.25,
+      "why": "33.3s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 732.99,
+      "seconds": 33.25,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 766.67,
+      "seconds": 66.38,
+      "why": "66.4s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 766.67,
+      "seconds": 66.38,
+      "why": "'telling' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 766.67,
+      "seconds": 66.38,
+      "why": "'data' said 5 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 766.67,
+      "seconds": 66.38,
+      "why": "'business' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 766.67,
+      "seconds": 66.38,
+      "why": "'late' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 766.67,
+      "seconds": 66.38,
+      "why": "'standards' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 833.47,
+      "seconds": 53.17,
+      "why": "53.2s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 833.47,
+      "seconds": 53.17,
+      "why": "'claude' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 833.47,
+      "seconds": 53.17,
+      "why": "'standards' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 833.47,
+      "seconds": 53.17,
+      "why": "'let's' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 887.08,
+      "seconds": 70.31,
+      "why": "70.3s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 957.8,
+      "seconds": 26.13,
+      "why": "26.1s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 957.8,
+      "seconds": 26.13,
+      "why": "'also' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "258.9s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'it's' said 9 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'data' said 8 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'missing' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'give' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'conventions' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'standards' said 10 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'history' said 8 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'over' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'tell' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'deleted' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'kind' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'engineer' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'right' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'point' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'business' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'everything' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'claude' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 990.91,
+      "seconds": 258.9,
+      "why": "'knows' said 6 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1250.24,
+      "seconds": 39.37,
+      "why": "39.4s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1250.24,
+      "seconds": 39.37,
+      "why": "'tell' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1290.06,
+      "seconds": 59.76,
+      "why": "59.8s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1290.06,
+      "seconds": 59.76,
+      "why": "'claude' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1290.06,
+      "seconds": 59.76,
+      "why": "'code' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1351.88,
+      "seconds": 21.06,
+      "why": "21.1s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1373.37,
+      "seconds": 20.29,
+      "why": "20.3s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1394.09,
+      "seconds": 49.36,
+      "why": "49.4s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1394.09,
+      "seconds": 49.36,
+      "why": "'models' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1443.89,
+      "seconds": 41.37,
+      "why": "41.4s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1443.89,
+      "seconds": 41.37,
+      "why": "'tell' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1443.89,
+      "seconds": 41.37,
+      "why": "'missing' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1443.89,
+      "seconds": 41.37,
+      "why": "'back' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1507.07,
+      "seconds": 11.13,
+      "why": "'knowledge' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1529.54,
+      "seconds": 42.86,
+      "why": "42.9s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    }
+  ]
+}

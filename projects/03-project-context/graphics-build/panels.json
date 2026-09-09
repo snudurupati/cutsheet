@@ -1,0 +1,272 @@
+{
+ "g001": {
+  "min": 141.8,
+  "max": 144.9,
+  "mean": 142.7,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "lightReinforced"
+ },
+ "g002": {
+  "min": 142.2,
+  "max": 144.8,
+  "mean": 143.2,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "lightReinforced"
+ },
+ "g003": {
+  "min": 140.9,
+  "max": 144.6,
+  "mean": 142.3,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "lightReinforced"
+ },
+ "g004": {
+  "min": 141.1,
+  "max": 142.4,
+  "mean": 141.8,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "lightReinforced"
+ },
+ "g005": {
+  "min": 141.0,
+  "max": 142.0,
+  "mean": 141.4,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "lightReinforced"
+ },
+ "g006": {
+  "min": 140.5,
+  "max": 141.4,
+  "mean": 141.0,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g007": {
+  "min": 140.4,
+  "max": 141.9,
+  "mean": 141.3,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g008": {
+  "min": 140.7,
+  "max": 141.7,
+  "mean": 141.0,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g009": {
+  "min": 140.8,
+  "max": 141.8,
+  "mean": 141.5,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g010": {
+  "min": 139.3,
+  "max": 142.6,
+  "mean": 141.4,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g011": {
+  "min": 140.7,
+  "max": 141.3,
+  "mean": 141.1,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g012": {
+  "min": 139.9,
+  "max": 141.2,
+  "mean": 140.6,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g013": {
+  "min": 139.5,
+  "max": 142.7,
+  "mean": 141.5,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g014": {
+  "min": 141.0,
+  "max": 142.3,
+  "mean": 141.8,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g015": {
+  "min": 142.6,
+  "max": 143.4,
+  "mean": 142.9,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g016": {
+  "min": 140.6,
+  "max": 141.9,
+  "mean": 141.4,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g017": {
+  "min": 140.3,
+  "max": 141.5,
+  "mean": 141.0,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g018": {
+  "min": 140.7,
+  "max": 142.9,
+  "mean": 142.0,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g019": {
+  "min": 139.6,
+  "max": 144.1,
+  "mean": 142.0,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g020": {
+  "min": 141.2,
+  "max": 143.7,
+  "mean": 142.4,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g021": {
+  "min": 140.2,
+  "max": 142.1,
+  "mean": 140.9,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g022": {
+  "min": 139.7,
+  "max": 142.7,
+  "mean": 141.2,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g023": {
+  "min": 140.8,
+  "max": 142.7,
+  "mean": 141.4,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g029": {
+  "min": 141.3,
+  "max": 142.7,
+  "mean": 141.8,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g024": {
+  "min": 138.0,
+  "max": 142.3,
+  "mean": 139.5,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "lightReinforced"
+ },
+ "g025": {
+  "min": 138.9,
+  "max": 142.9,
+  "mean": 140.5,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "lightReinforced"
+ },
+ "g026": {
+  "min": 139.8,
+  "max": 143.1,
+  "mean": 141.2,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "lightReinforced"
+ },
+ "g027": {
+  "min": 139.6,
+  "max": 140.8,
+  "mean": 140.4,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "lightReinforced"
+ },
+ "g028": {
+  "min": 139.8,
+  "max": 144.4,
+  "mean": 141.1,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "lightReinforced"
+ },
+ "g030": {
+  "min": 139.9,
+  "max": 141.2,
+  "mean": 140.5,
+  "meanTreatment": "lightReinforced",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "lightReinforced"
+ }
+}

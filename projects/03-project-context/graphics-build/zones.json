@@ -1,0 +1,78 @@
+{
+  "video": "projects/03-project-context/raw/Camera-2026-09-08 12-28-39.mov",
+  "measuredFrames": [
+    202.58,
+    405.17,
+    607.75,
+    810.34,
+    1012.92,
+    1215.51,
+    1418.09,
+    1620.68,
+    1823.26,
+    2025.84,
+    2228.43,
+    2431.01,
+    2633.6,
+    2836.18
+  ],
+  "canvas": [
+    1920,
+    1080
+  ],
+  "thresholds": {
+    "detailMax": 18.0,
+    "motionMax": 4.5
+  },
+  "zones": {
+    "primary": {
+      "x": [
+        0,
+        780
+      ],
+      "y": [
+        0,
+        780
+      ],
+      "detail": 1.3,
+      "motion": 0.6,
+      "luma": 150.8,
+      "panelTreatment": "inverted"
+    },
+    "secondary": {
+      "x": [
+        1740,
+        1920
+      ],
+      "y": [
+        0,
+        900
+      ],
+      "detail": 3.9,
+      "motion": 0.42,
+      "luma": 157.5,
+      "panelTreatment": "inverted"
+    },
+    "tertiary": {
+      "x": [
+        0,
+        360
+      ],
+      "y": [
+        780,
+        1080
+      ],
+      "detail": 3.1,
+      "motion": 2.68,
+      "luma": 131.5,
+      "panelTreatment": "lightReinforced"
+    }
+  },
+  "heroTypeZone": "primary",
+  "heroTypeZoneMinimum": {
+    "widthPx": 500,
+    "heightPx": 260
+  },
+  "heroTypeAsOverlayPossible": true,
+  "_note": "Authoritative for this job. style.json zones are a fallback and a shape reference only. Re-run if the cut changes."
+}
