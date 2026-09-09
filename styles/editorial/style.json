@@ -453,6 +453,46 @@
     {
       "date": "2026-09-07",
       "rule": "graphics.heroTypeZone said 'leftColumn' while style.md and zones.heroLeft._why said 'heroLeft'. A correction written into the prose had not been written into the knob. check_style.py compares them now."
+    },
+    {
+      "date": "2026-09-08",
+      "rule": "Never grade to hit the recording spec's face-luma number. On 03-project-context the face measured 122-127 against a 130-145 spec with a 152 wall behind it; a curve moved the skin mean to 132 and held the wall, and it cost 26% of the tonal range INSIDE the face (99 -> 73) and a third of the face-to-background separation (25.3 -> 16.1). The human's words: 'lost all the detail and my face is overexposed and blending into the background'. Only the mean had been verified. Verify YHIGH-YLOW inside the face and the face/background gap before and after, not YAVG. A background brighter than the subject is a lighting fix at record time, not a grade fix, and the existing rule about not chasing a marginal spec number with a corrective filter covers picture as well as audio."
+    },
+    {
+      "date": "2026-09-08",
+      "rule": "Never send a downscaled or low-bitrate proxy as evidence of picture quality. A 1280x720/3.2Mbps preview of a 3840x2160/55Mbps master led the human to conclude the master was 1080p and had lost all its detail. Previews are for MOTION GRAPHICS only, and those go out as full-resolution stills AND clips composited with his audio. Everything else reports measurements and lets him open the master."
+    },
+    {
+      "date": "2026-09-08",
+      "rule": "FFmpeg 9.0 removed options the skills still use. -vsync is gone, use -fps_mode (its silent absence made frame extraction return neighbouring frames and nearly invalidated a content gate). -filter_complex_script is gone, use -/filter_complex <file>. drawtext is not compiled into this build at all, so any burned-in text must come from a composition render rather than an FFmpeg filter."
+    },
+    {
+      "date": "2026-09-08",
+      "rule": "The content gate's own noise floor is a diagnostic, not a nuisance. A faithful re-encode matches its raw source at ~0.1 mean pixel difference with far-frame ratios of 20-90x, exactly as the rough-cut skill says. When the same gate read a 1.6 floor with 2-3x ratios on 03-project-context it was rationalised as 'the encode and grade round-trip' and the gate was rewritten to be calibration-free so it would pass anyway. The real cause was a corrective grade crushing facial contrast, and the human caught it, not the pipeline. A floor an order of magnitude above 0.1 means something is altering the picture: find out what before adjusting the gate around it."
+    },
+    {
+      "date": "2026-09-08",
+      "rule": "The 'a span end must not bisect a word' rule applies to KILL ranges too, not just to kept spans, and it must be asserted rather than eyeballed. On 03-project-context three hand-picked kill boundaries landed inside words: one clipped 'smart.' at the head, one ended inside 'Sorry,' and left a stray 'I closed it.' in the cut, and one cut through 'fill' and removed 'fill in the gaps', which was the phrase completing the video's central architect analogy. The analogy then ended on 'they just' and jumped to the next topic. Nothing errored and no gate noticed; the human found it by watching. build_cutsheet.py now fails the build if any kill edge falls strictly inside a word, and that assertion caught the other two immediately."
+    },
+    {
+      "date": "2026-09-08",
+      "rule": "A join audit is a required gate after any splice, and it is the only one that can see a cut through the middle of a thought. Every other gate measures frames, samples, words or pixels, and an unfinished sentence is frame-exact, sample-exact and word-accurate, so all of them pass. On 03-project-context the human found two mid-thought cuts by watching, after the full gate set had passed twice. The audit prints, for every join, the last words kept, THE SOURCE WORDS THAT WERE REMOVED, and the first words after; only joins where SPEECH was removed matter (10 of 66 here, the rest being pure silence, which leaves the sentence continuous). Reading those ten found three further defects nobody had reported: a doubled 'so production ai use cases' inside a kept take, 'Let's get started' said twice 22s apart, and a dangling 'Now let's do another experiment where'. Note the strongest case ended on a clean full stop and was flagged by nothing: the removed text was the second half of the argument. The GONE column is the signal, not the punctuation flags. Script: graphics-build/audit_joins.py."
+    },
+    {
+      "date": "2026-09-08",
+      "rule": "When a speaker's analogy has no completed payoff anywhere in the footage, that is a content decision for the human, not something the edit resolves quietly. On 03-project-context the architect analogy's bridge to the AI agent trailed off mid-sentence ('in spite of all the harnesses... it does not') and was killed as a false start, leaving the analogy hanging. The options (land a later parallel immediately, shoot a pickup line, reorder, or leave it) were put to the human with the actual text of each; he chose to cut the intervening 18s passage so the parallel lands straight after the analogy. Do not pick one of these silently."
+    },
+    {
+      "date": "2026-09-08",
+      "rule": "gsap tl.set() with NO position parameter lands at the timeline's current END, not at 0. On 03-project-context g001 the two tl.set() calls that armed strokeDasharray/strokeDashoffset landed at ~1.22s, fighting the fromTo that started at 1.20s, and the building drew itself and then vanished for the rest of the beat. Lint passed, check passed, the render succeeded, and the composition looked plausible in isolation. Fix: put dash values on the ELEMENT as SVG attributes (stroke-dasharray / stroke-dashoffset) and tween only the offset, so there is no ordering question at all. Any tl.set that must exist carries an explicit position, e.g. the hard kill at the part boundary."
+    },
+    {
+      "date": "2026-09-08",
+      "rule": "A still pulled for review must SEEK INTO the overlay at (t - part.start), not delay it by that amount. Delaying it renders bare footage, which is indistinguishable from a graphic that failed to render, and nearly caused a working hook to be rebuilt from scratch. Verify a review still against the composited MP4 before concluding a part is broken."
+    },
+    {
+      "date": "2026-09-08",
+      "rule": "Two line-art objects sharing an exact footprint interleave into one unreadable object. The 'what was built vs what was wanted' pair needs the front object to carry an opaque fill in $bg so it occludes, plus a small offset on the ghost, or the strokes read as a single confused drawing. Found on the first spot review, which is why that review happens at 10% and not at the end."
     }
   ]
 }

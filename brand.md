@@ -78,6 +78,14 @@ where a format has room for two lines, and omitted where it does not.
 
 **Cues are matched first-wins in spoken order**, so each list must be ordered
 most-specific-first and must not contain a word that is ordinary English in context.
+
+**A channel's own name belongs in its cue list.** Added 2026-09-08: the YouTube row
+was cued only on `subscribe` and `channel`, and on `03-project-context` the closing
+line is "All the links for this **YouTube** video, the GitHub, LinkedIn, Twitter".
+GitHub, LinkedIn and X all matched; YouTube fell through to the no-cue fallback
+despite being the first channel named out loud. A platform name is a proper noun, so
+it is safe under the ordinary-English rule, and it goes first because it is the most
+specific term available.
 On 2026-08-20 `"code"` matched "not writing **code**" 40s before the repo mention and
 `"like"` matched "**like** I've done" 34s before the subscribe line; `"x"` matches
 inside almost anything. Both rows would have landed against the wrong line.
@@ -112,6 +120,8 @@ downstream) or the heard form is a real English word that might be genuinely mea
 | Kubernetis, Kubernets, Coobernetes | Kubernetes | auto |
 | Postgress, Post grass | Postgres | auto |
 | Kafta, Kavka | Kafka | auto |
+| Inman, Inmon's | Inmon | auto |
+| Bill and Mon, Bill Inman | Bill Inmon | flag (two words) |
 | DBT, D B T, debt | dbt | flag (lowercase brand, "debt" is a real word) |
 | Terra form, terror form | Terraform | flag (two words) |
 | Tera form | Terraform | auto |
@@ -175,7 +185,7 @@ Skills parse this. Keep it in sync with the tables above.
   "links": [
     { "id": "youtube",  "label": "like and subscribe", "value": "@srnudurupati",
       "channelName": "AI for the Working Data Engineer",
-      "cues": ["subscribe", "channel"] },
+      "cues": ["youtube", "subscribe", "channel"] },
     { "id": "blog",     "label": "blog",     "value": "https://www.nudurupati.co/",
       "cues": ["blog"] },
     { "id": "github",   "label": "github",   "value": "https://github.com/snudurupati",
@@ -205,6 +215,9 @@ Skills parse this. Keep it in sync with the tables above.
     { "heard": ["Kubernetis", "Kubernets", "Coobernetes"], "correct": "Kubernetes", "mode": "auto" },
     { "heard": ["Postgress"], "correct": "Postgres", "mode": "auto" },
     { "heard": ["Kafta", "Kavka"], "correct": "Kafka", "mode": "auto" },
+    { "heard": ["Inman"], "correct": "Inmon", "mode": "auto",
+      "why": "Bill Inmon, alongside Kimball. Recurring on a data-engineering channel; first hit 2026-09-08" },
+    { "heard": ["Bill and Mon", "Bill Inman"], "correct": "Bill Inmon", "mode": "flag", "why": "two words" },
     { "heard": ["DBT", "D B T", "debt"], "correct": "dbt", "mode": "flag", "why": "real word" },
     { "heard": ["Terra form", "terror form"], "correct": "Terraform", "mode": "flag", "why": "two words" },
     { "heard": ["Tera form"], "correct": "Terraform", "mode": "auto" }
