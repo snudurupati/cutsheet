@@ -185,6 +185,13 @@ to replace the job title and gives up.
 | Any → `slot` | Hard cut in, hard cut out. B-roll never dissolves. |
 | `head` → `demo` | Hard cut to the screen. Face inset scales in from 0.92 with opacity 0→1 over 0.5s `power2.inOut`, starting 0.3s after the cut. |
 | `demo` → `head` | Face inset scales out to 0.92 and fades over 0.35s, then hard cut back to full frame. |
+| `demo` corner change | Face inset **slides** between corners over 0.6s with a smoothstep ease. Never a single-frame jump. |
+
+A corner change is a *move*, and a move has to be seen to happen. This used to read "jump
+position on an existing cut boundary so the move is invisible", which fails twice: a demo
+scene is one continuous screen recording, so there is usually no cut to hide behind, and an
+inset that changes side in one frame reads as a glitch rather than a move, because nothing
+else in the frame changed with it.
 
 **The one-entry rule.** The picture-in-picture enters once per graphics run and everything between
 entries chains inside it. Bouncing full frame → PiP → full frame → PiP is the single most

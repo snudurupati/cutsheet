@@ -57,7 +57,7 @@
    }
   ],
   "_repositionWhy": "Superseded 2026-09-09 by the director. The measurement below stands as fact and is kept because it explains the ORIGINAL default: bottom-right is occupied 1.91% of keyframes against bottom-left's 5.53%. But the layout question is not only which corner is emptier, it is which side the CARDS are on, and he wants the cards right through the demo. Measured, and it contradicted the first guess. The screen spends 31.9 min of the 38.7 min demo with content in the right third, so the skill's split-pane rule looked like it wanted bottom-left. Measuring occlusion in both candidate boxes across 1220 demo keyframes says otherwise: bottom-right is occupied 1.91% on average against bottom-left's 5.53%, and bottom-right is essentially clear on 29% of keyframes against 10%. Inspecting the boxes drawn over real frames shows why. This is a three-pane layout, and bottom-left lands on the chat prose and on the START of lines; bottom-right lands on the tail of the YAML and on whitespace. Line ends matter less than line starts.",
-  "slideSeconds": 0.6
+  "repositionSeconds": 0.6
  },
  "punchIns": {
   "items": [

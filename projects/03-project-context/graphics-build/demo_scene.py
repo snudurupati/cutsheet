@@ -93,7 +93,9 @@ def main():
     # Windows never overlap, so the terms sum without ever exceeding 1.
     LEFTX = 3840 - ins["left"] - ins["width"]
     RIGHTX = ins["left"]
-    SLIDE = float(ins.get("slideSeconds", 0.6))
+    # style.json graphics.pip.demoInset.repositionSeconds. slideSeconds is the
+    # older spelling, still accepted so an existing spec keeps working.
+    SLIDE = float(ins.get("repositionSeconds", ins.get("slideSeconds", 0.6)))
     if rep:
         terms=[]
         for r in rep:

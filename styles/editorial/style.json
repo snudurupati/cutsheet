@@ -287,7 +287,9 @@
      "bottomLeft"
     ],
     "mayHide": true,
-    "_repositionWhy": "the inset occludes the screen wherever it sits, and a slide or diagram using the whole frame leaves nowhere good. It may move to the opposite corner, or fade out entirely, for the span the screen content demands, using the same enterSeconds/exitSeconds mechanic. This is NOT the bounce the one-entry rule forbids: that rule is about the FRAME reframing between full and PiP, which does not happen here. Jump position on an existing cut boundary so the move is invisible."
+    "_repositionWhy": "the inset occludes the screen wherever it sits, and a slide or diagram using the whole frame leaves nowhere good. It may move to the opposite corner, or fade out entirely, for the span the screen content demands. This is NOT the bounce the one-entry rule forbids: that rule is about the FRAME reframing between full and PiP, which does not happen here. SLIDE the move over repositionSeconds with a smoothstep ease. Corrected 2026-09-09: this knob used to say 'jump position on an existing cut boundary so the move is invisible', and that is what produced a single-frame teleport the director called out. The premise is wrong twice over. A demo scene is one continuous screen recording, so there is usually no cut boundary to hide behind at all; and even on a cut, an inset that changes side instantly reads as a glitch rather than as a move, because nothing else in frame changed with it.",
+    "repositionSeconds": 0.6,
+    "repositionEase": "smoothstep"
    }
   },
   "cardsLandOnSpokenCue": true,
@@ -545,6 +547,10 @@
   {
    "date": "2026-09-08",
    "rule": "Where a card would land on the speaker, composite the card BEHIND him rather than shrinking it: base -> card -> subject matte from hyperframes remove-background. Verified on 03-project-context, whose centred framing leaves a narrower left column than the zone map alone suggests. Also: US spelling everywhere, and 'the model' is always a brain or a brain in a jar, 'an agent' a brain in a jar with limbs, because that motif runs across the whole series."
+  },
+  {
+   "date": "2026-09-09",
+   "rule": "The demo inset SLIDES between corners over 0.6s with a smoothstep ease; it never jumps. The style file previously said to jump on an existing cut boundary 'so the move is invisible', which is wrong on its own terms: a demo scene is one continuous screen recording with no cut to hide behind, and a single-frame change of side reads as a glitch, not as a move. Implemented as a leftness factor f(t) in [0,1] that ramps at each window edge and is smoothstepped, with x interpolated between the two corner positions, so any number of reposition windows compose without special-casing. Verified by measuring the inset's x across each transition: it passes through mid-frame rather than switching."
   }
  ]
 }
