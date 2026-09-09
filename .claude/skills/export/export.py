@@ -355,7 +355,11 @@ def main():
         for rel in drafts:
             print(f"      {rel}  ({human(tree_size(os.path.join(job, rel)))})")
         if not apply_:
-            print(f"      (plus {newest} once the promoted copy is verified)")
+            # NOT "plus the master". The loop above skips `newest` unless
+            # --drop-master, so saying it would be retired misinforms the human
+            # reading the plan about the one file that costs a composite AND a mix
+            # to regenerate.
+            print(f"      (the master {newest} is KEPT; pass --drop-master to retire it)")
 
     if reclaim:
         print("\nRECLAIM")
