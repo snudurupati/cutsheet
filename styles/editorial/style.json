@@ -333,6 +333,14 @@
    "featherSigma": 2.0,
    "_why": "Background removal returns a BINARY alpha. Measured on a 4K matte: the silhouette edge goes 0 -> 255 with exactly 0px of partial alpha, so a smooth contour like a cheek renders as a stair-stepped cutout and the shot reads like a cheap virtual background. Blur the ALPHA ONLY (never the colour) to give the key about 11px of anti-aliasing at 4K, roughly 5px at 1080p. Do it in the composite filter chain rather than by re-encoding the mattes: it is exact and keeps tens of GB of ProRes 4444 off the disk.",
    "_doNot": "Do not follow the blur with a contrast or levels push to 'tighten' the edge. That re-binarises it and silently undoes the whole fix."
+  },
+  "takeoverDrift": {
+   "appliesTo": "class=segment, full-frame, duration >= 20s",
+   "from": 1.0,
+   "to": 1.03,
+   "ease": "power1.inOut",
+   "overWholeBeat": true,
+   "_why": "A card that stops animating over the demo still sits on a moving frame: the screen recording and the face inset are live behind it, measured 0.418 mean pixel change over half a second. A TAKEOVER that stops animating freezes the entire picture, measured 0.000. On 03-project-context g003 that was ~39s of a 67s beat, with one unbroken 14s hold. Cards over live footage are exempt; this is only for full-frame parts."
   }
  },
  "audio": {
@@ -551,6 +559,10 @@
   {
    "date": "2026-09-09",
    "rule": "The demo inset SLIDES between corners over 0.6s with a smoothstep ease; it never jumps. The style file previously said to jump on an existing cut boundary 'so the move is invisible', which is wrong on its own terms: a demo scene is one continuous screen recording with no cut to hide behind, and a single-frame change of side reads as a glitch, not as a move. Implemented as a leftness factor f(t) in [0,1] that ramps at each window edge and is smoothstepped, with x interpolated between the two corner positions, so any number of reposition windows compose without special-casing. Verified by measuring the inset's x across each transition: it passes through mid-frame rather than switching."
+  },
+  {
+   "date": "2026-09-09",
+   "rule": "Full-frame takeovers of 20s or longer carry a 1.00 -> 1.03 drift over the whole beat. The existing rule said any beat 20s+ carries continuous motion, but a review reported ten beats as frozen and that was misleading: eight of them were cards over the screen recording, where the card is static (0.004) but the frame is not (0.418), which is ordinary editing and needs no fix. Only the two full-frame takeovers actually froze the picture, at 0.000. Measure the FULL FRAME before calling a held graphic a frozen frame, not the element's own box, or eight non-issues get reported alongside the two real ones."
   }
  ]
 }

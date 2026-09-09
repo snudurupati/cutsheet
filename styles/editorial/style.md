@@ -340,6 +340,15 @@ headline word. Never both.
 - `panel` content: a 1.00 → 1.03 drift on screenshots so a still asset is never actually still.
 - Any beat 20 seconds or longer carries continuous motion for its whole duration. A count-up that
   finishes at 6 seconds of a 19 second beat reads as a frozen frame for 13 seconds.
+- **A full-frame takeover of 20 seconds or longer carries a 1.00 → 1.03 drift across its whole
+  duration**, `power1.inOut`, on the whole composition. When a card over the demo stops animating
+  the frame still moves, because the screen recording and the face inset are live behind it. When a
+  TAKEOVER stops animating, everything stops: the picture is a literal still photograph.
+
+  Measured on 03-project-context g003, a 67-second architect analogy: seven still stretches
+  totalling ~39 seconds, including one unbroken 14-second hold a third of the way in, at 0.000 mean
+  pixel change. The same measurement over the demo-window cards read 0.418 on the full frame, so
+  those were never the problem and do not need this. Cards over live footage are exempt.
 - Nothing zooms back out unless the script says so.
 
 ## Texture

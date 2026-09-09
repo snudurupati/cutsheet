@@ -21,7 +21,7 @@ It cannot judge taste. It catches the mechanical mistakes that taste review keep
 having to catch by eye.
 """
 import argparse, json, os, subprocess, sys, tempfile
-from PIL import Image
+from PIL import Image, ImageChops, ImageStat
 
 
 def ink_bbox(path, thr=170):
@@ -58,6 +58,11 @@ def main():
     ap.add_argument("--only", default="", help="comma-separated part ids")
     ap.add_argument("--samples", type=int, default=5)
     ap.add_argument("--edge", type=int, default=4, help="px from the frame edge that counts as clipped")
+    ap.add_argument("--still-seconds", type=float, default=5.0,
+                    help="flag a FULL-FRAME takeover that holds a still picture this long. "
+                         "0 disables the check.")
+    ap.add_argument("--still-min-beat", type=float, default=20.0,
+                    help="only takeovers at least this long are checked (style.md's 20s rule)")
     a = ap.parse_args()
 
     parts = json.load(open(a.cutsheet))["parts"]
@@ -106,6 +111,50 @@ def main():
         print(f"{p['id']:6} {p['class']:8} {box:28} {verdict}")
         if notes:
             bad.append(f"{p['id']}: {verdict}")
+
+    # ---- still-frame check, FULL-FRAME PARTS ONLY -------------------------------
+    # style.json graphics.takeoverDrift. Deliberately restricted to class=segment.
+    # A card over the demo that stops animating is NOT a frozen frame: the screen
+    # recording and the face inset are live behind it, measured 0.418 mean pixel
+    # change against the card's own 0.004. Measuring each element's own box instead
+    # of the frame is how a review reported ten frozen beats when only two were.
+    if a.still_seconds > 0:
+        print()
+        for p in parts:
+            if p["class"] != "segment" or p["kind"] == "zoom":
+                continue
+            D = p["end"] - p["start"]
+            if D < a.still_min_beat:
+                continue
+            ext = "mp4"
+            f = os.path.join(a.renders, f"{p['id']}.{ext}")
+            if not os.path.exists(f):
+                continue
+            prev, runs, start, t = None, [], None, 1.0
+            while t <= D - 1.0:
+                png = os.path.join(tmp, "s.png")
+                subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-y", "-ss", f"{t:.2f}",
+                                "-i", f, "-frames:v", "1", "-vf", "scale=640:-1", png], check=True)
+                im = Image.open(png).convert("RGB").copy()
+                if prev is not None:
+                    d = ImageStat.Stat(ImageChops.difference(prev, im)).mean[0]
+                    if d < 0.02:
+                        if start is None:
+                            start = t - 1.0
+                    elif start is not None:
+                        runs.append((start, t - 1.0)); start = None
+                prev = im; t = round(t + 1.0, 2)
+            if start is not None:
+                runs.append((start, D))
+            longest = max((e - s for s, e in runs), default=0.0)
+            total = sum(e - s for s, e in runs)
+            ok = longest < a.still_seconds
+            print(f"{p['id']:6} takeover {D:5.1f}s   longest still {longest:5.1f}s   "
+                  f"total still {total:5.1f}s   {'ok' if ok else 'NEEDS DRIFT'}")
+            if not ok:
+                bad.append(f"{p['id']}: full-frame takeover holds a still picture for "
+                           f"{longest:.1f}s ({total:.1f}s total). style.json "
+                           f"graphics.takeoverDrift: carry a 1.00 -> 1.03 drift over the beat")
 
     if bad:
         print("\nFAIL")

@@ -332,6 +332,34 @@ Four more in the same family: valid markup, clean lint, and the wrong picture.
   which lands in the output as invalid JS and fails `invalid_inline_script_syntax`.
   Build repeated markup into a variable **before** the template, never inside it.
 
+## A held graphic is only a frozen frame if the FRAME is frozen
+
+`style.md` says any beat 20s or longer carries continuous motion. Applying that by
+measuring each element's own box produces mostly false alarms, and the false alarms
+bury the real ones.
+
+On 03-project-context a review reported **ten** beats sitting on bit-identical frames.
+Measuring the full frame instead of the card box, eight of them were fine:
+
+| what was measured | card's own box | the whole frame |
+|---|---|---|
+| a card over the demo (g019, g013, …) | 0.004 | **0.418** |
+| a full-frame takeover (g003, g028) | 0.000 | **0.000** |
+
+A card sitting over the screen recording stops animating and the picture keeps moving,
+because the screen recording and the face inset are live behind it. That is ordinary
+editing, not a defect. A **takeover** that stops animating freezes everything, because
+there is nothing else on screen. Only that second case needs fixing, and on g003 it was
+~39s of a 67s beat with one unbroken 14s hold.
+
+So: **full-frame parts of 20s or longer carry a 1.00 → 1.03 drift across the whole beat**
+(`power1.inOut`, `style.json` → `graphics.takeoverDrift`). It is the same remedy the style
+file already prescribes for still screenshots, and it is invisible as an effect. Cards over
+live footage are exempt.
+
+`check_parts.py --still-seconds` enforces this, restricted to `class=segment`, so the check
+cannot regenerate the eight false alarms. Measure the frame, never the element.
+
 ## A positional edit is a change to TWO things, and only one is visible
 
 Every gate here counts frames, samples and pixels against a reference. **None of them
