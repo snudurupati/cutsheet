@@ -38,6 +38,7 @@ editing** — a recording can measure perfect on resolution and still be unusabl
 | Voice level | −18 to −22 LUFS, peaks −6 to −10 dBFS | `ebur128`, `astats` |
 | **Flat factor** | **0** | non-zero means a limiter is clamping normal speech, not catching accidents |
 | Noise floor | ≤ −65 dB, rumble (<100 Hz) ≤ −75 dB | quiet window + band filters |
+| **Global exposure drift** | **frame-wide mean, stdev < 2.0 luma units** | `measure_zones.py` prints it and warns. Drift is auto ISO or unstable lights. It is never the framing |
 | Face luma | 130–145 | `signalstats` on a face crop |
 | Face key/fill split | within ~25 units | two crops across the face |
 | Background | below face luma; saturation below the face's | region crops |
@@ -102,6 +103,60 @@ simultaneous hardware H.264 sessions fail with `VTCompressionSessionCreate -1290
 scaling of its own and taps the frame at its own position in the chain; Record Mode "Virtual Camera"
 so the main recording never runs as a third encode; MV7+ manual gain (not Auto-level, which lifts
 room tone in every pause), limiter on, HPF 75 Hz, denoiser and popper stopper off, LEDs off or solid.
+
+### Exposure is locked on the body, never in OBS
+
+The camera arrives as a UVC source (`macos-avcapture`), so ISO, aperture and shutter exist only on
+the camera. Verified settings for this rig, measured 2026-09-15:
+
+| | |
+|---|---|
+| Camera | ISO 400 **fixed**, f/4.0, 1/60, 3840×2160, 30/1 |
+| OBS Limiter | threshold −2.0 dB |
+| OBS Compressor | threshold −24 dB, ratio 3:1, attack 1 ms, release 80 ms, output gain +8.0 dB |
+| OBS screen scaling | **lanczos**. Bilinear softens terminal text when a 5K display is downscaled to 4K |
+
+Shutter is 1/60 because 30fps wants a 180 degree shutter. 1/40 was tried and is a 270 degree shutter:
+at 4K the glasses, hairline and mouth visibly smear on any head turn, while the same lens resolves
+individual stubble at rest. With a kit lens the aperture is pinned, so ISO is the only lever left,
+and **raising ISO shortens the shutter rather than lengthening it.**
+
+### Auto ISO hides as unstable lighting. This test separates them
+
+Compare a flat wall patch at a bright moment and a dark one. Shot noise scales as the square root of
+signal, so with gain fixed a darker frame must be **less** noisy. If noise rises while signal falls,
+gain is moving and ISO is not locked. Inferred gain is `sigma**2 / mean`.
+
+On 2026-09-15 this read a **2.8x gain swing** across takes that were believed to have a locked ISO,
+and 1.18x once it genuinely was. Auto ISO also masquerades as *stable* when it pins against its
+ceiling, which is why the one steady take that day was the one shot with the key lights off. Do not
+read a flat wall trace as proof of a lock without the noise test.
+
+### This room's lights are not stable, and that is permanent
+
+With the key lights on, the frame-wide mean moves about **29 luma units** irregularly, every cell
+shifting together, colour barely changing. It is not the camera: ISO was verified locked by the test
+above. The lights cannot be changed, so **deflicker runs by default on this rig.** Normalise
+per-frame exposure before the zone measurement and before the edit.
+
+`measure_zones.py` removes the drift internally and warns, so its zones are correct even on a pulsing
+take. Before that guard existed, the drift landed in every cell's motion figure and the tool reported
+`NO CLEAR ZONE FOUND` on four consecutive takes whose framing actually carried a 600×1020 zone. That
+verdict would have sent every card beat to a full-frame takeover for no reason. **The footage still
+pulses, so the render must be corrected too. A correct zone map is not a corrected picture.**
+
+### Three standing deviations, absorbed downstream, never by another take
+
+1. **Peaks around −2 dBFS** against the −6 to −10 spec. Loudness is correct at −20.8 LUFS and flat
+   factor is 0, so this is crest, not level. Finishing handles it.
+2. **Rumble above spec.** The MV7+ 75 Hz high-pass is set in MOTIV but does not reach the USB stream
+   OBS records. Confirmed by the low-band to voice-band ratio before and after the change: unchanged
+   at about −24 dB, where a working filter reads about −35. Finishing applies the filter to the file
+   at no cost.
+3. **Face luma under 130, and the wall brighter than the face.** Position and lights are fixed, and
+   exposure is global, so no camera setting separates them: pushing the face to spec blows the wall.
+   The zone map returns `inverted` or `lightReinforced` panel treatments, which is the correct
+   adaptation rather than a failure.
 
 **Clips are NOT frame-locked.** Source Record stops both filters at the same instant but starts them
 a few frames apart — observed 14 frames under encoder load, 2 frames when healthy. **Align at the

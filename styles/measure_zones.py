@@ -24,6 +24,8 @@ import argparse, json, statistics, subprocess, sys, tempfile, os
 from PIL import Image
 
 GW, GH = 32, 18            # grid cells across the canvas
+DRIFT_WARN = 2.0           # stdev of the frame-wide mean, in luma units.
+                           # A locked camera in a steady room reads under 1.
 CANVAS_W, CANVAS_H = 1920, 1080
 
 def sample_times(dur, n, excl):
@@ -41,23 +43,45 @@ def grab(video, t, tmp, w=384, h=216):
     return Image.open(p).convert("L")
 
 def measure(video, times, tmp):
+    """detail, motionRaw, motion (exposure-normalised), luma, drift.
+
+    motion is measured on cell means with each FRAME's global mean subtracted.
+    Lights that drift, or a camera left on auto exposure or auto ISO, move every
+    cell at once; without that subtraction the drift lands in every cell's motion
+    figure and the entire frame reads as subject. On 2026-09-15 that turned a
+    framing with a real 600x1020 clear zone into "NO CLEAR ZONE FOUND" on four
+    consecutive takes, which would have sent every card beat to a full-frame
+    takeover for no reason. Raw motion is kept so the drift can be reported
+    rather than silently absorbed: a pulsing picture is still a finding.
+    """
     ims = [grab(video, t, tmp) for t in times]
     w, h = ims[0].size
     cw, ch = w // GW, h // GH
+    cell   = [[[0.0] * GW for _ in range(GH)] for _ in ims]
     detail = [[0.0] * GW for _ in range(GH)]
-    motion = [[0.0] * GW for _ in range(GH)]
     luma   = [[0.0] * GW for _ in range(GH)]
     for gy in range(GH):
         for gx in range(GW):
             box = (gx * cw, gy * ch, (gx + 1) * cw, (gy + 1) * ch)
             means, sds = [], []
-            for im in ims:
+            for i, im in enumerate(ims):
                 d = list(im.crop(box).get_flattened_data())
-                means.append(statistics.mean(d)); sds.append(statistics.pstdev(d))
+                m = statistics.mean(d)
+                means.append(m); sds.append(statistics.pstdev(d))
+                cell[i][gy][gx] = m
             detail[gy][gx] = statistics.mean(sds)
-            motion[gy][gx] = statistics.pstdev(means)
             luma[gy][gx]   = statistics.mean(means)
-    return detail, motion, luma
+    fmean = [statistics.mean(c for row in f for c in row) for f in cell]
+    drift = {"frameMeanMin": round(min(fmean), 1),
+             "frameMeanMax": round(max(fmean), 1),
+             "range":        round(max(fmean) - min(fmean), 1),
+             "stdev":        round(statistics.pstdev(fmean), 2)}
+    n = len(ims)
+    motion_raw = [[statistics.pstdev([cell[i][gy][gx] for i in range(n)])
+                   for gx in range(GW)] for gy in range(GH)]
+    motion     = [[statistics.pstdev([cell[i][gy][gx] - fmean[i] for i in range(n)])
+                   for gx in range(GW)] for gy in range(GH)]
+    return detail, motion_raw, motion, luma, drift
 
 def largest_rect(clear):
     """Largest all-clear axis-aligned rectangle. Classic histogram method."""
@@ -103,7 +127,20 @@ def main():
         lo, hi = e.split("-"); excl.append((float(lo), float(hi)))
     times = sample_times(dur, a.frames, excl)
     with tempfile.TemporaryDirectory() as tmp:
-        detail, motion, luma = measure(a.video, times, tmp)
+        detail, motion_raw, motion, luma, drift = measure(a.video, times, tmp)
+
+    if drift["stdev"] > DRIFT_WARN:
+        over = lambda m: sum(1 for y in range(GH) for x in range(GW) if m[y][x] > a.motion_max)
+        print(f"!! GLOBAL EXPOSURE DRIFT. The frame-wide mean moves {drift['range']} luma units "
+              f"(stdev {drift['stdev']}, threshold {DRIFT_WARN}).\n"
+              f"   Every cell shifts together, so measured raw this disqualifies "
+              f"{over(motion_raw)}/{GW * GH} cells\n"
+              f"   against {over(motion)}/{GW * GH} once the drift is removed. The zones below "
+              f"ARE measured with it\n"
+              f"   removed and are correct. The FOOTAGE still pulses: that is the lights or the "
+              f"camera,\n"
+              f"   never the framing. Check ISO is not on auto, and deflicker before editing.\n",
+              file=sys.stderr)
 
     clear = [[detail[y][x] <= a.detail_max and motion[y][x] <= a.motion_max
               for x in range(GW)] for y in range(GH)]
@@ -142,7 +179,10 @@ def main():
             and zones[k]["y"][1] - zones[k]["y"][0] >= HERO_MIN_H]
     hero = max(hero, key=lambda k: zones[k]["x"][1] - zones[k]["x"][0]) if hero else None
     out = {"video": a.video, "measuredFrames": times, "canvas": [CANVAS_W, CANVAS_H],
-           "thresholds": {"detailMax": a.detail_max, "motionMax": a.motion_max},
+           "thresholds": {"detailMax": a.detail_max, "motionMax": a.motion_max,
+                          "driftWarn": DRIFT_WARN},
+           "globalExposureDrift": drift,
+           "motionExposureNormalised": True,
            "zones": zones,
            "heroTypeZone": hero,
            "heroTypeZoneMinimum": {"widthPx": HERO_MIN_W, "heightPx": HERO_MIN_H},
