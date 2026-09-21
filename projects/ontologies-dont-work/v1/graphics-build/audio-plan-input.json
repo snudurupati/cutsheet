@@ -1,0 +1,35 @@
+{
+  "totalSeconds": 49.0,
+  "_why": "Sparse and tied to CONTENT, not to cuts. The finishing skill's rule is a handful of moments per video, never a hit on every cut, so the six part boundaries are deliberately left silent and only four moments are scored. Each file starts early by its own MEASURED peak offset so the transient lands on the beat.",
+  "music": {
+    "file": "audio/soundtracks/atlasaudio-tension-documentary-519912.mp3",
+    "startAt": 49.0,
+    "_startAtWhy": "measured in-point: highest minimum level of any 49s window in the track"
+  },
+  "sfx": [
+    {
+      "file": "audio/sound-effects/ribhavagrawal-woosh-230554.mp3",
+      "at": 0.8,
+      "peakOffset": 0.45,
+      "why": "the first live edge snap in the hook: a 0.15s transient, the shortest event in the library"
+    },
+    {
+      "file": "audio/sound-effects/ribhavagrawal-bomb-explosion-type-04-265508.mp3",
+      "at": 34.8,
+      "peakOffset": 0.1,
+      "why": "the fracture in g005, the single biggest visual event in the piece"
+    },
+    {
+      "file": "audio/sound-effects/musicmbuildings-deep-and-cinematic-woosh-sound-effect-318325.mp3",
+      "at": 39.9,
+      "peakOffset": 1.4,
+      "why": "the graph collapsing into one small file per team, mid-shrink"
+    },
+    {
+      "file": "audio/sound-effects/ribhavagrawal-cinematic-reveal-type-01-265535.mp3",
+      "at": 45.0,
+      "peakOffset": 0.9,
+      "why": "the end card landing"
+    }
+  ]
+}

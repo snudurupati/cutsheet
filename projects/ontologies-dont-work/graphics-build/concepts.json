@@ -1,0 +1,14 @@
+{
+  "source": "projects/ontologies-dont-work/outputs/transcript-cut.json",
+  "fps": 30,
+  "totalSeconds": 49.0,
+  "candidates": [],
+  "signals": [
+    {
+      "kind": "long-beat",
+      "at": 0.2,
+      "seconds": 48.26,
+      "why": "48.3s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    }
+  ]
+}
