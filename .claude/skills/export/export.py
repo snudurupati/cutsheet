@@ -19,7 +19,7 @@ import os, sys, shutil, json, time, subprocess, array, math
 # through to finishing) is the same durable artefact as one carried as .mp4, and naming
 # only the .mp4 listed it for retirement.
 KEEP_ALWAYS_STEMS = ('base-cut', 'transcript-cut', 'audio-plan', 'sections',
-                     'deliverable')
+                     'deliverable', 'base-audio')
 
 
 def _keep_always(name):
@@ -38,9 +38,19 @@ KEEP_ALWAYS = _KeepAlways((
     'transcript-cut.json',     # remapped transcript
     'audio-plan.json',         # so a re-render re-applies the same plan
     'sections.json',
-))
+    'base-audio.wav',          # the voice alone: a music claim is fixed by remixing THIS
+))                             # (with audio-plan.json) and muxing onto the final's video
 # heavy, regenerable, and not the deliverable
 RECLAIMABLE_DIRS = ('outputs/segments', 'outputs/face', 'graphics-build/parts')
+# Render CACHES by contract: the pipeline writes only generated files here (renders,
+# per-segment splices, deflicker command lists, HyperFrames' own work-* folders left
+# by a killed render). They were never in the list above, so every shipped job kept
+# them: ~45GB across 02-04 on 2026-09-24. holds_source() is too blunt for them (a
+# generated .txt or a HyperFrames work .html reads as "source"), so they are guarded
+# only against AUTHORED files, which the pipeline never writes into a cache.
+CACHE_DIRS = ('graphics-build/renders', 'outputs/splice-work', 'outputs/screen-work',
+              'outputs/review')
+AUTHORED_EXT = ('.mjs', '.py', '.md', '.css', '.sh', '.swift', '.ts')
 RECLAIMABLE_FILES = ('outputs/th1080.mp4', 'outputs/sc1080.mp4', 'outputs/sc2160.mp4',
                      'outputs/base-assembled.mov', 'outputs/graphics-head.mp4',
                      'outputs/voice48.wav', 'outputs/concat.txt', 'outputs/segjobs.txt')
@@ -77,6 +87,14 @@ def holds_source(p):
     for r, _, fs in os.walk(p):
         for f in fs:
             if f.endswith(SOURCE_EXT):
+                return True
+    return False
+
+
+def holds_authored(p):
+    for r, _, fs in os.walk(p):
+        for f in fs:
+            if f.endswith(AUTHORED_EXT):
                 return True
     return False
 
@@ -277,7 +295,8 @@ def main():
         if f in KEEP_ALWAYS:
             print(f"      {f}")
     print("      transcript/ (transcript.json, cutsheet.json, the durable record)")
-    print("      graphics-build/ (build.mjs, cutsheet.json, renders, the real progress)")
+    print("      graphics-build/ source (scripts, cutsheet.json, parts/ compositions); renders/ is a cache")
+    print("      raw/, audio/ (music and effects), assets/ (thumbnails): never touched")
 
     # PROMOTE FIRST. Nothing is deleted until the deliverable exists on disk and
     # has been size-verified against what it was promoted from.
@@ -363,10 +382,25 @@ def main():
             # to regenerate.
             print(f"      (the master {newest} is KEPT; pass --drop-master to retire it)")
 
+    # RETIRE happens on --apply, after a verified promote. It used to happen only under
+    # --reclaim, so a plain --apply printed "applied" and deleted nothing: 03 kept 16GB
+    # of drafts after its close-out (found 2026-09-24).
+    if apply_ and drafts:
+        if not promoted_ok:
+            print("\nRETIRE SKIPPED: the promote did not verify, nothing is deleted")
+        else:
+            for rel in drafts:
+                p = os.path.join(job, rel)
+                if os.path.getmtime(p) > deliverable_mtime:
+                    print(f"      KEEP {rel}: newer than the deliverable, never deleted")
+                    continue
+                os.remove(p)
+                print(f"      retired {rel}")
+
     if reclaim:
         print("\nRECLAIM")
         total, seen = 0, set()
-        for rel in RECLAIMABLE_DIRS + RECLAIMABLE_FILES + tuple(drafts):
+        for rel in RECLAIMABLE_DIRS + RECLAIMABLE_FILES:
             p = os.path.join(job, rel)
             if rel in seen or not os.path.exists(p):
                 continue
@@ -384,6 +418,31 @@ def main():
             print(f"      {rel}  ({human(sz)})")
             if apply_:
                 shutil.rmtree(p) if os.path.isdir(p) else os.remove(p)
+        # caches: file by file, so one recent file does not keep 12GB of old renders
+        for rel in CACHE_DIRS:
+            p = os.path.join(job, rel)
+            if not os.path.isdir(p):
+                continue
+            if holds_authored(p):
+                print(f"      SKIP {rel}: holds authored files, not a cache")
+                continue
+            sz = kept = 0
+            for r, _, fs in os.walk(p):
+                for f in fs:
+                    fp = os.path.join(r, f)
+                    if os.path.getmtime(fp) > deliverable_mtime:
+                        kept += 1
+                        continue
+                    sz += os.path.getsize(fp)
+                    if apply_:
+                        os.remove(fp)
+            if apply_:
+                for r, ds, fs in os.walk(p, topdown=False):
+                    if r != p and not os.listdir(r):
+                        os.rmdir(r)
+            total += sz
+            note = f", {kept} file(s) newer than the deliverable kept" if kept else ""
+            print(f"      {rel}/  ({human(sz)}{note})")
         print(f"      total reclaimable: {human(total)}")
 
     print("\napplied" if apply_ else
