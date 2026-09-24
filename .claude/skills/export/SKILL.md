@@ -109,10 +109,18 @@ user wanted for the morning's iteration.
 **1. Dry run by default, always.** Both halves print exactly what they would promote, delete and
 keep, and do nothing until an explicit `--apply` flag is passed after the plan has been read.
 
-The RETIRE list is only deleted with `--reclaim --apply`. A bare `--apply` promotes and writes
-`deliverable.json`, prints "applied" and deletes nothing. On 04-lightweight-ontology that looked
-like a finished cleanup with all three drafts still on disk. Run `--reclaim` (dry) first and check
-its list against the plan the human approved.
+`--apply` promotes, writes `deliverable.json` and retires the RETIRE drafts after a verified
+promote. `--reclaim --apply` also clears the render caches (`graphics-build/renders`,
+`outputs/splice-work`, `outputs/screen-work`, `outputs/review`), file by file: anything newer
+than the deliverable is kept and reported, and a cache holding authored files is refused. Until
+2026-09-24 drafts were only deleted under `--reclaim` and the caches were never in the list, so
+every shipped job kept its renders and 03 kept 16GB of drafts after "applied".
+
+**What survives a close-out:** `raw/`, `audio/` (music and effects), `transcript/`, the
+`graphics-build/` source including `parts/`, `assets/` (thumbnails), and in `outputs/` the base
+cut, `base-audio.wav` (the voice alone, which is what a music claim needs: remix it with the audio
+plan and mux onto the final's video), the audio plan, the cut transcript, the final MP4, the
+publish sidecars and the lossless master `finished.mov` (unless `--drop-master`).
 
 ```bash
 python3 .claude/skills/export/export.py projects/<job>            # prints the plan, changes nothing
