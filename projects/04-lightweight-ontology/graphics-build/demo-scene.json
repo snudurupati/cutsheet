@@ -1,0 +1,11 @@
+{
+ "enters": {
+  "cutSeconds": 140.7,
+  "frame": 4221
+ },
+ "leaves": {
+  "cutSeconds": 1126.733,
+  "frame": 33802
+ },
+ "_why": "DERIVED from transcript/cutsheet.json (first and last demo-section frame on the cut). Never hand-edited; validate_cutsheet.py --demo-scene asserts it against the cutsheet."
+}

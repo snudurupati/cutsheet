@@ -1,0 +1,431 @@
+{
+ "span": {
+  "start": 140.7,
+  "end": 1126.733,
+  "_why": "copied from demo-scene.json, which is derived from the cutsheet"
+ },
+ "base": "outputs/base-cut.mov",
+ "screen": "outputs/base-screen.mp4",
+ "_screenWhy": "demo segments only, cut per segment from each session's own screen clip, sidebar list blurred in source space (leak.json)",
+ "inset": {
+  "sourceCrop": {
+   "w": 1760,
+   "h": 1760,
+   "x": 1250,
+   "y": 330
+  },
+  "_sourceCropWhy": "four crops compared at six points across this demo (1760@1250,330 / 1760@1400,330 / 1900@1300,260 / 1650@1450,420). 1250 keeps the head centred with headroom and the chin clear of the mic at all six; 1400 drifts the head left, 1900 pulls in the toys and shelf, 1650 crowds the chin and clips hair.",
+  "_delivery": {
+   "width": 960,
+   "height": 960,
+   "left": 2736,
+   "top": 1056,
+   "radius": 48,
+   "repositionSeconds": 0.6,
+   "enterSeconds": 0.5,
+   "exitSeconds": 0.35
+  },
+  "reposition": [
+   {
+    "start": 221.87,
+    "end": 341.0
+   },
+   {
+    "start": 710.5,
+    "end": 769.0
+   }
+  ],
+  "_repositionWhy": "measured, not read off a player: once a second through the demo, pixel detail under the bottom-right inset box vs its bottom-left mirror (inset-occlusion.json). Content under BR only at 3:53-4:14 and 4:47-6:00 (AGENTS.md/REQUIREMENTS.md pane, then the prompt and build summary) and 12:06-12:49 (BUILD_REPORT.md pane). The first two are one window because BL stays clear (detail 0.7) through the 33s gap between them: one slide beats a left-right-left fidget. Slides per style.json, never jumps. Refined 2026-09-22 on rendered frames: at 1s sampling the first slide started after the AGENTS.md pane had opened, so each window now starts 1s before the first OCR sighting of its content. The second window starts at 716.4, 1s before BUILD_REPORT.md's 'Business decisions I could not make' is first read by OCR (717.4): both corners are busy there, and the report being read aloud outranks the chat column under bottom-left. Review 2026-09-22: the BUILD_REPORT pane opens at ~710.5 (before OCR could read its text), so the second slide starts there. Human decision 2026-09-23: the first window now ends at 341.0 (it ran to 360), so the inset is back bottom-RIGHT when it reappears after g06b at 341.5; the agent's progress text under bottom-left (5:42-6:02) matters more than what is under bottom-right there. The slide completes while the inset is hidden.",
+  "hiddenDuring": [
+   {
+    "start": 181.4,
+    "end": 187.4,
+    "why": "the inset steps aside for every punch-in; windows under 2s apart are merged"
+   },
+   {
+    "start": 233.9,
+    "end": 271.0,
+    "why": "the inset steps aside for every punch-in; windows under 2s apart are merged"
+   },
+   {
+    "start": 283.0,
+    "end": 341.5,
+    "why": "the inset steps aside for every punch-in; windows under 2s apart are merged"
+   },
+   {
+    "start": 470.0,
+    "end": 486.0,
+    "why": "the inset steps aside for every punch-in; windows under 2s apart are merged"
+   },
+   {
+    "start": 514.5,
+    "end": 558.3,
+    "why": "the inset steps aside for every punch-in; windows under 2s apart are merged"
+   },
+   {
+    "start": 567.5,
+    "end": 576.0,
+    "why": "the inset steps aside for every punch-in; windows under 2s apart are merged"
+   },
+   {
+    "start": 667.8,
+    "end": 676.0,
+    "why": "the inset steps aside for every punch-in; windows under 2s apart are merged"
+   },
+   {
+    "start": 727.0,
+    "end": 752.0,
+    "why": "the inset steps aside for every punch-in; windows under 2s apart are merged"
+   },
+   {
+    "start": 821.5,
+    "end": 850.0,
+    "why": "the inset steps aside for every punch-in; windows under 2s apart are merged"
+   },
+   {
+    "start": 913.0,
+    "end": 922.0,
+    "why": "the inset steps aside for every punch-in; windows under 2s apart are merged"
+   },
+   {
+    "start": 976.5,
+    "end": 985.5,
+    "why": "the inset steps aside for every punch-in; windows under 2s apart are merged"
+   },
+   {
+    "start": 1014.3,
+    "end": 1031.0,
+    "why": "the inset steps aside for every punch-in; windows under 2s apart are merged"
+   },
+   {
+    "start": 1040.5,
+    "end": 1050.0,
+    "why": "the inset steps aside for every punch-in; windows under 2s apart are merged"
+   },
+   {
+    "start": 1086.3,
+    "end": 1102.5,
+    "why": "the inset steps aside for every punch-in; windows under 2s apart are merged"
+   }
+  ]
+ },
+ "punchIns": {
+  "items": [
+   {
+    "id": "g05a",
+    "start": 181.4,
+    "end": 187.4,
+    "cx": 1885,
+    "cy": 455,
+    "zoom": 1.8,
+    "box": [
+     900,
+     395,
+     2870,
+     510
+    ],
+    "framing": "full",
+    "target": "the agent's git check: 'You're on ep04-demo and the working tree is clean'. Human decision 2026-09-23 (the optional punch-in), on 'the git status short is clean, which means no files have been modified'."
+   },
+   {
+    "id": "g05c",
+    "start": 233.9,
+    "end": 245.1,
+    "cx": 2474,
+    "cy": 600,
+    "zoom": 2.6,
+    "box": [
+     1908,
+     440,
+     3040,
+     760
+    ],
+    "framing": "full",
+    "target": "CONVENTIONS.md: Source File Definition (feed, feed type), the business rules"
+   },
+   {
+    "id": "g05d",
+    "start": 243.9,
+    "end": 257.2,
+    "cx": 2734,
+    "cy": 545,
+    "zoom": 1.86,
+    "box": [
+     1908,
+     370,
+     3560,
+     720
+    ],
+    "framing": "full",
+    "target": "STANDARDS.md: the Layers table, the build standards"
+   },
+   {
+    "id": "g05b",
+    "start": 256.0,
+    "end": 271.0,
+    "cx": 2726,
+    "cy": 299,
+    "zoom": 1.88,
+    "box": [
+     1908,
+     178,
+     3543,
+     420
+    ],
+    "framing": "full",
+    "target": "REQUIREMENTS.md 'Reporting requirements': the new, third file (composition review 2026-09-22)"
+   },
+   {
+    "id": "g06p",
+    "start": 284.5,
+    "end": 291.1,
+    "cx": 1415,
+    "cy": 1680,
+    "zoom": 2.2,
+    "box": [
+     931,
+     1320,
+     1900,
+     2040
+    ],
+    "framing": "full",
+    "target": "the prompt IN THE INPUT BOX while he pastes it and clicks go (4:44-4:51). It PANS on into g06 (overlapping it by exactly one ramp) as the prompt moves into the chat at 291.1. Human 2026-09-23: the single g06 framing was on the chat area, which is empty until 291.1, so 4:45-4:50 zoomed in on white space.",
+    "rampOut": 1,
+    "_endWhy": "the prompt JUMPS from the input box to the chat between frames 291.067 and 291.100 (measured on the render), so the framing switches on exactly that frame: a 1-frame change that reads as the screen's own cut. 2 frames left one half-way frame, 9 left 6, 36 left ~21 (verification 2026-09-23)."
+   },
+   {
+    "id": "g06",
+    "start": 291.067,
+    "end": 320.8,
+    "cx": 2686,
+    "cy": 1024,
+    "zoom": 2.14,
+    "target": "the pasted prompt: AGENTS.md first, then CONVENTIONS/STANDARDS/REQUIREMENTS, build, report",
+    "box": [
+     2170,
+     619,
+     3203,
+     1428
+    ],
+    "_startWhy": "starts when the prompt lands in the chat (OCR 291.1); before that it is in the input box, which g06p frames (2026-09-23)",
+    "rampIn": 1
+   },
+   {
+    "id": "g06b",
+    "start": 319.6,
+    "end": 341.5,
+    "cx": 2648,
+    "cy": 500,
+    "zoom": 2.6,
+    "box": [
+     2176,
+     470,
+     3120,
+     530
+    ],
+    "framing": "full",
+    "target": "the build-report instruction line, tight (review: reframe tighter, mark it)"
+   },
+   {
+    "id": "g07b",
+    "start": 470.0,
+    "end": 486.0,
+    "cx": 380,
+    "cy": 1400,
+    "zoom": 2.6,
+    "box": [
+     60,
+     1240,
+     700,
+     1560
+    ],
+    "framing": "full",
+    "target": "show tables: the marts the agent built, fct_daily_branch_sales boxed (the setup for g10)"
+   },
+   {
+    "id": "g08+g09",
+    "start": 514.5,
+    "end": 558.3,
+    "cx": 1105,
+    "cy": 1747,
+    "zoom": 1.8,
+    "box": [
+     44,
+     1473,
+     1100,
+     2021
+    ],
+    "framing": "left",
+    "target": "files = warehouse 2187780.17, then the rookie join and 7449106.52. LEFT-half framing at 1.8x so the join clause stays visible (review: at 2.34x the panel hid it). Ends 1.3s after the diagram leaves, so zoom-out and panel exit do not coincide"
+   },
+   {
+    "id": "g10",
+    "start": 567.5,
+    "end": 572.1,
+    "cx": 596,
+    "cy": 1880,
+    "zoom": 2.6,
+    "box": [
+     44,
+     1813,
+     1149,
+     1948
+    ],
+    "framing": "full",
+    "target": "Catalog Error: did you mean fct_daily_branch_sales. Short ramps (0.5s) so it holds ~3.3s before he scrolls up at ~572",
+    "ramp": 15,
+    "_endWhy": "holds through 'doesn't exist.' (571.38); the screen scrolls away at 571.6 (measured on base-screen), so the 0.5s zoom-out starts there. Review 2026-09-23: it had zoomed out before the landing word."
+   },
+   {
+    "id": "g12",
+    "start": 667.8,
+    "end": 676.0,
+    "cx": 677,
+    "cy": 1872,
+    "zoom": 2.43,
+    "target": "count 187, 1861558.08, WHERE branch_id <> 'WEB' included on purpose",
+    "box": [
+     44,
+     1724,
+     1310,
+     2021
+    ]
+   },
+   {
+    "id": "g13",
+    "start": 727.0,
+    "end": 752.0,
+    "cx": 2916,
+    "cy": 1118,
+    "zoom": 1.96,
+    "target": "BUILD_REPORT.md item 3, the ERP-orders-at-branches decision",
+    "box": [
+     2131,
+     1014,
+     3700,
+     1222
+    ]
+   },
+   {
+    "id": "g14",
+    "start": 821.5,
+    "end": 850.0,
+    "cx": 1334,
+    "cy": 1872,
+    "zoom": 2.6,
+    "box": [
+     781,
+     1724,
+     1886,
+     2021
+    ],
+    "framing": "full",
+    "target": "the LOWER result only as the target: avg(margin_percent) query start and 40.5 vs 33.3. The duplicate above cannot be cropped out at a usable zoom, so marks carry the argument (strike on 40.5, box on 33.3)"
+   },
+   {
+    "id": "g15a",
+    "start": 913.0,
+    "end": 922.0,
+    "cx": 1625,
+    "cy": 1674,
+    "zoom": 2.22,
+    "box": [
+     781,
+     1763,
+     2165,
+     2021
+    ],
+    "framing": "full",
+    "target": "till_rows 1845, the BEFORE. Same framing as g15 so the pair reads as before/after"
+   },
+   {
+    "id": "g15",
+    "start": 976.5,
+    "end": 985.5,
+    "cx": 1625,
+    "cy": 1674,
+    "zoom": 2.22,
+    "box": [
+     781,
+     1763,
+     2165,
+     2021
+    ],
+    "framing": "full",
+    "target": "till_rows 2773, the AFTER; framed right of the sidebar, same as g15a"
+   },
+   {
+    "id": "g16",
+    "start": 1014.3,
+    "end": 1031.0,
+    "cx": 1526,
+    "cy": 1669,
+    "zoom": 2.2,
+    "target": "the refund row: T92746, BR04, -380.52, -1 (read on the rendered crop)",
+    "box": [
+     826,
+     1769,
+     2225,
+     2020
+    ]
+   },
+   {
+    "id": "g16b",
+    "start": 1040.5,
+    "end": 1050.0,
+    "cx": 1384,
+    "cy": 1914,
+    "zoom": 2.6,
+    "box": [
+     820,
+     1808,
+     1947,
+     2021
+    ],
+    "framing": "full",
+    "target": "the void: T92595, BR06, sale_amount 0.00 (review: the void was the one test case with no punch-in)"
+   },
+   {
+    "id": "g17",
+    "start": 1086.3,
+    "end": 1096.0,
+    "cx": 1250,
+    "cy": 1764,
+    "zoom": 2.6,
+    "target": "two files on one night, 81 + 24, and rows_delivered 105",
+    "box": [
+     780,
+     1507,
+     1720,
+     2021
+    ]
+   },
+   {
+    "id": "g17b",
+    "start": 1094.8,
+    "end": 1102.5,
+    "cx": 1500,
+    "cy": 1925,
+    "zoom": 2.6,
+    "box": [
+     1300,
+     1830,
+     1700,
+     2020
+    ],
+    "framing": "full",
+    "target": "the mart's transaction_count 105: the delivered rows arrived. PANS on from g17 (overlaps it by exactly one ramp), holds through 'that worked fine' (1101.6). Composition review 2026-09-23: the win was unmarked."
+   }
+  ],
+  "_why": "windows from screen-ocr.json (first second the target text is on screen and still there at the window's end), crops from the OCR boxes of that text; zoom = fill ~80% of the frame (or the left half), clamped 1.6-2.6. Rendered and READ before commit."
+ },
+ "screenMask": [
+  {
+   "x": 3816,
+   "y": 2,
+   "w": 22,
+   "h": 20,
+   "why": "macOS camera-in-use indicator (green, measured at x 3824-3831, y 8-15 through the whole demo). Brand has no green and it reads as a tell (technical review 2026-09-23). Filled from its surroundings with delogo."
+  }
+ ]
+}

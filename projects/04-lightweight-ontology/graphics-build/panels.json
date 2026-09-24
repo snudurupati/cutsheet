@@ -1,0 +1,245 @@
+{
+ "g01": {
+  "min": 102.0,
+  "max": 102.5,
+  "mean": 102.2,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "light"
+ },
+ "g02": {
+  "min": 102.1,
+  "max": 104.3,
+  "mean": 102.9,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "light"
+ },
+ "g04": {
+  "min": 101.6,
+  "max": 102.1,
+  "mean": 101.9,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "light"
+ },
+ "g05": {
+  "min": 104.0,
+  "max": 105.0,
+  "mean": 104.6,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g06b": {
+  "min": 103.2,
+  "max": 105.1,
+  "mean": 103.9,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g07": {
+  "min": 105.0,
+  "max": 105.6,
+  "mean": 105.2,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g07b": {
+  "min": 105.8,
+  "max": 106.8,
+  "mean": 106.1,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g09": {
+  "min": 105.3,
+  "max": 108.5,
+  "mean": 106.4,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g10": {
+  "min": 105.4,
+  "max": 107.1,
+  "mean": 106.3,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g11": {
+  "min": 104.0,
+  "max": 106.3,
+  "mean": 105.0,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g12": {
+  "min": 104.0,
+  "max": 106.1,
+  "mean": 104.9,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g13": {
+  "min": 105.6,
+  "max": 106.5,
+  "mean": 106.1,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g14": {
+  "min": 106.8,
+  "max": 108.1,
+  "mean": 107.4,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g15a": {
+  "min": 105.6,
+  "max": 107.3,
+  "mean": 106.2,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g15": {
+  "min": 106.7,
+  "max": 110.5,
+  "mean": 108.0,
+  "meanTreatment": "light",
+  "spansThreshold": true,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g16": {
+  "min": 106.0,
+  "max": 107.1,
+  "mean": 106.5,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g16b": {
+  "min": 106.9,
+  "max": 108.3,
+  "mean": 107.6,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g17": {
+  "min": 105.2,
+  "max": 109.1,
+  "mean": 107.6,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g18": {
+  "min": 103.6,
+  "max": 105.2,
+  "mean": 104.4,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "light"
+ },
+ "g19": {
+  "min": 104.2,
+  "max": 105.0,
+  "mean": 104.6,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "light"
+ },
+ "g20": {
+  "min": 104.2,
+  "max": 105.2,
+  "mean": 104.7,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "light"
+ },
+ "g21": {
+  "min": 104.0,
+  "max": 105.6,
+  "mean": 104.6,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "light"
+ },
+ "g22": {
+  "min": 104.1,
+  "max": 104.6,
+  "mean": 104.4,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": false,
+  "treatment": "light"
+ },
+ "g08": {
+  "min": 106.0,
+  "max": 106.4,
+  "mean": 106.2,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g17b": {
+  "min": 105.5,
+  "max": 107.8,
+  "mean": 106.4,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ },
+ "g17r": {
+  "min": 108.3,
+  "max": 110.4,
+  "mean": 109.4,
+  "meanTreatment": "light",
+  "spansThreshold": true,
+  "overScreen": false,
+  "treatment": "lightReinforced"
+ },
+ "g05a": {
+  "min": 103.4,
+  "max": 104.3,
+  "mean": 103.9,
+  "meanTreatment": "light",
+  "spansThreshold": false,
+  "overScreen": true,
+  "treatment": "opaque"
+ }
+}
