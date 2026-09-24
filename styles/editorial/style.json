@@ -89,7 +89,9 @@
   "alternativesOfferedToHuman": true,
   "_alternativesWhy": "the OBJECT is still a human choice, offered as two or three candidates the way rough-cut offers three hook lines. What is not a choice is whether the hook is drawn.",
   "payoffObjectPreviewWhen": "the analogy lands within a few seconds of the hook",
-  "_payoffObjectPreviewWhy": "Narrowed 2026-09-08 on 03-project-context, with the human's authorisation. The rule used to be unconditional, so the hook drew the architect's building at 0:00 while the voice was on 'your AI demos look brilliant and your POCs work great'. His note: the graphic is out of context. He is right. The analogy is not mentioned until 0:18 and does not pay off until 24:52, so previewing it in the first nine seconds is a non-sequitur, not a setup. The hook falls back to defaultObject: the video's own subject drawn as line art and put under load until it fails or strains. Preview the payoff object only when the analogy follows almost immediately, where the viewer can still connect the two."
+  "_payoffObjectPreviewWhy": "Narrowed 2026-09-08 on 03-project-context, with the human's authorisation. The rule used to be unconditional, so the hook drew the architect's building at 0:00 while the voice was on 'your AI demos look brilliant and your POCs work great'. His note: the graphic is out of context. He is right. The analogy is not mentioned until 0:18 and does not pay off until 24:52, so previewing it in the first nine seconds is a non-sequitur, not a setup. The hook falls back to defaultObject: the video's own subject drawn as line art and put under load until it fails or strains. Preview the payoff object only when the analogy follows almost immediately, where the viewer can still connect the two.",
+  "graphicEntersOn": "firstClauseBreak",
+  "_graphicEntersOnWhy": "2026-09-23, human decision on 04-lightweight-ontology. Frame 1 carries motion through the push on the face (opensOnMotion); the drawn object enters on the first clause break after the opening words, 0.2s before the cue word ('because' at 2.0s), and the hook sfx is derived from the same cue. A graphic on frame 0 sat over an awkward first frame and arrived before the viewer knew what it was about."
  },
  "graphics": {
   "kinds": [
@@ -474,7 +476,7 @@
   },
   {
    "date": "2026-08-31",
-   "rule": "Music bed is -9 dB under the measured voice, not -18. Judge a bed by ear, not by the number."
+   "rule": "Music bed sits at musicBedDb under the measured voice (-9 from 2026-08-31, lowered to -12 on 2026-09-09 when -9 was too loud). Never -18: inaudible. Judge a bed by ear, not by the number."
   },
   {
    "date": "2026-08-31",
@@ -563,6 +565,14 @@
   {
    "date": "2026-09-09",
    "rule": "Full-frame takeovers of 20s or longer carry a 1.00 -> 1.03 drift over the whole beat. The existing rule said any beat 20s+ carries continuous motion, but a review reported ten beats as frozen and that was misleading: eight of them were cards over the screen recording, where the card is static (0.004) but the frame is not (0.418), which is ordinary editing and needs no fix. Only the two full-frame takeovers actually froze the picture, at 0.000. Measure the FULL FRAME before calling a held graphic a frozen frame, not the element's own box, or eight non-issues get reported alongside the two real ones."
+  },
+  {
+   "date": "2026-09-23",
+   "rule": "Wins are marked as loudly as misses. Every success the speaker calls out while checking results gets a mark at least as strong as a failure's: on a punch-in an $accent box with a label, on a card a drawn tick. On 04-lightweight-ontology the misses had strikes, accent boxes and labels while the wins ('matches to the T', 'understood the nuance', 'found an ambiguity', 'all 105 in the mart') had nothing, so the edit argued the opposite of the speaker's verdict."
+  },
+  {
+   "date": "2026-09-23",
+   "rule": "The hook opens on a push from frame 1 (opensOnMotion unchanged) and the drawn object lands on the first clause break after the opening words, not on frame 0 (hook.graphicEntersOn). Its sound effect is derived from the same transcript cue."
   }
  ]
 }

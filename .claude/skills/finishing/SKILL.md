@@ -35,10 +35,10 @@ Voice, casing, chunking and safe-zone position all come from `brand.md` → `cap
 ## 2. Music
 
 - A **flat bed at `style.json` → `audio.musicBedDb`**, relative to the measured voice.
-  Read the number from the style file rather than repeating it here: it was −18 until
-  2026-08-31, when the human A/B'd −18/−12/−9/−6 and picked **−9**, because at −18 they
-  could not hear the bed at all. A number pinned in this skill just goes stale against
-  the decision that overruled it.
+  Read the number from the style file rather than repeating it here. Its history, for
+  context only: −18 until 2026-08-31 (inaudible), then −9 from a four-way A/B, then −12 on
+  2026-09-09 when −9 proved too loud under the intro and outro. The knob and its `_why`
+  are the record; this paragraph already went stale once by quoting a number.
 - **No ducking. No fade-in.** A short fade-out on the tail.
 - The track is **user-supplied and licensed**. This skill never downloads one. If `audio/` is empty,
   stop and ask.
@@ -72,8 +72,8 @@ produced false alarms on one job:
   whose per-sample mean sits ~3 dB below the mono source. That is channel conversion, not level loss.
 
 A bed at `musicBedDb` under speech shifts the programme mean by only a few tenths of a dB. That is
-what a bed *is* — check its LUFS against the voice's LUFS (it should land `musicBedDb` down, so
-9 dB down at the current setting), not the mean of
+what a bed *is* — check its LUFS against the voice's LUFS (it should land `musicBedDb` down,
+whatever the knob currently says), not the mean of
 the mix.
 
 ## Write the plan to disk

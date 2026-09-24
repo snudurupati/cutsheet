@@ -648,6 +648,73 @@ capture path does not apply `deviceScaleFactor` and would silently emit composit
 frames. So the DPR shortcut that works for opaque MP4 renders is unavailable for every overlay, and
 the scale has to live in the CSS.
 
+## Found on 04-lightweight-ontology, 2026-09-22
+
+- **Punch-ins on a screen recording are timed by what the screen shows, not by what is said.**
+  Speech runs ahead of typing: "let me run the tests" is spoken seconds before the command
+  appears. OCR the screen track (macOS Vision is enough), find the frame where the target text
+  first appears, and start the zoom there. A speech-timed punch-in lands on an empty prompt.
+- **A mark drawn over a punched-in screen sits in an SVG the size of its box, never a full-frame
+  SVG.** A 3840×2160 SVG with one small path in it made the static-frame sweep read the part as
+  frozen and failed the seek check. Take the box from the OCR result and map it through the zoom
+  geometry of that punch-in (scale and origin at the plateau), not from a guess in canvas pixels.
+- **Draw a tick or underline above the box it annotates, not beneath it.** Placed in the same
+  stacking order as the answer box, the tick rendered under it and read as missing.
+- **Lay out big type from measured glyph widths.** Measure the string with PIL and the real font
+  file from `assets/fonts/` at the target size. Character counts lie at 160px and above: "It works."
+  at 180px is 746px wide against a 684px zone, and it overlapped when estimated.
+- **Visibility is an opacity tween, never a callback.** An `onStart` that shows an element does not
+  fire when the renderer seeks past it, so the element is missing on every frame after a seek.
+- **Scope draw-on selectors to their own group.** A sibling selector such as `#hR ~ div .dr`
+  matched outlines in a later group and drew them early.
+- **The composite gate samples an overlay where its own render has ink, and compares only those
+  pixels.** A mark that lands on its spoken cue is legitimately empty for the first seconds of its
+  part, and a thin 4K outline moves a whole-frame mean by under 0.4. Walk forward to the first
+  frame whose alpha has content, then diff render against the underlying footage on that alpha
+  mask. A present layer reads above 100, a missing one near 1.
+- **A card that enters twice holds hidden only before its FIRST entrance.** The "hold hidden
+  until the entrance" tween runs from frame 0, so a second one for a re-entry hid the whole first
+  appearance: g04's first 30 seconds never rendered. The earlier wipe-out's opacity 0 already
+  covers the gap between exit and re-entry.
+- **Every late entrance gets the hold, however late.** A threshold (`t >= 0.25s`) let an end card
+  entering at 0.07s show fully formed on frame 0, blink out, then wipe in.
+- **A composition's length is gated against its part in the cut sheet, never against itself.**
+  The cut sheet moved a part's start 2.2s earlier after its composition was built. The render
+  matched the stale composition exactly, so a frame check that compared the two passed, and the
+  overlay ran out 2.2s before its part ended. Check composition length against
+  `endFrame - startFrame` before rendering or skipping, and check render length again at
+  composite time.
+- **One ramp length, read in one place.** A punch-in with its own short ramp was honoured by the
+  mark builder but not by the FFmpeg zoom, which zoomed out 0.7s early under marks that stayed put
+  and drifted onto the wrong lines.
+- **Interpolate the zoom WINDOW, not centre and zoom factor.** Blending the two separately lets the
+  window slide past the target mid-ramp and crop its text at the frame edge. Blend the window's
+  left, top and width between full frame and the target window: anything inside both end windows
+  stays inside every blend.
+- **Labels on a punch-in go where they cover the least text.** A fixed "above the mark" rule put
+  labels over the words being read in eight parts. Map every OCR run through the zoom and search
+  for the position with the least text under it, closest to its mark, clear of the inset corner,
+  with a leader line when it has to sit away.
+- **Frame the text where it is at every moment of the punch-in, not where it ends up.** A pasted
+  prompt sits in the chat app's input box until "go", then jumps into the conversation. One
+  framing taken from the later OCR zoomed on empty space for the first six seconds. When the
+  OCR shows the target moving, split the punch-in into two framings chained by a pan that starts
+  on the frame it moves.
+- **A dashed stroke cannot be hidden by its dash offset.** Offset only slides the pattern, so a
+  dashed placeholder was on screen from the part's first frame. Reveal dashed shapes by opacity.
+- **The seek check reads geometry, not paint.** A part made only of line marks that change dash
+  offset and opacity has identical element geometry at every sample and fails `sweep_static`.
+  Give each mark a small positional settle on entrance.
+- **Marks leave before the screen under them changes**, not only before the zoom-out. Find the
+  scroll between OCR samples and end the marks before it.
+- **Chips avoid pixel detail, not only OCR text.** OCR does not see table rules and borders, and
+  chips sat across them. Score candidate positions on the edge energy of the real zoomed frame too.
+- **Mark the wins as loudly as the misses.** Strikes, accent boxes and labels on every failure and
+  nothing on "matches to the T" tells the viewer the opposite of the video's argument.
+- **Every chained pipeline command runs under `set -euo pipefail`.** A failed re-splice piped
+  through `grep` exited 0, and the next step rebuilt the demo scene from the stale, unblurred
+  screen track. Sequence stages in a script, never in an ad hoc chain.
+
 ## Linter and workflow notes
 
 - **Lint and validate are the gate.** Run both on every part before rendering:

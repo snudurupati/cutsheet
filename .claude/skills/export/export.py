@@ -298,22 +298,24 @@ def main():
         promoted_ok = verify_promoted(src, final)
         if not promoted_ok:
             print("PROMOTE FAILED verification. Nothing will be retired.")
-        if promoted_ok:
-            json.dump({'name': os.path.basename(final),
-                       'bytes': os.path.getsize(final),
-                       'mtime': os.path.getmtime(final),
-                       'promotedFrom': os.path.basename(src),
-                       'when': time.strftime('%Y-%m-%d %H:%M:%S'),
-                       '_why': ('identity of the shipped file. A later run resolves the '
-                                'deliverable through this, not through a filename prefix. '
-                                'On 2026-08-31 the promoted file lost its "02-" prefix to '
-                                'something outside this pipeline and the prefix test '
-                                'reclassified it as a superseded draft; only the mtime guard '
-                                'kept it out of the delete list, and that was luck.')},
-                      open(os.path.join(outdir, 'deliverable.json'), 'w'), indent=2)
-        if copy_to and promoted_ok:
-            os.makedirs(copy_to, exist_ok=True)
-            shutil.copy2(final, os.path.join(copy_to, os.path.basename(final)))
+    # after EITHER branch: an already-promoted file used to skip the record entirely
+    # (2026-09-23, 04-lightweight-ontology), leaving later runs no identity for it
+    if apply_ and promoted_ok:
+        json.dump({'name': os.path.basename(final),
+                   'bytes': os.path.getsize(final),
+                   'mtime': os.path.getmtime(final),
+                   'promotedFrom': os.path.basename(src),
+                   'when': time.strftime('%Y-%m-%d %H:%M:%S'),
+                   '_why': ('identity of the shipped file. A later run resolves the '
+                            'deliverable through this, not through a filename prefix. '
+                            'On 2026-08-31 the promoted file lost its "02-" prefix to '
+                            'something outside this pipeline and the prefix test '
+                            'reclassified it as a superseded draft; only the mtime guard '
+                            'kept it out of the delete list, and that was luck.')},
+                  open(os.path.join(outdir, 'deliverable.json'), 'w'), indent=2)
+    if apply_ and copy_to and promoted_ok:
+        os.makedirs(copy_to, exist_ok=True)
+        shutil.copy2(final, os.path.join(copy_to, os.path.basename(final)))
 
     # Resolve the shipped file even if it was renamed outside this pipeline.
     shipped = set()

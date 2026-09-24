@@ -64,17 +64,17 @@ they appear, this file decides what they say.
 These two are what a lower third says, and they had to be guessed on 2026-08-30 because this file
 only carried the channel name and the handle.
 
-**Channel:** AI for the Working Data Engineer — handle `@srnudurupati`.
+**Channel:** AI for the Working Data Engineer. Handle `@snudurupati`.
 The handle is a person's name by choice; the channel name is carried on screen above it
 where a format has room for two lines, and omitted where it does not.
 
 | Channel | Label on screen | Value |
 |---------|-----------------|-------|
-| YouTube | `like and subscribe` | `@srnudurupati` |
+| YouTube | `like and subscribe` | `@snudurupati` |
 | Blog | `blog` | `https://www.nudurupati.co/` |
 | GitHub | `github` | `https://github.com/snudurupati` |
 | LinkedIn | `linkedin` | `in/snudurupati` |
-| X | `x` | `@srnudurupati` |
+| X | `x` | `@srnudurupati` (the one exception: the usual handle was not available on X) |
 
 **Cues are matched first-wins in spoken order**, so each list must be ordered
 most-specific-first and must not contain a word that is ordinary English in context.
@@ -179,11 +179,11 @@ Skills parse this. Keep it in sync with the tables above.
   },
   "channel": {
     "name": "AI for the Working Data Engineer",
-    "handle": "@srnudurupati",
+    "handle": "@snudurupati",
     "_why": "the handle is a person's name by choice. Where an end card has room for two lines, the channel NAME goes above the handle; where it does not, the handle alone is correct and complete. Added 2026-08-20; still-data-engineer shipped with handle only, which is not a defect."
   },
   "links": [
-    { "id": "youtube",  "label": "like and subscribe", "value": "@srnudurupati",
+    { "id": "youtube",  "label": "like and subscribe", "value": "@snudurupati",
       "channelName": "AI for the Working Data Engineer",
       "cues": ["youtube", "subscribe", "channel"] },
     { "id": "blog",     "label": "blog",     "value": "https://www.nudurupati.co/",
@@ -193,6 +193,7 @@ Skills parse this. Keep it in sync with the tables above.
     { "id": "linkedin", "label": "linkedin", "value": "in/snudurupati",
       "cues": ["linkedin", "connect"] },
     { "id": "x",        "label": "x",        "value": "@srnudurupati",
+      "_valueWhy": "the ONE handle that differs: @snudurupati was not available on X (human, 2026-09-23). Every other channel is snudurupati.",
       "cues": ["twitter"], "noCueFallback": "lands with the final cued row" },
     { "_note": "noCueFallback is NOT specific to x. Whichever channel goes unmentioned takes it. On 02-first-agent, x WAS cued (\"or Twitter\") and BLOG was never spoken, so blog took the fallback. Match cues against the closing section only: \"repo\" appears 10 times earlier in that video and would have fired the github row at 2:22 instead of 12:33." }
   ],

@@ -151,7 +151,12 @@ Satoshi Black adds nothing and spends the one moment they are deciding.
 - **Take the video's own subject and put it under load.** The object is whatever the video is
   actually about, drawn as line art, then pushed until it strains, jams, stalls or fails. That
   failure is the hook: it poses the question the video answers, without stating it.
-- **Frame 1 already carries movement.** A static opening frame is a frame people leave on.
+- **Frame 1 already carries movement, and the drawn object lands on the first clause break.** A
+  static opening frame is a frame people leave on, so the video opens on the face with a slow `push`
+  from frame 1. The drawn object then enters on the first clause break after the opening words
+  ("AI hallucinates / **because** it doesn't understand...", 2.0s on 04-lightweight-ontology), not on
+  frame 0. Resolved 2026-09-23 by the human: a graphic on frame 0 sat over an awkward first frame of a
+  talking-head cut and landed before the viewer had heard what it was about.
 - **The object is chosen by the human**, offered as two or three candidates the way `rough-cut`
   offers three hook lines. What is *not* a choice is whether the hook is drawn.
 - **Where the object recurs later, the hook is its first, unresolved appearance.** Its return is
@@ -218,8 +223,9 @@ Long form, 1920×1080 frame:
 - The inset enters once and leaves once, exactly like `panel`. No bouncing.
 - It **may move to the opposite corner, or fade out entirely**, for a span where the screen
   content needs the space: a slide whose columns are building, or a diagram using the whole
-  frame. Use the same enter and exit mechanic, and jump position on an existing cut boundary
-  so the move is invisible. The one-entry rule is about the frame changing between full and
+  frame. A fade uses the same enter and exit mechanic. A corner change **slides** over 0.6s
+  with a smoothstep ease (see Transitions), so the move is seen to happen rather than
+  teleporting on a cut. The one-entry rule is about the frame changing between full and
   picture-in-picture; here the frame is unchanged and only the inset moves, so that rule is
   not the one in play. `style.json` carries the permission.
 
@@ -418,8 +424,23 @@ Corrections that should apply to every future video get appended here (and to `l
   above" was not enough: the lower band runs `x 96 → 1824`, so it passes under the chin and mouth. The
   hook card and the verdict card both landed on the speaker's face, and the human noted this had
   happened in earlier videos too. Title, hook and verdict cards now sit in the `heroLeft` zone,
-  `x 96 → 820`, `y 300 → 940`, which is clear wall in this room. Headline wraps to two or three lines
-  at 72-84px rather than running one line across the frame. The full-width lower band remains available
+  `x 96 → 820`, `y 300 → 940`, which is clear wall in this room. Title and hook headlines wrap to two
+  or three lines at 72-84px rather than running one line across the frame. **The verdict keeps its
+  180px exception** (see Title card anatomy): it stays the biggest type in the video by using fewer
+  words, a short line such as "It works." at 180px with its subject as a smaller line above it, all
+  inside `heroLeft`. Resolved 2026-09-22 on 04-lightweight-ontology, where this paragraph and the
+  anatomy section disagreed and the verdict shipped at 84px, no bigger than a stat card. The full-width lower band remains available
   for lower thirds and chips, which are small enough to sit beside the face rather than over it.
+- **2026-09-23: wins are marked as loudly as misses.** When a video checks results, every success the
+  speaker calls out gets a mark at least as strong as a failure's: on a punch-in an `$accent` box with
+  a label, on a card a drawn tick. On 04-lightweight-ontology the misses had strikes, accent boxes and
+  labels while "matches to the T", "understood the nuance", "found an ambiguity" and "all 105 in the
+  mart" had nothing, so the edit read as a list of failures while the speaker's verdict was that the
+  agent mostly works. The composition review measures this as "do the wins read quieter than the
+  misses", and it is a finding, not a nit.
+- **2026-09-23: the hook opens on a push and the drawn object lands on the first clause break.**
+  `opensOnMotion` stays: frame 1 moves, but the motion is the `push` on the face, and the hook's
+  drawn object enters on the first clause break after the opening words, not on frame 0. See "The
+  hook is a drawn object". The hook's sound effect is derived from the same cue, never typed in.
 - **2026-08-19 — `demo` scene added.** Screen recordings with the speaker present get a corner inset
   over a full-frame screen, not the `panel` split, which shrinks dense screen text past legibility.

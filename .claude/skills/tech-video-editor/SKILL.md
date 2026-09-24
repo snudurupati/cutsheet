@@ -287,7 +287,9 @@ than pretending it covers nothing.
 **Which corner depends on the app, so measure it.** For a chat-style agent UI the content sits in a
 narrow centre column and the bottom-right is empty canvas, so the inset covers nothing. For a
 **split-pane editor** the right pane is the thing being read, and bottom-right lands on it: move the
-inset to bottom-left for that span, jumping on an existing cut boundary so the move is invisible.
+inset to bottom-left for that span. The move **slides** over `repositionSeconds` with a smoothstep
+ease (`style.json` → `graphics.pip.demoInset`); it never jumps on a cut, because a single-frame
+change of side reads as a glitch, not a move. Geometry and timing come from the style, not here.
 
 **Frame the inset from the footage, not from a guess.** A square crop that is too tight cuts the
 shoulder and clips the chin whenever the speaker leans, while wasting headroom above. Test three or
