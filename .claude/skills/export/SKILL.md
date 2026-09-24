@@ -104,7 +104,7 @@ Reclaimable: render scratch, cached intermediate renders, stray `node_modules`.
 
 ## Two rules make this safe enough to trust
 
-**0. Promote freely; never reclaim on your own initiative.** Promoting and copying the deliverable is
+**0. Promote freely; never reclaim on your own initiative.** Promoting the deliverable is
 finishing the job. Deleting is not — the plan exists to be read by a human, so an unattended session
 prints it and stops there, even when told to "finish the job". Everything reclaimable is regenerable
 from `raw/` plus the scripts; the hours saved by deleting it are never worth deleting something the
