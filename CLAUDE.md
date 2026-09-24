@@ -1,4 +1,4 @@
-# video-editor — the pipeline contract
+# cutsheet: the pipeline contract
 
 This folder is an AI video editing pipeline. It has two halves and they never mix.
 
@@ -26,7 +26,7 @@ entirely by the style file — never by an inline judgement call.
 ## Folder structure
 
 ```
-video-editor/
+cutsheet/
 ├── CLAUDE.md              this file
 ├── brand.md               colours, fonts, voice, hook, mishear list. The one personalised file
 ├── styles/
@@ -62,7 +62,7 @@ with four folders and no idea which one shipped.
 ## Starting a job
 
 ```bash
-cd ~/Projects/video-editor
+cd ~/Projects/cutsheet
 JOB=<content-name-in-kebab-case>
 mkdir -p projects/$JOB/{raw,broll,audio/soundtracks,audio/sound-effects,assets,transcript,graphics-build,outputs}
 

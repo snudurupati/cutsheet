@@ -11,7 +11,7 @@ ffmpeg -version | head -1 && node --version && uv --version && python3 -c "impor
 Make the job:
 
 ```bash
-cd ~/Projects/video-editor
+cd ~/Projects/cutsheet
 JOB=project-context
 mkdir -p projects/$JOB/{raw,broll,audio/soundtracks,audio/sound-effects,assets,transcript,graphics-build,outputs}
 cp assets/sfx/*.mp3 projects/$JOB/audio/sound-effects/
