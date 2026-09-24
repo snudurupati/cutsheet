@@ -45,24 +45,8 @@ DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$FACEDIR/face-
 OUTFADE=$(python3 -c "print(f'{max(0,$DUR-0.35):.3f}')")
 echo "face strip: ${DUR}s"
 
-# 2. inset layer: shadow + rounded-masked face + border, alpha faded at both ends
-ffmpeg -nostdin -hide_banner -v error -y \
-  -i "$FACEDIR/face-strip.mov" \
-  -loop 1 -i graphics-build/art/inset-mask.png \
-  -loop 1 -i graphics-build/art/inset-shadow.png \
-  -loop 1 -i graphics-build/art/inset-border.png \
-  -filter_complex "\
-[0:v]format=yuva444p[fv];\
-[1:v]format=gray[mk];\
-[fv][mk]alphamerge[face];\
-[2:v]format=rgba,trim=duration=${DUR},setpts=PTS-STARTPTS[sh];\
-[3:v]format=rgba,trim=duration=${DUR},setpts=PTS-STARTPTS[bd];\
-[sh][face]overlay=x=80:y=80:format=auto[withface];\
-[withface][bd]overlay=x=80:y=80:format=auto[lit];\
-[lit]fade=t=in:st=0.30:d=0.50:alpha=1,fade=t=out:st=${OUTFADE}:d=0.35:alpha=1[out]" \
-  -map "[out]" -c:v prores_ks -profile:v 4444 -pix_fmt yuva444p10le \
-  -r 60 -video_track_timescale 60000 \
-  outputs/inset.mov
-
-ffprobe -v error -select_streams v:0 -show_entries stream=width,height,pix_fmt,nb_frames \
-  -of default=noprint_wrappers=1 outputs/inset.mov
+# 2. (removed 2026-09-24) This step used to build outputs/inset.mov: the face strip
+# alpha-merged with three LOOPED stills, with no frame cap. A looped still never
+# ends, so the output never ended: it wrote 231GB of ProRes 4444 and filled the
+# disk. It was also dead: make_segments.py composites the inset straight from the
+# face strip and the art (see its g011 block), and nothing reads inset.mov.

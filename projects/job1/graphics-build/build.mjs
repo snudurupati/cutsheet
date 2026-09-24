@@ -970,6 +970,19 @@ SCENES.g018 = () => {
 // ============================================================ EMIT
 const partsDir = path.join(HERE, 'parts');
 
+// Write / copy ONLY when the bytes change: render.sh re-renders a part whenever any
+// file in its folder is newer than its render, and rewriting every file on every
+// build made every part stale (the 04-lightweight-ontology finding, 2026-09-23).
+const writeIfChanged = (p, s) => {
+  if (fs.existsSync(p) && fs.readFileSync(p, 'utf8') === s) return false;
+  fs.writeFileSync(p, s); return true;
+};
+const copyIfChanged = (a, b) => {
+  if (fs.existsSync(b) && fs.readFileSync(a).equals(fs.readFileSync(b))) return false;
+  fs.copyFileSync(a, b); return true;
+};
+let unchanged = 0;
+
 function emit(part) {
   const scene = SCENES[part.id];
   if (!scene) return false;
@@ -981,9 +994,10 @@ function emit(part) {
   // Fonts and gsap must live INSIDE the project root: the renderer serves the
   // project directory as its web root, so a path climbing out of it is never
   // fetched and the browser silently falls back to a system font.
+  let changed = false;
   for (const f of ['Satoshi-Black.otf', 'Satoshi-Bold.otf', 'Satoshi-Medium.otf'])
-    fs.copyFileSync(path.join(HERE, 'vendor', 'fonts', f), path.join(dir, 'assets', 'fonts', f));
-  fs.copyFileSync(path.join(HERE, 'vendor', 'gsap.min.js'), path.join(dir, 'assets', 'gsap.min.js'));
+    changed = copyIfChanged(path.join(HERE, 'vendor', 'fonts', f), path.join(dir, 'assets', 'fonts', f)) || changed;
+  changed = copyIfChanged(path.join(HERE, 'vendor', 'gsap.min.js'), path.join(dir, 'assets', 'gsap.min.js')) || changed;
 
   const isOverlay = part.class === 'overlay' || part.alpha === true;
   const html = `<!doctype html>
@@ -1016,18 +1030,20 @@ window.__timelines["${part.id}"] = tl;
 </script>
 </body>
 </html>`;
-  fs.writeFileSync(path.join(dir, 'index.html'), html);
-  fs.writeFileSync(path.join(dir, 'hyperframes.json'), JSON.stringify({
+  changed = writeIfChanged(path.join(dir, 'index.html'), html) || changed;
+  changed = writeIfChanged(path.join(dir, 'hyperframes.json'), JSON.stringify({
     $schema: 'https://hyperframes.heygen.com/schema/hyperframes.json',
     paths: { blocks: 'compositions', components: 'compositions/components', assets: 'assets' },
-  }, null, 2));
+  }, null, 2)) || changed;
+  if (!changed) unchanged++;
   return true;
 }
 
 const VARIANTS = [];
 let built = 0, skipped = [];
 for (const p of [...cut.parts, ...VARIANTS]) {
-  if (emit(p)) { built++; console.log(`  emit ${p.id}  ${p.scene.padEnd(20)} ${(p.end-p.start).toFixed(2)}s`); }
+  const before = unchanged;
+  if (emit(p)) { built++; console.log(`  ${unchanged > before ? 'unchanged' : 'emit     '} ${p.id}  ${p.scene.padEnd(20)} ${(p.end-p.start).toFixed(2)}s`); }
   else skipped.push(p.id);
 }
 console.log(`\nbuilt ${built} part(s)`);
