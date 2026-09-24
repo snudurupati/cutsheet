@@ -715,6 +715,27 @@ the scale has to live in the CSS.
   through `grep` exited 0, and the next step rebuilt the demo scene from the stale, unblurred
   screen track. Sequence stages in a script, never in an ad hoc chain.
 
+## Rebuild time: only redo what changed
+
+On 04-lightweight-ontology a rebuild took ~55 min and the job needed ~20 of them. Most of it
+was work whose inputs had not changed:
+
+- **The build writes a composition file only when its bytes change**, and copies fonts, vendor
+  and assets only when they differ. Rewriting every file on every build made all 28 parts look
+  stale, so all 20,534 frames re-rendered through headless Chrome (~33 min) when one part had
+  changed.
+- **A render is stale when ANY file in its part folder is newer than it**, not only
+  `index.html`. A changed asset must re-render the part.
+- **Stale parts render in parallel** (`RENDER_JOBS`, default 4). One headless Chrome uses a
+  couple of cores; three parts that took ~107s one after another took 46s together.
+- **Derived clips carry a key file** (the push clips: frame range, zoom, anchor, base file
+  identity, script hash) and are skipped when the key matches and the frame count is right.
+- **The review proxy is optional** and encodes alongside the audio step. The two composite
+  gates run in parallel.
+
+What remains every time is the real work: the composite (~10 min at 4K), the gates and the mix.
+When the demo spec changes, the demo scene (~7 min) as well.
+
 ## Linter and workflow notes
 
 - **Lint and validate are the gate.** Run both on every part before rendering:

@@ -10,7 +10,7 @@
 //   * fonts and gsap live INSIDE each part root. The renderer serves the project
 //     directory as its web root, so an @font-face path that climbs out of it is
 //     never fetched and the render falls back to a system font with no error.
-import { writeFileSync, mkdirSync, copyFileSync, readFileSync } from "node:fs";
+import { writeFileSync, mkdirSync, copyFileSync, readFileSync, existsSync } from "node:fs";
 
 export const C = { bg:"#F7F5F1", rule:"#DCD6CC", accent:"#E8542F",
                    accentSoft:"#F7B9A5", ink:"#14110E", muted:"#6E665C" };
@@ -77,20 +77,33 @@ window.__timelines["${id}"] = tl;
 
 // One small PROJECT per part, so each can be linted, checked, snapshotted and
 // re-rendered on its own.
+// Files are written or copied ONLY when their bytes change. render.sh re-renders a
+// part when any file in its folder is newer than its render, and every build used
+// to rewrite every file: on 04-lightweight-ontology each rebuild re-rendered all 28
+// parts (20,534 frames, ~33 min) when one had changed. Returns whether it wrote.
+const writeIfChanged = (p, s) => {
+  if (existsSync(p) && readFileSync(p, "utf8") === s) return false;
+  writeFileSync(p, s); return true;
+};
+const copyIfChanged = (a, b) => {
+  if (existsSync(b) && readFileSync(a).equals(readFileSync(b))) return false;
+  copyFileSync(a, b); return true;
+};
 export const emit = (id, dur, body, js, assets = []) => {
   const d = `parts/${id}`;
   mkdirSync(`${d}/fonts`, { recursive: true });
   mkdirSync(`${d}/vendor`, { recursive: true });
-  copyFileSync("fonts/Satoshi-Variable.ttf", `${d}/fonts/Satoshi-Variable.ttf`);
-  copyFileSync("fonts/Satoshi-Bold.otf",     `${d}/fonts/Satoshi-Bold.otf`);
-  copyFileSync("vendor/gsap.min.js",         `${d}/vendor/gsap.min.js`);
+  let changed = false;
+  changed = copyIfChanged("fonts/Satoshi-Variable.ttf", `${d}/fonts/Satoshi-Variable.ttf`) || changed;
+  changed = copyIfChanged("fonts/Satoshi-Bold.otf",     `${d}/fonts/Satoshi-Bold.otf`) || changed;
+  changed = copyIfChanged("vendor/gsap.min.js",         `${d}/vendor/gsap.min.js`) || changed;
   if (assets.length) mkdirSync(`${d}/assets`, { recursive: true });
-  for (const f of assets) copyFileSync(`assets/${f}`, `${d}/assets/${f}`);   // served from the part root
-  writeFileSync(`${d}/hyperframes.json`, JSON.stringify(
+  for (const f of assets) changed = copyIfChanged(`assets/${f}`, `${d}/assets/${f}`) || changed;   // served from the part root
+  changed = writeIfChanged(`${d}/hyperframes.json`, JSON.stringify(
     { $schema: "https://hyperframes.heygen.com/schema/hyperframes.json",
-      media: { autoProxy: false } }, null, 2) + "\n");
-  writeFileSync(`${d}/index.html`, head(id, dur) + body + tail(id, js));
-  console.log(`  wrote ${d}/index.html  (${dur.toFixed(2)}s)`);
+      media: { autoProxy: false } }, null, 2) + "\n") || changed;
+  changed = writeIfChanged(`${d}/index.html`, head(id, dur) + body + tail(id, js)) || changed;
+  console.log(`  ${changed ? "wrote    " : "unchanged"} ${d}/index.html  (${dur.toFixed(2)}s)`);
 };
 
 // Card wipes. A clip-path clips EVERYTHING outside the element's own box,
