@@ -1,0 +1,695 @@
+{
+  "source": "outputs/transcript-cut.json",
+  "fps": 30.0,
+  "totalSeconds": 1418.033,
+  "candidates": [
+    {
+      "start": 66.9,
+      "end": 121.42,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "instead of",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "So in the previous episodes in this series, I showed you how you can have two markdown files, one with the business context and one with data and coding standards. And that has helped my AI agent build my data pipeline. But I only showed you bits and pieces. So today, I want to extend it beyond the toy demo and show you a full end-to-end pipeline, starting from data ingestion from source files all the way to building the data marts. And this time, instead of having two files, I have one extra file, one extra context. which tells the requirements for the data model. And in a typical ETL process, we do get the business requirements from the business because we exactly want to know what kind of report or action the business wants to take."
+    },
+    {
+      "start": 140.9,
+      "end": 148.03,
+      "cue": "magnitude",
+      "scene": "stat",
+      "marker": "most of",
+      "draw": "Count-up or proportion bar. Lands ON the number being said.",
+      "section": null,
+      "text": "So here I have Claude Code, which is what I've been using throughout most of the series. I did switch to ChatGPT for a bit,"
+    },
+    {
+      "start": 148.4,
+      "end": 193.15,
+      "cue": "causal-chain",
+      "scene": "loop",
+      "marker": "which means",
+      "draw": "Flow with drawn connectors. The arrow is the content.",
+      "section": null,
+      "text": "For consistency sake, I'm back to using Claude code. And this time I am on Opus 5.5 model medium. And today the date is Thursday, September 22nd. In the previous demos, I've used Sonnet 4.5. I've used Opus 5. And today, since there's a brand new model, I'm using Opus 5.5. So I already have my project cloned here. I'm on episode four demo branch and the git status short is clean, which means no files have been modified. So let me show you what all files I have in there and where I'm getting started from."
+    },
+    {
+      "start": 318.96,
+      "end": 361.09,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "not to do. but",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "and a few other housekeeping things. And finally, I'm telling it to build a report at the end. So the rules and the other markdown files inform it what to do, what not to do. But if something is ambiguous or if the agent decides to make a decision, I ask it to log everything into a build report markdown file. And if there are some things that the agent can't make a decision on and it wants a person, you know, a human in the loop to verify, I also asked it to put all those things in the build report. So the agent is churning along. So we'll give it a few minutes for it to come back and build the whole end-to-end model, the tests, and the whole nine yards."
+    },
+    {
+      "start": 361.52,
+      "end": 368.59,
+      "cue": "magnitude",
+      "scene": "stat",
+      "marker": "20 minutes",
+      "draw": "Count-up or proportion bar. Lands ON the number being said.",
+      "section": null,
+      "text": "okay so Claude code came back and the whole build took about 18 20 minutes approx"
+    },
+    {
+      "start": 530.82,
+      "end": 558.1,
+      "cue": "causal-chain",
+      "scene": "loop",
+      "marker": "lead to",
+      "draw": "Flow with drawn connectors. The arrow is the content.",
+      "section": null,
+      "text": "And one of the mistakes I would have expected rookie to do is join order with order line and, you know, calculate revenue that way. And that would lead to, you know, double or triple counting depending on how many order line items you have. And that's one mistake I wanted to avoid. And it clearly did it. Let me just show you what that number would look like, right? So that number would have been inflated. Fortunately for me, my agent understood the nuance and it did the right thing."
+    },
+    {
+      "start": 568.42,
+      "end": 614.29,
+      "cue": "cycle",
+      "scene": "loop",
+      "marker": "every time",
+      "draw": "Closed ring. Travelling dot so a long beat is never still.",
+      "section": null,
+      "text": "Okay, so it says fact branch daily sales doesn't exist. Let me go up and see what exactly it's called. Fact daily branch sales. Okay. That's one thing for me to learn to evolve is since data mart tables are a contract, I should have told my agent in the requirements document what the table names exactly should be. Since I didn't tell it, it kind of choose a close enough name, but in a different order. And then every time I run this agent, it might choose a different order. So that's something for me to keep in mind. uh that hey if you're giving requirements make sure the table names uh or if there is a convention of how to name them specifically uh just give the name so they don't change between runs"
+    },
+    {
+      "start": 625.83,
+      "end": 667.4,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "versus",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "Let me verify this from the fact order. okay that's that's way too short so this number is not right and that's one of the reasons uh you know that you can't just trust dbt uh tests audios have to write way too many tests right maybe i've written this test as well but it says everything was green but it's not because i'm missing a whole chunk of 2.9 versus 500k I'm missing about 1.8 million worth of revenue which is not in my branch daily sales and you know one of the reasons is that maybe it did not treat web sales as branch sales so let me verify if that is the case."
+    },
+    {
+      "start": 726.91,
+      "end": 770.34,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "instead of",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "When I verify the build report that the agent wrote, it clearly mentions in point number three that it wasn't able to decide whether ERP orders placed through a physical branch belong in the daily branch sales or not. So it said it did leave them out. So, yeah, I mean, it did the right thing. It found an ambiguity instead of filling the gap in like it usually does. It followed my conventions and requirements. It left them out and then did make a note of that in the build report, which is what I expected it. And this makes my life easy to verify its work. All right, so that's good."
+    },
+    {
+      "start": 770.78,
+      "end": 820.28,
+      "cue": "causal-chain",
+      "scene": "loop",
+      "marker": "which means",
+      "draw": "Flow with drawn connectors. The arrow is the content.",
+      "section": null,
+      "text": "So another thing I noticed while I was verifying this, which I discovered, is typically in a data warehouse, we do not calculate derived columns. Like if there's a percentage, an average, we don't put that in the data mart tables because every time you have to incrementally refresh data mart tables, averages and percentages need to be recalculated for the whole table. Again, there are some tables which we do full refresh and it makes sense that you put them there. In this case, every table is getting incrementally loaded, which means it doesn't make sense. And what I noticed is that this agent went ahead and created a margin calculation. Let me show you the SQL and we can discuss about it."
+    },
+    {
+      "start": 879.21,
+      "end": 912.05,
+      "cue": "magnitude",
+      "scene": "stat",
+      "marker": "80 percent",
+      "draw": "Count-up or proportion bar. Lands ON the number being said.",
+      "section": null,
+      "text": "So these were a few, let's call them misses that the agent missed. And this is where I could evolve the local ontology that I talked about as and when my project gets built. And then, you know, after the first iteration, it's probably a solid and get me, you know, 70 to 80 percent of the way there. So the next thing I want to do is I've only done the initial load, but I asked it to build an increment model. So I want to make sure the incremental part of it works, the incremental loads work too. So let me quickly test that part of it."
+    },
+    {
+      "start": 1053.46,
+      "end": 1072.28,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "instead of",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "And I also had a case where one of the POSs pushed two files instead of one file. And I want to make sure that that was taken care of, not that it just picked up the latest file and skipped the old file. Sometimes branches send two files instead of one per till or per branch."
+    },
+    {
+      "start": 1072.71,
+      "end": 1085.81,
+      "cue": "failure",
+      "scene": "screenshot",
+      "marker": "went wrong",
+      "draw": "The real terminal, the real error, the real diff. Not a recreation.",
+      "section": null,
+      "text": "both of them should be accounted for. So I have one of those cases here where the branch sent two files on the same night. Maybe the second one had a correction, something went wrong, and I want to make sure this was also accounted for."
+    },
+    {
+      "start": 1086.23,
+      "end": 1126.49,
+      "cue": "journey",
+      "scene": "loop",
+      "marker": "ended up, ended up",
+      "draw": "Path draw from A to B. The route is the graphic.",
+      "section": null,
+      "text": "so within this i have about 105 uh rows that were delivered so let's see if these rows ended up in the mart as well yeah one of my transactions uh ended up in the in the fact daily branch sales as well so looks like uh that worked fine So here I can say that the incremental load also was taken care of. So when I get new data, data also gets refreshed, refunds are taken care of, and so on and so forth. So at this point, yeah, I can do a few more checks, but I can confidently say that this part of the build is also working perfectly. So let me quit out of here."
+    },
+    {
+      "start": 1126.92,
+      "end": 1187.78,
+      "cue": "magnitude",
+      "scene": "stat",
+      "marker": "70 percent",
+      "draw": "Count-up or proportion bar. Lands ON the number being said.",
+      "section": null,
+      "text": "So just to summarize what we did, I did a long horizon job where I took Opus Claude, Opus 5.5 on medium setting. I gave it an empty repository with the source files, a few markdown files, which gave enough context to my model about the project I'm working on, the business rules, the coding standards, and the business requirements as to what needs to be built. And I asked it to build, you know, ingestion all the way to ingestion staging all the way to the data marts. And I can confidently say that my model went you know from 60 to 70 percent of the way it understood the conventions it did all the right things yes there were a few misses but for the most part if i look at the good it built"
+    },
+    {
+      "start": 1307.87,
+      "end": 1344.95,
+      "cue": "magnitude",
+      "scene": "stat",
+      "marker": "80 percent",
+      "draw": "Count-up or proportion bar. Lands ON the number being said.",
+      "section": null,
+      "text": "so what remains is for the few misses since the agent can get us in in my case at least right in my testing the agent can get me up to 60 to 80 percent of the way and uh i just need to spot check a few things given my expertise uh so yeah agent doesn't replace me i still need my expertise uh still need my knowledge the years of debugging the pipelines But I don't need to verify every line of the code. I can spot check a few things, a few patterns that I know, you know, which are surely fail where either I make a mistake or other people make a mistake. So check those things."
+    },
+    {
+      "start": 1345.4,
+      "end": 1362.35,
+      "cue": "enumeration",
+      "scene": "strike-list",
+      "marker": "two things",
+      "draw": "Counted build. Rows land on their own cues, never all at once.",
+      "section": null,
+      "text": "So for me, that can be fixed. So here's a question for you. So for the next video, I can do two things. I can show you how to spot check your agent's output so you're not verifying every line of code. Or we saw that the agent built things"
+    }
+  ],
+  "signals": [
+    {
+      "kind": "long-pause",
+      "at": 262.47,
+      "seconds": 1.97,
+      "why": "1.97s of silence before 'what'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 482.34,
+      "seconds": 2.18,
+      "why": "2.18s of silence before 'FACT'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 526.39,
+      "seconds": 1.74,
+      "why": "1.74s of silence before 'Matches'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 649.07,
+      "seconds": 1.58,
+      "why": "1.58s of silence before '2.9'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 699.53,
+      "seconds": 2.26,
+      "why": "2.26s of silence before 'quit'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 701.83,
+      "seconds": 1.78,
+      "why": "1.78s of silence before 'close'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 936.67,
+      "seconds": 1.78,
+      "why": "1.78s of silence before 'copy'. He is landing something."
+    },
+    {
+      "kind": "long-beat",
+      "at": 0.15,
+      "seconds": 45.66,
+      "why": "45.7s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 0.15,
+      "seconds": 45.66,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 0.15,
+      "seconds": 45.66,
+      "why": "'enterprise' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 0.15,
+      "seconds": 45.66,
+      "why": "'committee' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 46.24,
+      "seconds": 20.25,
+      "why": "20.3s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 66.9,
+      "seconds": 54.52,
+      "why": "54.5s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 66.9,
+      "seconds": 54.52,
+      "why": "'files' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 66.9,
+      "seconds": 54.52,
+      "why": "'business' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 66.9,
+      "seconds": 54.52,
+      "why": "'data' said 5 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 66.9,
+      "seconds": 54.52,
+      "why": "'from' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 148.4,
+      "seconds": 44.75,
+      "why": "44.7s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 148.4,
+      "seconds": 44.75,
+      "why": "'opus' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 196.03,
+      "seconds": 78.36,
+      "why": "78.4s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 196.03,
+      "seconds": 78.36,
+      "why": "'project' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 196.03,
+      "seconds": 78.36,
+      "why": "'files' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 196.03,
+      "seconds": 78.36,
+      "why": "'data' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 196.03,
+      "seconds": 78.36,
+      "why": "'specific' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 196.03,
+      "seconds": 78.36,
+      "why": "'tells' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 196.03,
+      "seconds": 78.36,
+      "why": "'business' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 196.03,
+      "seconds": 78.36,
+      "why": "'standards' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 291.3,
+      "seconds": 27.21,
+      "why": "27.2s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 291.3,
+      "seconds": 27.21,
+      "why": "'telling' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 318.96,
+      "seconds": 42.13,
+      "why": "42.1s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 318.96,
+      "seconds": 42.13,
+      "why": "'build' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 318.96,
+      "seconds": 42.13,
+      "why": "'report' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 318.96,
+      "seconds": 42.13,
+      "why": "'agent' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 392.82,
+      "seconds": 28.73,
+      "why": "28.7s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 426.41,
+      "seconds": 29.0,
+      "why": "29.0s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 426.41,
+      "seconds": 29.0,
+      "why": "'built' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 464.26,
+      "seconds": 44.63,
+      "why": "44.6s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 464.26,
+      "seconds": 44.63,
+      "why": "'tables' said 6 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 464.26,
+      "seconds": 44.63,
+      "why": "'fact' said 5 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 530.82,
+      "seconds": 27.28,
+      "why": "27.3s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 530.82,
+      "seconds": 27.28,
+      "why": "'order' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 568.42,
+      "seconds": 45.87,
+      "why": "45.9s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 568.42,
+      "seconds": 45.87,
+      "why": "'name' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 625.83,
+      "seconds": 41.58,
+      "why": "41.6s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 625.83,
+      "seconds": 41.58,
+      "why": "'that's' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 625.83,
+      "seconds": 41.58,
+      "why": "'sales' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 667.81,
+      "seconds": 24.57,
+      "why": "24.6s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 667.81,
+      "seconds": 24.57,
+      "why": "'sales' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 692.81,
+      "seconds": 24.32,
+      "why": "24.3s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 726.91,
+      "seconds": 43.44,
+      "why": "43.4s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 770.78,
+      "seconds": 49.5,
+      "why": "49.5s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 770.78,
+      "seconds": 49.5,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 770.78,
+      "seconds": 49.5,
+      "why": "'tables' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 820.7,
+      "seconds": 58.1,
+      "why": "58.1s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 820.7,
+      "seconds": 58.1,
+      "why": "'percentage' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 820.7,
+      "seconds": 58.1,
+      "why": "'average' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 879.21,
+      "seconds": 32.84,
+      "why": "32.8s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 943.25,
+      "seconds": 28.61,
+      "why": "28.6s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 943.25,
+      "seconds": 28.61,
+      "why": "'incremental' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 943.25,
+      "seconds": 28.61,
+      "why": "'load' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 976.12,
+      "seconds": 10.47,
+      "why": "'records' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 987.0,
+      "seconds": 25.0,
+      "why": "25.0s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 987.0,
+      "seconds": 25.0,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1012.42,
+      "seconds": 21.77,
+      "why": "21.8s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1012.42,
+      "seconds": 21.77,
+      "why": "'transaction' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1053.46,
+      "seconds": 18.82,
+      "why": "'file' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1093.49,
+      "seconds": 33.0,
+      "why": "33.0s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1093.49,
+      "seconds": 33.0,
+      "why": "'also' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1126.92,
+      "seconds": 60.86,
+      "why": "60.9s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1189.92,
+      "seconds": 27.74,
+      "why": "27.7s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1189.92,
+      "seconds": 27.74,
+      "why": "'code' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1218.09,
+      "seconds": 27.72,
+      "why": "27.7s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1218.09,
+      "seconds": 27.72,
+      "why": "'tables' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1218.09,
+      "seconds": 27.72,
+      "why": "'tell' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1218.09,
+      "seconds": 27.72,
+      "why": "'name' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1218.09,
+      "seconds": 27.72,
+      "why": "'should' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1246.25,
+      "seconds": 20.47,
+      "why": "20.5s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1267.15,
+      "seconds": 40.3,
+      "why": "40.3s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1267.15,
+      "seconds": 40.3,
+      "why": "'context' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1267.15,
+      "seconds": 40.3,
+      "why": "'something' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1307.87,
+      "seconds": 37.08,
+      "why": "37.1s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1307.87,
+      "seconds": 37.08,
+      "why": "'agent' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1307.87,
+      "seconds": 37.08,
+      "why": "'need' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1307.87,
+      "seconds": 37.08,
+      "why": "'check' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1362.38,
+      "seconds": 29.81,
+      "why": "29.8s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1392.62,
+      "seconds": 21.71,
+      "why": "21.7s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    }
+  ]
+}

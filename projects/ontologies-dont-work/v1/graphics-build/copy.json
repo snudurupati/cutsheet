@@ -1,0 +1,191 @@
+{
+  "parts": {
+    "g001": {
+      "start": 0,
+      "end": 3,
+      "eyebrow": null,
+      "eyebrowPx": null,
+      "lines": [
+        "Enterprise knowledge",
+        "graphs can't work."
+      ],
+      "px": 80,
+      "support": "Not because the tech is bad.",
+      "supportPx": 58,
+      "plaqueBottom": 1175,
+      "plaqueMax": 1240
+    },
+    "g002": {
+      "start": 3,
+      "end": 12,
+      "eyebrow": null,
+      "eyebrowPx": null,
+      "lines": [
+        "Graph RAG beats naive RAG.",
+        "Every demo."
+      ],
+      "px": 62,
+      "support": null,
+      "supportPx": null,
+      "plaqueBottom": 1175,
+      "plaqueMax": 1240
+    },
+    "g003": {
+      "start": 12,
+      "end": 22,
+      "eyebrow": null,
+      "eyebrowPx": null,
+      "lines": [
+        "Committee speed vs AI speed.",
+        "Stale data."
+      ],
+      "px": 58,
+      "support": null,
+      "supportPx": null,
+      "plaqueBottom": 1175,
+      "plaqueMax": 1240
+    },
+    "g004": {
+      "start": 22,
+      "end": 32,
+      "eyebrow": null,
+      "eyebrowPx": null,
+      "lines": [
+        "Everyone could benefit.",
+        "No one will own it."
+      ],
+      "px": 62,
+      "support": null,
+      "supportPx": null,
+      "plaqueBottom": 1175,
+      "plaqueMax": 1240
+    },
+    "g005": {
+      "start": 32,
+      "end": 39,
+      "eyebrow": null,
+      "eyebrowPx": null,
+      "lines": [
+        "There is no single",
+        "source of truth."
+      ],
+      "px": 72,
+      "support": null,
+      "supportPx": null,
+      "plaqueBottom": 1175,
+      "plaqueMax": 1240
+    },
+    "g006": {
+      "start": 39,
+      "end": 45,
+      "eyebrow": "What worked for me",
+      "eyebrowPx": 46,
+      "lines": [
+        "a lightweight ontology,",
+        "owned by the team."
+      ],
+      "px": 64,
+      "support": null,
+      "supportPx": null,
+      "plaqueBottom": 1175,
+      "plaqueMax": 1240
+    },
+    "g007": {
+      "start": 45,
+      "end": 49,
+      "eyebrow": null,
+      "eyebrowPx": null,
+      "lines": [
+        "Nobody own the",
+        "Graph"
+      ],
+      "px": 100,
+      "support": null,
+      "supportPx": null,
+      "plaqueBottom": 1175,
+      "plaqueMax": 1240
+    }
+  },
+  "labels": {
+    "g003": [
+      [
+        "COMMITTEE",
+        40
+      ],
+      [
+        "AI AGENTS",
+        40
+      ],
+      [
+        "PENDING APPROVAL",
+        34
+      ]
+    ],
+    "g004": [
+      [
+        "IT",
+        46
+      ],
+      [
+        "SALES",
+        46
+      ],
+      [
+        "FINANCE",
+        46
+      ],
+      [
+        "MARKETING",
+        46
+      ]
+    ],
+    "g005": [
+      [
+        "Revenue",
+        48
+      ],
+      [
+        "MARKETING",
+        34
+      ],
+      [
+        "SALES",
+        34
+      ]
+    ],
+    "g006": [
+      [
+        "IT",
+        32
+      ],
+      [
+        "SALES",
+        32
+      ],
+      [
+        "FINANCE",
+        32
+      ],
+      [
+        "MARKETING",
+        32
+      ]
+    ]
+  },
+  "endText": [
+    "Nobody own the",
+    "Graph"
+  ],
+  "safeWidth": 960,
+  "floors": {
+    "hook": 88,
+    "body": 56
+  },
+  "floorExceptions": {
+    "g001": {
+      "px": 80,
+      "floor": 88,
+      "why": "MEASURED: the best two-line split of the hook line is 925px at 88px against an 860px text column; every other split is worse (59.2px, 61.0px). 80px is the largest size that fits. Reported, never silently taken."
+    }
+  }
+}

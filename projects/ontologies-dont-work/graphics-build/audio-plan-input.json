@@ -1,0 +1,29 @@
+{
+  "totalSeconds": 60.0,
+  "_why": "v2's brief asks for music only and calls sound optional. Three effects are kept, each tied to a CAUSAL moment the argument turns on rather than to a cut: the update stopping in the queue, the AI's edit stopping at the verification gate, and the end card. Every file starts early by its own MEASURED peak offset so the transient lands on the beat.",
+  "music": {
+    "file": "audio/soundtracks/paulyudin-technology-tech-technology-484304.mp3",
+    "startAt": 5.0,
+    "_startAtWhy": "measured: of every 60s window in the 132s track, t=5s has the highest minimum level (-13.9 dB per second). Starting at 0 would put the track's own quiet 5s opening under the hook, an accidental fade-in that style.json audio.musicFadeIn=false rules out."
+  },
+  "sfx": [
+    {
+      "file": "audio/sound-effects/ribhavagrawal-woosh-230554.mp3",
+      "at": 13.3,
+      "peakOffset": 0.45,
+      "why": "the proposed change reaches the approval queue and stops: the causal hinge of the argument"
+    },
+    {
+      "file": "audio/sound-effects/ribhavagrawal-cinematic-transition-type-02-265533.mp3",
+      "at": 31.75,
+      "peakOffset": 0.75,
+      "why": "the AI agent's edit stops at the verification gate"
+    },
+    {
+      "file": "audio/sound-effects/ribhavagrawal-cinematic-reveal-type-01-265535.mp3",
+      "at": 56.0,
+      "peakOffset": 0.9,
+      "why": "the end card landing"
+    }
+  ]
+}

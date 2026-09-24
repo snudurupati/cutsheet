@@ -38,9 +38,36 @@ editing** — a recording can measure perfect on resolution and still be unusabl
 | Voice level | −18 to −22 LUFS, peaks −6 to −10 dBFS | `ebur128`, `astats` |
 | **Flat factor** | **0** | non-zero means a limiter is clamping normal speech, not catching accidents |
 | Noise floor | ≤ −65 dB, rumble (<100 Hz) ≤ −75 dB | quiet window + band filters |
+| **Global exposure drift** | **frame-wide mean, stdev < 2.0 luma units** | `measure_zones.py` prints it and warns. Drift is auto ISO or unstable lights. It is never the framing |
 | Face luma | 130–145 | `signalstats` on a face crop |
 | Face key/fill split | within ~25 units | two crops across the face |
 | Background | below face luma; saturation below the face's | region crops |
+| **Lens / framing** | **35mm on APS-C. A clear region of at least 500x260 canvas px, LEFT of the face** | `python3 styles/measure_zones.py` |
+
+### Framing is part of the spec, and it is the one that cannot be fixed in the edit
+
+Everything else in this table can be worked around. Framing cannot: you can crop in, never out, and
+delivery is `min(style, source)` so cropping to make room costs resolution.
+
+**Shoot 35mm on APS-C, and leave the left of the face clear.** `job1` was shot on a **50mm on
+APS-C** (around a 75mm full-frame equivalent) and came out a tight head-and-shoulders close-up
+with no usable negative space anywhere in the frame. `measure_zones.py` found no region reaching
+500x260: the largest clear areas were a 240px sliver at the right edge and a 420x360 patch on the
+left. Every stored zone in `styles/editorial/style.json` measured as sitting on his face, and the
+verdict card in the shipped video crosses his mouth as a direct result.
+
+The correction, from the human on 2026-09-07: subsequent videos are shot on a **35mm**, which leaves
+**plenty of room to the left of the face and none at the bottom**.
+
+- **Left of the face is the working zone.** Side cards, stats, lists, hero type.
+- **The bottom is not available.** Even at 35mm there is no room under the chin in this setup, so a
+  full-width lower band is not a placement to plan for. Lower thirds go left, not along the bottom.
+- **Measure it anyway, every job.** `styles/measure_zones.py` writes `graphics-build/zones.json` and
+  that file is authoritative. Two videos from the same person in the same room with the same lights
+  gave completely different zone maps; only the lens changed.
+- **If no region reaches 500x260, the job cannot carry overlay graphics at all.** Say so before
+  editing. The beats that would have been cards become full-frame takeovers or reframes, which is a
+  bigger change than it sounds and should not be discovered halfway through a build.
 
 ```bash
 # the two checks that catch a silently broken recording
@@ -76,6 +103,60 @@ simultaneous hardware H.264 sessions fail with `VTCompressionSessionCreate -1290
 scaling of its own and taps the frame at its own position in the chain; Record Mode "Virtual Camera"
 so the main recording never runs as a third encode; MV7+ manual gain (not Auto-level, which lifts
 room tone in every pause), limiter on, HPF 75 Hz, denoiser and popper stopper off, LEDs off or solid.
+
+### Exposure is locked on the body, never in OBS
+
+The camera arrives as a UVC source (`macos-avcapture`), so ISO, aperture and shutter exist only on
+the camera. Verified settings for this rig, measured 2026-09-15:
+
+| | |
+|---|---|
+| Camera | ISO 400 **fixed**, f/4.0, 1/60, 3840×2160, 30/1 |
+| OBS Limiter | threshold −2.0 dB |
+| OBS Compressor | threshold −24 dB, ratio 3:1, attack 1 ms, release 80 ms, output gain +8.0 dB |
+| OBS screen scaling | **lanczos**. Bilinear softens terminal text when a 5K display is downscaled to 4K |
+
+Shutter is 1/60 because 30fps wants a 180 degree shutter. 1/40 was tried and is a 270 degree shutter:
+at 4K the glasses, hairline and mouth visibly smear on any head turn, while the same lens resolves
+individual stubble at rest. With a kit lens the aperture is pinned, so ISO is the only lever left,
+and **raising ISO shortens the shutter rather than lengthening it.**
+
+### Auto ISO hides as unstable lighting. This test separates them
+
+Compare a flat wall patch at a bright moment and a dark one. Shot noise scales as the square root of
+signal, so with gain fixed a darker frame must be **less** noisy. If noise rises while signal falls,
+gain is moving and ISO is not locked. Inferred gain is `sigma**2 / mean`.
+
+On 2026-09-15 this read a **2.8x gain swing** across takes that were believed to have a locked ISO,
+and 1.18x once it genuinely was. Auto ISO also masquerades as *stable* when it pins against its
+ceiling, which is why the one steady take that day was the one shot with the key lights off. Do not
+read a flat wall trace as proof of a lock without the noise test.
+
+### This room's lights are not stable, and that is permanent
+
+With the key lights on, the frame-wide mean moves about **29 luma units** irregularly, every cell
+shifting together, colour barely changing. It is not the camera: ISO was verified locked by the test
+above. The lights cannot be changed, so **deflicker runs by default on this rig.** Normalise
+per-frame exposure before the zone measurement and before the edit.
+
+`measure_zones.py` removes the drift internally and warns, so its zones are correct even on a pulsing
+take. Before that guard existed, the drift landed in every cell's motion figure and the tool reported
+`NO CLEAR ZONE FOUND` on four consecutive takes whose framing actually carried a 600×1020 zone. That
+verdict would have sent every card beat to a full-frame takeover for no reason. **The footage still
+pulses, so the render must be corrected too. A correct zone map is not a corrected picture.**
+
+### Three standing deviations, absorbed downstream, never by another take
+
+1. **Peaks around −2 dBFS** against the −6 to −10 spec. Loudness is correct at −20.8 LUFS and flat
+   factor is 0, so this is crest, not level. Finishing handles it.
+2. **Rumble above spec.** The MV7+ 75 Hz high-pass is set in MOTIV but does not reach the USB stream
+   OBS records. Confirmed by the low-band to voice-band ratio before and after the change: unchanged
+   at about −24 dB, where a working filter reads about −35. Finishing applies the filter to the file
+   at no cost.
+3. **Face luma under 130, and the wall brighter than the face.** Position and lights are fixed, and
+   exposure is global, so no camera setting separates them: pushing the face to spec blows the wall.
+   The zone map returns `inverted` or `lightReinforced` panel treatments, which is the correct
+   adaptation rather than a failure.
 
 **Clips are NOT frame-locked.** Source Record stops both filters at the same instant but starts them
 a few frames apart — observed 14 frames under encoder load, 2 frames when healthy. **Align at the
@@ -206,7 +287,9 @@ than pretending it covers nothing.
 **Which corner depends on the app, so measure it.** For a chat-style agent UI the content sits in a
 narrow centre column and the bottom-right is empty canvas, so the inset covers nothing. For a
 **split-pane editor** the right pane is the thing being read, and bottom-right lands on it: move the
-inset to bottom-left for that span, jumping on an existing cut boundary so the move is invisible.
+inset to bottom-left for that span. The move **slides** over `repositionSeconds` with a smoothstep
+ease (`style.json` → `graphics.pip.demoInset`); it never jumps on a cut, because a single-frame
+change of side reads as a glitch, not a move. Geometry and timing come from the style, not here.
 
 **Frame the inset from the footage, not from a guess.** A square crop that is too tight cuts the
 shoulder and clips the chin whenever the speaker leans, while wasting headroom above. Test three or

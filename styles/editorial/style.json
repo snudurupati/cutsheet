@@ -1,402 +1,578 @@
 {
-  "name": "editorial",
-  "formats": [
-    "long-form",
-    "short-form-explainer",
-    "short-form-raw"
-  ],
-  "colors": {
-    "bg": "$bg",
-    "rule": "$rule",
-    "accent": "$accent",
-    "accentSoft": "$accent-soft",
-    "ink": "$ink",
-    "muted": "$muted"
-  },
-  "fonts": {
-    "display": "$font.display",
-    "caption": "$font.caption"
-  },
-  "canvas": {
-    "width": 1920,
-    "height": 1080,
-    "why": "authoring space. Every px value in style.md is a canvas number; delivery scales it."
-  },
-  "delivery": {
-    "width": 3840,
-    "height": 2160,
-    "fps": "source",
-    "neverDownscaleBelowSource": true,
-    "why": "delivery is min(this, source) and never lower. Downscaling is a decision to report, never a default. On 2026-08-18 a 4K talking head and a 5K screencast were both delivered at 1080p because the pipeline took its frame size from the authoring canvas."
-  },
-  "reframes": {
-    "allowed": true,
-    "namedScenesOnly": true,
-    "scenes": [
-      "panel",
-      "demo"
-    ]
-  },
-  "captions": {
-    "longForm": {
-      "burnIn": false
-    },
-    "shortForm": {
-      "burnIn": true,
-      "font": "$font.caption",
-      "sizePx": 64,
-      "case": "sentence",
-      "wordsPerCard": [
-        3,
-        5
-      ],
-      "breakOn": "phrase-boundary",
-      "keepTechnicalCaps": true,
-      "position": {
-        "anchor": "bottom",
-        "yPx": 1420
-      },
-      "fill": "$ink",
-      "highlight": "$accent",
-      "stroke": {
-        "color": "$bg",
-        "widthPx": 8
-      },
-      "safeZone": {
-        "top": 200,
-        "bottom": 1620
-      }
-    }
-  },
-  "hook": {
-    "everyVideoOpensOnTheHook": true,
-    "source": "$brand.defaultHook",
-    "card": true,
-    "holdSeconds": 2.5,
-    "scene": "push",
-    "shortFormRaw": {
-      "card": true,
-      "onlyGraphic": true
-    }
-  },
-  "graphics": {
-    "kinds": [
-      "stat",
-      "card",
-      "screenshot",
-      "takeover",
-      "zoom",
-      "diagram",
-      "broll-slot"
-    ],
-    "sceneTypes": [
-      "head",
-      "chip",
-      "panel",
-      "takeover",
-      "push",
-      "slot",
-      "demo"
-    ],
-    "defaultToNoGraphic": true,
-    "pipEntersOncePerRun": true,
-    "typeOverFootageNeedsPanel": true,
-    "heroTypeNeverCoversFace": true,
-    "panelFill": "$bg at 92% + 1px $rule",
-    "zones": {
-      "_canvas": [
-        1920,
-        1080
-      ],
-      "_why": "camera fixed left of a two-display desk, speaker right of it. Measured from footage, not assumed. Re-measure when the room changes.",
-      "leftColumn": {
-        "x": [
-          96,
-          840
-        ],
-        "y": [
-          100,
-          980
-        ]
-      },
-      "lowerBand": {
-        "x": [
-          96,
-          1824
-        ],
-        "y": [
-          720,
-          972
-        ],
-        "_why": "y690 crossed the jaw. The chin measured y710-820 across this recording depending on posture, so hero type starts at 720 and stops at the 972 title-safe line."
-      },
-      "topBand": {
-        "x": [
-          96,
-          1200
-        ],
-        "y": [
-          60,
-          280
-        ]
-      },
-      "subjectStartsAtX": 840,
-      "nothingReadableRightOf": 820,
-      "_remeasured": "2026-08-30, 02-first-agent. Vertical luma strips over five frames: clean wall reads 159-166 out to x560, 146-153 at 560-720, 128-140 at 720-840 (the shadow the speaker casts), and the subject itself at 102-126 from x840. So the usable left column ends near x700 and the subject starts at x840, not the 900 measured on still-data-engineer. The left wall now reads 152-166, clearly above the 150 threshold, so left-column parts are INVERTED where the previous job straddled it at 147-156. The speaker also gestures into the left column (hand reached x290-580 at one point), so lower-left content can be crossed. Re-measure per job.",
-      "heroLeft": {
-        "x": [
-          96,
-          820
-        ],
-        "y": [
-          300,
-          940
-        ],
-        "_why": "hero cards sit here. x820 stops short of the subject edge measured at ~840."
-      },
-      "_chinRange": [
-        710,
-        820
-      ],
-      "_chinWhy": "measured across this recording: the chin ranges y710-820 with posture, so the stored lowerBand y690 crosses the jaw. Re-measure per job."
-    },
-    "panelContrast": {
-      "_how": "sample mean luma of the base render inside the part's box across its window",
-      "_screenBacked": "a part sitting over a screen recording goes OPAQUE regardless of measured luma. Mean luma cannot see detail density: a dark terminal full of bright syntax-coloured text measures the same as a dark shirt and wants the opposite treatment. At 92% the terminal's text ghosts through the card and the muted sub-line becomes the lowest-contrast element in the video.",
-      "_spansThreshold": "when a part's own window crosses a threshold, take the MORE ROBUST treatment (light < lightReinforced < inverted), not the mean's. The thresholds exist so the panel edge survives; a beat that straddles one is otherwise legible for part of its run and marginal for the rest as the speaker moves. This room's left wall reads 147-156 and straddles the 150 line.",
-      "light": {
-        "maxLuma": 110,
-        "fill": "$bg",
-        "opacity": 0.92,
-        "borderPx": 1
-      },
-      "lightReinforced": {
-        "minLuma": 110,
-        "maxLuma": 150,
-        "fill": "$bg",
-        "opacity": 0.92,
-        "borderPx": 2,
-        "shadow": true
-      },
-      "inverted": {
-        "minLuma": 150,
-        "fill": "$ink",
-        "opacity": 0.92,
-        "text": "$bg"
-      }
-    },
-    "tailMarginSeconds": 0.5,
-    "minStaggerSeconds": 0.4,
-    "letterStaggerSeconds": 0.045,
-    "letterStaggerIsAMaximum": true,
-    "headlineLandsBySeconds": 0.8,
-    "_staggerDerivation": "0.8s is the budget and the stagger derives from it: stagger = min(letterStaggerSeconds, (headlineLandsBySeconds - tweenDuration - startAt) / (chars - 1)). The two figures were previously stated independently and cannot both hold above ~14 characters - a 25-char hook at 0.045s lands at 1.68s, double the budget. Short headlines keep the 0.045s feel; long ones speed up to land on time.",
-    "instantChangeMinDurationSeconds": 0.2,
-    "continuousMotionAboveSeconds": 20,
-    "statMinFontPx": 160,
-    "accentElementsPerScene": 1,
-    "safeZones": {
-      "shortForm": {
-        "frame": [
-          1080,
-          1920
-        ],
-        "keepInside": [
-          200,
-          1620
-        ]
-      },
-      "longForm": {
-        "frame": [
-          1920,
-          1080
-        ],
-        "marginPct": 10,
-        "outroClearRightPct": 40
-      }
-    },
-    "pip": {
-      "longForm": {
-        "width": 648,
-        "height": 648,
-        "left": 96,
-        "top": 216,
-        "radius": 24
-      },
-      "shortForm": {
-        "contentBand": [
-          260,
-          940
-        ],
-        "faceBand": [
-          980,
-          1620
-        ],
-        "insetPx": 60
-      },
-      "demoInset": {
-        "width": 480,
-        "height": 480,
-        "left": 1368,
-        "top": 528,
-        "radius": 24,
-        "marginPx": 72,
-        "compositor": "ffmpeg",
-        "entersOnce": true,
-        "enterSeconds": 0.5,
-        "exitSeconds": 0.35,
-        "mayReposition": [
-          "bottomRight",
-          "bottomLeft"
-        ],
-        "mayHide": true,
-        "_repositionWhy": "the inset occludes the screen wherever it sits, and a slide or diagram using the whole frame leaves nowhere good. It may move to the opposite corner, or fade out entirely, for the span the screen content demands, using the same enterSeconds/exitSeconds mechanic. This is NOT the bounce the one-entry rule forbids: that rule is about the FRAME reframing between full and PiP, which does not happen here. Jump position on an existing cut boundary so the move is invisible."
-      }
-    },
-    "cardsLandOnSpokenCue": true,
-    "_cardsLandOnSpokenCueWhy": "any card whose copy quotes spoken content lands on the cue measured from outputs/transcript-cut.json, not on the card's entrance. The verdict hero would have arrived 6.4s before the line was spoken, and both stat counters finished before their numbers were said.",
-    "_heroTypeIsBandLimited": "the 120px headline and 220px stat are FULL-FRAME figures. The lower band is 290px tall: a 120px headline over two lines overflows it by 62px and a 220px numeral overlaps its own label. In-band: headline one line at ~100px, stat at the 160px floor with its sub-line in the card's right column. Verdict is the exception at 180px.",
-    "cueTimesLiveInTheCutsheet": true,
-    "_cueTimesWhy": "any timing derived from the transcript is re-derived at build time and range-checked against the part that owns it. Hardcoded cues left the end card firing against the wrong words the moment the cut was re-timed, and a mm:ss value read as seconds scheduled five of a diagram's six nodes AFTER the card had ended, so they never rendered and nothing errored.",
-    "heroTypeZone": "leftColumn",
-    "_heroTypeZoneWhy": "Title, hook and verdict cards live in the LEFT NEGATIVE SPACE, never across the frame. The lower band spans the full width and therefore crosses the speaker's chin and mouth; 'face clear above' is not enough when the band itself runs under the face. Requested by the human 2026-08-30 after the hook and verdict cards both landed on his face, and noted as a repeat of the same mistake in earlier videos."
-  },
-  "audio": {
-    "musicBedDb": -9,
-    "_levelsAreRelativeToVoice": "musicBedDb and sfxDb are dB relative to the MEASURED integrated loudness of the voice on the render, not raw gains on the source files. Measure the voice, measure each source, compute the gain. A licensed track mastered at -10 LUFS and one mastered at -20 LUFS must land at the same bed level; a flat gain puts them 10 dB apart. Measured 2026-08-20 on still-data-engineer: voice -22.3 LUFS -> bed -40.3 LUFS (gain -30.1 dB); all five effects -> -32.3 LUFS (gains -13.7 to -27.9 dB).",
-    "musicDucking": false,
-    "musicFadeIn": false,
-    "musicFadeOutSeconds": 1.5,
-    "sfxDb": -10,
-    "sfxPerVideoMax": 6,
-    "_musicBedDbWhy": "Changed from -18 to -9 on 2026-08-31: the human could not hear the bed at -18 and picked -9 from a four-way A/B at -18/-12/-9/-6. Still NOT ducked; if a future bed fights the voice, lower it before reaching for a sidechain.",
-    "_voiceEq": "140Hz +1, 280Hz -3 (Q1.1), 3400Hz +4.0 (Q2.0), then a de-esser. Chosen by ear. The presence bell must stay NARROW: a first attempt at 3.8kHz Q0.9 lifted 5-9kHz with the consonants and read as harsh and sibilant."
-  },
-  "render": {
-    "hyperframesVersion": "0.8.3",
-    "matchBaseFrameRate": true,
-    "duplicateFramePctFail": 8,
-    "browserSegmentGamma": 1.03,
-    "avDriftFailMs": 40,
-    "syncGate": true,
-    "_syncGateWhy": "a count gate cannot see stale content. Transcribe a window of the ASSEMBLED render and compare it against outputs/transcript-cut.json for the same window; fail below ~70% word match on the leading words. On 2026-08-20 a re-cut shipped old audio on new video, 4.47s out of sync, and passed frame count, sample count, drift and duplicate-frame checks because -shortest had truncated the stale track to exactly the right length.",
-    "cutsSnapToFrameGrid": true,
-    "cutsheetStoresFrames": true,
-    "_cutsheetStoresFramesWhy": "startFrame/endFrame are authoritative and start/end are derived. Storing a snapped time as seconds rounded to 3 decimals silently un-snaps it: 1/30 has no finite decimal form, and all 137 boundaries failed an on-grid assertion until frames became the stored value. At 30fps/48kHz a frame is exactly 1600 samples, so frame-exact cuts are sample-exact and drift is zero by construction rather than merely under the gate.",
-    "seamFadeMs": 4,
-    "_seamFadeMsWhy": "micro-fade every splice join. A butt-join leaves a step wherever the two sides sit at different values, even in room tone - 8 of 137 joins had a step 3.6-9.2x the LOCAL 99th percentile. Inaudible at 4ms on speech. Test each join against its own neighbourhood, not an absolute threshold: an absolute test called all 137 clean.",
-    "clipAlignment": "tail",
-    "_clipAlignmentWhy": "OBS Source Record stops both filters at the same instant but starts them a few frames apart, so paired clips differ in length. Align at the tail and trim the head of the longer one. Never assume equal durations."
-  },
-  "primaryFormat": "long-form",
-  "learned": [
-    {
-      "date": "2026-08-19",
-      "rule": "Long form may reframe via named scenes (panel, demo). The old 'never reframes' line contradicted this file's own PiP geometry and was used to override a direct request."
-    },
-    {
-      "date": "2026-08-19",
-      "rule": "demo scene: full-frame screen recording with a 480x480 face inset bottom-right, composited in FFmpeg, entering and leaving exactly once."
-    },
-    {
-      "date": "2026-08-19",
-      "rule": "takeover 6-20s pacing does not apply to demo scenes; a walkthrough runs as one continuous scene."
-    },
-    {
-      "date": "2026-08-19",
-      "rule": "Type over footage always sits on a panel. Bare ink type is legible only where the footage happens to be light."
-    },
-    {
-      "date": "2026-08-19",
-      "rule": "Hero type belongs in the lower band. A centred 160px verdict landed across the speaker's mouth."
-    },
-    {
-      "date": "2026-08-19",
-      "rule": "Every cut snaps to the frame grid. Unaligned cuts drift video against audio by ~12ms per join; 92 joins hid 733ms of drift that probed clean on every individual file."
-    },
-    {
-      "date": "2026-08-20",
-      "rule": "musicBedDb and sfxDb are levels relative to the measured voice, not raw gains. Read as raw gains, -18 dB on a track mastered at -10.2 LUFS put the bed 5.9 dB under the voice, and a flat -10 dB would have put one effect 8 dB ABOVE the voice while leaving another inaudible - the sfx library spans 14 dB of source level."
-    },
-    {
-      "date": "2026-08-20",
-      "rule": "Panel treatment over a screen recording is opaque, not the measured 92%. panelContrast keys on mean luma alone, so a 55-luma terminal packed with bright text picked the WEAKEST treatment precisely because it was darkest - the code read straight through nine cards."
-    },
-    {
-      "date": "2026-08-20",
-      "rule": "The per-letter stagger is a MAXIMUM, not a fixed value: 'headline lands by 0.8s' is the budget and the stagger derives from it. Stated independently the two rules contradict above ~14 characters."
-    },
-    {
-      "date": "2026-08-20",
-      "rule": "Zones re-measured on still-data-engineer: subject edge is x900, not x700. The stale bound cost ~240px of usable left column. Re-measure the strips whenever framing changes - the file says to, and it had not been done since the room note was written."
-    },
-    {
-      "date": "2026-08-20",
-      "rule": "The end card's cue rule is general, not end-card-specific: any card quoting spoken content lands on the cue. Three cards on this job would have spoiled their own lines."
-    },
-    {
-      "date": "2026-08-20",
-      "rule": "When a part's window spans a panelContrast threshold, take the more robust treatment. The left wall reads 147-156 and straddles 150, so three same-zone cards would otherwise split treatment over a 6-luma wobble."
-    },
-    {
-      "date": "2026-08-20",
-      "rule": "The cutsheet stores integer frames; seconds are derived. Rounding a frame-snapped time to 3 decimals un-snaps it because 1/30 has no finite decimal form - the exact mechanism hard rule 5 exists to stop, one layer below where the rule is written."
-    },
-    {
-      "date": "2026-08-20",
-      "rule": "Micro-fade 4ms at every splice join. 8 of 137 joins clicked; only a test against each join's own local step distribution found them."
-    },
-    {
-      "date": "2026-08-20",
-      "rule": "Hero type sizes are band-limited. The 120px headline and 220px stat are full-frame figures; the 290px lower band takes ~100px and 160px. The layout check caught four cards overflowing."
-    },
-    {
-      "date": "2026-08-20",
-      "rule": "Verify content, not counts. A re-cut shipped old audio on new video, 4.47s out of sync, and passed every count-based gate because -shortest made the numbers agree."
-    },
-    {
-      "date": "2026-08-20",
-      "rule": "The demo inset may move to the opposite corner or hide entirely when the screen content needs the space. That is not the full-frame/PiP bounce the one-entry rule forbids."
-    },
-    {
-      "date": "2026-08-20",
-      "rule": "Cue times live in the cutsheet and are range-checked against their own part, never hardcoded in the builder."
-    },
-    {
-      "date": "2026-08-30",
-      "rule": "Title, hook and verdict cards go in the LEFT negative space (heroLeft zone), never in the full-width lower band. The lower band crosses the face. This had happened in earlier videos too."
-    },
-    {
-      "date": "2026-08-30",
-      "rule": "Never add a corrective filter to chase a marginal spec number. An 80 Hz high-pass moved the rumble figure from -72 to -78 dB against a -75 dB spec and cost ~1 dB of chest in the voice. Measure the cost in the band that matters before applying the fix."
-    },
-    {
-      "date": "2026-08-30",
-      "rule": "select cannot reorder frames: a splice built on it silently ignores any segment the cutsheet lifts out of chronological order, so the hook stayed at 1:53 in video while the audio had it at 0:00. Assemble per segment and join with the concat demuxer."
-    },
-    {
-      "date": "2026-08-30",
-      "rule": "zoompan x/y are SOURCE coordinates capped at iw-iw/zoom, not positions in the zoomed image. Zoomed-space values are silently clamped to the bottom-right corner, so every punch-in landed on blank page. Use x='cx-(iw/Z)/2'."
-    },
-    {
-      "date": "2026-08-30",
-      "rule": "Overlays must be aligned with trim/setpts, never input-side -ss, which desyncs their PTS and makes the overlay vanish with no error. It only looks right for a part starting at 00:00."
-    },
-    {
-      "date": "2026-08-30",
-      "rule": "Fonts must live inside the render project root; a path that climbs out of it is never served and the render falls back to a system font silently."
-    },
-    {
-      "date": "2026-08-30",
-      "rule": "Verify a punch-in crop CONTAINS its target. Frame-to-frame stability is not evidence: a blank region is perfectly stable and scored 0.0 drift while sitting on empty page."
-    },
-    {
-      "date": "2026-08-31",
-      "rule": "Music bed is -9 dB under the measured voice, not -18. Judge a bed by ear, not by the number."
-    },
-    {
-      "date": "2026-08-31",
-      "rule": "A corrective presence lift needs a NARROW bell. At Q 0.9 a 3.8kHz lift spills into the 5-9kHz sibilance band and turns clarity into harshness. Q 2.0 at 3.4kHz plus a de-esser is the shape."
-    }
+ "name": "editorial",
+ "formats": [
+  "long-form",
+  "short-form-explainer",
+  "short-form-raw"
+ ],
+ "colors": {
+  "bg": "$bg",
+  "rule": "$rule",
+  "accent": "$accent",
+  "accentSoft": "$accent-soft",
+  "ink": "$ink",
+  "muted": "$muted"
+ },
+ "fonts": {
+  "display": "$font.display",
+  "caption": "$font.caption"
+ },
+ "canvas": {
+  "width": 1920,
+  "height": 1080,
+  "why": "authoring space. Every px value in style.md is a canvas number; delivery scales it."
+ },
+ "delivery": {
+  "width": 3840,
+  "height": 2160,
+  "fps": "source",
+  "neverDownscaleBelowSource": true,
+  "why": "delivery is min(this, source) and never lower. Downscaling is a decision to report, never a default. On 2026-08-18 a 4K talking head and a 5K screencast were both delivered at 1080p because the pipeline took its frame size from the authoring canvas."
+ },
+ "reframes": {
+  "allowed": true,
+  "namedScenesOnly": true,
+  "scenes": [
+   "panel",
+   "demo"
   ]
+ },
+ "captions": {
+  "longForm": {
+   "burnIn": false
+  },
+  "shortForm": {
+   "burnIn": true,
+   "font": "$font.caption",
+   "sizePx": 64,
+   "case": "sentence",
+   "wordsPerCard": [
+    3,
+    5
+   ],
+   "breakOn": "phrase-boundary",
+   "keepTechnicalCaps": true,
+   "position": {
+    "anchor": "bottom",
+    "yPx": 1420
+   },
+   "fill": "$ink",
+   "highlight": "$accent",
+   "stroke": {
+    "color": "$bg",
+    "widthPx": 8
+   },
+   "safeZone": {
+    "top": 200,
+    "bottom": 1620
+   }
+  }
+ },
+ "hook": {
+  "everyVideoOpensOnTheHook": true,
+  "source": "$brand.defaultHook",
+  "card": false,
+  "holdSeconds": 2.5,
+  "scene": "push",
+  "shortFormRaw": {
+   "card": true,
+   "onlyGraphic": true
+  },
+  "opensOnMotion": true,
+  "payoffObjectPreview": false,
+  "_opensOnMotionWhy": "frame 1 carries movement. The hook was type landing by 0.8s over a push, which makes the first beat of the video look like every other card in it, and the first three seconds are where the audience decides. Where the video has an analogy scene later, the hook previews that object unresolved and unlabelled, so its return is a payoff. This is the content arriving faster, not decoration in front of it: a logo sting or a channel bumper is the opposite of this rule, and audio is not delayed for the animation.",
+  "mustBeDrawnObject": true,
+  "typeOnlyHookForbidden": true,
+  "headlineCardOnHook": false,
+  "defaultObject": "the video's own subject, drawn as line art and put under load until it fails or strains",
+  "_mustBeDrawnObjectWhy": "2026-09-07, job1. The hook was a type card: eyebrow, headline, accent rule. The human's words: 'the graphics are unimaginative, its just text, text is not motion graphics'. He is right, and 'opensOnMotion' did not fix it \u2014 a headline that animates in is still a headline. The hook is now a DRAWN OBJECT that performs something, and the spoken line is not repeated on screen: the viewer already hears the question, so setting it in Satoshi Black adds nothing and costs the one moment the audience is deciding. Three concepts were mocked for job1 (a strike-list of jobs that stalls, a pipe that jams on mismatched feeds, an autocomplete that gives up) and the human's instruction was that the drawn-object hook 'should always win automatically' and be the default, with the others offered as a choice. So this is not a job-local preference.",
+  "alternativesOfferedToHuman": true,
+  "_alternativesWhy": "the OBJECT is still a human choice, offered as two or three candidates the way rough-cut offers three hook lines. What is not a choice is whether the hook is drawn.",
+  "payoffObjectPreviewWhen": "the analogy lands within a few seconds of the hook",
+  "_payoffObjectPreviewWhy": "Narrowed 2026-09-08 on 03-project-context, with the human's authorisation. The rule used to be unconditional, so the hook drew the architect's building at 0:00 while the voice was on 'your AI demos look brilliant and your POCs work great'. His note: the graphic is out of context. He is right. The analogy is not mentioned until 0:18 and does not pay off until 24:52, so previewing it in the first nine seconds is a non-sequitur, not a setup. The hook falls back to defaultObject: the video's own subject drawn as line art and put under load until it fails or strains. Preview the payoff object only when the analogy follows almost immediately, where the viewer can still connect the two.",
+  "graphicEntersOn": "firstClauseBreak",
+  "_graphicEntersOnWhy": "2026-09-23, human decision on 04-lightweight-ontology. Frame 1 carries motion through the push on the face (opensOnMotion); the drawn object enters on the first clause break after the opening words, 0.2s before the cue word ('because' at 2.0s), and the hook sfx is derived from the same cue. A graphic on frame 0 sat over an awkward first frame and arrived before the viewer knew what it was about."
+ },
+ "graphics": {
+  "kinds": [
+   "stat",
+   "card",
+   "screenshot",
+   "takeover",
+   "zoom",
+   "diagram",
+   "broll-slot"
+  ],
+  "sceneTypes": [
+   "head",
+   "chip",
+   "panel",
+   "takeover",
+   "push",
+   "slot",
+   "demo",
+   "analogy",
+   "contrast",
+   "loop",
+   "strike-list",
+   "self-demonstrating"
+  ],
+  "defaultToNoGraphic": true,
+  "pipEntersOncePerRun": true,
+  "typeOverFootageNeedsPanel": true,
+  "heroTypeNeverCoversFace": true,
+  "panelFill": "$bg at 92% + 1px $rule",
+  "zones": {
+   "_canvas": [
+    1920,
+    1080
+   ],
+   "_why": "camera fixed left of a two-display desk, speaker right of it. Measured from footage, not assumed. Re-measure when the room changes.",
+   "leftColumn": {
+    "x": [
+     96,
+     840
+    ],
+    "y": [
+     100,
+     980
+    ]
+   },
+   "lowerBand": {
+    "x": [
+     96,
+     1824
+    ],
+    "y": [
+     720,
+     972
+    ],
+    "_why": "y690 crossed the jaw. The chin measured y710-820 across this recording depending on posture, so hero type starts at 720 and stops at the 972 title-safe line."
+   },
+   "topBand": {
+    "x": [
+     96,
+     1200
+    ],
+    "y": [
+     60,
+     280
+    ]
+   },
+   "subjectStartsAtX": 840,
+   "nothingReadableRightOf": 820,
+   "_remeasured": "2026-08-30, 02-first-agent. Vertical luma strips over five frames: clean wall reads 159-166 out to x560, 146-153 at 560-720, 128-140 at 720-840 (the shadow the speaker casts), and the subject itself at 102-126 from x840. So the usable left column ends near x700 and the subject starts at x840, not the 900 measured on still-data-engineer. The left wall now reads 152-166, clearly above the 150 threshold, so left-column parts are INVERTED where the previous job straddled it at 147-156. The speaker also gestures into the left column (hand reached x290-580 at one point), so lower-left content can be crossed. Re-measure per job.",
+   "heroLeft": {
+    "x": [
+     96,
+     820
+    ],
+    "y": [
+     300,
+     940
+    ],
+    "_why": "hero cards sit here. x820 stops short of the subject edge measured at ~840."
+   },
+   "_chinRange": [
+    710,
+    820
+   ],
+   "_chinWhy": "measured across this recording: the chin ranges y710-820 with posture, so the stored lowerBand y690 crosses the jaw. Re-measure per job.",
+   "measurePerJob": true,
+   "measuredZonesFile": "graphics-build/zones.json",
+   "script": "styles/measure_zones.py",
+   "_measurePerJobWhy": "2026-09-07, job1. Every zone in this block was measured on 02-first-agent, a wide shot with the speaker right of a two-display desk. job1 is a tight close-up of the same person in the same room and the numbers do not transfer at all: leftColumn, heroLeft and lowerBand ALL measured as sitting on his face (detail 63.6, 67.1 and 79.7 against a clean-wall reading under 10). The only clear space was a 400x580 strip at x0-400 y180-760 and a 720x220 strip at x1180-1900 y520-740. The shipped job1 verdict card sits across his mouth as a direct result. The boxes below are now a FALLBACK and a shape reference; the authoritative numbers for a job live in its own zones.json. Detail (mean within-frame stdev) separates face from wall far better than luma does \u2014 luma called the face-covering boxes 128 and the clean wall 178, which looks like a difference of degree rather than the difference between 'wall' and 'a man's head'."
+  },
+  "panelContrast": {
+   "_how": "sample mean luma of the base render inside the part's box across its window",
+   "_screenBacked": "a part sitting over a screen recording goes OPAQUE regardless of measured luma. Mean luma cannot see detail density: a dark terminal full of bright syntax-coloured text measures the same as a dark shirt and wants the opposite treatment. At 92% the terminal's text ghosts through the card and the muted sub-line becomes the lowest-contrast element in the video.",
+   "_spansThreshold": "when a part's own window crosses a threshold, take the MORE ROBUST treatment (light < lightReinforced < inverted), not the mean's. The thresholds exist so the panel edge survives; a beat that straddles one is otherwise legible for part of its run and marginal for the rest as the speaker moves. This room's left wall reads 147-156 and straddles the 150 line.",
+   "light": {
+    "maxLuma": 110,
+    "fill": "$bg",
+    "opacity": 0.92,
+    "borderPx": 6,
+    "borderColor": "#FFFFFF",
+    "shadow": "0 16px 52px rgba(0,0,0,.38)"
+   },
+   "lightReinforced": {
+    "minLuma": 110,
+    "maxLuma": 150,
+    "fill": "$bg",
+    "opacity": 0.92,
+    "borderPx": 6,
+    "shadow": "0 16px 52px rgba(0,0,0,.38)",
+    "borderColor": "#FFFFFF"
+   },
+   "inverted": {
+    "minLuma": 150,
+    "fill": "$ink",
+    "opacity": 0.92,
+    "text": "$bg",
+    "borderPx": 6,
+    "borderColor": "$bg",
+    "shadow": "0 16px 52px rgba(0,0,0,.50)"
+   },
+   "_cardEdge": "EVERY card carries a white border and a real drop shadow, whatever its fill. Approved by the human 2026-09-09 as the standard for all subsequent builds. The point is that a card must read as an OBJECT sitting in front of the room, not as a rectangle painted onto it: when the speaker overlaps a flat card the boundary reads as a cutout, and no amount of matte quality fixes that on its own. The previous 2px $rule border with a 0.20 shadow MEASURED as invisible: across a card's bottom edge the frame moved 147 -> 142 luma over 140px.",
+   "opaque": {
+    "_when": "over a screen recording",
+    "fill": "$ink",
+    "opacity": 1.0,
+    "borderPx": 6,
+    "borderColor": "$bg",
+    "text": "$bg",
+    "shadow": "0 16px 52px rgba(0,0,0,.50)"
+   }
+  },
+  "tailMarginSeconds": 0.5,
+  "minStaggerSeconds": 0.4,
+  "letterStaggerSeconds": 0.045,
+  "letterStaggerIsAMaximum": true,
+  "headlineLandsBySeconds": 0.8,
+  "_staggerDerivation": "0.8s is the budget and the stagger derives from it: stagger = min(letterStaggerSeconds, (headlineLandsBySeconds - tweenDuration - startAt) / (chars - 1)). The two figures were previously stated independently and cannot both hold above ~14 characters - a 25-char hook at 0.045s lands at 1.68s, double the budget. Short headlines keep the 0.045s feel; long ones speed up to land on time.",
+  "instantChangeMinDurationSeconds": 0.2,
+  "continuousMotionAboveSeconds": 20,
+  "statMinFontPx": 160,
+  "accentElementsPerScene": 1,
+  "safeZones": {
+   "shortForm": {
+    "frame": [
+     1080,
+     1920
+    ],
+    "keepInside": [
+     200,
+     1620
+    ]
+   },
+   "longForm": {
+    "frame": [
+     1920,
+     1080
+    ],
+    "marginPct": 10,
+    "outroClearRightPct": 40
+   }
+  },
+  "pip": {
+   "longForm": {
+    "width": 648,
+    "height": 648,
+    "left": 96,
+    "top": 216,
+    "radius": 24
+   },
+   "shortForm": {
+    "contentBand": [
+     260,
+     940
+    ],
+    "faceBand": [
+     980,
+     1620
+    ],
+    "insetPx": 60
+   },
+   "demoInset": {
+    "width": 480,
+    "height": 480,
+    "left": 1368,
+    "top": 528,
+    "radius": 24,
+    "marginPx": 72,
+    "compositor": "ffmpeg",
+    "entersOnce": true,
+    "enterSeconds": 0.5,
+    "exitSeconds": 0.35,
+    "mayReposition": [
+     "bottomRight",
+     "bottomLeft"
+    ],
+    "mayHide": true,
+    "_repositionWhy": "the inset occludes the screen wherever it sits, and a slide or diagram using the whole frame leaves nowhere good. It may move to the opposite corner, or fade out entirely, for the span the screen content demands. This is NOT the bounce the one-entry rule forbids: that rule is about the FRAME reframing between full and PiP, which does not happen here. SLIDE the move over repositionSeconds with a smoothstep ease. Corrected 2026-09-09: this knob used to say 'jump position on an existing cut boundary so the move is invisible', and that is what produced a single-frame teleport the director called out. The premise is wrong twice over. A demo scene is one continuous screen recording, so there is usually no cut boundary to hide behind at all; and even on a cut, an inset that changes side instantly reads as a glitch rather than as a move, because nothing else in frame changed with it.",
+    "repositionSeconds": 0.6,
+    "repositionEase": "smoothstep"
+   }
+  },
+  "cardsLandOnSpokenCue": true,
+  "_cardsLandOnSpokenCueWhy": "any card whose copy quotes spoken content lands on the cue measured from outputs/transcript-cut.json, not on the card's entrance. The verdict hero would have arrived 6.4s before the line was spoken, and both stat counters finished before their numbers were said.",
+  "_heroTypeIsBandLimited": "the 120px headline and 220px stat are FULL-FRAME figures. The lower band is 290px tall: a 120px headline over two lines overflows it by 62px and a 220px numeral overlaps its own label. In-band: headline one line at ~100px, stat at the 160px floor with its sub-line in the card's right column. Verdict is the exception at 180px.",
+  "cueTimesLiveInTheCutsheet": true,
+  "_cueTimesWhy": "any timing derived from the transcript is re-derived at build time and range-checked against the part that owns it. Hardcoded cues left the end card firing against the wrong words the moment the cut was re-timed, and a mm:ss value read as seconds scheduled five of a diagram's six nodes AFTER the card had ended, so they never rendered and nothing errored.",
+  "heroTypeZone": "heroLeft",
+  "_heroTypeZoneWhy": "Title, hook and verdict cards live in the LEFT NEGATIVE SPACE, never across the frame. The lower band spans the full width and therefore crosses the speaker's chin and mouth; 'face clear above' is not enough when the band itself runs under the face. Requested by the human 2026-08-30 after the hook and verdict cards both landed on his face, and noted as a repeat of the same mistake in earlier videos.",
+  "_sceneTypesWhy": "analogy, contrast, loop, strike-list and self-demonstrating were all built by hand on real jobs and then died with them: g003/g009 (loop) and g008 (analogy) on 02-first-agent, g005 (self-demonstrating), g007 (strike-list). Rule 9 writes CORRECTIONS back to the style file and nothing wrote INVENTIONS back, so each one had to be re-imagined from scratch or requested by the human. Anatomy for all five is in style.md.",
+  "nonTypographicMinimum": {
+   "perConceptCandidate": 1,
+   "floorPerVideo": 2,
+   "_how": "styles/scan_concepts.py reads outputs/transcript-cut.json and returns concept-beat candidates. Each accepted candidate resolves to a non-typographic scene, and a cut sheet carries at least floorPerVideo of them. 02-first-agent hit 2 of 12 naturally (g005, g008) and both were the strongest graphics in it; job1 hit 0 of 18.",
+   "_notAQuota": "a candidate the human declines is closed with a reason in the cut sheet, not padded with a drawn object nobody wanted. The floor exists so a cut sheet of pure type is a decision someone made, rather than the default nobody noticed."
+  },
+  "conceptScan": {
+   "runsBeforeThePlan": true,
+   "script": "styles/scan_concepts.py",
+   "proposesNeverDecides": true,
+   "_why": "the plan step scans for showable nouns and numbers, which is why every graphic came out as a layout of the words being spoken. On 02-first-agent 'a brain sitting in a jar' sat in the transcript at 373.19 and the pipeline read past it; the human supplied the jar. The scan finds the beat and names the scene type. The human picks the object.",
+   "_markersAreStructural": "cue patterns match sentence shape, never topic. 'brain' would have found the jar on this one video and nothing on any other."
+  },
+  "typographicCardIsNotADefault": true,
+  "_typographicCardWhy": "reach for a drawn scene first and a card only where type IS the content \u2014 a verbatim quote, a lower-third name, an end card. 'What could this beat DO instead of say it' is the question asked of every beat, before any card anatomy is opened. 02-first-agent shipped 10 of 12 as type on a panel and job1 shipped 18 of 18.",
+  "_heroTypeZoneFixed": "2026-09-07: this knob read 'leftColumn' while style.md named heroLeft in two places and zones.heroLeft._why said 'hero cards sit here'. Three sources to one, so the knob was the typo, left behind when the 2026-08-30 correction was written into the prose and the zones block. Resolved with the human's authorisation and reported, never silently. check_style.py now compares the two so it cannot drift again.",
+  "spelling": "US",
+  "_spellingWhy": "US English everywhere, on screen and in every document. 2026-09-08: 'organisation' shipped in a card and the human corrected it.",
+  "recurringObjects": {
+   "model": "a brain, or a brain in a jar",
+   "agent": "a brain in a jar WITH LIMBS",
+   "_why": "Series-wide motif, not a per-video choice. The human has used the brain-in-a-jar for the model across this series (it was the strongest graphic on 02-first-agent), so any part that has to depict 'the model' or 'the agent' uses it and inherits the recognition. Stated 2026-09-08 after g001 and g004 both drew abstract stand-ins instead."
+  },
+  "facePlateComposite": {
+   "available": true,
+   "how": "npx hyperframes@0.8.3 remove-background <span>.mov -o <subject>.mov  (u2net_human_seg, ProRes 4444)",
+   "cost": "~2.1 fps at 4K, so ~8 min of compute and ~3.5GB per minute of footage",
+   "_why": "This framing is centred, so the left column is narrower than on 02-first-agent and cards land on the speaker. Rather than shrink every card, composite in three layers: base footage, then the card, then the SUBJECT MATTE on top, so he occludes the card instead of the card covering him. Requested by the human 2026-09-08. Run it only over the spans where a card actually overlaps him, never the whole video."
+  },
+  "subjectMatte": {
+   "featherSigma": 2.0,
+   "_why": "Background removal returns a BINARY alpha. Measured on a 4K matte: the silhouette edge goes 0 -> 255 with exactly 0px of partial alpha, so a smooth contour like a cheek renders as a stair-stepped cutout and the shot reads like a cheap virtual background. Blur the ALPHA ONLY (never the colour) to give the key about 11px of anti-aliasing at 4K, roughly 5px at 1080p. Do it in the composite filter chain rather than by re-encoding the mattes: it is exact and keeps tens of GB of ProRes 4444 off the disk.",
+   "_doNot": "Do not follow the blur with a contrast or levels push to 'tighten' the edge. That re-binarises it and silently undoes the whole fix."
+  },
+  "takeoverDrift": {
+   "appliesTo": "class=segment, full-frame, duration >= 20s",
+   "from": 1.0,
+   "to": 1.03,
+   "ease": "power1.inOut",
+   "overWholeBeat": true,
+   "_why": "A card that stops animating over the demo still sits on a moving frame: the screen recording and the face inset are live behind it, measured 0.418 mean pixel change over half a second. A TAKEOVER that stops animating freezes the entire picture, measured 0.000. On 03-project-context g003 that was ~39s of a 67s beat, with one unbroken 14s hold. Cards over live footage are exempt; this is only for full-frame parts."
+  }
+ },
+ "audio": {
+  "musicBedDb": -12,
+  "_levelsAreRelativeToVoice": "musicBedDb and sfxDb are dB relative to the MEASURED integrated loudness of the voice on the render, not raw gains on the source files. Measure the voice, measure each source, compute the gain. A licensed track mastered at -10 LUFS and one mastered at -20 LUFS must land at the same bed level; a flat gain puts them 10 dB apart. Measured 2026-08-20 on still-data-engineer: voice -22.3 LUFS -> bed -40.3 LUFS (gain -30.1 dB); all five effects -> -32.3 LUFS (gains -13.7 to -27.9 dB).",
+  "musicDucking": false,
+  "musicFadeIn": false,
+  "musicFadeOutSeconds": 1.5,
+  "sfxDb": -10,
+  "sfxPerVideoMax": 6,
+  "_musicBedDbWhy": "Changed to -12 on 2026-09-09: at -9 the director found the bed too loud under both the intro and the outro. -12 is the next rung down on the same four-way A/B (-18/-12/-9/-6) he ran on 2026-08-31, when -18 was inaudible and he picked -9. Previously: Changed from -18 to -9 on 2026-08-31: the human could not hear the bed at -18 and picked -9 from a four-way A/B at -18/-12/-9/-6. Still NOT ducked; if a future bed fights the voice, lower it before reaching for a sidechain.",
+  "_voiceEq": "140Hz +1, 280Hz -3 (Q1.1), 3400Hz +4.0 (Q2.0), then a de-esser. Chosen by ear. The presence bell must stay NARROW: a first attempt at 3.8kHz Q0.9 lifted 5-9kHz with the consonants and read as harsh and sibilant."
+ },
+ "render": {
+  "hyperframesVersion": "0.8.3",
+  "matchBaseFrameRate": true,
+  "duplicateFramePctFail": 8,
+  "browserSegmentGamma": 1.03,
+  "avDriftFailMs": 40,
+  "syncGate": true,
+  "_syncGateWhy": "a count gate cannot see stale content. Transcribe a window of the ASSEMBLED render and compare it against outputs/transcript-cut.json for the same window; fail below ~70% word match on the leading words. On 2026-08-20 a re-cut shipped old audio on new video, 4.47s out of sync, and passed frame count, sample count, drift and duplicate-frame checks because -shortest had truncated the stale track to exactly the right length.",
+  "cutsSnapToFrameGrid": true,
+  "cutsheetStoresFrames": true,
+  "_cutsheetStoresFramesWhy": "startFrame/endFrame are authoritative and start/end are derived. Storing a snapped time as seconds rounded to 3 decimals silently un-snaps it: 1/30 has no finite decimal form, and all 137 boundaries failed an on-grid assertion until frames became the stored value. At 30fps/48kHz a frame is exactly 1600 samples, so frame-exact cuts are sample-exact and drift is zero by construction rather than merely under the gate.",
+  "seamFadeMs": 4,
+  "_seamFadeMsWhy": "micro-fade every splice join. A butt-join leaves a step wherever the two sides sit at different values, even in room tone - 8 of 137 joins had a step 3.6-9.2x the LOCAL 99th percentile. Inaudible at 4ms on speech. Test each join against its own neighbourhood, not an absolute threshold: an absolute test called all 137 clean.",
+  "clipAlignment": "tail",
+  "_clipAlignmentWhy": "OBS Source Record stops both filters at the same instant but starts them a few frames apart, so paired clips differ in length. Align at the tail and trim the head of the longer one. Never assume equal durations."
+ },
+ "primaryFormat": "long-form",
+ "learned": [
+  {
+   "date": "2026-08-19",
+   "rule": "Long form may reframe via named scenes (panel, demo). The old 'never reframes' line contradicted this file's own PiP geometry and was used to override a direct request."
+  },
+  {
+   "date": "2026-08-19",
+   "rule": "demo scene: full-frame screen recording with a 480x480 face inset bottom-right, composited in FFmpeg, entering and leaving exactly once."
+  },
+  {
+   "date": "2026-08-19",
+   "rule": "takeover 6-20s pacing does not apply to demo scenes; a walkthrough runs as one continuous scene."
+  },
+  {
+   "date": "2026-08-19",
+   "rule": "Type over footage always sits on a panel. Bare ink type is legible only where the footage happens to be light."
+  },
+  {
+   "date": "2026-08-19",
+   "rule": "Hero type belongs in the lower band. A centred 160px verdict landed across the speaker's mouth."
+  },
+  {
+   "date": "2026-08-19",
+   "rule": "Every cut snaps to the frame grid. Unaligned cuts drift video against audio by ~12ms per join; 92 joins hid 733ms of drift that probed clean on every individual file."
+  },
+  {
+   "date": "2026-08-20",
+   "rule": "musicBedDb and sfxDb are levels relative to the measured voice, not raw gains. Read as raw gains, -18 dB on a track mastered at -10.2 LUFS put the bed 5.9 dB under the voice, and a flat -10 dB would have put one effect 8 dB ABOVE the voice while leaving another inaudible - the sfx library spans 14 dB of source level."
+  },
+  {
+   "date": "2026-08-20",
+   "rule": "Panel treatment over a screen recording is opaque, not the measured 92%. panelContrast keys on mean luma alone, so a 55-luma terminal packed with bright text picked the WEAKEST treatment precisely because it was darkest - the code read straight through nine cards."
+  },
+  {
+   "date": "2026-08-20",
+   "rule": "The per-letter stagger is a MAXIMUM, not a fixed value: 'headline lands by 0.8s' is the budget and the stagger derives from it. Stated independently the two rules contradict above ~14 characters."
+  },
+  {
+   "date": "2026-08-20",
+   "rule": "Zones re-measured on still-data-engineer: subject edge is x900, not x700. The stale bound cost ~240px of usable left column. Re-measure the strips whenever framing changes - the file says to, and it had not been done since the room note was written."
+  },
+  {
+   "date": "2026-08-20",
+   "rule": "The end card's cue rule is general, not end-card-specific: any card quoting spoken content lands on the cue. Three cards on this job would have spoiled their own lines."
+  },
+  {
+   "date": "2026-08-20",
+   "rule": "When a part's window spans a panelContrast threshold, take the more robust treatment. The left wall reads 147-156 and straddles 150, so three same-zone cards would otherwise split treatment over a 6-luma wobble."
+  },
+  {
+   "date": "2026-08-20",
+   "rule": "The cutsheet stores integer frames; seconds are derived. Rounding a frame-snapped time to 3 decimals un-snaps it because 1/30 has no finite decimal form - the exact mechanism hard rule 5 exists to stop, one layer below where the rule is written."
+  },
+  {
+   "date": "2026-08-20",
+   "rule": "Micro-fade 4ms at every splice join. 8 of 137 joins clicked; only a test against each join's own local step distribution found them."
+  },
+  {
+   "date": "2026-08-20",
+   "rule": "Hero type sizes are band-limited. The 120px headline and 220px stat are full-frame figures; the 290px lower band takes ~100px and 160px. The layout check caught four cards overflowing."
+  },
+  {
+   "date": "2026-08-20",
+   "rule": "Verify content, not counts. A re-cut shipped old audio on new video, 4.47s out of sync, and passed every count-based gate because -shortest made the numbers agree."
+  },
+  {
+   "date": "2026-08-20",
+   "rule": "The demo inset may move to the opposite corner or hide entirely when the screen content needs the space. That is not the full-frame/PiP bounce the one-entry rule forbids."
+  },
+  {
+   "date": "2026-08-20",
+   "rule": "Cue times live in the cutsheet and are range-checked against their own part, never hardcoded in the builder."
+  },
+  {
+   "date": "2026-08-30",
+   "rule": "Title, hook and verdict cards go in the LEFT negative space (heroLeft zone), never in the full-width lower band. The lower band crosses the face. This had happened in earlier videos too."
+  },
+  {
+   "date": "2026-08-30",
+   "rule": "Never add a corrective filter to chase a marginal spec number. An 80 Hz high-pass moved the rumble figure from -72 to -78 dB against a -75 dB spec and cost ~1 dB of chest in the voice. Measure the cost in the band that matters before applying the fix."
+  },
+  {
+   "date": "2026-08-30",
+   "rule": "select cannot reorder frames: a splice built on it silently ignores any segment the cutsheet lifts out of chronological order, so the hook stayed at 1:53 in video while the audio had it at 0:00. Assemble per segment and join with the concat demuxer."
+  },
+  {
+   "date": "2026-08-30",
+   "rule": "zoompan x/y are SOURCE coordinates capped at iw-iw/zoom, not positions in the zoomed image. Zoomed-space values are silently clamped to the bottom-right corner, so every punch-in landed on blank page. Use x='cx-(iw/Z)/2'."
+  },
+  {
+   "date": "2026-08-30",
+   "rule": "Overlays must be aligned with trim/setpts, never input-side -ss, which desyncs their PTS and makes the overlay vanish with no error. It only looks right for a part starting at 00:00."
+  },
+  {
+   "date": "2026-08-30",
+   "rule": "Fonts must live inside the render project root; a path that climbs out of it is never served and the render falls back to a system font silently."
+  },
+  {
+   "date": "2026-08-30",
+   "rule": "Verify a punch-in crop CONTAINS its target. Frame-to-frame stability is not evidence: a blank region is perfectly stable and scored 0.0 drift while sitting on empty page."
+  },
+  {
+   "date": "2026-08-31",
+   "rule": "Music bed sits at musicBedDb under the measured voice (-9 from 2026-08-31, lowered to -12 on 2026-09-09 when -9 was too loud). Never -18: inaudible. Judge a bed by ear, not by the number."
+  },
+  {
+   "date": "2026-08-31",
+   "rule": "A corrective presence lift needs a NARROW bell. At Q 0.9 a 3.8kHz lift spills into the 5-9kHz sibilance band and turns clarity into harshness. Q 2.0 at 3.4kHz plus a de-esser is the shape."
+  },
+  {
+   "date": "2026-09-07",
+   "rule": "Graphics vocabulary was one family deep. Ten of twelve parts on 02-first-agent and eighteen of eighteen on job1 were type on a panel, because style.md carried anatomy for the title card and nothing else. The two exceptions (g005, g008) were the best graphics in either video and both were human-directed. Five scene types added, plus a concept scan that proposes them and a floor that fails a cut sheet with none."
+  },
+  {
+   "date": "2026-09-07",
+   "rule": "The hook opens on motion and previews the payoff object. A static or type-only first frame spends the one moment the audience is deciding on the same card anatomy used twelve more times later."
+  },
+  {
+   "date": "2026-09-07",
+   "rule": "The hook is a DRAWN OBJECT, never a type card, and the spoken hook line is not repeated on screen. 'Opens on motion' was not enough: a headline that animates in is still a headline. Asked what the graphics were, the human said 'its just text, text is not motion graphics'."
+  },
+  {
+   "date": "2026-09-07",
+   "rule": "Zones are measured per job into graphics-build/zones.json, not read from this file. job1 is the same person in the same room as 02-first-agent and all three stored zones landed on his face, because it is a tight close-up and the stored numbers came from a wide shot. Measure DETAIL, not just luma: detail cleanly separates face (60+) from wall (under 10)."
+  },
+  {
+   "date": "2026-09-07",
+   "rule": "graphics.heroTypeZone said 'leftColumn' while style.md and zones.heroLeft._why said 'heroLeft'. A correction written into the prose had not been written into the knob. check_style.py compares them now."
+  },
+  {
+   "date": "2026-09-08",
+   "rule": "Never grade to hit the recording spec's face-luma number. On 03-project-context the face measured 122-127 against a 130-145 spec with a 152 wall behind it; a curve moved the skin mean to 132 and held the wall, and it cost 26% of the tonal range INSIDE the face (99 -> 73) and a third of the face-to-background separation (25.3 -> 16.1). The human's words: 'lost all the detail and my face is overexposed and blending into the background'. Only the mean had been verified. Verify YHIGH-YLOW inside the face and the face/background gap before and after, not YAVG. A background brighter than the subject is a lighting fix at record time, not a grade fix, and the existing rule about not chasing a marginal spec number with a corrective filter covers picture as well as audio."
+  },
+  {
+   "date": "2026-09-08",
+   "rule": "Never send a downscaled or low-bitrate proxy as evidence of picture quality. A 1280x720/3.2Mbps preview of a 3840x2160/55Mbps master led the human to conclude the master was 1080p and had lost all its detail. Previews are for MOTION GRAPHICS only, and those go out as full-resolution stills AND clips composited with his audio. Everything else reports measurements and lets him open the master."
+  },
+  {
+   "date": "2026-09-08",
+   "rule": "FFmpeg 9.0 removed options the skills still use. -vsync is gone, use -fps_mode (its silent absence made frame extraction return neighbouring frames and nearly invalidated a content gate). -filter_complex_script is gone, use -/filter_complex <file>. drawtext is not compiled into this build at all, so any burned-in text must come from a composition render rather than an FFmpeg filter."
+  },
+  {
+   "date": "2026-09-08",
+   "rule": "The content gate's own noise floor is a diagnostic, not a nuisance. A faithful re-encode matches its raw source at ~0.1 mean pixel difference with far-frame ratios of 20-90x, exactly as the rough-cut skill says. When the same gate read a 1.6 floor with 2-3x ratios on 03-project-context it was rationalised as 'the encode and grade round-trip' and the gate was rewritten to be calibration-free so it would pass anyway. The real cause was a corrective grade crushing facial contrast, and the human caught it, not the pipeline. A floor an order of magnitude above 0.1 means something is altering the picture: find out what before adjusting the gate around it."
+  },
+  {
+   "date": "2026-09-08",
+   "rule": "The 'a span end must not bisect a word' rule applies to KILL ranges too, not just to kept spans, and it must be asserted rather than eyeballed. On 03-project-context three hand-picked kill boundaries landed inside words: one clipped 'smart.' at the head, one ended inside 'Sorry,' and left a stray 'I closed it.' in the cut, and one cut through 'fill' and removed 'fill in the gaps', which was the phrase completing the video's central architect analogy. The analogy then ended on 'they just' and jumped to the next topic. Nothing errored and no gate noticed; the human found it by watching. build_cutsheet.py now fails the build if any kill edge falls strictly inside a word, and that assertion caught the other two immediately."
+  },
+  {
+   "date": "2026-09-08",
+   "rule": "A join audit is a required gate after any splice, and it is the only one that can see a cut through the middle of a thought. Every other gate measures frames, samples, words or pixels, and an unfinished sentence is frame-exact, sample-exact and word-accurate, so all of them pass. On 03-project-context the human found two mid-thought cuts by watching, after the full gate set had passed twice. The audit prints, for every join, the last words kept, THE SOURCE WORDS THAT WERE REMOVED, and the first words after; only joins where SPEECH was removed matter (10 of 66 here, the rest being pure silence, which leaves the sentence continuous). Reading those ten found three further defects nobody had reported: a doubled 'so production ai use cases' inside a kept take, 'Let's get started' said twice 22s apart, and a dangling 'Now let's do another experiment where'. Note the strongest case ended on a clean full stop and was flagged by nothing: the removed text was the second half of the argument. The GONE column is the signal, not the punctuation flags. Script: graphics-build/audit_joins.py."
+  },
+  {
+   "date": "2026-09-08",
+   "rule": "When a speaker's analogy has no completed payoff anywhere in the footage, that is a content decision for the human, not something the edit resolves quietly. On 03-project-context the architect analogy's bridge to the AI agent trailed off mid-sentence ('in spite of all the harnesses... it does not') and was killed as a false start, leaving the analogy hanging. The options (land a later parallel immediately, shoot a pickup line, reorder, or leave it) were put to the human with the actual text of each; he chose to cut the intervening 18s passage so the parallel lands straight after the analogy. Do not pick one of these silently."
+  },
+  {
+   "date": "2026-09-08",
+   "rule": "gsap tl.set() with NO position parameter lands at the timeline's current END, not at 0. On 03-project-context g001 the two tl.set() calls that armed strokeDasharray/strokeDashoffset landed at ~1.22s, fighting the fromTo that started at 1.20s, and the building drew itself and then vanished for the rest of the beat. Lint passed, check passed, the render succeeded, and the composition looked plausible in isolation. Fix: put dash values on the ELEMENT as SVG attributes (stroke-dasharray / stroke-dashoffset) and tween only the offset, so there is no ordering question at all. Any tl.set that must exist carries an explicit position, e.g. the hard kill at the part boundary."
+  },
+  {
+   "date": "2026-09-08",
+   "rule": "A still pulled for review must SEEK INTO the overlay at (t - part.start), not delay it by that amount. Delaying it renders bare footage, which is indistinguishable from a graphic that failed to render, and nearly caused a working hook to be rebuilt from scratch. Verify a review still against the composited MP4 before concluding a part is broken."
+  },
+  {
+   "date": "2026-09-08",
+   "rule": "Two line-art objects sharing an exact footprint interleave into one unreadable object. The 'what was built vs what was wanted' pair needs the front object to carry an opaque fill in $bg so it occludes, plus a small offset on the ghost, or the strokes read as a single confused drawing. Found on the first spot review, which is why that review happens at 10% and not at the end."
+  },
+  {
+   "date": "2026-09-08",
+   "rule": "hook.payoffObjectPreview is now conditional, not unconditional. Drawing the analogy's object at 0:00 of a 26-minute video whose analogy starts at 0:18 and pays off at 24:52 reads as a non-sequitur: the viewer has no idea why they are looking at it. The hook's job is the video's own SUBJECT under load. Preview the payoff object only when the analogy lands within a few seconds of the hook."
+  },
+  {
+   "date": "2026-09-08",
+   "rule": "A drawn object only reads if the geometry carries the idea at a glance. Two failures on the same part: credentials drawn as plain rectangles of varying height read as a bar chart rather than as buildings, and a 'does not fit' gate whose opening was 48 against rows of 54-66 did not read as a mismatch at all. Fixes: draw the actual thing (a house, a tower, an apartment block, a shed), and make the size difference more than 2:1 (a 44 opening against 84-96 rows). Also give an obstacle a DARK fill: $rule on a near-white panel reads as a smudge, not a barrier."
+  },
+  {
+   "date": "2026-09-08",
+   "rule": "SVG stroke and fill colours must be keyed to the MEASURED panel treatment, never hardcoded to $ink. On 03-project-context g012 and g018 sit over the screen recording and therefore take the opaque $ink panel, and their drawings were stroked in $ink: invisible, on a background of the same colour. The render succeeded, lint passed with zero warnings, the frame count was exact, and the cards came out empty except for the accent and muted elements. Build scripts now resolve fg()/dim() from the panel class. This is the same failure family as fonts that silently fall back and overlays that silently never appear: everything reports success and the picture is wrong."
+  },
+  {
+   "date": "2026-09-08",
+   "rule": "Where a card would land on the speaker, composite the card BEHIND him rather than shrinking it: base -> card -> subject matte from hyperframes remove-background. Verified on 03-project-context, whose centred framing leaves a narrower left column than the zone map alone suggests. Also: US spelling everywhere, and 'the model' is always a brain or a brain in a jar, 'an agent' a brain in a jar with limbs, because that motif runs across the whole series."
+  },
+  {
+   "date": "2026-09-09",
+   "rule": "The demo inset SLIDES between corners over 0.6s with a smoothstep ease; it never jumps. The style file previously said to jump on an existing cut boundary 'so the move is invisible', which is wrong on its own terms: a demo scene is one continuous screen recording with no cut to hide behind, and a single-frame change of side reads as a glitch, not as a move. Implemented as a leftness factor f(t) in [0,1] that ramps at each window edge and is smoothstepped, with x interpolated between the two corner positions, so any number of reposition windows compose without special-casing. Verified by measuring the inset's x across each transition: it passes through mid-frame rather than switching."
+  },
+  {
+   "date": "2026-09-09",
+   "rule": "Full-frame takeovers of 20s or longer carry a 1.00 -> 1.03 drift over the whole beat. The existing rule said any beat 20s+ carries continuous motion, but a review reported ten beats as frozen and that was misleading: eight of them were cards over the screen recording, where the card is static (0.004) but the frame is not (0.418), which is ordinary editing and needs no fix. Only the two full-frame takeovers actually froze the picture, at 0.000. Measure the FULL FRAME before calling a held graphic a frozen frame, not the element's own box, or eight non-issues get reported alongside the two real ones."
+  },
+  {
+   "date": "2026-09-23",
+   "rule": "Wins are marked as loudly as misses. Every success the speaker calls out while checking results gets a mark at least as strong as a failure's: on a punch-in an $accent box with a label, on a card a drawn tick. On 04-lightweight-ontology the misses had strikes, accent boxes and labels while the wins ('matches to the T', 'understood the nuance', 'found an ambiguity', 'all 105 in the mart') had nothing, so the edit argued the opposite of the speaker's verdict."
+  },
+  {
+   "date": "2026-09-23",
+   "rule": "The hook opens on a push from frame 1 (opensOnMotion unchanged) and the drawn object lands on the first clause break after the opening words, not on frame 0 (hook.graphicEntersOn). Its sound effect is derived from the same transcript cue."
+  }
+ ]
 }

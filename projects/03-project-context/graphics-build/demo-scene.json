@@ -1,0 +1,54 @@
+{
+ "_what": "Measured inputs for the demo scene. Every number here came off this job's own footage, not from style.json's stored geometry and not from the previous job.",
+ "enters": {
+  "cutSeconds": 205.33,
+  "_why": "Start of the demo section on the CURRENT cut. The bare desktop that was visible at source 351.6-353.5 no longer needs a delayed entry: it now falls inside the kill at source 337.50-354.60 and is removed outright, so the first demo frame is already the app."
+ },
+ "leaves": {
+  "cutSeconds": 1351.73,
+  "_why": "End of the demo section on the CURRENT cut, where he returns to camera for the closing."
+ },
+ "entersOnce": true,
+ "insetCrop": {
+  "source": "camera",
+  "crop": [
+   1760,
+   1760,
+   1250,
+   330
+  ],
+  "_why": "Framed on real frames, not guessed. Four candidates were cut and compared (1500@1350,420 / 1760@1250,330 / 1900@1150,260 / 1650@1300,500) and this one was then checked at six points across the demo (source 400, 800, 1200, 1700, 2100, 2500). It keeps headroom, holds the chin clear when he leans or looks down, and never clips. The 1500 and 1650 crops put the chin on the bottom edge; the 1900 pulled in the picture frame and bookshelf and read busy behind him."
+ },
+ "corner": {
+  "position": "bottomRight",
+  "movesDuringDemo": false,
+  "_why": "Measured, and it contradicted the first guess. The screen spends 31.9 min of the 38.7 min demo with content in the right third, so the skill's split-pane rule looked like it wanted bottom-left. Measuring occlusion in both candidate boxes across 1220 demo keyframes says otherwise: bottom-right is occupied 1.91% on average against bottom-left's 5.53%, and bottom-right is essentially clear on 29% of keyframes against 10%. Inspecting the boxes drawn over real frames shows why. This is a three-pane layout, and bottom-left lands on the chat prose and on the START of lines; bottom-right lands on the tail of the YAML and on whitespace. Line ends matter less than line starts.",
+  "occludes": "The right-hand ends of code lines in the editor pane, and the right edge of the user's own message bubbles, which are right-aligned in this UI. It does not cover the file tree, the chat response text, or the sidebar."
+ },
+ "insetMayHideFor": {
+  "candidate": "beats where a user prompt is being read on screen",
+  "_why": "The user's typed prompts sit in right-aligned bubbles and are the most important thing on screen in a video about giving an agent context. Where a punch-in reads one of those, the inset should fade out for that span using the style's exitSeconds rather than sit on top of it. style.json allows this under pip.demoInset.mayHide."
+ },
+ "punchIns": {
+  "required": true,
+  "_why": "Code renders at about 21px in the 3840-wide source, so roughly 10px at 1080p where most of the audience watches. A gentle overall zoom does not fix that. Each punch-in must be framed on the exact lines being discussed, held on content measured to be static, and the crop must be rendered and read before it is committed."
+ },
+ "screenLeaks": {
+  "desktopVisibleInDemo": [
+   [
+    351.6,
+    353.5
+   ]
+  ],
+  "handledBy": "demo scene entry at 355.5s source",
+  "sidebarProjectNames": "left visible by the human's decision on 2026-09-08: they are project names, not personal data"
+ },
+ "_openDecisions": {
+  "g003FullFrame": "Human note 2026-09-08: the architect analogy (g003, and by extension its return g028) will PROBABLY be full frame rather than an overlay on the talking head. Explicitly deferred, not decided. If it changes to a takeover/segment: the part re-classes from overlay to segment, it carries its own slice of the base footage, that slice must be cut at the time it is PLACED and not the time it was built, and the panel treatment stops mattering because there is no footage behind it. The composition geometry survives; only the class and the render format change."
+ },
+ "_derivedFrom": {
+  "cutsheet": "transcript/cutsheet.json",
+  "totalFrames": 47272,
+  "_why": "These two numbers are DERIVED and must be re-derived whenever the cut changes. They were left at 209.0/1396.0 from the 26:38 cut while the cut had become 26:15, a 44-second error on the exit that would have run the demo scene 44s into the talking-head closing. validate_cutsheet.py now asserts them against the cutsheet so this cannot drift silently again."
+ }
+}

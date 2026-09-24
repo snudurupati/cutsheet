@@ -1,0 +1,560 @@
+{
+  "parts": {
+    "g001": {
+      "start": 0,
+      "end": 5,
+      "px": 80,
+      "stmts": [
+        [
+          "Enterprise knowledge",
+          "graphs can't work?"
+        ],
+        [
+          "One graph.",
+          "The whole enterprise."
+        ]
+      ],
+      "onsets": [
+        0,
+        2.4
+      ],
+      "intervals": [
+        {
+          "stmt": 0,
+          "onset": 0,
+          "until": 2.4,
+          "words": 5,
+          "readableSeconds": 2.05,
+          "wordsPerSecond": 2.44
+        },
+        {
+          "stmt": 1,
+          "onset": 2.4,
+          "until": 5,
+          "words": 5,
+          "readableSeconds": 2.25,
+          "wordsPerSecond": 2.22
+        }
+      ],
+      "cta": null,
+      "ctaPx": null,
+      "ctaAt": null,
+      "ctaReadableSeconds": null,
+      "plaqueTop": 915,
+      "plaqueBottom": 1175
+    },
+    "g002": {
+      "start": 5,
+      "end": 11,
+      "px": 64,
+      "stmts": [
+        [
+          "The technology can work."
+        ],
+        [
+          "The demo is the easy part."
+        ]
+      ],
+      "onsets": [
+        0,
+        3
+      ],
+      "intervals": [
+        {
+          "stmt": 0,
+          "onset": 0,
+          "until": 3,
+          "words": 4,
+          "readableSeconds": 2.65,
+          "wordsPerSecond": 1.51
+        },
+        {
+          "stmt": 1,
+          "onset": 3,
+          "until": 6,
+          "words": 6,
+          "readableSeconds": 2.65,
+          "wordsPerSecond": 2.26
+        }
+      ],
+      "cta": null,
+      "ctaPx": null,
+      "ctaAt": null,
+      "ctaReadableSeconds": null,
+      "plaqueTop": 1015.8,
+      "plaqueBottom": 1175
+    },
+    "g003": {
+      "start": 11,
+      "end": 21,
+      "px": 64,
+      "stmts": [
+        [
+          "Then the business changes."
+        ],
+        [
+          "The update waits",
+          "for approval."
+        ],
+        [
+          "AI keeps using",
+          "the old definition."
+        ]
+      ],
+      "onsets": [
+        0,
+        3.2,
+        6.4
+      ],
+      "intervals": [
+        {
+          "stmt": 0,
+          "onset": 0,
+          "until": 3.2,
+          "words": 4,
+          "readableSeconds": 2.85,
+          "wordsPerSecond": 1.4
+        },
+        {
+          "stmt": 1,
+          "onset": 3.2,
+          "until": 6.4,
+          "words": 5,
+          "readableSeconds": 2.85,
+          "wordsPerSecond": 1.75
+        },
+        {
+          "stmt": 2,
+          "onset": 6.4,
+          "until": 10,
+          "words": 6,
+          "readableSeconds": 3.25,
+          "wordsPerSecond": 1.85
+        }
+      ],
+      "cta": null,
+      "ctaPx": null,
+      "ctaAt": null,
+      "ctaReadableSeconds": null,
+      "plaqueTop": 948.6,
+      "plaqueBottom": 1175
+    },
+    "g004": {
+      "start": 21,
+      "end": 29,
+      "px": 64,
+      "stmts": [
+        [
+          "Everyone benefits."
+        ],
+        [
+          "Who owns the upkeep?"
+        ],
+        [
+          "And whose budget pays?"
+        ]
+      ],
+      "onsets": [
+        0,
+        2.4,
+        5
+      ],
+      "intervals": [
+        {
+          "stmt": 0,
+          "onset": 0,
+          "until": 2.4,
+          "words": 2,
+          "readableSeconds": 2.05,
+          "wordsPerSecond": 0.98
+        },
+        {
+          "stmt": 1,
+          "onset": 2.4,
+          "until": 5,
+          "words": 4,
+          "readableSeconds": 2.25,
+          "wordsPerSecond": 1.78
+        },
+        {
+          "stmt": 2,
+          "onset": 5,
+          "until": 8,
+          "words": 4,
+          "readableSeconds": 2.65,
+          "wordsPerSecond": 1.51
+        }
+      ],
+      "cta": null,
+      "ctaPx": null,
+      "ctaAt": null,
+      "ctaReadableSeconds": null,
+      "plaqueTop": 1015.8,
+      "plaqueBottom": 1175
+    },
+    "g005": {
+      "start": 29,
+      "end": 38,
+      "px": 64,
+      "stmts": [
+        [
+          "Let AI update the graph?"
+        ],
+        [
+          "Who verifies its changes?"
+        ]
+      ],
+      "onsets": [
+        0,
+        4
+      ],
+      "intervals": [
+        {
+          "stmt": 0,
+          "onset": 0,
+          "until": 4,
+          "words": 5,
+          "readableSeconds": 3.65,
+          "wordsPerSecond": 1.37
+        },
+        {
+          "stmt": 1,
+          "onset": 4,
+          "until": 9,
+          "words": 4,
+          "readableSeconds": 4.65,
+          "wordsPerSecond": 0.86
+        }
+      ],
+      "cta": null,
+      "ctaPx": null,
+      "ctaAt": null,
+      "ctaReadableSeconds": null,
+      "plaqueTop": 1015.8,
+      "plaqueBottom": 1175
+    },
+    "g006": {
+      "start": 38,
+      "end": 45,
+      "px": 64,
+      "stmts": [
+        [
+          "Different teams need",
+          "different definitions."
+        ]
+      ],
+      "onsets": [
+        0
+      ],
+      "intervals": [
+        {
+          "stmt": 0,
+          "onset": 0,
+          "until": 7,
+          "words": 5,
+          "readableSeconds": 6.65,
+          "wordsPerSecond": 0.75
+        }
+      ],
+      "cta": null,
+      "ctaPx": null,
+      "ctaAt": null,
+      "ctaReadableSeconds": null,
+      "plaqueTop": 948.6,
+      "plaqueBottom": 1175
+    },
+    "g007": {
+      "start": 45,
+      "end": 56,
+      "px": 64,
+      "stmts": [
+        [
+          "What worked",
+          "in my project:"
+        ],
+        [
+          "Team-owned context",
+          "in markdown."
+        ],
+        [
+          "Definitions. Requirements.",
+          "Named owners."
+        ]
+      ],
+      "onsets": [
+        0,
+        3,
+        6.5
+      ],
+      "intervals": [
+        {
+          "stmt": 0,
+          "onset": 0,
+          "until": 3,
+          "words": 5,
+          "readableSeconds": 2.65,
+          "wordsPerSecond": 1.89
+        },
+        {
+          "stmt": 1,
+          "onset": 3,
+          "until": 6.5,
+          "words": 4,
+          "readableSeconds": 3.15,
+          "wordsPerSecond": 1.27
+        },
+        {
+          "stmt": 2,
+          "onset": 6.5,
+          "until": 11,
+          "words": 4,
+          "readableSeconds": 4.15,
+          "wordsPerSecond": 0.96
+        }
+      ],
+      "cta": null,
+      "ctaPx": null,
+      "ctaAt": null,
+      "ctaReadableSeconds": null,
+      "plaqueTop": 948.6,
+      "plaqueBottom": 1175
+    },
+    "g008": {
+      "start": 56,
+      "end": 60,
+      "px": 88,
+      "stmts": [
+        [
+          "Start with context",
+          "a team can own."
+        ]
+      ],
+      "onsets": [
+        0
+      ],
+      "intervals": [
+        {
+          "stmt": 0,
+          "onset": 0,
+          "until": 4,
+          "words": 7,
+          "readableSeconds": 3.65,
+          "wordsPerSecond": 1.92
+        }
+      ],
+      "cta": "Full argument in the post.",
+      "ctaPx": 56,
+      "ctaAt": 1.78,
+      "ctaReadableSeconds": 2,
+      "plaqueTop": 788.4,
+      "plaqueBottom": 1175
+    }
+  },
+  "labels": {
+    "g001": [
+      [
+        "What counts as revenue?",
+        36
+      ],
+      [
+        "IT",
+        32
+      ],
+      [
+        "SALES",
+        32
+      ],
+      [
+        "FINANCE",
+        32
+      ],
+      [
+        "MARKETING",
+        32
+      ]
+    ],
+    "g002": [
+      [
+        "What counts as revenue?",
+        36
+      ],
+      [
+        "REVENUE",
+        38
+      ],
+      [
+        "Definition",
+        34
+      ],
+      [
+        "APPROVED",
+        34
+      ],
+      [
+        "AI ANSWER",
+        38
+      ],
+      [
+        "v1 CURRENT",
+        34
+      ]
+    ],
+    "g003": [
+      [
+        "APPROVAL QUEUE",
+        34
+      ],
+      [
+        "PROPOSED",
+        34
+      ],
+      [
+        "WAITING",
+        34
+      ],
+      [
+        "v1 OUTDATED",
+        34
+      ]
+    ],
+    "g004": [
+      [
+        "MAINTENANCE TASK",
+        34
+      ],
+      [
+        "Owner",
+        34
+      ],
+      [
+        "Budget",
+        34
+      ],
+      [
+        "IT",
+        32
+      ],
+      [
+        "SALES",
+        32
+      ],
+      [
+        "FINANCE",
+        32
+      ],
+      [
+        "MARKETING",
+        32
+      ]
+    ],
+    "g005": [
+      [
+        "AI AGENT",
+        38
+      ],
+      [
+        "VERIFY?",
+        34
+      ],
+      [
+        "PROPOSED",
+        34
+      ]
+    ],
+    "g006": [
+      [
+        "What counts as revenue?",
+        36
+      ],
+      [
+        "REVENUE",
+        38
+      ],
+      [
+        "Scope",
+        34
+      ],
+      [
+        "Marketing",
+        34
+      ],
+      [
+        "Sales",
+        34
+      ]
+    ],
+    "g007": [
+      [
+        "Definition",
+        34
+      ],
+      [
+        "Scope",
+        34
+      ],
+      [
+        "Owner",
+        34
+      ],
+      [
+        "AI WORKFLOW",
+        34
+      ],
+      [
+        "CURRENT",
+        34
+      ],
+      [
+        "IT",
+        32
+      ],
+      [
+        "SALES",
+        32
+      ],
+      [
+        "FINANCE",
+        32
+      ],
+      [
+        "MARKETING",
+        32
+      ]
+    ],
+    "g008": [
+      [
+        "IT",
+        32
+      ],
+      [
+        "SALES",
+        32
+      ],
+      [
+        "FINANCE",
+        32
+      ],
+      [
+        "MARKETING",
+        32
+      ],
+      [
+        "Owner",
+        34
+      ]
+    ]
+  },
+  "cta": "Full argument in the post.",
+  "question": "What counts as revenue?",
+  "floors": {
+    "hook": 88,
+    "body": 56
+  },
+  "floorExceptions": {
+    "g001": {
+      "px": 80,
+      "floor": 88,
+      "why": "MEASURED: the best two-line split of the hook line is 925px at 88px against an 860px text column; every other split is worse. 80px is the largest that fits, and the brief says 88px 'where it fits'."
+    }
+  }
+}

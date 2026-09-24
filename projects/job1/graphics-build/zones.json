@@ -1,0 +1,72 @@
+{
+  "video": "outputs/base-cut.mp4",
+  "measuredFrames": [
+    40.52,
+    81.04,
+    121.56,
+    162.08,
+    202.6,
+    486.24,
+    526.76,
+    567.28
+  ],
+  "canvas": [
+    1920,
+    1080
+  ],
+  "thresholds": {
+    "detailMax": 18.0,
+    "motionMax": 4.5
+  },
+  "zones": {
+    "primary": {
+      "x": [
+        1680,
+        1920
+      ],
+      "y": [
+        180,
+        1020
+      ],
+      "detail": 2.1,
+      "motion": 3.74,
+      "luma": 191.2,
+      "panelTreatment": "inverted"
+    },
+    "secondary": {
+      "x": [
+        0,
+        420
+      ],
+      "y": [
+        420,
+        780
+      ],
+      "detail": 1.5,
+      "motion": 3.74,
+      "luma": 183.8,
+      "panelTreatment": "inverted"
+    },
+    "tertiary": {
+      "x": [
+        1200,
+        1680
+      ],
+      "y": [
+        540,
+        720
+      ],
+      "detail": 1.9,
+      "motion": 3.32,
+      "luma": 208.0,
+      "panelTreatment": "inverted"
+    }
+  },
+  "heroTypeZone": null,
+  "heroTypeZoneMinimum": {
+    "widthPx": 500,
+    "heightPx": 260
+  },
+  "heroTypeAsOverlayPossible": false,
+  "_note": "Authoritative for this job. style.json zones are a fallback and a shape reference only. Re-run if the cut changes."
+}

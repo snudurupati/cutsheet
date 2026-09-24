@@ -64,20 +64,28 @@ they appear, this file decides what they say.
 These two are what a lower third says, and they had to be guessed on 2026-08-30 because this file
 only carried the channel name and the handle.
 
-**Channel:** AI for the Working Data Engineer — handle `@srnudurupati`.
+**Channel:** AI for the Working Data Engineer. Handle `@snudurupati`.
 The handle is a person's name by choice; the channel name is carried on screen above it
 where a format has room for two lines, and omitted where it does not.
 
 | Channel | Label on screen | Value |
 |---------|-----------------|-------|
-| YouTube | `like and subscribe` | `@srnudurupati` |
+| YouTube | `like and subscribe` | `@snudurupati` |
 | Blog | `blog` | `https://www.nudurupati.co/` |
 | GitHub | `github` | `https://github.com/snudurupati` |
 | LinkedIn | `linkedin` | `in/snudurupati` |
-| X | `x` | `@srnudurupati` |
+| X | `x` | `@srnudurupati` (the one exception: the usual handle was not available on X) |
 
 **Cues are matched first-wins in spoken order**, so each list must be ordered
 most-specific-first and must not contain a word that is ordinary English in context.
+
+**A channel's own name belongs in its cue list.** Added 2026-09-08: the YouTube row
+was cued only on `subscribe` and `channel`, and on `03-project-context` the closing
+line is "All the links for this **YouTube** video, the GitHub, LinkedIn, Twitter".
+GitHub, LinkedIn and X all matched; YouTube fell through to the no-cue fallback
+despite being the first channel named out loud. A platform name is a proper noun, so
+it is safe under the ordinary-English rule, and it goes first because it is the most
+specific term available.
 On 2026-08-20 `"code"` matched "not writing **code**" 40s before the repo mention and
 `"like"` matched "**like** I've done" 34s before the subscribe line; `"x"` matches
 inside almost anything. Both rows would have landed against the wrong line.
@@ -112,6 +120,8 @@ downstream) or the heard form is a real English word that might be genuinely mea
 | Kubernetis, Kubernets, Coobernetes | Kubernetes | auto |
 | Postgress, Post grass | Postgres | auto |
 | Kafta, Kavka | Kafka | auto |
+| Inman, Inmon's | Inmon | auto |
+| Bill and Mon, Bill Inman | Bill Inmon | flag (two words) |
 | DBT, D B T, debt | dbt | flag (lowercase brand, "debt" is a real word) |
 | Terra form, terror form | Terraform | flag (two words) |
 | Tera form | Terraform | auto |
@@ -169,13 +179,13 @@ Skills parse this. Keep it in sync with the tables above.
   },
   "channel": {
     "name": "AI for the Working Data Engineer",
-    "handle": "@srnudurupati",
+    "handle": "@snudurupati",
     "_why": "the handle is a person's name by choice. Where an end card has room for two lines, the channel NAME goes above the handle; where it does not, the handle alone is correct and complete. Added 2026-08-20; still-data-engineer shipped with handle only, which is not a defect."
   },
   "links": [
-    { "id": "youtube",  "label": "like and subscribe", "value": "@srnudurupati",
+    { "id": "youtube",  "label": "like and subscribe", "value": "@snudurupati",
       "channelName": "AI for the Working Data Engineer",
-      "cues": ["subscribe", "channel"] },
+      "cues": ["youtube", "subscribe", "channel"] },
     { "id": "blog",     "label": "blog",     "value": "https://www.nudurupati.co/",
       "cues": ["blog"] },
     { "id": "github",   "label": "github",   "value": "https://github.com/snudurupati",
@@ -183,6 +193,7 @@ Skills parse this. Keep it in sync with the tables above.
     { "id": "linkedin", "label": "linkedin", "value": "in/snudurupati",
       "cues": ["linkedin", "connect"] },
     { "id": "x",        "label": "x",        "value": "@srnudurupati",
+      "_valueWhy": "the ONE handle that differs: @snudurupati was not available on X (human, 2026-09-23). Every other channel is snudurupati.",
       "cues": ["twitter"], "noCueFallback": "lands with the final cued row" },
     { "_note": "noCueFallback is NOT specific to x. Whichever channel goes unmentioned takes it. On 02-first-agent, x WAS cued (\"or Twitter\") and BLOG was never spoken, so blog took the fallback. Match cues against the closing section only: \"repo\" appears 10 times earlier in that video and would have fired the github row at 2:22 instead of 12:33." }
   ],
@@ -205,6 +216,9 @@ Skills parse this. Keep it in sync with the tables above.
     { "heard": ["Kubernetis", "Kubernets", "Coobernetes"], "correct": "Kubernetes", "mode": "auto" },
     { "heard": ["Postgress"], "correct": "Postgres", "mode": "auto" },
     { "heard": ["Kafta", "Kavka"], "correct": "Kafka", "mode": "auto" },
+    { "heard": ["Inman"], "correct": "Inmon", "mode": "auto",
+      "why": "Bill Inmon, alongside Kimball. Recurring on a data-engineering channel; first hit 2026-09-08" },
+    { "heard": ["Bill and Mon", "Bill Inman"], "correct": "Bill Inmon", "mode": "flag", "why": "two words" },
     { "heard": ["DBT", "D B T", "debt"], "correct": "dbt", "mode": "flag", "why": "real word" },
     { "heard": ["Terra form", "terror form"], "correct": "Terraform", "mode": "flag", "why": "two words" },
     { "heard": ["Tera form"], "correct": "Terraform", "mode": "auto" }

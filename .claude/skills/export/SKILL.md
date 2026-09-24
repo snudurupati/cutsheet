@@ -109,6 +109,11 @@ user wanted for the morning's iteration.
 **1. Dry run by default, always.** Both halves print exactly what they would promote, delete and
 keep, and do nothing until an explicit `--apply` flag is passed after the plan has been read.
 
+The RETIRE list is only deleted with `--reclaim --apply`. A bare `--apply` promotes and writes
+`deliverable.json`, prints "applied" and deletes nothing. On 04-lightweight-ontology that looked
+like a finished cleanup with all three drafts still on disk. Run `--reclaim` (dry) first and check
+its list against the plan the human approved.
+
 ```bash
 python3 .claude/skills/export/export.py projects/<job>            # prints the plan, changes nothing
 python3 .claude/skills/export/export.py projects/<job> --apply    # only after reading it

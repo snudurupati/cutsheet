@@ -1,0 +1,50 @@
+{
+ "g001": {
+  "start": 0.0,
+  "end": 11.8,
+  "matte": "g001-matte.mov",
+  "spanStart": 0.0
+ },
+ "g002": {
+  "start": 13.0,
+  "end": 17.0,
+  "matte": "g002-matte.mov",
+  "spanStart": 12.7
+ },
+ "g004": {
+  "start": 106.0,
+  "end": 140.0,
+  "matte": "g004-matte.mov",
+  "spanStart": 105.7
+ },
+ "g005": {
+  "start": 175.0,
+  "end": 202.0,
+  "matte": "g005-matte.mov",
+  "spanStart": 174.7
+ },
+ "g024": {
+  "start": 1356.0,
+  "end": 1372.0,
+  "matte": "g024-matte.mov",
+  "spanStart": 1355.7
+ },
+ "g025": {
+  "start": 1378.0,
+  "end": 1430.0,
+  "matte": "g025-matte.mov",
+  "spanStart": 1377.7
+ },
+ "g026": {
+  "start": 1440.0,
+  "end": 1466.0,
+  "matte": "g026-matte.mov",
+  "spanStart": 1439.7
+ },
+ "g027": {
+  "start": 1487.5,
+  "end": 1494.0,
+  "matte": "g027-matte.mov",
+  "spanStart": 1487.2
+ }
+}

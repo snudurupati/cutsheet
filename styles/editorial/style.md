@@ -38,7 +38,9 @@ headlines, 700 for chips and captions, 500 for support.
 
 ## Scene vocabulary
 
-Six scene types. Every beat in a cut sheet is one of these, by name.
+Twelve scene types in two groups. The first seven carry the video's layout: where the face sits and
+what shares the frame with it. The last five carry its ideas, and their anatomy is below the table.
+Every beat in a cut sheet is one of these, by name.
 
 | Name | What it is | When it runs |
 |------|-----------|--------------|
@@ -49,9 +51,129 @@ Six scene types. Every beat in a cut sheet is one of these, by name.
 | `push` | Face full-frame with a slow camera move on it. | Payoff lines, the hook, the last line before a turn. |
 | `slot` | A generated or shot B-roll clip fills the frame. | A beat with no real footage. |
 | `demo` | A screen recording fills the frame with the face inset in a corner. | A live demo or walkthrough that needs every pixel *and* the speaker's presence. |
+| `analogy` | A drawn object built in movements, line art on the full frame. | The speaker reaches for a comparison: "imagine", "think of it as", "it's basically a". |
+| `contrast` | Split frame, two states side by side, both still visible at the end. | "the difference between", "instead of", "it used to be, now it". |
+| `loop` | A closed circuit or path, one node lit at a time, a dot travelling between. | A cycle, a chain of consequences, a fork, a route from A to B. |
+| `strike-list` | Rows that land on their cues and get struck through as they are dismissed. | A counted list, or an absence: what a thing cannot see or is not given. |
+| `self-demonstrating` | The graphic performs the thing being described. | The speaker points at the screen and refers to what is on it. |
 
 Rhythm: `head` is the floor and everything returns to it. Never more than two consecutive non-`head`
 scenes without a `head` beat between them, except inside one continuous `panel` run (see below).
+
+## Anatomy of the five drawn scenes
+
+These five carry the video's ideas. The seven above carry its layout. A cut sheet built only from
+the layout scenes is a video where every graphic is the words being spoken in a nicer font, which is
+what job1 shipped: eighteen parts, eighteen type cards.
+
+`styles/scan_concepts.py` reads the cut transcript and proposes which beats these belong on. It
+finds the beat and names the shape. The object itself is a human choice, offered as two or three
+candidates rather than assumed.
+
+### `analogy`
+
+The centrepiece scene, and the one worth the most. Full frame on `$bg` with the 1px `$rule` grid at
+6% and the `$accent-soft` radial at 8%, so it reads as a page rather than a slide.
+
+One object, drawn as line art, 2px `$ink` strokes. It builds in **movements**, each keyed to a
+spoken cue, and the movements are the argument: the first establishes the thing, the second changes
+it. Where the analogy is a comparison, both states hold on screen together at the end, so the
+contrast is the frame rather than a memory of the previous shot.
+
+Labels are display 700 at 34px in `$muted`, set beside the object, not on it. Exactly one `$accent`
+element across the whole scene, usually the part being added in the current movement.
+
+Between cues the connecting lines pulse slowly, so a sixty second scene keeps moving without
+anything new arriving. This is the shape g008 took on 02-first-agent: a brain in a jar wired to a
+terminal, then the same jar growing limbs, a spine and a document, side by side by the end.
+
+The registry has the drawing mechanic ready: `whiteboard-ink` draws one measured stroke at a time
+with a pen nib following the active tip and takes multi-stroke SVG paths, with `data-ink=accent`
+riding the accent token. `svg-stroke-trace` and `hw-pipeline` cover the simpler cases.
+
+### `contrast`
+
+A vertical hairline `$rule` divides the frame. The old state occupies the left, the new state the
+right, and the divider draws down first over 0.5s so the split exists before either side fills it.
+
+The two sides use the **same** object at the same scale, changed rather than replaced. A before and
+after built from two different pictures reads as two cards, and the viewer compares the layouts
+instead of the content. Where the beat is temporal ("it used to be, now it is"), the object morphs
+across the divider rather than cutting.
+
+One `$accent` element, on the side being argued for.
+
+### `loop`
+
+Nodes on a closed circuit: a ring for a cycle, a line with a fork for a branch, a path for a
+journey. The circuit draws in over about 1.2s on the cue that names it, then each node lifts to
+`$accent` as it is narrated and drops back to `$muted` when the speaker moves on, so exactly one
+node is accent at a time and the one-accent-per-scene rule holds without special-casing.
+
+A dot travels the circuit continuously between highlights. That is what lets this scene sit under an
+eighty second beat, as g009 did, without a frozen frame.
+
+A `loop` introduced early and paid off later is worth more than two unrelated diagrams: g003 set up
+the copy-paste circuit with a human in it, and g009 returned to the same shape with the human gone.
+Reuse the geometry deliberately when the script makes the same move.
+
+### `strike-list`
+
+Rows in the left column, each clip-mask wiping up 0.35s `power3.out` **on its own spoken cue**,
+accumulating rather than replacing. Row label display 700 at 34px `$ink`, optional sub-line caption
+500 at 24px `$muted`.
+
+For an absence beat, a 2px `$muted` strike draws across each row 0.3s after it lands. The strike is
+the content: the beat is about what is missing, so the rows arrive in order to be crossed out.
+
+One `$accent` element for the whole stack, on the header rule, not one per row.
+
+### `self-demonstrating`
+
+The graphic does the thing the line describes. It earns its place when the speaker refers to the
+screen directly, and it fails badly when forced, so it stays rare.
+
+Anchor it to a measured point in the real frame, not to a zone: g005 measured the fingertip at
+x415 y775 and started an `$accent` dot there before travelling it up into the card. The travelling
+element and the final accent rule are one element throughout, which keeps a flourish inside the
+one-accent budget.
+
+## The hook is a drawn object, not a card
+
+The first three seconds are where the audience decides. The hook used to spend them on the same card
+anatomy the video uses a dozen more times, and "open on motion" did not fix that: a headline that
+animates in is still a headline.
+
+**The hook is a drawn object that performs something.** It is never a type card, and it never sets
+the spoken hook line as on-screen type. The viewer hears the question already; repeating it in
+Satoshi Black adds nothing and spends the one moment they are deciding.
+
+- **Take the video's own subject and put it under load.** The object is whatever the video is
+  actually about, drawn as line art, then pushed until it strains, jams, stalls or fails. That
+  failure is the hook: it poses the question the video answers, without stating it.
+- **Frame 1 already carries movement, and the drawn object lands on the first clause break.** A
+  static opening frame is a frame people leave on, so the video opens on the face with a slow `push`
+  from frame 1. The drawn object then enters on the first clause break after the opening words
+  ("AI hallucinates / **because** it doesn't understand...", 2.0s on 04-lightweight-ontology), not on
+  frame 0. Resolved 2026-09-23 by the human: a graphic on frame 0 sat over an awkward first frame of a
+  talking-head cut and landed before the viewer had heard what it was about.
+- **The object is chosen by the human**, offered as two or three candidates the way `rough-cut`
+  offers three hook lines. What is *not* a choice is whether the hook is drawn.
+- **Where the object recurs later, the hook is its first, unresolved appearance.** Its return is
+  then a payoff rather than an introduction, and it costs nothing because the object already exists.
+- **The animation runs underneath the first spoken line.** Holding the audio for a graphic trades
+  the thing people came for against decoration.
+- **A logo sting or a channel bumper is the opposite of this**: those delay the content instead of
+  delivering it faster.
+- The only type allowed is a small eyebrow label, and even that is optional.
+
+Worked example, job1, 2026-09-07, "the pipe that chokes". One clean pipe, one feed, data flowing
+through it evenly. A second feed joins, a different shape, still flowing. A third and fourth crash
+in, shapes mismatched, and the junction jams with everything backing up behind it. The video's
+thesis is "data analytics is not software engineering, it depends on external context", and the hook
+shows exactly that without a word of it on screen. Two alternatives were mocked and offered: a
+strike-list of job titles where the strike stalls on DATA ENGINEER, and an autocomplete that tries
+to replace the job title and gives up.
 
 ## Transitions — the mechanic at every boundary
 
@@ -68,6 +190,13 @@ scenes without a `head` beat between them, except inside one continuous `panel` 
 | Any → `slot` | Hard cut in, hard cut out. B-roll never dissolves. |
 | `head` → `demo` | Hard cut to the screen. Face inset scales in from 0.92 with opacity 0→1 over 0.5s `power2.inOut`, starting 0.3s after the cut. |
 | `demo` → `head` | Face inset scales out to 0.92 and fades over 0.35s, then hard cut back to full frame. |
+| `demo` corner change | Face inset **slides** between corners over 0.6s with a smoothstep ease. Never a single-frame jump. |
+
+A corner change is a *move*, and a move has to be seen to happen. This used to read "jump
+position on an existing cut boundary so the move is invisible", which fails twice: a demo
+scene is one continuous screen recording, so there is usually no cut to hide behind, and an
+inset that changes side in one frame reads as a glitch rather than a move, because nothing
+else in the frame changed with it.
 
 **The one-entry rule.** The picture-in-picture enters once per graphics run and everything between
 entries chains inside it. Bouncing full frame → PiP → full frame → PiP is the single most
@@ -94,8 +223,9 @@ Long form, 1920×1080 frame:
 - The inset enters once and leaves once, exactly like `panel`. No bouncing.
 - It **may move to the opposite corner, or fade out entirely**, for a span where the screen
   content needs the space: a slide whose columns are building, or a diagram using the whole
-  frame. Use the same enter and exit mechanic, and jump position on an existing cut boundary
-  so the move is invisible. The one-entry rule is about the frame changing between full and
+  frame. A fade uses the same enter and exit mechanic. A corner change **slides** over 0.6s
+  with a smoothstep ease (see Transitions), so the move is seen to happen rather than
+  teleporting on a cut. The one-entry rule is about the frame changing between full and
   picture-in-picture; here the frame is unchanged and only the inset moves, so that rule is
   not the one in play. `style.json` carries the permission.
 
@@ -114,7 +244,7 @@ below are measured from the footage rather than assumed. Canvas coordinates, 192
 | Zone | Canvas box | Use |
 |------|-----------|-----|
 | Left column | `x 96 → 840`, `y 100 → 980` | Side cards, stats, stacks, quote cards. The full-height negative space. |
-| Lower band | `x 96 → 1824`, `y 720 → 972` | Full-width strips only: lower thirds and chips. Hero type does NOT go here (see below). |
+| Lower band | `x 96 → 1824`, `y 720 → 972` | **Largely unavailable in this setup. See below.** Full-width strips only; hero type never. |
 | Hero left | `x 96 → 820`, `y 300 → 940` | Title, hook and verdict cards. The left negative space, clear of the face entirely. |
 | Top band | `x 96 → 1200`, `y 60 → 280` | Pipeline diagrams and horizontal node rows. Stops at 1200 — the framed picture starts there. |
 
@@ -122,9 +252,23 @@ The speaker's silhouette begins at roughly `x 840`, with the shadow it casts sta
 **Nothing readable goes right of `x 820` outside the lower band.** The chin sits between `y 710` and
 `y 820` depending on posture, which is why the lower band starts at 720 rather than 690.
 
-Re-measure these when the room or framing changes: sample a frame in vertical strips and read the
-luma profile, and measure the chin line as well as the subject edge. Last measured **2026-08-30** on
-`02-first-agent` — clean wall 159–166 out to `x 560`, 146–153 to `x 720`, the cast shadow 128–140
+**These boxes are a fallback and a shape reference. They are not the numbers to build against.**
+Zones are measured PER JOB into `graphics-build/zones.json` with `styles/measure_zones.py`, and that
+file is authoritative. On 2026-09-07 job1 proved why: same person, same room, same lighting, but a
+tight close-up instead of a wide shot, and all three boxes below measured as sitting on his face.
+The shipped verdict card crosses his mouth because the plan trusted this table.
+
+**There is no room at the bottom of this frame, and there is room to the left.** Confirmed by the
+human on 2026-09-07 as a property of the setup rather than of one recording: graphics go LEFT of the
+face, and the full-width lower band is not a placement to plan for. `job1` looks different only
+because it was shot on a 50mm on APS-C instead of the 35mm used since; that is a recording defect,
+logged in the `tech-video-editor` recording spec, not an editing choice to design around.
+
+Measure **detail** (mean within-frame standard deviation), not just luma. Detail separates face from
+wall unambiguously (a clean wall reads under 10 and a face reads 60+) where luma called the
+face-covering boxes 128 and the clean wall 178, a difference that looks like degree rather than kind.
+
+Last measured **2026-08-30** on `02-first-agent`: clean wall 159–166 out to `x 560`, 146–153 to `x 720`, the cast shadow 128–140
 across `720–840`, subject 102–126 from `x 840`. The wall now reads 152–166 overall, above the 150
 threshold, so left-column parts take the **inverted** treatment. The speaker also gestures into the
 left column, reaching `x 290` on one beat, so lower-left content can be crossed by a hand.
@@ -139,9 +283,25 @@ Sample the mean luma of the base render inside the part's box across its window,
 
 | Measured background luma | Treatment |
 |--------------------------|-----------|
-| `< 110` | Light panel: `$bg` at 92%, 1px `$rule` border. |
-| `110 – 150` | Light panel plus a 2px `$rule` border and a soft drop shadow, so the edge survives. |
+| `< 110` | Light panel: `$bg` at 92%. |
+| `110 – 150` | Light panel, same fill; the edge treatment below is what makes it survive. |
 | `> 150` | **Inverted panel**: `$ink` at 92% fill, `$bg` text, `$accent` unchanged. |
+
+### The card edge — a 6px white border and a real shadow, on every card
+
+This is not per-treatment and not optional. Whatever the fill, every card carries a
+**6px white border** (`$bg` on inverted and opaque panels) and a **`0 16px 52px rgba(0,0,0,.38)`
+drop shadow**, .50 on dark fills.
+
+A card has to read as an **object sitting in front of the room**, not as a rectangle painted
+onto it. The moment the speaker overlaps a flat, borderless card, the boundary reads as a
+cutout, and no amount of matte quality fixes that on its own — the two problems are
+independent and both have to be solved.
+
+The previous 2px `$rule` border with a `.20` shadow was not a weaker version of this, it was
+**nothing at all**: measured across a card's bottom edge, the frame moved 147 → 142 luma over
+140px, and the border sat between the wall and the card as a soft ramp rather than an edge.
+If you are tempted to soften these numbers, measure the edge first.
 
 When a part's own window **crosses** a threshold, take the more robust treatment rather
 than the mean's — this room's left wall reads 147–156 and straddles the 150 line, so
@@ -160,6 +320,10 @@ lighting on any given day — the wall measured 173 before the key light was tur
 after, which crosses a threshold without anything in this file changing.
 
 ## Title card anatomy
+
+**A card is an exception, not a default.** Ask what a beat could *do* before reaching for what it
+could *say*. Type earns the frame where type IS the content: a verbatim quote, a lower-third name,
+an end card. Everywhere else a drawn scene beats a card, and the hook may never be one at all.
 
 Top to bottom, on `$bg` with a 1px `$rule` hairline grid at 10% opacity:
 
@@ -182,6 +346,15 @@ headline word. Never both.
 - `panel` content: a 1.00 → 1.03 drift on screenshots so a still asset is never actually still.
 - Any beat 20 seconds or longer carries continuous motion for its whole duration. A count-up that
   finishes at 6 seconds of a 19 second beat reads as a frozen frame for 13 seconds.
+- **A full-frame takeover of 20 seconds or longer carries a 1.00 → 1.03 drift across its whole
+  duration**, `power1.inOut`, on the whole composition. When a card over the demo stops animating
+  the frame still moves, because the screen recording and the face inset are live behind it. When a
+  TAKEOVER stops animating, everything stops: the picture is a literal still photograph.
+
+  Measured on 03-project-context g003, a 67-second architect analogy: seven still stretches
+  totalling ~39 seconds, including one unbroken 14-second hold a third of the way in, at 0.000 mean
+  pixel change. The same measurement over the demo-window cards read 0.418 on the full frame, so
+  those were never the problem and do not need this. Cards over live footage are exempt.
 - Nothing zooms back out unless the script says so.
 
 ## Texture
@@ -251,8 +424,23 @@ Corrections that should apply to every future video get appended here (and to `l
   above" was not enough: the lower band runs `x 96 → 1824`, so it passes under the chin and mouth. The
   hook card and the verdict card both landed on the speaker's face, and the human noted this had
   happened in earlier videos too. Title, hook and verdict cards now sit in the `heroLeft` zone,
-  `x 96 → 820`, `y 300 → 940`, which is clear wall in this room. Headline wraps to two or three lines
-  at 72-84px rather than running one line across the frame. The full-width lower band remains available
+  `x 96 → 820`, `y 300 → 940`, which is clear wall in this room. Title and hook headlines wrap to two
+  or three lines at 72-84px rather than running one line across the frame. **The verdict keeps its
+  180px exception** (see Title card anatomy): it stays the biggest type in the video by using fewer
+  words, a short line such as "It works." at 180px with its subject as a smaller line above it, all
+  inside `heroLeft`. Resolved 2026-09-22 on 04-lightweight-ontology, where this paragraph and the
+  anatomy section disagreed and the verdict shipped at 84px, no bigger than a stat card. The full-width lower band remains available
   for lower thirds and chips, which are small enough to sit beside the face rather than over it.
+- **2026-09-23: wins are marked as loudly as misses.** When a video checks results, every success the
+  speaker calls out gets a mark at least as strong as a failure's: on a punch-in an `$accent` box with
+  a label, on a card a drawn tick. On 04-lightweight-ontology the misses had strikes, accent boxes and
+  labels while "matches to the T", "understood the nuance", "found an ambiguity" and "all 105 in the
+  mart" had nothing, so the edit read as a list of failures while the speaker's verdict was that the
+  agent mostly works. The composition review measures this as "do the wins read quieter than the
+  misses", and it is a finding, not a nit.
+- **2026-09-23: the hook opens on a push and the drawn object lands on the first clause break.**
+  `opensOnMotion` stays: frame 1 moves, but the motion is the `push` on the face, and the hook's
+  drawn object enters on the first clause break after the opening words, not on frame 0. See "The
+  hook is a drawn object". The hook's sound effect is derived from the same cue, never typed in.
 - **2026-08-19 — `demo` scene added.** Screen recordings with the speaker present get a corner inset
   over a full-frame screen, not the `panel` split, which shrinks dense screen text past legibility.
