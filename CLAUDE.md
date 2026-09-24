@@ -140,6 +140,27 @@ Verify with `claude mcp list` before running the `ai-broll` skill.
 `whisper-cpp`, Kokoro TTS and MusicGen also report missing; all three are optional local fallbacks
 this pipeline does not use (WhisperX handles transcription, music is user-supplied and licensed).
 
+## Sub-agent models
+
+Sub-agents run on **Sonnet 5 by default** (`CLAUDE_CODE_SUBAGENT_MODEL` in `.claude/settings.json`,
+not forced, so a single call can still raise it). Pick the named agent for the job; each carries
+its model:
+
+| Agent | Model | For |
+|---|---|---|
+| `log-reader` | Haiku | build, render and gate logs; "where is X set" searches |
+| Explore (built in) | pass `model: "haiku"` | broad file searches |
+| `frame-verifier` | Sonnet | technical QA and fix verification: an explicit checklist, PASS/FAIL per item |
+| `composition-reviewer` | Opus | finishing Pass 2, the craft judgement of hard rule 10 |
+
+**Raise a model only when the task needs judgement, not effort.** The composition pass is the one
+standing exception: it is the only step that catches "that's tiny", "the wins read quieter than the
+misses" or "ten minutes with no graphic", and on 04-lightweight-ontology it found the missing first
+half of a card, the wins-vs-misses imbalance and a 124s gap. A miss there costs a review round and a
+rebuild. Everything with a concrete pass condition stays on Sonnet or Haiku. If a Sonnet verifier
+comes back unsure on a visual call, re-run that one item on Opus rather than moving the whole pass
+up.
+
 ## Hard rules that outrank any local instruction
 
 1. **Transcribe once per video, ever.** `transcript/transcript.json` is durable. Re-running skips to it.

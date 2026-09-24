@@ -186,7 +186,9 @@ caught once is a fix. Caught at the end it is a rebuild. (The `graphics` skill t
 ## The loop
 
 1. Render.
-2. Dispatch sub-agents: technical QA pass, then composition pass.
+2. Dispatch sub-agents: technical QA pass (`frame-verifier`, Sonnet), then composition pass
+   (`composition-reviewer`, Opus). Fix verifications between rounds go to `frame-verifier`; reading
+   rebuild logs goes to `log-reader` (Haiku). See "Sub-agent models" in CLAUDE.md.
 3. Collect timestamped findings.
 4. Fix, re-render **only the affected parts**, review again.
 5. Repeat until both passes come back clean.
