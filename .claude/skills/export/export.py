@@ -11,7 +11,11 @@ not in a prompt, so a future session cannot talk itself past them:
 Never source footage. Never the outputs folder wholesale.
 
 Usage:
-  export.py <job-dir> [--apply] [--reclaim] [--drop-master] [--copy-to DIR]
+  export.py <job-dir> [--apply] [--reclaim]
+
+  --apply    promote, record deliverable.json, retire the drafts
+  --reclaim  also clear the render caches and retire the lossless master
+             (finished.mov) once the final MP4 has verified against it
 """
 import os, sys, shutil, json, time, subprocess, array, math
 
@@ -258,10 +262,10 @@ def main():
     job = args[0].rstrip('/')
     apply_ = '--apply' in args
     reclaim = '--reclaim' in args
-    drop_master = '--drop-master' in args
-    copy_to = None
-    if '--copy-to' in args:
-        copy_to = os.path.expanduser(args[args.index('--copy-to') + 1])
+    # The lossless master goes under --reclaim (human, 2026-09-24): once the final MP4
+    # verifies against it, its picture is bit-identical and a music claim is fixed from
+    # base-audio.wav (kept), so the master buys nothing a shipped job needs.
+    drop_master = reclaim
 
     outdir = os.path.join(job, 'outputs')
     jobname = os.path.basename(job)
@@ -285,8 +289,6 @@ def main():
     if remux:
         print(f"      remux: {vcodec} video copied, {acodec} audio -> aac 320k, mp4 container")
         print(f"      (video stream is COPIED, so the picture is bit-identical)")
-    if copy_to:
-        print(f"COPY     -> {os.path.join(copy_to, os.path.basename(final))}")
 
     deliverable_mtime = os.path.getmtime(src)
 
@@ -332,9 +334,6 @@ def main():
                             'reclassified it as a superseded draft; only the mtime guard '
                             'kept it out of the delete list, and that was luck.')},
                   open(os.path.join(outdir, 'deliverable.json'), 'w'), indent=2)
-    if apply_ and copy_to and promoted_ok:
-        os.makedirs(copy_to, exist_ok=True)
-        shutil.copy2(final, os.path.join(copy_to, os.path.basename(final)))
 
     # Resolve the shipped file even if it was renamed outside this pipeline.
     shipped = set()
@@ -362,25 +361,21 @@ def main():
             continue
         if f == os.path.basename(final):
             continue
-        # The file we promoted FROM is the lossless master: same picture, but audio
-        # that has not been through a lossy encode. Regenerating it means re-running
-        # the composite and the mix, the most expensive step in the job, so it is
-        # kept unless the human asks for it by name with --drop-master. Promotion
-        # alone is not consent to delete it.
+        # The file we promoted FROM is the lossless master. It is retired only under
+        # --reclaim, and on --apply only after the final has verified against it; a plain
+        # --apply (the close-out right after rendering) keeps it. The dry run lists it.
         if f == newest:
-            if not (drop_master and promoted_ok):
+            if not drop_master:
                 continue
         drafts.append(os.path.join('outputs', f))
     if drafts:
         print("\nRETIRE (superseded drafts)")
         for rel in drafts:
             print(f"      {rel}  ({human(tree_size(os.path.join(job, rel)))})")
-        if not apply_:
-            # NOT "plus the master". The loop above skips `newest` unless
-            # --drop-master, so saying it would be retired misinforms the human
-            # reading the plan about the one file that costs a composite AND a mix
-            # to regenerate.
-            print(f"      (the master {newest} is KEPT; pass --drop-master to retire it)")
+        if not drop_master:
+            print(f"      (the master {newest} is KEPT; --reclaim retires it once the final verifies)")
+    elif not drop_master and newest:
+        print(f"\n      (the master {newest} is KEPT; --reclaim retires it once the final verifies)")
 
     # RETIRE happens on --apply, after a verified promote. It used to happen only under
     # --reclaim, so a plain --apply printed "applied" and deleted nothing: 03 kept 16GB
@@ -430,7 +425,7 @@ def main():
             for r, _, fs in os.walk(p):
                 for f in fs:
                     fp = os.path.join(r, f)
-                    if os.path.getmtime(fp) > deliverable_mtime:
+                    if f != '.DS_Store' and os.path.getmtime(fp) > deliverable_mtime:   # Finder metadata is not work
                         kept += 1
                         continue
                     sz += os.path.getsize(fp)

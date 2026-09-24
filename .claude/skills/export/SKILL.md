@@ -1,6 +1,6 @@
 ---
 name: export
-description: Stage 5 of the video pipeline. Turn a messy outputs folder into one unambiguous final file — promote the newest real render, retire superseded drafts, keep everything needed to reopen the job, copy the deliverable somewhere convenient, and absorb standing corrections into the style file. Dry run by default. Use to close out a job or to reclaim disk afterwards.
+description: Stage 5 of the video pipeline. Turn a messy outputs folder into one unambiguous final file — promote the newest real render, retire superseded drafts, keep everything needed to reopen the job, and absorb standing corrections into the style file. Dry run by default. Use to close out a job or to reclaim disk afterwards.
 argument-hint: "projects/<job> [--reclaim] [--apply]"
 user-invocable: true
 allowed-tools: Bash, Read, Write, Edit, Glob
@@ -59,7 +59,8 @@ that is entirely your own measurement.
 - **Retire** the superseded drafts.
 - **Keep**, always: the base cut, the transcripts, and `graphics-build/` — the job has to be
   reopenable.
-- **Drop a copy** somewhere convenient, e.g. `~/Downloads/`.
+- **No copy is made anywhere else.** The final lives in `outputs/` only (human, 2026-09-24): a
+  second 10GB copy in `~/Downloads/` was never used and doubled the disk cost of every job.
 
 ## Record what shipped, and resolve it by that record
 
@@ -77,12 +78,15 @@ Content hashing does not solve this. The finishing master and the graphics pass 
 stream md5 whenever the mix was muxed with `-c:v copy`, so the picture cannot tell the shipped
 file from the draft it came from. Only a record can.
 
-## The lossless master is not swept by promotion
+## The lossless master goes under --reclaim, never on promotion alone
 
-The file you promoted FROM carries the same picture with audio that has never been through a
-lossy encode. Regenerating it means re-running the composite and the mix, the most expensive step
-in the job. Keep it unless the human asks for it by name, behind an explicit `--drop-master`.
-Promoting is not consent to delete the master.
+The file you promoted FROM (`finished.mov`) carries the same picture with audio that has never
+been through a lossy encode. A plain `--apply`, the close-out right after rendering, keeps it.
+`--reclaim` retires it, and only after the final MP4 has verified against it (video stream md5
+identical, duration within 50ms, audio present). Human decision 2026-09-24: once the final
+verifies, the master's picture is bit-identical to it, and a music claim is fixed from
+`base-audio.wav` (the voice alone, always kept) plus `audio-plan.json`, remixed and muxed onto the
+final's video. The master buys nothing a shipped job needs.
 
 ## Never sweep build source out of a reclaim target
 
@@ -120,7 +124,7 @@ every shipped job kept its renders and 03 kept 16GB of drafts after "applied".
 `graphics-build/` source including `parts/`, `assets/` (thumbnails), and in `outputs/` the base
 cut, `base-audio.wav` (the voice alone, which is what a music claim needs: remix it with the audio
 plan and mux onto the final's video), the audio plan, the cut transcript, the final MP4, the
-publish sidecars and the lossless master `finished.mov` (unless `--drop-master`).
+publish sidecars. The lossless master `finished.mov` survives `--apply` and goes under `--reclaim`.
 
 ```bash
 python3 .claude/skills/export/export.py projects/<job>            # prints the plan, changes nothing
@@ -154,6 +158,5 @@ correction tightens every future review with no extra wiring.
 
 - Exactly one file in `outputs/` reads as the deliverable, by name.
 - Drafts are retired; base cut, transcripts and `graphics-build/` are intact.
-- A copy is in the convenient location.
 - Standing corrections are in the style file, with the diff shown and approved.
 - Nothing newer than the deliverable was deleted.
