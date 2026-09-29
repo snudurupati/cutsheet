@@ -141,6 +141,17 @@ def main():
               f"camera,\n"
               f"   never the framing. Check ISO is not on auto, and deflicker before editing.\n",
               file=sys.stderr)
+    else:
+        # A quiet figure is NOT evidence of a locked camera, and must never be reported as one.
+        # On 2026-09-29 the flattest clip in the project (stdev 0.15) was shot on AUTO shutter: the
+        # camera was holding the mean still. Genuinely manual takes that morning read 0.08 and 0.12,
+        # BELOW the auto one, so no threshold separates them. Only a cross-take check settles it:
+        # change shutter or ISO deliberately and confirm brightness moves by the predicted amount.
+        print(f"  global exposure drift {drift['range']} units (stdev {drift['stdev']}), under the "
+              f"{DRIFT_WARN} threshold.\n"
+              f"  This does NOT prove the camera is locked: an auto exposure holding steady reads "
+              f"the same,\n"
+              f"  and reads lower than some manual takes. Confirm the lock on the body.\n")
 
     clear = [[detail[y][x] <= a.detail_max and motion[y][x] <= a.motion_max
               for x in range(GW)] for y in range(GH)]

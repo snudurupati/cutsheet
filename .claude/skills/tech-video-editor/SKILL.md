@@ -107,11 +107,13 @@ room tone in every pause), limiter on, HPF 75 Hz, denoiser and popper stopper of
 ### Exposure is locked on the body, never in OBS
 
 The camera arrives as a UVC source (`macos-avcapture`), so ISO, aperture and shutter exist only on
-the camera. Verified settings for this rig, measured 2026-09-15:
+the camera. Verified settings for this rig, **settled 2026-09-29.** This supersedes the 2026-09-15
+set, which read ISO 400 and predates the ND filter:
 
 | | |
 |---|---|
-| Camera | ISO 400 **fixed**, f/4.0, 1/60, 3840×2160, 30/1 |
+| Camera | **ISO 2000**, f/4.0, 1/60, 3840×2160, 30/1, all manual |
+| Lens | variable ND fitted, parked at its marked **0 stop** position |
 | OBS Limiter | threshold −2.0 dB |
 | OBS Compressor | threshold −24 dB, ratio 3:1, attack 1 ms, release 80 ms, output gain +8.0 dB |
 | OBS screen scaling | **lanczos**. Bilinear softens terminal text when a 5K display is downscaled to 4K |
@@ -120,6 +122,13 @@ Shutter is 1/60 because 30fps wants a 180 degree shutter. 1/40 was tried and is 
 at 4K the glasses, hairline and mouth visibly smear on any head turn, while the same lens resolves
 individual stubble at rest. With a kit lens the aperture is pinned, so ISO is the only lever left,
 and **raising ISO shortens the shutter rather than lengthening it.**
+
+ISO 2000 was chosen against 1000 and 3200 in a same-session comparison. It is the only one of the
+three where the **background sits below the face** (wall 127.8, face 129.4), which no camera setting
+had managed in six sessions of trying. ISO 3200 puts face luma more comfortably inside the 130-145
+band at 139.7, but it pushes the wall back above the face at 145.1, triples the clipping, and is the
+only one of the three to trip the drift guard. Face at 129.4 misses the spec floor by 0.6 of a unit,
+which is inside measurement noise, and that is the right trade.
 
 ### Auto ISO hides as unstable lighting. This test separates them
 
@@ -132,12 +141,51 @@ and 1.18x once it genuinely was. Auto ISO also masquerades as *stable* when it p
 ceiling, which is why the one steady take that day was the one shot with the key lights off. Do not
 read a flat wall trace as proof of a lock without the noise test.
 
-### This room's lights are not stable, and that is permanent
+### A flat exposure trace does not prove a locked camera
 
-With the key lights on, the frame-wide mean moves about **29 luma units** irregularly, every cell
-shifting together, colour barely changing. It is not the camera: ISO was verified locked by the test
-above. The lights cannot be changed, so **deflicker runs by default on this rig.** Normalise
-per-frame exposure before the zone measurement and before the edit.
+`measure_zones.py` warns when the frame-wide mean drifts. It cannot warn when a camera is *holding*
+the mean flat, and in a single clip those look identical. On 2026-09-29 the 09:03 take read the
+flattest drift in the project, stdev 0.15, and that was reported to the human as proof the exposure
+was locked. It was not. The camera was on auto shutter and had settled at 1/30, a 360 degree shutter,
+the worst possible setting for motion.
+
+Warning on suspicious flatness does not rescue it. Measured the same morning:
+
+| take | exposure | drift stdev |
+|---|---|---|
+| 1/60 ISO 500 | manual | 0.08 |
+| 1/50 ISO 400 | manual | 0.12 |
+| **09:03** | **auto shutter** | **0.15** |
+| ISO 1000 | manual | 0.53 |
+| ISO 2000 | manual | 1.25 |
+
+The genuinely manual takes are flatter than the auto one, so no threshold separates them.
+
+**The test that works is a cross-take one.** Shoot two clips with a deliberately different shutter or
+ISO and confirm the brightness moves by the amount those settings predict. The 1/30 take measured
+exactly the 0.7 stops brighter than the 1/50 and 1/60 takes that its shutter implies, and that is
+what proved the later two were manual. One clip cannot settle it, so **never report low drift as a
+locked exposure.** Confirm the lock on the camera body.
+
+### ISO does not buy its full stops on this rig
+
+Measured 2026-09-29 at 1/60 and f/4.0: ISO 1000 to 3200 is +1.68 stops of setting, but the image
+gained only **+0.82 stops on the face and +0.71 on the wall**, with the brighter areas losing more.
+That shape is a highlight knee, most likely DRO or a picture profile. Until it is off, exposure here
+is not predictable from the settings and has to be measured. Check DRO before trusting ISO arithmetic
+on this body.
+
+### This room's lights are unstable in the afternoon, not the morning
+
+On 2026-09-15, shooting after noon, the frame-wide mean moved about **29 luma units** irregularly,
+every cell shifting together, colour barely changing. On 2026-09-29, shooting between 09:30 and
+09:50, the same room read drift stdev 0.5 to 1.25 and needed nothing at all.
+
+The difference is daylight through the window. That is also what used to make the wall bright enough
+to beat the face, and its absence is why the morning takes read warm and dark. **So shoot in the
+morning**, and treat deflicker as conditional rather than automatic: run `measure_zones.py` first and
+let its drift figure decide. If the warning fires, normalise per-frame exposure before the zone
+measurement and before the edit.
 
 `measure_zones.py` removes the drift internally and warns, so its zones are correct even on a pulsing
 take. Before that guard existed, the drift landed in every cell's motion figure and the tool reported
@@ -145,7 +193,7 @@ take. Before that guard existed, the drift landed in every cell's motion figure 
 verdict would have sent every card beat to a full-frame takeover for no reason. **The footage still
 pulses, so the render must be corrected too. A correct zone map is not a corrected picture.**
 
-### Three standing deviations, absorbed downstream, never by another take
+### Standing deviations, absorbed downstream, never by another take
 
 1. **Peaks around −2 dBFS** against the −6 to −10 spec. Loudness is correct at −20.8 LUFS and flat
    factor is 0, so this is crest, not level. Finishing handles it.
@@ -153,10 +201,17 @@ pulses, so the render must be corrected too. A correct zone map is not a correct
    OBS records. Confirmed by the low-band to voice-band ratio before and after the change: unchanged
    at about −24 dB, where a working filter reads about −35. Finishing applies the filter to the file
    at no cost.
-3. **Face luma under 130, and the wall brighter than the face.** Position and lights are fixed, and
-   exposure is global, so no camera setting separates them: pushing the face to spec blows the wall.
-   The zone map returns `inverted` or `lightReinforced` panel treatments, which is the correct
-   adaptation rather than a failure.
+3. **Face luma sits at the 130 floor rather than mid-band**, 129.4 at the settled ISO. Raising it
+   further puts the wall back above the face and starts clipping the lit cheek. This is the top of
+   what the rig gives.
+4. **Key to fill ratio near 3 stops** (lit cheek 183, shadow cheek 71) where a talking head normally
+   runs 1 to 2. Exposure lifts both sides together, so no camera setting changes a ratio, and the
+   lights are fixed. Shadow crush is not the issue: 0.1% of pixels below 16.
+5. **Noise floor above spec, environmental.** Confirmed by the human on 2026-09-29: the neighbourhood
+   is loud and the room cannot be insulated further. **Record 3 to 5 seconds of room tone at the head
+   of every take.** It is the only way to measure the floor, since no take in six sessions contained
+   genuine silence, and it gives finishing a real noise profile to subtract rather than one guessed
+   from the gaps between words.
 
 **Clips are NOT frame-locked.** Source Record stops both filters at the same instant but starts them
 a few frames apart — observed 14 frames under encoder load, 2 frames when healthy. **Align at the
