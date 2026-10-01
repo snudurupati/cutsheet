@@ -1,0 +1,426 @@
+{
+ "span": {
+  "start": 107.6,
+  "end": 1005.367,
+  "_why": "derived from transcript/cutsheet.json"
+ },
+ "base": "outputs/base-cut.mov",
+ "screen": "outputs/base-screen.mp4",
+ "_screenWhy": "demo segments only, cut per segment from each session's own screen clip with the same speed select as the camera; leak scan found nothing to blur",
+ "inset": {
+  "sourceCrop": {
+   "w": 1760,
+   "h": 1760,
+   "x": 1480,
+   "y": 300
+  },
+  "_sourceCropWhy": "four crops compared at five points across both sessions (1760@1480,300 / 1600@1560,420 / 1900@1400,260 / 1500@1640,480), 2026-09-29. 1760@1480,300 keeps the head centred with headroom and the chin clear of the mic at all five; 1600 and 1500 crop hair or crowd the chin, 1900 wastes wall.",
+  "_delivery": {
+   "width": 960,
+   "height": 960,
+   "left": 2736,
+   "top": 1056,
+   "radius": 48,
+   "repositionSeconds": 0.6,
+   "enterSeconds": 0.5,
+   "exitSeconds": 0.35
+  },
+  "reposition": [
+   {
+    "start": 757.0,
+    "end": 964.0,
+    "corner": "topRight"
+   }
+  ],
+  "_repositionWhy": "measured from screen-ocr.json: text under the bottom-right inset box vs its bottom-left mirror. Session A: BR clear or near-clear throughout. Session B 12:37-16:04: the word-wrapped board.log sits under both bottom corners, so the inset goes TOP-RIGHT (Cursor's tab chrome) and never hides (human 2026-09-29, style.json mayReposition topRight). Slides per style.json, never jumps.",
+  "hiddenDuring": [
+   {
+    "start": 300.3,
+    "end": 336.467,
+    "why": "punch-in over its corner: the inset steps aside (style.json demoInset.mayHide)"
+   },
+   {
+    "start": 357.2,
+    "end": 392.9,
+    "why": "fast-forward + g09 labels the tmux panes; bottom-right is the live pos pane: the inset steps aside (style.json demoInset.mayHide)"
+   },
+   {
+    "start": 450.933,
+    "end": 466.467,
+    "why": "punch-in over its corner: the inset steps aside (style.json demoInset.mayHide)"
+   },
+   {
+    "start": 486.8,
+    "end": 520.8,
+    "why": "fast-forward: the inset steps aside (style.json demoInset.mayHide)"
+   },
+   {
+    "start": 573.867,
+    "end": 586.8,
+    "why": "punch-in over its corner: the inset steps aside (style.json demoInset.mayHide)"
+   },
+   {
+    "start": 696.233,
+    "end": 724.633,
+    "why": "punch-in over its corner: the inset steps aside (style.json demoInset.mayHide)"
+   }
+  ]
+ },
+ "punchIns": {
+  "items": [
+   {
+    "id": "g05",
+    "part": "g05",
+    "start": 150.567,
+    "end": 163.267,
+    "cx": 1096,
+    "cy": 234,
+    "zoom": 2.03,
+    "box": [
+     266,
+     193,
+     1927,
+     274
+    ],
+    "framing": "full",
+    "target": "the directory listing's four markdown files; CONVENTIONS, STANDARDS, REQUIREMENTS named",
+    "_ocrSamples": 7
+   },
+   {
+    "id": "gZ1",
+    "part": "gZ1",
+    "start": 112.533,
+    "end": 125.4,
+    "cx": 486,
+    "cy": 99,
+    "zoom": 2.6,
+    "box": [
+     0,
+     25,
+     972,
+     173
+    ],
+    "framing": "full",
+    "target": "the git lines: branch ep05-demo, git status --short empty",
+    "_ocrSamples": 8
+   },
+   {
+    "id": "gZ2",
+    "part": "gZ2",
+    "start": 194.433,
+    "end": 205.967,
+    "cx": 798,
+    "cy": 323,
+    "zoom": 2.12,
+    "box": [
+     0,
+     266,
+     1597,
+     380
+    ],
+    "framing": "full",
+    "target": "board.py watching ~/.claude/teams and tasks, Log: board.log (empty)",
+    "_ocrSamples": 6
+   },
+   {
+    "id": "g06",
+    "part": "g06",
+    "start": 248.967,
+    "end": 274.4,
+    "cx": 830,
+    "cy": 66,
+    "zoom": 2.04,
+    "box": [
+     0,
+     14,
+     1659,
+     117
+    ],
+    "framing": "full",
+    "target": "the launch command: CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --teammate-mode tmux",
+    "_ocrSamples": 12
+   },
+   {
+    "id": "g08a",
+    "part": "g08",
+    "start": 300.5,
+    "end": 326.8,
+    "cx": 788,
+    "cy": 608,
+    "zoom": 2.04,
+    "box": [
+     14,
+     184,
+     1563,
+     1033
+    ],
+    "framing": "full",
+    "target": "the prompt's instructions, read aloud: context files, agent team, plan, task list, messages",
+    "_ocrSamples": 13,
+    "rampOut": 18
+   },
+   {
+    "id": "g08b",
+    "part": "g08",
+    "start": 326.2,
+    "end": 336.267,
+    "cx": 730,
+    "cy": 822,
+    "zoom": 2.25,
+    "box": [
+     19,
+     439,
+     1441,
+     1206
+    ],
+    "framing": "full",
+    "target": "the prompt's reporting block after it scrolls: 'what it could not infer'",
+    "_ocrSamples": 5,
+    "rampIn": 18
+   },
+   {
+    "id": "g10a",
+    "part": "g10",
+    "start": 451.133,
+    "end": 466.267,
+    "cx": 1086,
+    "cy": 493,
+    "zoom": 2.02,
+    "box": [
+     249,
+     394,
+     1924,
+     592
+    ],
+    "framing": "full",
+    "target": "board log: team-lead > each teammate, then ecom > crm and erp > pos (left part of each line)",
+    "_ocrSamples": 1
+   },
+   {
+    "id": "gZ3",
+    "part": "gZ3",
+    "start": 574.067,
+    "end": 586.6,
+    "cx": 972,
+    "cy": 815,
+    "zoom": 1.77,
+    "box": [
+     20,
+     611,
+     1924,
+     1019
+    ],
+    "framing": "full",
+    "target": "the lead's summary: 'Messages that changed a teammate's work' and the messages under it",
+    "_ocrSamples": 7
+   },
+   {
+    "id": "gZ4",
+    "part": "gZ4",
+    "start": 663.6,
+    "end": 670.133,
+    "cx": 1450,
+    "cy": 278,
+    "zoom": 2.46,
+    "box": [
+     762,
+     198,
+     2138,
+     358
+    ],
+    "framing": "full",
+    "target": "TEAM_PLAN.md: 'Build the warehouse from landing/ through to the three reports'",
+    "_ocrSamples": 3
+   },
+   {
+    "id": "g14a",
+    "part": "g14",
+    "start": 696.433,
+    "end": 701.0,
+    "cx": 1570,
+    "cy": 554,
+    "zoom": 2.11,
+    "box": [
+     768,
+     338,
+     2373,
+     771
+    ],
+    "framing": "full",
+    "target": "TEAM_PLAN.md 'The team' table as 'four plus two ... six agents' lands",
+    "_ocrSamples": 2,
+    "rampOut": 18
+   },
+   {
+    "id": "g14b",
+    "part": "g14",
+    "start": 700.4,
+    "end": 712.8,
+    "cx": 1393,
+    "cy": 596,
+    "zoom": 2.6,
+    "box": [
+     762,
+     288,
+     2024,
+     904
+    ],
+    "framing": "full",
+    "target": "TEAM_PLAN.md 'File ownership' on 'file ownership'",
+    "_ocrSamples": 6,
+    "rampIn": 18
+   },
+   {
+    "id": "gZ5",
+    "part": "gZ5",
+    "start": 717.267,
+    "end": 724.433,
+    "cx": 1564,
+    "cy": 879,
+    "zoom": 2.11,
+    "box": [
+     762,
+     546,
+     2367,
+     1212
+    ],
+    "framing": "full",
+    "target": "TEAM_PLAN.md '## Task list', the T01... rows on 'divided into 10 tasks'",
+    "_ocrSamples": 4
+   },
+   {
+    "id": "g16a",
+    "part": "g16",
+    "start": 798.333,
+    "end": 813.4,
+    "cx": 1713,
+    "cy": 951,
+    "zoom": 2.38,
+    "box": [
+     1002,
+     1002,
+     2424,
+     1083
+    ],
+    "framing": "full",
+    "target": "board.log line 9: ecom proposes full-dump staging details, points 1-5",
+    "_ocrSamples": 3,
+    "_framedBelowInset": true
+   },
+   {
+    "id": "g16b",
+    "part": "g16",
+    "start": 815.6,
+    "end": 831.3,
+    "cx": 1966,
+    "cy": 755,
+    "zoom": 1.76,
+    "box": [
+     1008,
+     835,
+     2924,
+     922
+    ],
+    "framing": "full",
+    "target": "board.log line 23: crm agrees to 1, 3, 4, 5 and 6, pushes back on 2",
+    "_ocrSamples": 6,
+    "_framedBelowInset": true,
+    "rampOut": 18
+   },
+   {
+    "id": "g16c",
+    "part": "g16",
+    "start": 830.7,
+    "end": 858.033,
+    "cx": 1716,
+    "cy": 970,
+    "zoom": 2.39,
+    "box": [
+     1008,
+     1014,
+     2424,
+     1106
+    ],
+    "framing": "full",
+    "target": "board.log line 39: ecom concedes point 2",
+    "_ocrSamples": 13,
+    "_framedBelowInset": true,
+    "rampIn": 18
+   },
+   {
+    "id": "g17",
+    "part": "g17",
+    "start": 876.233,
+    "end": 889.567,
+    "cx": 1813,
+    "cy": 788,
+    "zoom": 2.08,
+    "box": [
+     1002,
+     841,
+     2624,
+     944
+    ],
+    "framing": "full",
+    "target": "board.log line 53: the lead relays erp's new source_order_date column",
+    "_ocrSamples": 4,
+    "_framedBelowInset": true
+   },
+   {
+    "id": "g17b",
+    "part": "g17b",
+    "start": 938.867,
+    "end": 957.0,
+    "cx": 1556,
+    "cy": 1104,
+    "zoom": 2.13,
+    "box": [
+     762,
+     1142,
+     2350,
+     1268
+    ],
+    "framing": "full",
+    "target": "BUILD_REPORT.md: the website is the ERP branch with no city",
+    "_ocrSamples": 9,
+    "_framedBelowInset": true
+   },
+   {
+    "id": "g18",
+    "part": "g18",
+    "start": 978.833,
+    "end": 1005.367,
+    "cx": 164,
+    "cy": 784,
+    "zoom": 2.6,
+    "box": [
+     26,
+     466,
+     302,
+     1102
+    ],
+    "framing": "full",
+    "target": "DuckDB: 2187780.17 (2.19 million) from the files, then the mart total",
+    "_ocrSamples": 14,
+    "rampOut": 12
+   }
+  ]
+ },
+ "screenFlatten": [
+  [
+   48,
+   49,
+   48
+  ]
+ ],
+ "_screenFlattenWhy": "the raw screen recording's dark terminal background alternates luma 48/49 in a ghost pattern (hairlines every ~192px, text echoes, periodic repaints) from 2:10 to 3:26 cut time; measured in the raw file, not introduced by the edit. Chroma is flat (U 134, V 125). Mapping 49 -> 48 removes it and moves nothing else by more than one level.",
+ "screenMask": [
+  {
+   "x": 3816,
+   "y": 2,
+   "w": 22,
+   "h": 20,
+   "why": "macOS camera-in-use indicator (green, measured at x 3824-3831, y 8-15 on this recording 2026-09-29, same as 04). Brand has no green; filled from its surroundings with delogo."
+  }
+ ]
+}

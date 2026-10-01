@@ -1,0 +1,77 @@
+{
+  "video": "projects/05-agent-swarm/outputs/base-cut.mov",
+  "measuredFrames": [
+    60.87,
+    1034.79,
+    1095.66,
+    1156.53,
+    1217.4
+  ],
+  "canvas": [
+    1920,
+    1080
+  ],
+  "thresholds": {
+    "detailMax": 18.0,
+    "motionMax": 4.5,
+    "driftWarn": 2.0
+  },
+  "globalExposureDrift": {
+    "frameMeanMin": 101.4,
+    "frameMeanMax": 102.8,
+    "range": 1.4,
+    "stdev": 0.55
+  },
+  "motionExposureNormalised": true,
+  "zones": {
+    "primary": {
+      "x": [
+        0,
+        660
+      ],
+      "y": [
+        0,
+        1080
+      ],
+      "detail": 1.1,
+      "motion": 0.58,
+      "luma": 97.4,
+      "panelTreatment": "light"
+    },
+    "secondary": {
+      "x": [
+        660,
+        840
+      ],
+      "y": [
+        0,
+        840
+      ],
+      "detail": 1.5,
+      "motion": 0.5,
+      "luma": 108.0,
+      "panelTreatment": "light"
+    },
+    "tertiary": {
+      "x": [
+        1800,
+        1920
+      ],
+      "y": [
+        0,
+        960
+      ],
+      "detail": 5.1,
+      "motion": 0.66,
+      "luma": 167.0,
+      "panelTreatment": "inverted"
+    }
+  },
+  "heroTypeZone": "primary",
+  "heroTypeZoneMinimum": {
+    "widthPx": 500,
+    "heightPx": 260
+  },
+  "heroTypeAsOverlayPossible": true,
+  "_note": "Authoritative for this job. style.json zones are a fallback and a shape reference only. Re-run if the cut changes."
+}

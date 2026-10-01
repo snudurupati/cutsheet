@@ -1,0 +1,31 @@
+{
+ "originSourceSeconds": 449.9,
+ "usageWallSeconds": 1234,
+ "usageSeenAtCut": 597.233,
+ "fastForwards": [
+  {
+   "segment": "s024",
+   "cutStart": 357.2,
+   "cutEnd": 365.933,
+   "wallStart": 91.5,
+   "wallEnd": 376.1,
+   "speed": 32.5916
+  },
+  {
+   "segment": "s027",
+   "cutStart": 486.8,
+   "cutEnd": 495.533,
+   "wallStart": 499.4,
+   "wallEnd": 680.3,
+   "speed": 20.7176
+  },
+  {
+   "segment": "s029",
+   "cutStart": 512.067,
+   "cutEnd": 520.8,
+   "wallStart": 696.9,
+   "wallEnd": 1141.1,
+   "speed": 50.8626
+  }
+ ]
+}

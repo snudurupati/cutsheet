@@ -1,0 +1,92 @@
+{
+  "video": "projects/05-agent-swarm/raw/Camera-2026-09-29 12-30-57.mov",
+  "measuredFrames": [
+    46.56,
+    93.11,
+    139.67,
+    186.22,
+    232.78,
+    279.33,
+    325.89,
+    372.44,
+    419.0,
+    465.56,
+    512.11,
+    558.67,
+    605.22,
+    651.78,
+    698.33,
+    744.89,
+    791.44,
+    838.0,
+    884.56,
+    931.11
+  ],
+  "canvas": [
+    1920,
+    1080
+  ],
+  "thresholds": {
+    "detailMax": 18.0,
+    "motionMax": 4.5,
+    "driftWarn": 2.0
+  },
+  "globalExposureDrift": {
+    "frameMeanMin": 99.1,
+    "frameMeanMax": 102.7,
+    "range": 3.6,
+    "stdev": 1.1
+  },
+  "motionExposureNormalised": true,
+  "zones": {
+    "primary": {
+      "x": [
+        0,
+        840
+      ],
+      "y": [
+        0,
+        840
+      ],
+      "detail": 0.9,
+      "motion": 0.53,
+      "luma": 102.2,
+      "panelTreatment": "light"
+    },
+    "secondary": {
+      "x": [
+        1800,
+        1920
+      ],
+      "y": [
+        0,
+        960
+      ],
+      "detail": 5.2,
+      "motion": 0.71,
+      "luma": 166.2,
+      "panelTreatment": "inverted"
+    },
+    "tertiary": {
+      "x": [
+        840,
+        1140
+      ],
+      "y": [
+        0,
+        240
+      ],
+      "detail": 2.5,
+      "motion": 0.59,
+      "luma": 114.0,
+      "panelTreatment": "lightReinforced"
+    }
+  },
+  "heroTypeZone": "primary",
+  "heroTypeZoneMinimum": {
+    "widthPx": 500,
+    "heightPx": 260
+  },
+  "heroTypeAsOverlayPossible": true,
+  "_note": "Authoritative for this job. style.json zones are a fallback and a shape reference only. Re-run if the cut changes."
+}
