@@ -255,6 +255,20 @@ Stages **1, 2, 4 and 5** from `CLAUDE.md`, using the `rough-cut`, `graphics`, `f
 `export` skills for the mechanics. This skill owns the decisions specific to the two-clip technical
 video.
 
+The sequence, with its two human checkpoints before anything expensive runs:
+
+1. Rough cut, then the graphics plan. **The human approves the plan.**
+2. Build every graphic. Then the **graphics checkpoint** (CLAUDE.md hard rule 13; `graphics` skill,
+   "The graphics checkpoint"): preview reel, copy table, measured checks, composition review on
+   the reel. **The human signs off.** Animation is iterated in single-part previews (hard rule 14).
+3. The full chain, once: demo scene, composite, gates, mix.
+4. Finishing review of the full cut. Fixes go through the incremental chain: one part, its
+   window, its gates.
+5. Packaging (Step 4b) while the human reviews, then export.
+
+On the first video after 05-agent-swarm, build the incremental chain before step 3 (`graphics`
+skill, "Rebuild time", 05 section).
+
 **Stage 3 (`ai-broll`) does not run for this format. That is a decision, not an omission.** Every
 beat in a two-clip technical video already has footage — the speaker or the screen — so a generated
 clip would be filling a gap that does not exist, and AI footage sits badly next to a real terminal
@@ -432,6 +446,49 @@ Per the `finishing` skill. For this format specifically:
   consonants; the chosen correction was −3 dB at 280 Hz and +4.5 dB at 3.8 kHz. A stronger version of
   the same move was rejected as sounding "like a phonograph", which no measurement would have told
   you.
+
+## Step 4b: packaging (thumbnails, titles, description)
+
+Runs while the human reviews the final cut. Standing process, human 2026-09-30 (05-agent-swarm).
+
+**Two thumbnails, both face + infographic,** 1280x720, each with a `-feed-360.png` preview, in the
+job's `assets/thumbnail/`. Built by `graphics-build/make_thumbnails.py`, which takes the raw clip,
+the face time and the source render as arguments and rebuilds both exactly (copy the last job's
+builder and adapt it). Judge them at 360px: that is the size a thumbnail is chosen at.
+
+- **The face comes from the raw, found by a `frame-verifier` sub-agent,** never guessed. Search in
+  this order: deliberate thumbnail takes in the pre-roll; the emotional peaks the transcript names
+  ("impressed", "aha", "brilliant"); pauses at sentence ends, where the mouth is at rest. Eyes to
+  the lens, mouth not caught mid-syllable, sharp, no hand, head not turned. **The two variants use
+  two different faces** (one smiling or excited, one serene or otherwise distinct), so the test is
+  not two cards on one photo.
+- **Full frame with shoulders,** face right, the card in the left negative space. A neck crop reads
+  as "sinking".
+- **Grade for contrast and sharpness, never with a lift.** On 05 a gamma lift on the face read
+  "washed out, not sharp". Set real black and white points first, add a gentle S-curve, and only
+  then raise the face's midtones. Add local contrast and a detail sharpen on the face, and a light
+  sharpen after the downscale. **Take the sharpest frame within two frames of the chosen time**,
+  measured on the eyes: the camera's H.264 alternates sharp and soft frames. Check at 1:1 for halos.
+  Then lift the whole frame's midtones a notch (gamma ~0.84 after the black point): contrast alone read
+  "a bit underexposed" on 05.
+- **A calm face can read as tired.** On 05 a closed-lip "serene" frame was rejected for that.
+  Prefer bright eyes: a genuine smile or laugh beats a neutral rest.
+- **The infographic is the video's own drawing,** lifted from a render (the team art from g03 on
+  05, the g19 card on 04), on a `$bg` panel, plus one short heavy phrase ("Works.", "They talk.",
+  "SPLIT THE WORK.") and an `$accent` rule. Not a new illustration.
+
+**Titles and description** go to `outputs/youtube-titles-and-description.txt`: three or four
+titles, a recommended A/B pairing, the description, chapters on the final cut's times, and tags.
+
+- **Name the viewer's problem and offer the fix.** On 04, "AI Hallucinates Because It Doesn't Know
+  Your Business. Here's the Fix" reached 600+ views in 6 days against 60-150 for the others.
+- **But every claim must be true to the video.** Check numbers against the video's own cards, not
+  only the speech: on 05 the speaker said the team took 11 minutes, and the usage card shows that
+  as API time, with wall time equal to the single agent's. A title promising a speed-up would have
+  been contradicted by the video. Where the video counts something two ways, flag it.
+- About 60 characters survives on mobile and in the sidebar (100 hard cap), with counts noted. No
+  em-dashes. Pair each title with a thumbnail; the recommended test pits two different formats
+  (problem/fix vs curiosity), not two wordings of one.
 
 ## Step 5 — export
 

@@ -85,7 +85,7 @@
   "typeOnlyHookForbidden": true,
   "headlineCardOnHook": false,
   "defaultObject": "the video's own subject, drawn as line art and put under load until it fails or strains",
-  "_mustBeDrawnObjectWhy": "2026-09-07, job1. The hook was a type card: eyebrow, headline, accent rule. The human's words: 'the graphics are unimaginative, its just text, text is not motion graphics'. He is right, and 'opensOnMotion' did not fix it \u2014 a headline that animates in is still a headline. The hook is now a DRAWN OBJECT that performs something, and the spoken line is not repeated on screen: the viewer already hears the question, so setting it in Satoshi Black adds nothing and costs the one moment the audience is deciding. Three concepts were mocked for job1 (a strike-list of jobs that stalls, a pipe that jams on mismatched feeds, an autocomplete that gives up) and the human's instruction was that the drawn-object hook 'should always win automatically' and be the default, with the others offered as a choice. So this is not a job-local preference.",
+  "_mustBeDrawnObjectWhy": "2026-09-07, job1. The hook was a type card: eyebrow, headline, accent rule. The human's words: 'the graphics are unimaginative, its just text, text is not motion graphics'. He is right, and 'opensOnMotion' did not fix it — a headline that animates in is still a headline. The hook is now a DRAWN OBJECT that performs something, and the spoken line is not repeated on screen: the viewer already hears the question, so setting it in Satoshi Black adds nothing and costs the one moment the audience is deciding. Three concepts were mocked for job1 (a strike-list of jobs that stalls, a pipe that jams on mismatched feeds, an autocomplete that gives up) and the human's instruction was that the drawn-object hook 'should always win automatically' and be the default, with the others offered as a choice. So this is not a job-local preference.",
   "alternativesOfferedToHuman": true,
   "_alternativesWhy": "the OBJECT is still a human choice, offered as two or three candidates the way rough-cut offers three hook lines. What is not a choice is whether the hook is drawn.",
   "payoffObjectPreviewWhen": "the analogy lands within a few seconds of the hook",
@@ -181,7 +181,7 @@
    "measurePerJob": true,
    "measuredZonesFile": "graphics-build/zones.json",
    "script": "styles/measure_zones.py",
-   "_measurePerJobWhy": "2026-09-07, job1. Every zone in this block was measured on 02-first-agent, a wide shot with the speaker right of a two-display desk. job1 is a tight close-up of the same person in the same room and the numbers do not transfer at all: leftColumn, heroLeft and lowerBand ALL measured as sitting on his face (detail 63.6, 67.1 and 79.7 against a clean-wall reading under 10). The only clear space was a 400x580 strip at x0-400 y180-760 and a 720x220 strip at x1180-1900 y520-740. The shipped job1 verdict card sits across his mouth as a direct result. The boxes below are now a FALLBACK and a shape reference; the authoritative numbers for a job live in its own zones.json. Detail (mean within-frame stdev) separates face from wall far better than luma does \u2014 luma called the face-covering boxes 128 and the clean wall 178, which looks like a difference of degree rather than the difference between 'wall' and 'a man's head'."
+   "_measurePerJobWhy": "2026-09-07, job1. Every zone in this block was measured on 02-first-agent, a wide shot with the speaker right of a two-display desk. job1 is a tight close-up of the same person in the same room and the numbers do not transfer at all: leftColumn, heroLeft and lowerBand ALL measured as sitting on his face (detail 63.6, 67.1 and 79.7 against a clean-wall reading under 10). The only clear space was a 400x580 strip at x0-400 y180-760 and a 720x220 strip at x1180-1900 y520-740. The shipped job1 verdict card sits across his mouth as a direct result. The boxes below are now a FALLBACK and a shape reference; the authoritative numbers for a job live in its own zones.json. Detail (mean within-frame stdev) separates face from wall far better than luma does — luma called the face-covering boxes 128 and the clean wall 178, which looks like a difference of degree rather than the difference between 'wall' and 'a man's head'."
   },
   "panelContrast": {
    "_how": "sample mean luma of the base render inside the part's box across its window",
@@ -286,12 +286,14 @@
     "exitSeconds": 0.35,
     "mayReposition": [
      "bottomRight",
-     "bottomLeft"
+     "bottomLeft",
+     "topRight"
     ],
     "mayHide": true,
     "_repositionWhy": "the inset occludes the screen wherever it sits, and a slide or diagram using the whole frame leaves nowhere good. It may move to the opposite corner, or fade out entirely, for the span the screen content demands. This is NOT the bounce the one-entry rule forbids: that rule is about the FRAME reframing between full and PiP, which does not happen here. SLIDE the move over repositionSeconds with a smoothstep ease. Corrected 2026-09-09: this knob used to say 'jump position on an existing cut boundary so the move is invisible', and that is what produced a single-frame teleport the director called out. The premise is wrong twice over. A demo scene is one continuous screen recording, so there is usually no cut boundary to hide behind at all; and even on a cut, an inset that changes side instantly reads as a glitch rather than as a move, because nothing else in frame changed with it.",
     "repositionSeconds": 0.6,
-    "repositionEase": "smoothstep"
+    "repositionEase": "smoothstep",
+    "_topRightWhy": "Added 2026-09-29 by the human on 05-agent-swarm: during a full-width, word-wrapped log in an editor (Cursor), both bottom corners covered text being read, and hiding the inset would lose his genuine reactions to the agents. Top-right sits on the editor's tab and title chrome. Same slide mechanic (repositionSeconds, smoothstep); measure what the corner covers before choosing it, as for the bottom corners."
    }
   },
   "cardsLandOnSpokenCue": true,
@@ -316,14 +318,15 @@
    "_markersAreStructural": "cue patterns match sentence shape, never topic. 'brain' would have found the jar on this one video and nothing on any other."
   },
   "typographicCardIsNotADefault": true,
-  "_typographicCardWhy": "reach for a drawn scene first and a card only where type IS the content \u2014 a verbatim quote, a lower-third name, an end card. 'What could this beat DO instead of say it' is the question asked of every beat, before any card anatomy is opened. 02-first-agent shipped 10 of 12 as type on a panel and job1 shipped 18 of 18.",
+  "_typographicCardWhy": "reach for a drawn scene first and a card only where type IS the content — a verbatim quote, a lower-third name, an end card. 'What could this beat DO instead of say it' is the question asked of every beat, before any card anatomy is opened. 02-first-agent shipped 10 of 12 as type on a panel and job1 shipped 18 of 18.",
   "_heroTypeZoneFixed": "2026-09-07: this knob read 'leftColumn' while style.md named heroLeft in two places and zones.heroLeft._why said 'hero cards sit here'. Three sources to one, so the knob was the typo, left behind when the 2026-08-30 correction was written into the prose and the zones block. Resolved with the human's authorisation and reported, never silently. check_style.py now compares the two so it cannot drift again.",
   "spelling": "US",
   "_spellingWhy": "US English everywhere, on screen and in every document. 2026-09-08: 'organisation' shipped in a card and the human corrected it.",
   "recurringObjects": {
    "model": "a brain, or a brain in a jar",
-   "agent": "a brain in a jar WITH LIMBS",
-   "_why": "Series-wide motif, not a per-video choice. The human has used the brain-in-a-jar for the model across this series (it was the strongest graphic on 02-first-agent), so any part that has to depict 'the model' or 'the agent' uses it and inherits the recognition. Stated 2026-09-08 after g001 and g004 both drew abstract stand-ins instead."
+   "agent": "a ROBOT whose head is the brain in a jar: jar head, small body, jointed arms with two-finger grippers, spoked wheels (lib.mjs robot())",
+   "_why": "Series-wide motif, not a per-video choice. The human has used the brain-in-a-jar for the model across this series (it was the strongest graphic on 02-first-agent), so any part that has to depict 'the model' or 'the agent' uses it and inherits the recognition. Stated 2026-09-08 after g001 and g004 both drew abstract stand-ins instead.",
+   "_agentWhy": "Changed 2026-09-29 on 05-agent-swarm by the human (with his daughter's vote), replacing the 'brain in a jar WITH LIMBS', whose floating stick limbs read as barbed wire at every size. Rigged: arms swing at the shoulder and bend at the elbow, grippers close, wheels turn by the distance rolled, so the agent does the work on screen (reach, grab, lift, roll to its task). Head drawn like 02-first-agent's jar: tinted liquid, bubbles, a highlight on BOTH sides (one left highlight read off-centre). Arms draw over the head. Small sizes use the icon version (no bolts or liquid detail, heavier strokes); where a robot stands for a named teammate it wears a name band (ERP, ECOM, LEAD...)."
   },
   "facePlateComposite": {
    "available": true,
@@ -573,6 +576,46 @@
   {
    "date": "2026-09-23",
    "rule": "The hook opens on a push from frame 1 (opensOnMotion unchanged) and the drawn object lands on the first clause break after the opening words, not on frame 0 (hook.graphicEntersOn). Its sound effect is derived from the same transcript cue."
+  },
+  {
+   "date": "2026-09-29",
+   "rule": "An agent is a small robot whose head is the brain jar (lid, glass, liquid, both highlights, bubbles), with a boxy body, two jointed arms and two wheels; supersedes the 2026-09-08 'brain in a jar with limbs', which the human called ugly on 05-agent-swarm. Arms and wheels animate: wheels turn by exactly the distance rolled, arms move at shoulder and elbow. Where a robot stands for a named teammate it carries a name band across the glass instead of a separate label. Its fills take the panel's background, never a fixed $bg: on an opaque ink card, $bg fills under $bg strokes drew blank shapes and the name bands failed the contrast check at 1:1."
+  },
+  {
+   "date": "2026-09-29",
+   "rule": "Marks drawn over a screen recording (boxes, underlines, ticks) that are not the $accent mark use $bg, not $ink. On 05-agent-swarm the terminals measured luma ~50 and every $ink mark was invisible."
+  },
+  {
+   "date": "2026-09-29",
+   "rule": "The demo inset hides only while a punch-in's zoomed target actually reaches its corner, measured from the punch-in window, never for a whole section; hides closer than 20s apart merge so it does not flicker. Where the speaker's reactions carry the beat, move it top-right instead of hiding (demoInset.mayReposition)."
+  },
+  {
+   "date": "2026-09-29",
+   "rule": "A demo stretch of 60s or more with no graphic gets a legibility punch-in on whatever the speaker is reading or the agents are writing, chosen from screen OCR, before it is accepted as a gap. On 05-agent-swarm four were added (gZ1, gZ2, gZ4, gZ5); one candidate was dropped because OCR found no matching content, which is the correct outcome, not a reason to invent a target."
+  },
+  {
+   "date": "2026-09-29",
+   "rule": "Marks on a screen recording follow the measured line pitch, not the OCR box: OCR line boxes run taller than the pitch (33-44px on 39px), so a fixed pad put box edges and underlines through the neighbouring lines, which reads as a strikethrough and in this style a strike means dismissed. Text height 0.72 of the pitch, vertical pad at most half the leading, underline just under the descender. Measure the pitch per screen (terminal 34px, editor 39px on 05-agent-swarm)."
+  },
+  {
+   "date": "2026-09-29",
+   "rule": "While the demo inset sits top-right, a punch-in frames its target line at 60% height rather than centred: the inset reaches the frame's vertical middle, and on 05-agent-swarm a centred line ran under the speaker's face and hid the clause being read."
+  },
+  {
+   "date": "2026-09-29",
+   "rule": "The robot agent's motion must be physically honest. Anything it moves, it HOLDS: the object rides in the forearm (not tweened toward the hand), poses come from inverse kinematics on the held object's centre, and it rolls to within reach first. Nothing passes through its body. Entrances roll in from off-frame or from behind a card edge with the front of the line leaving first, never fade in place and shuffle. Wheels turn only while it rolls; a drop is a hop with the wheels still. Arms raised beside the head keep the elbow outside the jar, or they vanish into its outline. A deep frame-sequence check of 05-agent-swarm found all of these wrong after the per-frame QA had passed them."
+  },
+  {
+   "date": "2026-09-30",
+   "rule": "STANDING (human-approved): a card that hands off to a full-frame takeover does it as a MATCH-CUT. The takeover's first frame redraws the card's last frame at the same pixels (inside the card's border, same paper opacity) and grows to full frame from that rect with clip-path; the key object is carried across (on 05-agent-swarm the bingo token became the exam's first section). Nothing may change on the cut frame: backdrop layers (glow, grid, grain) fade in with the grow, never on frame 1."
+  },
+  {
+   "date": "2026-09-30",
+   "rule": "A strike-through is sized BY THE TEXT: a child of the word's own inline box at 100% of its rendered width (lib struck()/strikeIn()), never a length computed from the character count. Computed lengths ran past short words and fell short of wide ones on every project until 05-agent-swarm. No outset padding: 2px becomes 4px on the 2x stage and reads as overshoot. Verified by measured ink extents on the render, within 3px."
+  },
+  {
+   "date": "2026-09-30",
+   "rule": "A box or underline on a screen recording snaps to the pixels: OCR gives one box per line, so a sub-phrase's extent is a character-count estimate that drifts whenever OCR drops a space (boxes cut through 'crm' and 'marts'). The build writes every mark's estimate; snap_marks.py moves each edge to the true end of its word in the actual frame; a mark without a snap fails the build. An edge stops at the last letter, not trailing punctuation; an edge inside a run with no space moves by the other edge's snap."
   }
  ]
 }

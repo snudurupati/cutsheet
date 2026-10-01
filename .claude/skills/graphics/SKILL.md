@@ -736,6 +736,37 @@ was work whose inputs had not changed:
 What remains every time is the real work: the composite (~10 min at 4K), the gates and the mix.
 When the demo spec changes, the demo scene (~7 min) as well.
 
+### 05-agent-swarm: the parts were never the bottleneck (2026-09-30)
+
+The changes above made part renders incremental, and a one-graphic fix still took ~38 minutes
+over 17 rounds. Part renders run in parallel with the demo scene, so they were never on the slow
+path. Every round re-ran the rest in full:
+
+- the demo scene, ~15 min, even when its spec was unchanged;
+- the whole 21-minute 4K composite, ~10 min;
+- the composite gates plus a full-decode duplicate check, ~5 min;
+- the mix and the audio content gate, ~5 min.
+
+**To build at the start of the next video (CLAUDE.md hard rule 14), before the first full build:**
+
+1. **Demo scene keyed like the push clips.** Its key is the hash of the demo spec, the screen
+   and base identities and the script. Skip it when the key matches and the frame count is right.
+2. **Composite by window.** Keep the last good graphics pass. For a fix, re-composite only the
+   changed parts' frame ranges (plus a few frames either side) and splice them in. The pass is
+   HEVC, so the full composite forces a keyframe at every part boundary (`-force_key_frames` from
+   the cutsheet), which lets the splice use stream copy. Verify the splice by frame count and by
+   md5 of the untouched windows against the previous pass.
+3. **Gate by window.** Run verify_composite and the duplicate check on the changed windows. The
+   cheap full-file checks (frame count, duration, a/v drift) still run every time.
+4. **Mix by mux.** The audio plan rarely changes for a graphics fix. Re-mux the existing mix onto
+   the new video with `-c:v copy`, and re-run plan_audio and mix_audio only when the plan's inputs
+   changed. verify_cut still runs: it is cheap and it is rule 11.
+5. **Iterate in previews.** A single-part preview script renders one part over its footage window
+   at 1080p in a minute or two. Animation work (the 05 robot needed 11 rounds) happens there, and
+   only a signed-off part goes back through the chain.
+
+Target: a one-graphic fix in 5-8 minutes. Time the first one and write the number here.
+
 ## Linter and workflow notes
 
 - **Lint and validate are the gate.** Run both on every part before rendering:
@@ -753,6 +784,49 @@ When the demo spec changes, the demo scene (~7 min) as well.
 After the first **ten percent** of the build — not at the end — dispatch one review sub-agent (see
 the `finishing` skill for the review protocol) over the parts built so far. A wrong placement habit
 caught once is a fix. Caught at the end it is a rebuild.
+
+## The graphics checkpoint (CLAUDE.md hard rule 13)
+
+After the plan is approved and every part is built, **stop before the full chain** (demo scene,
+composite, gates, mix). Put all of the following in front of the human in one message, and wait for
+their sign-off. Human decision, 2026-09-30 (05-agent-swarm retrospective).
+
+1. **The preview reel.** Every part rendered over its real footage window at 1080p:
+   - the face for overlays, the screen recording for marks and punch-ins;
+   - one second of context either side;
+   - back to back in story order, each with a small part-id and timestamp slate.
+
+   Send it to the human (SendUserFile). It renders in minutes and watches in about ten.
+2. **The copy table.** Every piece of on-screen text, one row per string:
+
+   | part | timestamp | text, exactly as rendered | the spoken line it sits on |
+   |---|---|---|---|
+
+   Wording problems are copy problems. A table catches them in a minute: on 05, "AHA" read as an
+   acronym, and "spare the humans" read as ominous.
+3. **The measured checks**, run on the parts, each one PASS/FAIL with numbers:
+   - strike and mark edges against the text's ink, within 3px (strikes via `struck()`, marks via
+     `snap_marks.py`);
+   - no clipped or overflowing text, measured on the DOM, not judged by eye;
+   - contrast;
+   - no em-dashes;
+   - every cue time against the transcript;
+   - row spacing on list cards;
+   - **every defect that has ever recurred** (style.json `learned[]`): each recurring mistake is
+     a check here, not something to rediscover.
+4. **The composition review** (the `composition-reviewer` agent, hard rule 10), run on the reel,
+   not the finished cut:
+   - "why is that there", "that's tiny", "that's crowded";
+   - a card that adds nothing (on 05, the first "TO WHAT USE?" card);
+   - stretches with no graphic.
+
+   Every finding is fixed or escalated before the human sees the reel.
+5. **Fix, re-render the affected parts, repeat** until the human signs off. Iterate on a part in
+   a single-part preview, never through the chain (hard rule 14).
+
+Only then run the full chain, once. What remains for the full-cut review is what only shows in
+context: hold lengths, pacing against speech, the audio. Those fixes go through the incremental
+chain.
 
 ## Done when
 

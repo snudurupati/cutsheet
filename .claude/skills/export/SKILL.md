@@ -88,6 +88,15 @@ verifies, the master's picture is bit-identical to it, and a music claim is fixe
 `base-audio.wav` (the voice alone, always kept) plus `audio-plan.json`, remixed and muxed onto the
 final's video. The master buys nothing a shipped job needs.
 
+## --reclaim leaves nothing behind but the record
+
+Human 2026-09-30 (05-agent-swarm): after a reclaim the emptied `*-work` cache folders and the run
+logs (`assemble.log`, `mix.log`, `round4.log` and the like, top level of `outputs/` and
+`graphics-build/`) were still there and read as an unfinished cleanup. `--reclaim` removes both.
+What stays in `outputs/` is the final plus the KEEP_ALWAYS records: `base-cut`, `base-audio.wav`,
+`audio-plan.json`, `transcript-cut.json` and `deliverable.json`. Each is there for a reason given
+above; none is scratch.
+
 ## Never sweep build source out of a reclaim target
 
 `RECLAIMABLE_DIRS` names directories by convention and the convention drifts. On 02-first-agent

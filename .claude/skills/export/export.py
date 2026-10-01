@@ -152,6 +152,22 @@ def music_is_present(path, plan, verbose=True):
              for p in places]
     a0, a1 = spans[0]
     inside = (a0 + 5.0, min(20.0, max(5.0, a1 - a0 - 8.0)))
+    # Measure where the TRACK is actually playing, not a fixed 5s in. On 05-agent-swarm the
+    # bed opened with ~20s of near-silent cinematic intro (the track's own floor 7 dB below its
+    # body), so the fixed window read -0.7 dB while 30-100s read +12.5 dB over the voice alone:
+    # a false refusal. Pick the 15s window inside the first placement where the track's own
+    # quiet floor is highest; the 4 dB threshold is unchanged.
+    track = (plan.get('music') or {}).get('track')
+    job = os.path.dirname(os.path.dirname(os.path.abspath(path)))
+    tpath = os.path.join(job, track) if track else None
+    if tpath and os.path.exists(tpath):
+        t0 = float(places[0]['trim'][0]); best = None
+        for off in range(0, max(1, int(a1 - a0 - 20)), 5):
+            f = quiet_floor_db(tpath, t0 + off, 15.0)
+            if f is not None and (best is None or f > best[0]):
+                best = (f, off)
+        if best:
+            inside = (a0 + best[1], 15.0)
     dur = float(_ff('ffprobe', '-v', 'error', '-show_entries', 'format=duration',
                     '-of', 'csv=p=0', path).stdout or 0)
     gap = None
@@ -254,6 +270,73 @@ def pick_deliverable(job, outdir, jobname, plan_path):
             'GUESSED by mtime. audio-plan.json records no "output". Check this is right.')
 
 
+def do_reclaim(job, deliverable_mtime, apply_):
+    """Caches, reclaimable renders and run logs. Guarded: never anything newer than the
+    deliverable, never build source. Runs on an already-promoted job too."""
+    print("\nRECLAIM")
+    total, seen = 0, set()
+    for rel in RECLAIMABLE_DIRS + RECLAIMABLE_FILES:
+        p = os.path.join(job, rel)
+        if rel in seen or not os.path.exists(p):
+            continue
+        seen.add(rel)
+        # GUARD: never delete anything newer than the deliverable
+        if os.path.getmtime(p) > deliverable_mtime:
+            print(f"      SKIP {rel}: newer than the deliverable, never deleted")
+            continue
+        # GUARD: never sweep build source out of a reclaim target
+        if holds_source(p):
+            print(f"      SKIP {rel}: holds build source, not regenerable renders")
+            continue
+        sz = tree_size(p)
+        total += sz
+        print(f"      {rel}  ({human(sz)})")
+        if apply_:
+            shutil.rmtree(p) if os.path.isdir(p) else os.remove(p)
+    # caches: file by file, so one recent file does not keep 12GB of old renders
+    for rel in CACHE_DIRS:
+        p = os.path.join(job, rel)
+        if not os.path.isdir(p):
+            continue
+        if holds_authored(p):
+            print(f"      SKIP {rel}: holds authored files, not a cache")
+            continue
+        sz = kept = 0
+        for r, _, fs in os.walk(p):
+            for f in fs:
+                fp = os.path.join(r, f)
+                if f != '.DS_Store' and os.path.getmtime(fp) > deliverable_mtime:   # Finder metadata is not work
+                    kept += 1
+                    continue
+                sz += os.path.getsize(fp)
+                if apply_:
+                    os.remove(fp)
+        if apply_:
+            # the cache dir itself goes too once empty (human 2026-09-30: emptied *-work
+            # folders left behind read as an unfinished cleanup)
+            for r, ds, fs in os.walk(p, topdown=False):
+                if not os.listdir(r) or (os.listdir(r) == ['.DS_Store'] and kept == 0):
+                    if os.path.exists(os.path.join(r, '.DS_Store')):
+                        os.remove(os.path.join(r, '.DS_Store'))
+                    os.rmdir(r)
+        total += sz
+        note = f", {kept} file(s) newer than the deliverable kept" if kept else ""
+        print(f"      {rel}/  ({human(sz)}{note})")
+    # run logs: build, render, gate and mix logs are scratch once the job ships. Top
+    # level of outputs/ and graphics-build/ only; the mtime guard still applies.
+    for d in ('outputs', 'graphics-build'):
+        dp = os.path.join(job, d)
+        for f in sorted(os.listdir(dp)) if os.path.isdir(dp) else []:
+            fp = os.path.join(dp, f)
+            if f.endswith('.log') and os.path.isfile(fp) and os.path.getmtime(fp) <= deliverable_mtime:
+                total += os.path.getsize(fp)
+                print(f"      {d}/{f}")
+                if apply_:
+                    os.remove(fp)
+    print(f"      total reclaimable: {human(total)}")
+
+
+
 def main():
     args = sys.argv[1:]
     if not args:
@@ -274,7 +357,16 @@ def main():
     src, newest, how = pick_deliverable(job, outdir, jobname, plan_path)
     if src is None:
         if newest == 'already':
-            print(f"already promoted. {how} is the deliverable. Nothing to do.")
+            if not reclaim:
+                print(f"already promoted. {how} is the deliverable. Nothing to do.")
+                return 0
+            # 2026-09-30: --reclaim on a job whose master was already retired used to stop
+            # here, so its caches and logs could never be cleaned
+            print(f"already promoted. {how} is the deliverable.")
+            print(f"{'APPLY' if apply_ else 'DRY RUN, nothing will change'}")
+            do_reclaim(job, os.path.getmtime(os.path.join(outdir, how)), apply_)
+            print("\napplied" if apply_ else
+                  "\nnothing changed. re-run with --apply after reading the plan.")
             return 0
         print(how)
         return 1
@@ -393,53 +485,7 @@ def main():
                 print(f"      retired {rel}")
 
     if reclaim:
-        print("\nRECLAIM")
-        total, seen = 0, set()
-        for rel in RECLAIMABLE_DIRS + RECLAIMABLE_FILES:
-            p = os.path.join(job, rel)
-            if rel in seen or not os.path.exists(p):
-                continue
-            seen.add(rel)
-            # GUARD: never delete anything newer than the deliverable
-            if os.path.getmtime(p) > deliverable_mtime:
-                print(f"      SKIP {rel}: newer than the deliverable, never deleted")
-                continue
-            # GUARD: never sweep build source out of a reclaim target
-            if holds_source(p):
-                print(f"      SKIP {rel}: holds build source, not regenerable renders")
-                continue
-            sz = tree_size(p)
-            total += sz
-            print(f"      {rel}  ({human(sz)})")
-            if apply_:
-                shutil.rmtree(p) if os.path.isdir(p) else os.remove(p)
-        # caches: file by file, so one recent file does not keep 12GB of old renders
-        for rel in CACHE_DIRS:
-            p = os.path.join(job, rel)
-            if not os.path.isdir(p):
-                continue
-            if holds_authored(p):
-                print(f"      SKIP {rel}: holds authored files, not a cache")
-                continue
-            sz = kept = 0
-            for r, _, fs in os.walk(p):
-                for f in fs:
-                    fp = os.path.join(r, f)
-                    if f != '.DS_Store' and os.path.getmtime(fp) > deliverable_mtime:   # Finder metadata is not work
-                        kept += 1
-                        continue
-                    sz += os.path.getsize(fp)
-                    if apply_:
-                        os.remove(fp)
-            if apply_:
-                for r, ds, fs in os.walk(p, topdown=False):
-                    if r != p and not os.listdir(r):
-                        os.rmdir(r)
-            total += sz
-            note = f", {kept} file(s) newer than the deliverable kept" if kept else ""
-            print(f"      {rel}/  ({human(sz)}{note})")
-        print(f"      total reclaimable: {human(total)}")
-
+        do_reclaim(job, deliverable_mtime, apply_)
     print("\napplied" if apply_ else
           "\nnothing changed. re-run with --apply after reading the plan.")
     return 0

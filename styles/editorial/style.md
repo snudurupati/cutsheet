@@ -221,13 +221,18 @@ Long form, 1920×1080 frame:
   rather than a browser segment: it is pure geometry for minutes at a time, and round-tripping that
   much footage through a headless render costs ~3% luma on every frame of it.
 - The inset enters once and leaves once, exactly like `panel`. No bouncing.
-- It **may move to the opposite corner, or fade out entirely**, for a span where the screen
+- It **may move to the opposite corner, to the top-right, or fade out entirely**, for a span where the screen
   content needs the space: a slide whose columns are building, or a diagram using the whole
   frame. A fade uses the same enter and exit mechanic. A corner change **slides** over 0.6s
   with a smoothstep ease (see Transitions), so the move is seen to happen rather than
   teleporting on a cut. The one-entry rule is about the frame changing between full and
   picture-in-picture; here the frame is unchanged and only the inset moves, so that rule is
   not the one in play. `style.json` carries the permission.
+- **Top-right** (added 2026-09-29, 05-agent-swarm): for an editor showing a full-width,
+  word-wrapped document, where both bottom corners cover text being read. It sits on the tab
+  and title chrome. Prefer it over hiding when the speaker's reactions carry the beat: on
+  05-agent-swarm the human kept their face on screen through the agents' negotiation for exactly
+  that reason.
 
 Short form, 1080×1920 frame:
 
@@ -442,5 +447,40 @@ Corrections that should apply to every future video get appended here (and to `l
   `opensOnMotion` stays: frame 1 moves, but the motion is the `push` on the face, and the hook's
   drawn object enters on the first clause break after the opening words, not on frame 0. See "The
   hook is a drawn object". The hook's sound effect is derived from the same cue, never typed in.
+- **2026-09-29: an agent is a robot with a jar for a head.** Replaces the brain in a jar with limbs,
+  which read as ugly on 05-agent-swarm. The head is the full jar (lid, glass, liquid, both
+  highlights, bubbles), on a boxy body with jointed arms and two wheels. The arms and wheels move:
+  wheels turn by the distance rolled, arms bend at shoulder and elbow. A robot that stands for a
+  named teammate wears a name band across the glass instead of a separate label. Fills take the
+  panel's background, so on an ink card the robot is ink-filled with paper lines.
+- **2026-09-30: card-to-takeover is a match-cut (standing, human-approved).** The takeover's first
+  frame redraws the card's last frame at the same pixels and grows from that rect, carrying the key
+  object across. Nothing changes on the cut frame: backdrop layers fade in with the grow.
+- **2026-09-30: strikes are sized by the text, marks by the pixels.** A strike-through is a child of
+  the word's own box at its full rendered width, never a length computed from the character count.
+  A box or underline on a screen recording snaps its edges to the real word ends in the frame
+  (snap_marks.py); an OCR character-count estimate alone cuts through the last letters.
+  No padding on a strike: a 2px outset becomes 4px on the 2x stage and reads as overshoot. A
+  mark's edge stops at the last letter, not at trailing punctuation; an edge inside a run with no
+  space ("headers.source_order_date") moves by the other edge's snap. Verify strikes and marks
+  by measured ink extents on the render, within 3px.
+- **2026-09-29: the robot moves honestly.** What it moves, it holds, in its gripper; it rolls
+  within reach first; nothing passes through its body; it rolls in rather than fading in and
+  shuffling; wheels turn only while it rolls; raised arms stay outside the jar. Check robot motion
+  on consecutive frames, not single stills: a still-frame QA passed every one of these faults.
+- **2026-09-29: marks over a screen recording are paper, not ink.** A box, underline or tick that is
+  not the one `$accent` mark is drawn in `$bg`. Terminals measure dark, and on 05-agent-swarm every
+  ink mark disappeared into them.
+- **2026-09-29: the demo inset hides only when a punch-in needs its corner.** Hide it for the frames
+  where the zoomed target reaches the inset, merge hides less than 20s apart, and prefer moving it
+  top-right when the speaker's reactions are part of the beat.
+- **2026-09-29: marks follow the line pitch.** OCR boxes are taller than a line, so boxes and
+  underlines sized from them cross the next line and read as strikes. Size them from the measured
+  pitch: vertical pad no more than half the leading, underline just under the descender.
+- **2026-09-29: with the inset top-right, punch-ins frame their line at 60% height.** A centred
+  line runs under the face, which reaches the middle of the frame.
+- **2026-09-29: a demo stretch of 60s or more with no graphic gets a legibility punch-in** on what
+  the speaker or the agents are reading, chosen from screen OCR. If OCR finds nothing worth
+  zooming, leave the stretch bare rather than invent a target.
 - **2026-08-19 — `demo` scene added.** Screen recordings with the speaker present get a corner inset
   over a full-frame screen, not the `panel` split, which shrinks dense screen text past legibility.

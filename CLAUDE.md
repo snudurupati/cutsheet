@@ -237,6 +237,32 @@ up.
     correct-looking result. Every script that reads a pipeline artefact asserts what it read matches
     the cutsheet before doing any work.
 
+13. **Graphics pass a checkpoint before the full build, and the full build runs once.** After the
+    human approves the graphics plan, build every graphic and stop. Produce a preview reel (each
+    graphic over its real footage window, back to back), a table of every piece of on-screen copy,
+    the measured checks and a composition review of the reel. Put all of it in front of the human.
+    Only after their sign-off does the full chain run (demo scene, composite, gates, mix). The
+    procedure is in the `graphics` skill, "The graphics checkpoint".
+
+    This rule exists because on 05-agent-swarm (2026-09-29/30) every graphics defect the human found
+    was visible in the graphic itself: strikes longer than their words, boxes cutting through text,
+    an "AHA" label, a crowded card, an ominous phrase, a vestigial card. None needed the finished
+    cut. Each was found after the full build and cost a 38-minute round to fix.
+
+14. **A fix costs what it touches, never a full round.** Iterate on one graphic, especially an
+    animation, in a single-part preview over its footage, never through the full chain. A one-graphic
+    fix through the chain must re-render only that part, re-composite only its time window, and
+    re-check only that window. If it takes more than about 10 minutes, the chain is broken: fix the
+    chain before continuing.
+
+    This rule exists because on 05-agent-swarm 17 full rounds took about 8 hours at about 38 minutes
+    each. 11 of them ran overnight to tweak one opening animation, and each re-rendered the
+    15-minute demo scene and the whole 21-minute composite regardless of what changed.
+
+    **Status: the incremental chain is not built yet.** Build it at the start of the next video, on
+    branch `rebuild-speedups`, before the first full build. The requirements are in the `graphics`
+    skill, "Rebuild time: only redo what changed". Time a one-graphic fix and report the number.
+
 ## House style
 
 **No em-dashes.** Not in on-screen card copy, not in the YouTube title, description or
