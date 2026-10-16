@@ -38,7 +38,7 @@ editing** — a recording can measure perfect on resolution and still be unusabl
 | Voice level | −18 to −22 LUFS, peaks −6 to −10 dBFS | `ebur128`, `astats` |
 | **Flat factor** | **0** | non-zero means a limiter is clamping normal speech, not catching accidents |
 | Noise floor | ≤ −65 dB, rumble (<100 Hz) ≤ −75 dB | quiet window + band filters |
-| **Global exposure drift** | **frame-wide mean, stdev < 2.0 luma units** | `measure_zones.py` prints it and warns. Drift is auto ISO or unstable lights. It is never the framing |
+| **Global exposure drift** | **frame-wide mean, stdev < 2.0 luma units** | `measure_zones.py` prints it and warns. Drift is auto ISO, unstable lights, or the speaker's shadow crossing the wall when the key is low. It is never the framing |
 | Face luma | 130–145 | `signalstats` on a face crop |
 | Face key/fill split | within ~25 units | two crops across the face |
 | Background | below face luma; saturation below the face's | region crops |
@@ -107,28 +107,38 @@ room tone in every pause), limiter on, HPF 75 Hz, denoiser and popper stopper of
 ### Exposure is locked on the body, never in OBS
 
 The camera arrives as a UVC source (`macos-avcapture`), so ISO, aperture and shutter exist only on
-the camera. Verified settings for this rig, **settled 2026-09-29.** This supersedes the 2026-09-15
-set, which read ISO 400 and predates the ND filter:
+the camera. Verified settings for this rig, **settled 2026-10-16** with the new key light and prime
+lens. This supersedes the 2026-09-29 set (kit lens, ISO 2000, f/4.0, variable ND at 0):
 
 | | |
 |---|---|
-| Camera | **ISO 2000**, f/4.0, 1/60, 3840×2160, 30/1, all manual |
-| Lens | variable ND fitted, parked at its marked **0 stop** position |
+| Camera | **ISO 160**, **f/2.8**, 1/60, 3840×2160, 30/1, all manual |
+| Lens | Sony Zeiss 35mm prime (a full-frame lens on the APS-C body, about 52mm equivalent) |
+| Key light | Neewer 150W, parabolic dome, two diffusion layers, honeycomb grid. The only light. Camera right (the speaker's left), about **25 degrees** off the lens axis, raised (about 7 ft), angled down, angled down. Practical lamp behind, frame right |
+| Fill | none. Bringing the key toward the lens axis does the job a fill would (see below) |
 | OBS Limiter | threshold −2.0 dB |
 | OBS Compressor | threshold −24 dB, ratio 3:1, attack 1 ms, release 80 ms, output gain +8.0 dB |
 | OBS screen scaling | **lanczos**. Bilinear softens terminal text when a 5K display is downscaled to 4K |
 
 Shutter is 1/60 because 30fps wants a 180 degree shutter. 1/40 was tried and is a 270 degree shutter:
 at 4K the glasses, hairline and mouth visibly smear on any head turn, while the same lens resolves
-individual stubble at rest. With a kit lens the aperture is pinned, so ISO is the only lever left,
-and **raising ISO shortens the shutter rather than lengthening it.**
+individual stubble at rest.
 
-ISO 2000 was chosen against 1000 and 3200 in a same-session comparison. It is the only one of the
-three where the **background sits below the face** (wall 127.8, face 129.4), which no camera setting
-had managed in six sessions of trying. ISO 3200 puts face luma more comfortably inside the 130-145
-band at 139.7, but it pushes the wall back above the face at 145.1, triples the clipping, and is the
-only one of the three to trip the drift guard. Face at 129.4 misses the spec floor by 0.6 of a unit,
-which is inside measurement noise, and that is the right trade.
+f/2.8 rather than f/2.0 buys focus margin for a speaker who moves through the take. At f/2.0 the
+eyes were sharp at rest, but there is little depth to lean into.
+
+**Key placement, measured 2026-10-16.** Lowered and brought closer, the key put the lit cheek above
+the wall, but the speaker's own shadow then crossed the wall as they moved and tripped the drift
+guard (6.5 units, stdev 2.41). The key stays raised because the speaker moves throughout. Raised at
+45 degrees, spill lifted the wall above the face. Swinging it to **25 degrees** fixed most of that:
+
+| Raised key | Shadow cheek | Lit cheek | Forehead | Wall frame left | Wall by lamp | Drift stdev |
+|---|---|---|---|---|---|---|
+| 45 degrees | 73 | 132 | 155 | 164 | 182 | 0.49 |
+| **25 degrees** | **102** | 129 | 154 | **148** | 180 | 1.09 |
+
+The face split falls from 59 to 27 units (spec about 25) and the left wall drops below the forehead.
+The wall by the practical lamp is the remaining bright patch; dimming the lamp is the fix.
 
 ### Auto ISO hides as unstable lighting. This test separates them
 
@@ -201,12 +211,11 @@ pulses, so the render must be corrected too. A correct zone map is not a correct
    OBS records. Confirmed by the low-band to voice-band ratio before and after the change: unchanged
    at about −24 dB, where a working filter reads about −35. Finishing applies the filter to the file
    at no cost.
-3. **Face luma sits at the 130 floor rather than mid-band**, 129.4 at the settled ISO. Raising it
-   further puts the wall back above the face and starts clipping the lit cheek. This is the top of
-   what the rig gives.
-4. **Key to fill ratio near 3 stops** (lit cheek 183, shadow cheek 71) where a talking head normally
-   runs 1 to 2. Exposure lifts both sides together, so no camera setting changes a ratio, and the
-   lights are fixed. Shadow crush is not the issue: 0.1% of pixels below 16.
+3. **Wall by the practical lamp sits above the face** (180 against a lit cheek of 129 and forehead
+   154). The rest of the wall is now level with the lit cheek. Do not grade it out (curves that move
+   the face mean have crushed the face's tonal range before). Fix it with light: dim the lamp.
+4. **Single key, no fill.** At 25 degrees the face split is 27 units, inside the spec's ~25 within
+   noise. Moving the key back toward 45 degrees reopens it to about 60.
 5. **Noise floor above spec, environmental.** Confirmed by the human on 2026-09-29: the neighbourhood
    is loud and the room cannot be insulated further. **Record 3 to 5 seconds of room tone at the head
    of every take.** It is the only way to measure the floor, since no take in six sessions contained
