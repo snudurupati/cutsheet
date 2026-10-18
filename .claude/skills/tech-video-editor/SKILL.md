@@ -243,7 +243,9 @@ more than one video before it was written down on 2026-08-30; the zone is `heroL
 
 **Shown to the human before it is acted on, without being asked:**
 1. **Footage check against the recording spec** — before any editing, with drift reported.
-2. **The cutsheet as readable text** — the whole edit checkable without watching anything.
+2. **The cutsheet as readable text**, for the edit's logic, **and the join reel plus the base-cut
+   audit**, for how it sounds. Text cannot carry a stutter or a missing breath, so approving the
+   text is not sign-off on the cut (hard rule 15).
 3. **The graphics plan** — the beat table, before a single composition is built.
 4. **Any conflict** between local direction and the style file, or inside the style file itself.
 5. **Every composition-review finding** — fixed, or raised as a decision with options. Hard rule 10:
@@ -266,7 +268,11 @@ video.
 
 The sequence, with its two human checkpoints before anything expensive runs:
 
-1. Rough cut, then the graphics plan. **The human approves the plan.**
+1. Rough cut, then **the base-cut gate** (CLAUDE.md hard rule 15; `rough-cut` skill, "The base-cut
+   gate"): acoustic audit, independent re-transcription, judging agent, then the human listens to
+   the join reel and signs off. **Nothing graphics-related starts before that sign-off**, and an
+   unattended run stops here and pings the human.
+1b. Then the graphics plan. **The human approves the plan.**
 2. Build every graphic. Then the **graphics checkpoint** (CLAUDE.md hard rule 13; `graphics` skill,
    "The graphics checkpoint"): preview reel, copy table, measured checks, composition review on
    the reel. **The human signs off.** Animation is iterated in single-part previews (hard rule 14).

@@ -49,7 +49,7 @@ Every beat in a cut sheet is one of these, by name.
 | `panel` | Face reframed to picture-in-picture, content beside it. | Stats, lists, comparisons, screenshots that need the face for reaction. |
 | `takeover` | Content fills the frame, face gone. | A screen recording or diagram that needs every pixel. |
 | `push` | Face full-frame with a slow camera move on it. | Payoff lines, the hook, the last line before a turn. |
-| `slot` | A generated or shot B-roll clip fills the frame. | A beat with no real footage. |
+| `slot` | A shot B-roll clip fills the frame. Never AI-generated (2026-10-16). | A beat with no real footage. |
 | `demo` | A screen recording fills the frame with the face inset in a corner. | A live demo or walkthrough that needs every pixel *and* the speaker's presence. |
 | `analogy` | A drawn object built in movements, line art on the full frame. | The speaker reaches for a comparison: "imagine", "think of it as", "it's basically a". |
 | `contrast` | Split frame, two states side by side, both still visible at the end. | "the difference between", "instead of", "it used to be, now it". |
@@ -381,6 +381,9 @@ headline word. Never both.
 
 ## Pacing (measured, not vibes)
 
+- Cut pauses (`cut` in `style.json`): **0.6–1.0s between sentences, 1.5s at a section change**
+  (hook to thesis, intro to demo, demo to outro), taken from the recording's own silence. Mid-sentence
+  joins stay tight. A section beat is the place a later music swell or graphic can land.
 - Average `head` beat: 4–7s. Anything over 12s wants a `chip` or a `push`.
 - `panel` runs: 15–45s, containing 2–5 content swaps.
 - `takeover`: 6–20s. Under 6s reads as a glitch.
@@ -407,6 +410,27 @@ headline word. Never both.
 
 Corrections that should apply to every future video get appended here (and to `learned` in
 `style.json`) before a job is closed out. One-off notes are applied and forgotten.
+
+- 2026-10-17: a section change gets a 1.5s beat, longer than a sentence pause (01-robotics-as-de,
+  after an end-to-end review: "a bit of pause between transitions", at section changes only).
+- 2026-10-17: **the hook follows the script's [MG] cue** when the script has one (01: "I asked you to
+  refer the hook from my script"). On 01 that meant a Wi-Fi card whose password types out word by word
+  as it is spoken, a check, then everything dissolving except "Simple?", held at card size; the card
+  then grows into blank paper just before the montage's first icon (match-cut), and the series
+  humanoid closes the scene lifting a cup. A conflict between the cue and this file is raised.
+- 2026-10-17: **drawn worlds go full screen.** Analogy and contrast scenes (factory vs home, the bike)
+  are takeovers: the scene keeps its layout and is scaled up whole to about 1600x900 on the paper page
+  with dust, grain and drift; it match-cuts from an abutting card (the card's last frame redrawn, the
+  sheet grown from it) or opens on a hard cut, and exits on a hard cut. A contrast scene shows both
+  worlds from the first full frame, the second dimmed until its cue, so the page is never half empty.
+  Text and stat beats stay cards.
+- 2026-10-17: **punch-ins do not drift.** zoompan rounds its crop to whole pixels per frame, so a slow
+  push reads as shake (01 gZ1/gZ2). A held punch-in is still; the live screen carries the motion.
+- 2026-10-17: **a card holds 1.2s past its last cue**, and **no mark goes where the speaker is already
+  pointing** with the cursor (01 g16b, gZ4).
+- 2026-10-17: **the end card ends about 2.3s after the sign-off**, before the speaker looks away. Its
+  rows follow the 05 anatomy: channel-name eyebrow, label over value, the accent rule under the first
+  row, the card growing as each row lands, each row revealed top-down once the card has room.
 
 - **2026-08-19 — long form may reframe.** The original wording said long form "never reframes" while
   this same file specified long-form PiP geometry and `head → panel` transitions. The no-reframe line
@@ -453,6 +477,24 @@ Corrections that should apply to every future video get appended here (and to `l
   wheels turn by the distance rolled, arms bend at shoulder and elbow. A robot that stands for a
   named teammate wears a name band across the glass instead of a separate label. Fills take the
   panel's background, so on an ink card the robot is ink-filled with paper lines.
+- **2026-10-16: a physical robot is a humanoid.** Settled by the human at the start of the
+  physical-AI series (01-robotics-as-de). Line art: a faceless rounded visor head, neck, segmented
+  torso, arms that bend at shoulder and elbow with two-finger grippers, hips and knees, two feet.
+  It is hardware and the agent is software, so the two never share a head or a base: the agent keeps
+  the jar head and wheels, the robot has the visor and legs. The SO-101 arm is drawn as itself only
+  when the beat is about that arm; a "classical" robot in a contrast may be a fixed industrial arm.
+  It moves honestly: feet stay planted unless it steps, what it moves it holds.
+- **2026-10-16: no AI-generated footage in the series.** Settled by the human with the humanoid
+  robot: "stay away from AI-generated videos in the series." A beat that would have taken generated
+  b-roll gets a drawn scene, a real photo or a screen recording. Nothing generated is shown as if it
+  were filmed.
+- **2026-10-16: full-screen graphics carry drifting ink dust.** Every takeover (and only takeovers:
+  never inside a panel beside the face, never on a punch-in or the demo) sits on a faint field of
+  about 500 flecks in `$ink` and `$muted` at 6-12% opacity, mostly 2px, with a few soft specks for
+  depth, drifting up and to the right at about 35px/s with a little noise. It is behind every drawn
+  element, present from the first frame, and not driven by the audio. Positions are computed from
+  a fixed seed and the timeline time, so every seek renders the same frame. From a reference the
+  human liked (dust behind full-screen charts), translated from white-on-black to ink on paper.
 - **2026-09-30: card-to-takeover is a match-cut (standing, human-approved).** The takeover's first
   frame redraws the card's last frame at the same pixels and grows from that rect, carrying the key
   object across. Nothing changes on the cut frame: backdrop layers fade in with the grow.

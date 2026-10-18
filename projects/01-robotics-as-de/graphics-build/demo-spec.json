@@ -1,0 +1,304 @@
+{
+ "span": {
+  "start": 326.733,
+  "end": 836.3,
+  "_why": "derived from transcript/cutsheet.json"
+ },
+ "base": "outputs/base-cut.mov",
+ "screen": "outputs/base-screen.mp4",
+ "_screenWhy": "demo segments only, cut per segment from session B's screen clip; the Claude app sidebar, account line and left strip blurred in source space (leak.json)",
+ "inset": {
+  "sourceCrop": {
+   "w": 2000,
+   "h": 2000,
+   "x": 1330,
+   "y": 60
+  },
+  "_sourceCropWhy": "six crops at six points across the demo (30, 180, 330, 520, 700 lean, 950 profile), frame-verifier 2026-10-16. 2000@1330,60 is the only crop with headroom, chin clear of the mic, shoulders, and nothing cut on the lean or the profile; 1400-1760 crops clip hair or chin (the 35mm framing makes the head large in frame).",
+  "_delivery": {
+   "width": 960,
+   "height": 960,
+   "left": 2736,
+   "top": 1056,
+   "radius": 48,
+   "repositionSeconds": 0.6,
+   "enterSeconds": 0.5,
+   "exitSeconds": 0.35
+  },
+  "reposition": [],
+  "_repositionWhy": "from screen-ocr.json: terminal and DuckDB text never passes x 2200; the Claude chat column ends at x 2900 and holds nothing below y 1060; Rerun's bottom-right panel is next.done, a flat line. Bottom-right throughout.",
+  "hiddenDuring": [
+   {
+    "start": 331.267,
+    "end": 336.667,
+    "why": "a punch-in's zoomed target reaches the inset corner (style.json demoInset.mayHide)"
+   },
+   {
+    "start": 357.433,
+    "end": 372.8,
+    "why": "a punch-in's zoomed target reaches the inset corner (style.json demoInset.mayHide)"
+   },
+   {
+    "start": 409.1,
+    "end": 518.067,
+    "why": "a punch-in's zoomed target reaches the inset corner (style.json demoInset.mayHide)"
+   },
+   {
+    "start": 643.733,
+    "end": 691.567,
+    "why": "a punch-in's zoomed target reaches the inset corner (style.json demoInset.mayHide)"
+   },
+   {
+    "start": 745.0,
+    "end": 792.8,
+    "why": "a punch-in's zoomed target reaches the inset corner (style.json demoInset.mayHide)"
+   },
+   {
+    "start": 815.93,
+    "end": 823.333,
+    "why": "a punch-in's zoomed target reaches the inset corner (style.json demoInset.mayHide)"
+   }
+  ]
+ },
+ "punchIns": {
+  "items": [
+   {
+    "id": "gZ1",
+    "part": "gZ1",
+    "start": 331.467,
+    "end": 336.467,
+    "cx": 636,
+    "cy": 247,
+    "zoom": 2.6,
+    "box": [
+     132,
+     131,
+     1139,
+     363
+    ],
+    "framing": "full",
+    "target": "the repo name and the breadcrumb physical-ai-data-architect / weeks / week-01",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 5
+   },
+   {
+    "id": "gZ2",
+    "part": "gZ2",
+    "start": 357.633,
+    "end": 372.6,
+    "cx": 2137,
+    "cy": 711,
+    "zoom": 2.34,
+    "box": [
+     1415,
+     456,
+     2859,
+     966
+    ],
+    "framing": "full",
+    "target": "Claude Code's reply: cloned to ~/Projects/paida-wk01, lerobot 0.4.4 imports",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 14
+   },
+   {
+    "id": "gZ3",
+    "part": "gZ3",
+    "start": 409.3,
+    "end": 450.3,
+    "cx": 1812,
+    "cy": 1370,
+    "zoom": 1.85,
+    "box": [
+     1320,
+     904,
+     2304,
+     1836
+    ],
+    "framing": "full",
+    "target": "Rerun's observation.image panel: the blue dot pushing the T",
+    "_boxFrom": "frame-measured (rerun-image)",
+    "_ocrSamples": 0
+   },
+   {
+    "id": "gZ4a",
+    "part": "gZ4",
+    "start": 461.433,
+    "end": 477.5,
+    "cx": 796,
+    "cy": 488,
+    "zoom": 1.86,
+    "box": [
+     248,
+     24,
+     1344,
+     952
+    ],
+    "framing": "full",
+    "target": "the state panel (x, y of the pusher)",
+    "_boxFrom": "frame-measured (rerun-state)",
+    "_ocrSamples": 0,
+    "rampOut": 18
+   },
+   {
+    "id": "gZ4b",
+    "part": "gZ4",
+    "start": 476.9,
+    "end": 496.77,
+    "cx": 1856,
+    "cy": 488,
+    "zoom": 1.86,
+    "box": [
+     1308,
+     24,
+     2404,
+     952
+    ],
+    "framing": "full",
+    "target": "the action panel",
+    "_boxFrom": "frame-measured (rerun-action)",
+    "_ocrSamples": 0,
+    "rampIn": 18,
+    "rampOut": 18
+   },
+   {
+    "id": "gZ4c",
+    "part": "gZ4",
+    "start": 496.17,
+    "end": 517.867,
+    "cx": 1326,
+    "cy": 488,
+    "zoom": 1.57,
+    "box": [
+     248,
+     24,
+     2404,
+     952
+    ],
+    "framing": "full",
+    "target": "state and action side by side: almost identical, slightly apart",
+    "_boxFrom": "frame-measured (rerun-both)",
+    "_ocrSamples": 0,
+    "rampIn": 18
+   },
+   {
+    "id": "gZ5a",
+    "part": "gZ5",
+    "start": 643.933,
+    "end": 677.033,
+    "cx": 1124,
+    "cy": 792,
+    "zoom": 2.6,
+    "box": [
+     795,
+     595,
+     1453,
+     990
+    ],
+    "framing": "full",
+    "target": "info.json: robot_type unknown, 206 episodes, 25650 frames, fps 10",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 33,
+    "rampIn": 12,
+    "rampOut": 18
+   },
+   {
+    "id": "gZ5c",
+    "part": "gZ5",
+    "start": 676.433,
+    "end": 681.833,
+    "cx": 1760,
+    "cy": 734,
+    "zoom": 1.77,
+    "box": [
+     807,
+     650,
+     2713,
+     818
+    ],
+    "framing": "full",
+    "target": "info.json after it scrolls: data_path and video_path",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 5,
+    "rampOut": 9,
+    "rampIn": 18
+   },
+   {
+    "id": "gZ5b",
+    "part": "gZ5b",
+    "start": 684.867,
+    "end": 691.367,
+    "cx": 1759,
+    "cy": 512,
+    "zoom": 1.77,
+    "box": [
+     805,
+     371,
+     2713,
+     653
+    ],
+    "framing": "full",
+    "target": "the top of the features block",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 8
+   },
+   {
+    "id": "gZ6",
+    "part": "gZ6",
+    "start": 745.2,
+    "end": 772.13,
+    "cx": 1196,
+    "cy": 1673,
+    "zoom": 2.37,
+    "box": [
+     768,
+     1309,
+     1624,
+     2037
+    ],
+    "framing": "full",
+    "target": "DESCRIBE: the ten columns, no observation.image among them",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 29
+   },
+   {
+    "id": "gZ7",
+    "part": "gZ7",
+    "start": 776.63,
+    "end": 792.6,
+    "cx": 1309,
+    "cy": 1810,
+    "zoom": 2.6,
+    "box": [
+     813,
+     1599,
+     1805,
+     2022
+    ],
+    "framing": "full",
+    "target": "the frames query result: first_ts 0.0 for every episode",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 18,
+    "rampOut": 12
+   },
+   {
+    "id": "gZ8",
+    "part": "gZ8",
+    "start": 816.13,
+    "end": 823.133,
+    "cx": 1591,
+    "cy": 1624,
+    "zoom": 2.17,
+    "box": [
+     958,
+     1226,
+     2224,
+     2021
+    ],
+    "framing": "full",
+    "target": "the join result: video_position = 16.1, 16.2, 16.3 ... for episode 1",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 9
+   }
+  ]
+ }
+}

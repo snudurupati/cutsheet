@@ -765,7 +765,12 @@ path. Every round re-ran the rest in full:
    at 1080p in a minute or two. Animation work (the 05 robot needed 11 rounds) happens there, and
    only a signed-off part goes back through the chain.
 
-Target: a one-graphic fix in 5-8 minutes. Time the first one and write the number here.
+Target: a one-graphic fix in 5-8 minutes. **Measured on 01-robotics-as-de (2026-10-17): 2 min 7 s**
+for one part (g21): render 16s, windowed composite + stream-copy splice (30,082 untouched frames
+packet-identical) 81s, windowed gates 2s, audio re-mux + verify_cut 29s. The chain is
+`graphics-build/rebuild.sh` + `assemble.py` on that job; `FULL=1` forces a whole pass (~15 min of
+composite and gates after the renders). Keyframes are forced at every layer boundary with no
+B-frames, which is what makes the stream-copy splice exact.
 
 ## Linter and workflow notes
 
@@ -791,12 +796,15 @@ After the plan is approved and every part is built, **stop before the full chain
 composite, gates, mix). Put all of the following in front of the human in one message, and wait for
 their sign-off. Human decision, 2026-09-30 (05-agent-swarm retrospective).
 
-1. **The preview reel.** Every part rendered over its real footage window at 1080p:
+1. **The preview clips, one file per part.** Every part rendered over its real footage window at
+   1080p, as its own clip (`previews/<part>.mp4`), never one long reel:
    - the face for overlays, the screen recording for marks and punch-ins;
    - one second of context either side;
-   - back to back in story order, each with a small part-id and timestamp slate.
+   - file names that sort in story order and carry the part id and cut time
+     (`03-g03-0m31s.mp4`), plus an index of id, time and copy.
 
-   Send it to the human (SendUserFile). It renders in minutes and watches in about ten.
+   Human decision, 2026-10-17 (01-robotics-as-de): a single reel made it hard to rewatch one
+   graphic several times; separate clips let them sit with each one. Point them at the folder.
 2. **The copy table.** Every piece of on-screen text, one row per string:
 
    | part | timestamp | text, exactly as rendered | the spoken line it sits on |
@@ -814,13 +822,13 @@ their sign-off. Human decision, 2026-09-30 (05-agent-swarm retrospective).
    - row spacing on list cards;
    - **every defect that has ever recurred** (style.json `learned[]`): each recurring mistake is
      a check here, not something to rediscover.
-4. **The composition review** (the `composition-reviewer` agent, hard rule 10), run on the reel,
-   not the finished cut:
+4. **The composition review** (the `composition-reviewer` agent, hard rule 10), run on the preview
+   clips, not the finished cut:
    - "why is that there", "that's tiny", "that's crowded";
    - a card that adds nothing (on 05, the first "TO WHAT USE?" card);
    - stretches with no graphic.
 
-   Every finding is fixed or escalated before the human sees the reel.
+   Every finding is fixed or escalated before the human sees the clips.
 5. **Fix, re-render the affected parts, repeat** until the human signs off. Iterate on a part in
    a single-part preview, never through the chain (hard rule 14).
 

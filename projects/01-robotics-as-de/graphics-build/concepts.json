@@ -1,0 +1,421 @@
+{
+  "source": "projects/01-robotics-as-de/outputs/transcript-cut.json",
+  "fps": 30.0,
+  "totalSeconds": 1023.367,
+  "candidates": [
+    {
+      "start": 88.49,
+      "end": 95.36,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "instead of",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "Instead of writing down the rules, you show the robot what to do over and over again, and it learns the pattern."
+    },
+    {
+      "start": 95.78,
+      "end": 103.69,
+      "cue": "branch",
+      "scene": "loop",
+      "marker": "unless",
+      "draw": "Fork. Two paths from one node, the taken one in accent.",
+      "section": null,
+      "text": "It's like teaching my daughter how to ride a bike, putting her on a bike and holding onto her seat unless she's ready for me to let go."
+    },
+    {
+      "start": 210.1,
+      "end": 217.49,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "not a robot, but",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "So for the next 13 weeks, I'll be building a robot data platform in public. Not a robot, but the engine behind it."
+    },
+    {
+      "start": 274.44,
+      "end": 275.7,
+      "cue": "cycle",
+      "scene": "loop",
+      "marker": "every time",
+      "draw": "Closed ring. Travelling dot so a long beat is never still.",
+      "section": null,
+      "text": "Every time I move the leader"
+    },
+    {
+      "start": 276.12,
+      "end": 279.42,
+      "cue": "enumeration",
+      "scene": "strike-list",
+      "marker": "two things",
+      "draw": "Counted build. Rows land on their own cues, never all at once.",
+      "section": null,
+      "text": "to accomplish a task, the system records two things."
+    },
+    {
+      "start": 397.56,
+      "end": 448.52,
+      "cue": "magnitude",
+      "scene": "stat",
+      "marker": "206 times",
+      "draw": "Count-up or proportion bar. Lands ON the number being said.",
+      "section": null,
+      "text": "so before i talk about what's going on let me run a simulation and then show you what's going on so i clicked play here and you can see the blue dot is a robot a simulated robot and its task is to push the t onto the t outline and here you see that it's going about and doing it perfectly the very first time But the truth is it did not do it right the first time. This is just one episode. So a human did this 206 times and the robot kind of learned from all those attempts. And each attempt here is called an episode. An episode might have multiple frames and a frame is just a moment in time. So let me scrub through the timeline."
+    },
+    {
+      "start": 568.83,
+      "end": 642.75,
+      "cue": "before-after",
+      "scene": "contrast",
+      "marker": "used to",
+      "draw": "One object, two states, morph between them. Never two cards.",
+      "section": null,
+      "text": "So here you can see there's a bunch of files here. And let me kind of, you know, structure it for you. So we are using a specific data format called the LeRobot dataset, developed by Hugging Face, LeRobot. And this is structured into three distinct parts. The first one is the metadata. The metadata, you know, like in this case, the meta.info.json or the stats.json. They tell you, again, you know, we are used to metadata, right? Like, what is the structure of the data? What is this data about? What format it is in and where things are stored? And then there is... tabular data all the machine states the joint states the sensory motor data they're all stored in parquet format within the the data chunk file and then there is also the actual camera data right the the camera frames those are stored within a different folder In this case, the download slash video folder in MP4 format."
+    },
+    {
+      "start": 649.55,
+      "end": 742.71,
+      "cue": "simile",
+      "scene": "analogy",
+      "marker": "behaves like a",
+      "draw": "The compared object, drawn. The comparison is the frame.",
+      "section": null,
+      "text": "So it says robot type unknown because it was running in a simulation. So it has total 206 episodes. Like I mentioned, these are 206 different experiments, if I may call it. They're called episodes in robotics recorded in this whole data set. And that's a total of about 25,650 frames and accomplishing a total of one task. And the task here is push T, which is pushing the T onto the T outline. recorded at 10 frames per second. So the data part, the data path is given right here and the video path is given right here. And then the features tell what all features, right? What all columns we can call them in data engineering are stored. So we have the observation image, we have the video info, we have the observation state, the action, the episode index, the frame index, the timestamp, the reward. the success. And these are the same things we saw stitched together in the rerun, the visualization I showed you earlier. So here, to stitch the camera frames and the data frames together, the json metadata behaves like a relational uh you know joint like it helps you join these two data and bring things together and let's see how we can go about doing that"
+    },
+    {
+      "start": 769.4,
+      "end": 783.13,
+      "cue": "constraint",
+      "scene": "analogy",
+      "marker": "within the",
+      "draw": "Boundary box or fence. Draw the edge, not the rule text.",
+      "section": null,
+      "text": "conspicuously missing, which is the observation video data, which makes sense, right? Typically, we do not store MP4 data in Parquet files. That's why it's stored in its own separate location, not within the Parquet."
+    },
+    {
+      "start": 862.35,
+      "end": 885.91,
+      "cue": "analogy",
+      "scene": "analogy",
+      "marker": "analogy",
+      "draw": "One drawn object, line art, built in movements on the spoken cues.",
+      "section": null,
+      "text": "the data is complex multi-modal high dimensional and then it's coming from different sources which have to be stitched together without missing even a single frame if i have to give you an analogy it's like If you record and edit videos, you have multiple cameras, multiple clips, and then everything has to be stitched together exactly"
+    },
+    {
+      "start": 917.34,
+      "end": 922.64,
+      "cue": "enumeration",
+      "scene": "strike-list",
+      "marker": "three things",
+      "draw": "Counted build. Rows land on their own cues, never all at once.",
+      "section": null,
+      "text": "So if nothing, I want you to take away three things from today's video."
+    },
+    {
+      "start": 944.72,
+      "end": 947.32,
+      "cue": "superlative",
+      "scene": "card",
+      "marker": "the most important",
+      "draw": "Typographic hit. Scale jump, not another row.",
+      "section": null,
+      "text": "And three, and the most important point is."
+    },
+    {
+      "start": 947.74,
+      "end": 957.64,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "not storing the data, but",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "The hard part about robotics is not storing the data, but stitching it together to make sure all the timestamps match so that the training is not misguided."
+    }
+  ],
+  "signals": [
+    {
+      "kind": "long-pause",
+      "at": 335.5,
+      "seconds": 2.18,
+      "why": "2.18s of silence before 'AI'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 343.58,
+      "seconds": 1.97,
+      "why": "1.97s of silence before 'ask'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 522.12,
+      "seconds": 1.62,
+      "why": "1.62s of silence before 'press'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 664.72,
+      "seconds": 2.32,
+      "why": "2.32s of silence before 'recorded'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 680.59,
+      "seconds": 1.64,
+      "why": "1.64s of silence before 'recorded'. He is landing something."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 7.94,
+      "seconds": 18.63,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 68.58,
+      "seconds": 17.13,
+      "why": "'same' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 217.87,
+      "seconds": 11.08,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 328.9,
+      "seconds": 20.14,
+      "why": "20.1s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 397.56,
+      "seconds": 50.96,
+      "why": "51.0s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 397.56,
+      "seconds": 50.96,
+      "why": "'here' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 397.56,
+      "seconds": 50.96,
+      "why": "'robot' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 397.56,
+      "seconds": 50.96,
+      "why": "'time' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 397.56,
+      "seconds": 50.96,
+      "why": "'episode' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 448.95,
+      "seconds": 66.99,
+      "why": "67.0s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 448.95,
+      "seconds": 66.99,
+      "why": "'here' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 448.95,
+      "seconds": 66.99,
+      "why": "'time' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 448.95,
+      "seconds": 66.99,
+      "why": "'state' said 5 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 448.95,
+      "seconds": 66.99,
+      "why": "'robot' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 448.95,
+      "seconds": 66.99,
+      "why": "'action' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 516.39,
+      "seconds": 47.38,
+      "why": "47.4s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 516.39,
+      "seconds": 47.38,
+      "why": "'everything' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 516.39,
+      "seconds": 47.38,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 568.83,
+      "seconds": 73.92,
+      "why": "73.9s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 568.83,
+      "seconds": 73.92,
+      "why": "'data' said 7 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 568.83,
+      "seconds": 73.92,
+      "why": "'format' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 568.83,
+      "seconds": 73.92,
+      "why": "'metadata' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 568.83,
+      "seconds": 73.92,
+      "why": "'stored' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 649.55,
+      "seconds": 93.16,
+      "why": "93.2s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 649.55,
+      "seconds": 93.16,
+      "why": "'total' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 649.55,
+      "seconds": 93.16,
+      "why": "'data' said 6 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 649.55,
+      "seconds": 93.16,
+      "why": "'frames' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 649.55,
+      "seconds": 93.16,
+      "why": "'here' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 649.55,
+      "seconds": 93.16,
+      "why": "'right' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 649.55,
+      "seconds": 93.16,
+      "why": "'together' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 743.16,
+      "seconds": 12.85,
+      "why": "'duckdb' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 783.55,
+      "seconds": 21.56,
+      "why": "21.6s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 783.55,
+      "seconds": 21.56,
+      "why": "'each' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 810.66,
+      "seconds": 13.63,
+      "why": "'file' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 837.02,
+      "seconds": 15.7,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 862.35,
+      "seconds": 23.56,
+      "why": "23.6s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 886.37,
+      "seconds": 30.54,
+      "why": "30.5s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 886.37,
+      "seconds": 30.54,
+      "why": "'it's' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 886.37,
+      "seconds": 30.54,
+      "why": "'robot' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 987.86,
+      "seconds": 32.48,
+      "why": "32.5s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 987.86,
+      "seconds": 32.48,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 987.86,
+      "seconds": 32.48,
+      "why": "'perfect' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    }
+  ]
+}

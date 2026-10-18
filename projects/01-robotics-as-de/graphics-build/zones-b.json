@@ -1,0 +1,92 @@
+{
+  "video": "projects/01-robotics-as-de/raw/Camera-2026-10-16 21-09-37.mov",
+  "measuredFrames": [
+    63.57,
+    127.14,
+    190.71,
+    254.28,
+    317.85,
+    381.42,
+    444.99,
+    508.56,
+    572.13,
+    635.7,
+    699.27,
+    762.84,
+    826.41,
+    889.98,
+    953.55,
+    1017.12,
+    1080.69,
+    1144.26,
+    1207.83,
+    1271.4
+  ],
+  "canvas": [
+    1920,
+    1080
+  ],
+  "thresholds": {
+    "detailMax": 18.0,
+    "motionMax": 4.5,
+    "driftWarn": 2.0
+  },
+  "globalExposureDrift": {
+    "frameMeanMin": 110.5,
+    "frameMeanMax": 116.8,
+    "range": 6.3,
+    "stdev": 1.66
+  },
+  "motionExposureNormalised": true,
+  "zones": {
+    "primary": {
+      "x": [
+        0,
+        540
+      ],
+      "y": [
+        0,
+        900
+      ],
+      "detail": 1.4,
+      "motion": 1.05,
+      "luma": 141.4,
+      "panelTreatment": "lightReinforced"
+    },
+    "secondary": {
+      "x": [
+        540,
+        720
+      ],
+      "y": [
+        0,
+        660
+      ],
+      "detail": 3.4,
+      "motion": 1.04,
+      "luma": 145.5,
+      "panelTreatment": "lightReinforced"
+    },
+    "tertiary": {
+      "x": [
+        1800,
+        1920
+      ],
+      "y": [
+        0,
+        900
+      ],
+      "detail": 3.5,
+      "motion": 0.97,
+      "luma": 151.2,
+      "panelTreatment": "inverted"
+    }
+  },
+  "heroTypeZone": "primary",
+  "heroTypeZoneMinimum": {
+    "widthPx": 500,
+    "heightPx": 260
+  },
+  "heroTypeAsOverlayPossible": true,
+  "_note": "Authoritative for this job. style.json zones are a fallback and a shape reference only. Re-run if the cut changes."
+}

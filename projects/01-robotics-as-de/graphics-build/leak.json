@@ -1,0 +1,467 @@
+{
+ "_why": "Write graphics-build/leak.json: where the demo screen shows things not meant to publish.\n\nDetected from screen-ocr.json, not read off a player (tech-video-editor skill). On this\nrecording the Claude desktop app shows, in two layouts:\n  sidebar  the full session list: cutsheet, 'Tech video editor agent swarm', 'Lighting,\n           camera, and mic setup', 'Lightweight ontology', 'Episode 05 environment setup',\n           video-editor (unreleased topics and the editing pipeline itself)\n  account  'Sreeram \u00b7 Max' under it (name and plan)\n  strip    the narrow left strip once the terminal opens: 'cutsheet', 'Choose environment',\n           'Import 28 Claude Code CLI sessions'\n  popup    the same environment list as a popup mid-screen, about 5:37-5:49 (found by the\n           technical review 2026-10-17, not by the first scan)\nEach layout's window is the span of cut seconds whose OCR samples show its marker text,\npadded half a sample either side, then mapped onto each demo segment's local frames.\nBoxes are source pixels, measured as the union of the OCR boxes plus a margin.\nLeft alone: the GitHub page and its avatars (the presenter's own), the terminal prompt\nsnudurupati@Yantra (his public handle).",
+ "layouts": {
+  "sidebar": {
+   "list": [
+    0,
+    420,
+    560,
+    975
+   ]
+  },
+  "account": {
+   "list": [
+    0,
+    2085,
+    330,
+    2150
+   ]
+  },
+  "strip": {
+   "list": [
+    100,
+    870,
+    766,
+    1260
+   ]
+  },
+  "popup": {
+   "list": [
+    1890,
+    840,
+    2420,
+    1230
+   ]
+  }
+ },
+ "segments": {
+  "s046": [],
+  "s047": [],
+  "s048": [
+   {
+    "layout": "sidebar",
+    "start": 240,
+    "end": 557
+   },
+   {
+    "layout": "account",
+    "start": 240,
+    "end": 557
+   },
+   {
+    "layout": "popup",
+    "start": 240,
+    "end": 557
+   }
+  ],
+  "s049": [
+   {
+    "layout": "sidebar",
+    "start": 0,
+    "end": 52
+   },
+   {
+    "layout": "account",
+    "start": 0,
+    "end": 52
+   },
+   {
+    "layout": "popup",
+    "start": 0,
+    "end": 52
+   }
+  ],
+  "s050": [
+   {
+    "layout": "sidebar",
+    "start": 0,
+    "end": 448
+   },
+   {
+    "layout": "account",
+    "start": 0,
+    "end": 448
+   },
+   {
+    "layout": "strip",
+    "start": 420,
+    "end": 448
+   },
+   {
+    "layout": "popup",
+    "start": 0,
+    "end": 0
+   }
+  ],
+  "s051": [
+   {
+    "layout": "sidebar",
+    "start": 0,
+    "end": 0
+   },
+   {
+    "layout": "account",
+    "start": 0,
+    "end": 0
+   },
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 276
+   }
+  ],
+  "s052": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 291
+   }
+  ],
+  "s053": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 111
+   }
+  ],
+  "s054": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 79
+   }
+  ],
+  "s055": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 0
+   }
+  ],
+  "s056": [],
+  "s057": [],
+  "s058": [],
+  "s059": [],
+  "s060": [],
+  "s061": [],
+  "s062": [],
+  "s063": [],
+  "s064": [],
+  "s065": [],
+  "s066": [],
+  "s067": [],
+  "s068": [],
+  "s069": [],
+  "s070": [],
+  "s071": [],
+  "s072": [],
+  "s073": [
+   {
+    "layout": "strip",
+    "start": 793,
+    "end": 810
+   }
+  ],
+  "s074": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 148
+   }
+  ],
+  "s075": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 224
+   }
+  ],
+  "s076": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 132
+   }
+  ],
+  "s077": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 86
+   }
+  ],
+  "s078": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 860
+   }
+  ],
+  "s079": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 198
+   }
+  ],
+  "s080": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 232
+   }
+  ],
+  "s081": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 88
+   }
+  ],
+  "s082": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 31
+   }
+  ],
+  "s083": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 69
+   }
+  ],
+  "s084": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 13
+   }
+  ],
+  "s085": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 100
+   }
+  ],
+  "s086": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 34
+   }
+  ],
+  "s087": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 147
+   }
+  ],
+  "s088": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 828
+   }
+  ],
+  "s089": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 200
+   }
+  ],
+  "s090": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 178
+   }
+  ],
+  "s091": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 60
+   }
+  ],
+  "s092": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 286
+   }
+  ],
+  "s093": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 294
+   }
+  ],
+  "s094": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 167
+   }
+  ],
+  "s095": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 576
+   }
+  ],
+  "s096": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 62
+   }
+  ],
+  "s097": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 284
+   }
+  ],
+  "s098": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 37
+   }
+  ],
+  "s099": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 341
+   }
+  ],
+  "s100": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 61
+   }
+  ],
+  "s101": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 328
+   }
+  ],
+  "s102": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 417
+   }
+  ],
+  "s103": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 77
+   }
+  ],
+  "s104": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 34
+   }
+  ],
+  "s105": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 99
+   }
+  ],
+  "s106": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 159
+   }
+  ],
+  "s107": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 77
+   }
+  ],
+  "s108": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 181
+   }
+  ],
+  "s109": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 128
+   }
+  ],
+  "s110": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 45
+   }
+  ],
+  "s111": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 217
+   }
+  ],
+  "s112": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 37
+   }
+  ],
+  "s113": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 50
+   }
+  ],
+  "s114": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 33
+   }
+  ],
+  "s115": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 139
+   }
+  ],
+  "s116": [
+   {
+    "layout": "strip",
+    "start": 0,
+    "end": 352
+   }
+  ]
+ }
+}
