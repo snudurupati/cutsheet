@@ -479,13 +479,13 @@ builder and adapt it). Judge them at 360px: that is the size a thumbnail is chos
   not two cards on one photo.
 - **Full frame with shoulders,** face right, the card in the left negative space. A neck crop reads
   as "sinking".
-- **Grade for contrast and sharpness, never with a lift.** On 05 a gamma lift on the face read
-  "washed out, not sharp". Set real black and white points first, add a gentle S-curve, and only
-  then raise the face's midtones. Add local contrast and a detail sharpen on the face, and a light
-  sharpen after the downscale. **Take the sharpest frame within two frames of the chosen time**,
-  measured on the eyes: the camera's H.264 alternates sharp and soft frames. Check at 1:1 for halos.
-  Then lift the whole frame's midtones a notch (gamma ~0.84 after the black point): contrast alone read
-  "a bit underexposed" on 05.
+- **No grade: the face looks exactly as it does in the video** (human 2026-10-18, 01-robotics-as-de:
+  the graded faces read "a bit overexposed"; "keep exposure same as finished.mov"). The plate is the
+  raw frame, downscaled, with only a light sharpen after the downscale. Take the sharpest frame within
+  two frames of the chosen time, measured on the eyes, unless the exact frame IS the expression (on
+  01 the frame after the raised brow on "out" was sharper and read calm, close to tired).
+  (Superseded: 05's black point + S-curve + midtone lift. It suited 05's flatter footage; against
+  the video itself it reads overexposed.)
 - **A calm face can read as tired.** On 05 a closed-lip "serene" frame was rejected for that.
   Prefer bright eyes: a genuine smile or laugh beats a neutral rest.
 - **The infographic is the video's own drawing,** lifted from a render (the team art from g03 on

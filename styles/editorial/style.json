@@ -54,7 +54,7 @@
       "keepTechnicalCaps": true,
       "position": {
         "anchor": "bottom",
-        "yPx": 1420
+        "yPx": 1600
       },
       "fill": "$ink",
       "highlight": "$accent",
@@ -65,7 +65,8 @@
       "safeZone": {
         "top": 200,
         "bottom": 1620
-      }
+      },
+      "_positionWhy": "01-robotics-as-de (human 2026-10-18): at y 1420 the captions sat on the mouth in both the face-band and full-face layouts on this camera framing; anchored at y 1600 (inside the 1620 safe line) they sit on the shirt below the chin."
     }
   },
   "hook": {
@@ -720,6 +721,10 @@
     {
       "date": "2026-10-17",
       "rule": "The video ends ~2.3s after the spoken sign-off, before the speaker looks away from camera."
+    },
+    {
+      "date": "2026-10-18",
+      "rule": "Short-form captions are bottom-anchored at y 1600, not 1420: on this framing 1420 is the mouth. And a Short splits its layout only while a card is FULLY drawn (measured on the render's alpha), never on the part's span."
     }
   ],
   "cut": {

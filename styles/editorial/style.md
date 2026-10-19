@@ -428,6 +428,10 @@ Corrections that should apply to every future video get appended here (and to `l
   push reads as shake (01 gZ1/gZ2). A held punch-in is still; the live screen carries the motion.
 - 2026-10-17: **a card holds 1.2s past its last cue**, and **no mark goes where the speaker is already
   pointing** with the cursor (01 g16b, gZ4).
+- 2026-10-18: **short-form captions sit at y 1600** (bottom-anchored, inside the 1620 safe line), on
+  the shirt below the chin. At 1420 they covered the mouth in both the face-band and full-face layouts.
+  A Short splits into graphic-over-face only while a card is fully drawn, measured on its render's
+  alpha, and shows the face full-frame otherwise.
 - 2026-10-17: **the end card ends about 2.3s after the sign-off**, before the speaker looks away. Its
   rows follow the 05 anatomy: channel-name eyebrow, label over value, the accent rule under the first
   row, the card growing as each row lands, each row revealed top-down once the card has room.
