@@ -78,6 +78,11 @@ Content hashing does not solve this. The finishing master and the graphics pass 
 stream md5 whenever the mix was muxed with `-c:v copy`, so the picture cannot tell the shipped
 file from the draft it came from. Only a record can.
 
+**A job can ship more than one file.** A Short cut from the long form is a deliverable too. List it
+in `deliverable.json` → `alsoShipped` (name, bytes, mtime) when it is made, and the draft sweep
+keeps it by name or size. On 2026-10-19 the 01 Short was listed as a superseded draft, and only
+the mtime guard (it happened to be newer than the master) kept it out of the delete.
+
 ## The lossless master goes under --reclaim, never on promotion alone
 
 The file you promoted FROM (`finished.mov`) carries the same picture with audio that has never

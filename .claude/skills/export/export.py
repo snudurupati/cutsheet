@@ -53,11 +53,14 @@ RECLAIMABLE_DIRS = ('outputs/segments', 'outputs/face', 'graphics-build/parts')
 # generated .txt or a HyperFrames work .html reads as "source"), so they are guarded
 # only against AUTHORED files, which the pipeline never writes into a cache.
 CACHE_DIRS = ('graphics-build/renders', 'outputs/splice-work', 'outputs/screen-work',
-              'outputs/review')
+              'outputs/review', 'graphics-build/previews')   # previews: the checkpoint's per-graphic clips
 AUTHORED_EXT = ('.mjs', '.py', '.md', '.css', '.sh', '.swift', '.ts')
+GENERATED_NAMES = ('copy-table.md',)   # written into previews/ by dom_checks.mjs at the checkpoint
 RECLAIMABLE_FILES = ('outputs/th1080.mp4', 'outputs/sc1080.mp4', 'outputs/sc2160.mp4',
                      'outputs/base-assembled.mov', 'outputs/graphics-head.mp4',
-                     'outputs/voice48.wav', 'outputs/concat.txt', 'outputs/segjobs.txt')
+                     'outputs/voice48.wav', 'outputs/concat.txt', 'outputs/segjobs.txt',
+                     'graphics-build/ocr-bin-exe',                 # compiled from its source on demand
+                     'outputs/demo-scene.mp4.key')   # a rebuild key, stale once the demo scene is gone
 # Superseded drafts: every render in outputs/ that is neither the promoted final
 # nor something KEEP_ALWAYS names. Each is regenerable from the base cut plus the
 # scripts, and one of them is usually byte-identical to the final it was promoted
@@ -98,7 +101,7 @@ def holds_source(p):
 def holds_authored(p):
     for r, _, fs in os.walk(p):
         for f in fs:
-            if f.endswith(AUTHORED_EXT):
+            if f.endswith(AUTHORED_EXT) and f not in GENERATED_NAMES:
                 return True
     return False
 
@@ -413,12 +416,16 @@ def main():
             print("PROMOTE FAILED verification. Nothing will be retired.")
     # after EITHER branch: an already-promoted file used to skip the record entirely
     # (2026-09-23, 04-lightweight-ontology), leaving later runs no identity for it
+    dj = os.path.join(outdir, 'deliverable.json')
     if apply_ and promoted_ok:
+        # keep the other shipped files (a Short) across a re-record
+        also = json.load(open(dj)).get('alsoShipped', []) if os.path.exists(dj) else []
         json.dump({'name': os.path.basename(final),
                    'bytes': os.path.getsize(final),
                    'mtime': os.path.getmtime(final),
                    'promotedFrom': os.path.basename(src),
                    'when': time.strftime('%Y-%m-%d %H:%M:%S'),
+                   'alsoShipped': also,
                    '_why': ('identity of the shipped file. A later run resolves the '
                             'deliverable through this, not through a filename prefix. '
                             'On 2026-08-31 the promoted file lost its "02-" prefix to '
@@ -429,9 +436,16 @@ def main():
 
     # Resolve the shipped file even if it was renamed outside this pipeline.
     shipped = set()
-    dj = os.path.join(outdir, 'deliverable.json')
     if os.path.exists(dj):
         rec = json.load(open(dj))
+        # other deliverables of the same job (2026-10-19, 01-robotics-as-de: the Short was
+        # listed as a superseded draft and only the mtime guard kept it). By name, or by
+        # size if it was renamed.
+        for o in rec.get('alsoShipped', []):
+            for f in os.listdir(outdir):
+                fp = os.path.join(outdir, f)
+                if os.path.isfile(fp) and (f == o['name'] or os.path.getsize(fp) == o['bytes']):
+                    shipped.add(f)
         for f in os.listdir(outdir):
             fp = os.path.join(outdir, f)
             if not os.path.isfile(fp):
@@ -448,6 +462,7 @@ def main():
     drafts = []
     for f in sorted(os.listdir(outdir)):
         if f in shipped:
+            print(f"\nKEEP  {f}: shipped (deliverable.json)")
             continue
         if not f.endswith(DRAFT_SUFFIXES) or f in KEEP_ALWAYS:
             continue
@@ -483,6 +498,8 @@ def main():
                     continue
                 os.remove(p)
                 print(f"      retired {rel}")
+                if os.path.exists(p + '.key'):              # its incremental-rebuild key goes with it
+                    os.remove(p + '.key')
 
     if reclaim:
         do_reclaim(job, deliverable_mtime, apply_)
