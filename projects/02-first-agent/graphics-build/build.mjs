@@ -5,7 +5,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const ROOT = resolve(HERE, "../../..");            // video-editor/
+const ROOT = resolve(HERE, "../../..");            // cutsheet/
 const cutsheet = JSON.parse(readFileSync(resolve(HERE, "cutsheet.json"), "utf8"));
 
 // ---- brand tokens, parsed from brand.md's machine-readable block -------------

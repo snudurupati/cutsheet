@@ -7,7 +7,7 @@
 # the stale, unblurred screen track and "succeeded". pipefail + set -e make that
 # impossible here.
 #
-#   ./rebuild.sh <proxy-dir>     proxy-dir: where the 1080p review proxy is written
+#   ./rebuild.sh <proxy-dir>     proxy-dir: where the 1080p review proxy is written, or "none"
 set -euo pipefail
 cd "$(dirname "$0")"
 PROXY_DIR="${1:?usage: rebuild.sh <proxy-dir>}"
@@ -37,20 +37,31 @@ echo "== 3/6 composite"
 python3 assemble.py --cutsheet cutsheet.json --base $J/outputs/base-cut.mov --renders renders \
   --demo-scene $J/outputs/demo-scene.mp4 --demo-spec demo-spec.json --demo-scene-json demo-scene.json \
   --out $J/outputs/graphics-pass.mov 2>&1 | tr '\r' '\n' | grep -v "^frame=" | tail -2
-echo "== 4/6 composite gates"
-python3 verify_composite.py --render $J/outputs/graphics-pass.mov --base $J/outputs/base-cut.mov --cutsheet cutsheet.json \
-  --renders renders --demo-scene $J/outputs/demo-scene.mp4 --demo-spec demo-spec.json | tail -20
-ffmpeg -nostdin -v error -hwaccel videotoolbox -i $J/outputs/graphics-pass.mov -map 0:v:0 -vf scale=960:-2 -f framemd5 - \
+echo "== 4/6 composite gates (the two run in parallel; both must pass)"
+L=$(mktemp -d)
+( python3 verify_composite.py --render $J/outputs/graphics-pass.mov --base $J/outputs/base-cut.mov --cutsheet cutsheet.json \
+    --renders renders --demo-scene $J/outputs/demo-scene.mp4 --demo-spec demo-spec.json | tail -20 ) >$L/comp 2>&1 & G1=$!
+( ffmpeg -nostdin -v error -hwaccel videotoolbox -i $J/outputs/graphics-pass.mov -map 0:v:0 -vf scale=960:-2 -f framemd5 - \
   | python3 -c "
 import sys
 prev=None; dup=tot=0
 for l in sys.stdin:
     if l.startswith('#'): continue
     h=l.rsplit(',',1)[-1].strip(); tot+=1; dup+=(h==prev); prev=h
-print(f'duplicate frames {dup}/{tot} = {100*dup/tot:.2f}%'); sys.exit(1 if dup/tot>0.08 else 0)"
-echo "== 5/6 review proxy"
-ffmpeg -nostdin -v error -y -hwaccel videotoolbox -i $J/outputs/graphics-pass.mov -vf scale=1920:-2 \
-  -c:v h264_videotoolbox -b:v 12M -c:a aac -b:a 192k "$PROXY_DIR/review-full.mp4"
+print(f'duplicate frames {dup}/{tot} = {100*dup/tot:.2f}%'); sys.exit(1 if dup/tot>0.08 else 0)" ) >$L/dup 2>&1 & G2=$!
+g1=0; g2=0; wait $G1 || g1=$?; wait $G2 || g2=$?
+cat $L/comp $L/dup
+[ $g1 = 0 ] && [ $g2 = 0 ] || { echo "composite gates FAILED"; exit 1; }
+# The review proxy is optional (pass "none"): nothing downstream reads it, and the
+# reviewers judge picture quality on the 4K render. When wanted it encodes alongside
+# the audio step instead of before it (2026-09-23).
+if [ "$PROXY_DIR" != none ]; then
+  echo "== 5/6 review proxy (in the background)"
+  ffmpeg -nostdin -v error -y -hwaccel videotoolbox -i $J/outputs/graphics-pass.mov -vf scale=1920:-2 \
+    -c:v h264_videotoolbox -b:v 12M -c:a aac -b:a 192k "$PROXY_DIR/review-full.mp4" >$L/proxy 2>&1 & PX=$!
+else
+  echo "== 5/6 review proxy skipped"; PX=""
+fi
 echo "== 6/6 audio plan + mix + audio content gate"
 ( cd $J && python3 graphics-build/plan_audio.py --render outputs/graphics-pass.mov --job . --style ../../styles/editorial/style.json \
     --cutsheet graphics-build/cutsheet.json --demo graphics-build/demo-scene.json --out outputs/audio-plan.json | tail -3 \
@@ -59,4 +70,5 @@ echo "== 6/6 audio plan + mix + audio content gate"
   && python3 graphics-build/verify_cut.py --render outputs/finished.mov --cutsheet transcript/cutsheet.json \
     --cut-transcript outputs/transcript-cut.json --exposure graphics-build/exposure.json --halves audio \
     --audio-windows 0,400,700,1100,1300 | grep -E "%|RESULT" )
+if [ -n "$PX" ]; then wait $PX || { echo "review proxy FAILED:"; cat $L/proxy; exit 1; }; echo "   review proxy written"; fi
 echo "== REBUILD COMPLETE"

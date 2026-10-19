@@ -1,0 +1,11 @@
+{
+ "enters": {
+  "cutSeconds": 107.6,
+  "frame": 3228
+ },
+ "leaves": {
+  "cutSeconds": 1005.367,
+  "frame": 30161
+ },
+ "_why": "DERIVED from transcript/cutsheet.json (first and last demo-section frame on the cut). Never hand-edited."
+}

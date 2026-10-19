@@ -38,7 +38,7 @@ editing** — a recording can measure perfect on resolution and still be unusabl
 | Voice level | −18 to −22 LUFS, peaks −6 to −10 dBFS | `ebur128`, `astats` |
 | **Flat factor** | **0** | non-zero means a limiter is clamping normal speech, not catching accidents |
 | Noise floor | ≤ −65 dB, rumble (<100 Hz) ≤ −75 dB | quiet window + band filters |
-| **Global exposure drift** | **frame-wide mean, stdev < 2.0 luma units** | `measure_zones.py` prints it and warns. Drift is auto ISO or unstable lights. It is never the framing |
+| **Global exposure drift** | **frame-wide mean, stdev < 2.0 luma units** | `measure_zones.py` prints it and warns. Drift is auto ISO, unstable lights, or the speaker's shadow crossing the wall when the key is low. It is never the framing |
 | Face luma | 130–145 | `signalstats` on a face crop |
 | Face key/fill split | within ~25 units | two crops across the face |
 | Background | below face luma; saturation below the face's | region crops |
@@ -107,19 +107,38 @@ room tone in every pause), limiter on, HPF 75 Hz, denoiser and popper stopper of
 ### Exposure is locked on the body, never in OBS
 
 The camera arrives as a UVC source (`macos-avcapture`), so ISO, aperture and shutter exist only on
-the camera. Verified settings for this rig, measured 2026-09-15:
+the camera. Verified settings for this rig, **settled 2026-10-16** with the new key light and prime
+lens. This supersedes the 2026-09-29 set (kit lens, ISO 2000, f/4.0, variable ND at 0):
 
 | | |
 |---|---|
-| Camera | ISO 400 **fixed**, f/4.0, 1/60, 3840×2160, 30/1 |
+| Camera | **ISO 160**, **f/2.8**, 1/60, 3840×2160, 30/1, all manual |
+| Lens | Sony Zeiss 35mm prime (a full-frame lens on the APS-C body, about 52mm equivalent) |
+| Key light | Neewer 150W, parabolic dome, two diffusion layers, honeycomb grid. The only light. Camera right (the speaker's left), about **25 degrees** off the lens axis, raised (about 7 ft), angled down, angled down. Practical lamp behind, frame right |
+| Fill | none. Bringing the key toward the lens axis does the job a fill would (see below) |
 | OBS Limiter | threshold −2.0 dB |
 | OBS Compressor | threshold −24 dB, ratio 3:1, attack 1 ms, release 80 ms, output gain +8.0 dB |
 | OBS screen scaling | **lanczos**. Bilinear softens terminal text when a 5K display is downscaled to 4K |
 
 Shutter is 1/60 because 30fps wants a 180 degree shutter. 1/40 was tried and is a 270 degree shutter:
 at 4K the glasses, hairline and mouth visibly smear on any head turn, while the same lens resolves
-individual stubble at rest. With a kit lens the aperture is pinned, so ISO is the only lever left,
-and **raising ISO shortens the shutter rather than lengthening it.**
+individual stubble at rest.
+
+f/2.8 rather than f/2.0 buys focus margin for a speaker who moves through the take. At f/2.0 the
+eyes were sharp at rest, but there is little depth to lean into.
+
+**Key placement, measured 2026-10-16.** Lowered and brought closer, the key put the lit cheek above
+the wall, but the speaker's own shadow then crossed the wall as they moved and tripped the drift
+guard (6.5 units, stdev 2.41). The key stays raised because the speaker moves throughout. Raised at
+45 degrees, spill lifted the wall above the face. Swinging it to **25 degrees** fixed most of that:
+
+| Raised key | Shadow cheek | Lit cheek | Forehead | Wall frame left | Wall by lamp | Drift stdev |
+|---|---|---|---|---|---|---|
+| 45 degrees | 73 | 132 | 155 | 164 | 182 | 0.49 |
+| **25 degrees** | **102** | 129 | 154 | **148** | 180 | 1.09 |
+
+The face split falls from 59 to 27 units (spec about 25) and the left wall drops below the forehead.
+The wall by the practical lamp is the remaining bright patch; dimming the lamp is the fix.
 
 ### Auto ISO hides as unstable lighting. This test separates them
 
@@ -132,12 +151,51 @@ and 1.18x once it genuinely was. Auto ISO also masquerades as *stable* when it p
 ceiling, which is why the one steady take that day was the one shot with the key lights off. Do not
 read a flat wall trace as proof of a lock without the noise test.
 
-### This room's lights are not stable, and that is permanent
+### A flat exposure trace does not prove a locked camera
 
-With the key lights on, the frame-wide mean moves about **29 luma units** irregularly, every cell
-shifting together, colour barely changing. It is not the camera: ISO was verified locked by the test
-above. The lights cannot be changed, so **deflicker runs by default on this rig.** Normalise
-per-frame exposure before the zone measurement and before the edit.
+`measure_zones.py` warns when the frame-wide mean drifts. It cannot warn when a camera is *holding*
+the mean flat, and in a single clip those look identical. On 2026-09-29 the 09:03 take read the
+flattest drift in the project, stdev 0.15, and that was reported to the human as proof the exposure
+was locked. It was not. The camera was on auto shutter and had settled at 1/30, a 360 degree shutter,
+the worst possible setting for motion.
+
+Warning on suspicious flatness does not rescue it. Measured the same morning:
+
+| take | exposure | drift stdev |
+|---|---|---|
+| 1/60 ISO 500 | manual | 0.08 |
+| 1/50 ISO 400 | manual | 0.12 |
+| **09:03** | **auto shutter** | **0.15** |
+| ISO 1000 | manual | 0.53 |
+| ISO 2000 | manual | 1.25 |
+
+The genuinely manual takes are flatter than the auto one, so no threshold separates them.
+
+**The test that works is a cross-take one.** Shoot two clips with a deliberately different shutter or
+ISO and confirm the brightness moves by the amount those settings predict. The 1/30 take measured
+exactly the 0.7 stops brighter than the 1/50 and 1/60 takes that its shutter implies, and that is
+what proved the later two were manual. One clip cannot settle it, so **never report low drift as a
+locked exposure.** Confirm the lock on the camera body.
+
+### ISO does not buy its full stops on this rig
+
+Measured 2026-09-29 at 1/60 and f/4.0: ISO 1000 to 3200 is +1.68 stops of setting, but the image
+gained only **+0.82 stops on the face and +0.71 on the wall**, with the brighter areas losing more.
+That shape is a highlight knee, most likely DRO or a picture profile. Until it is off, exposure here
+is not predictable from the settings and has to be measured. Check DRO before trusting ISO arithmetic
+on this body.
+
+### This room's lights are unstable in the afternoon, not the morning
+
+On 2026-09-15, shooting after noon, the frame-wide mean moved about **29 luma units** irregularly,
+every cell shifting together, colour barely changing. On 2026-09-29, shooting between 09:30 and
+09:50, the same room read drift stdev 0.5 to 1.25 and needed nothing at all.
+
+The difference is daylight through the window. That is also what used to make the wall bright enough
+to beat the face, and its absence is why the morning takes read warm and dark. **So shoot in the
+morning**, and treat deflicker as conditional rather than automatic: run `measure_zones.py` first and
+let its drift figure decide. If the warning fires, normalise per-frame exposure before the zone
+measurement and before the edit.
 
 `measure_zones.py` removes the drift internally and warns, so its zones are correct even on a pulsing
 take. Before that guard existed, the drift landed in every cell's motion figure and the tool reported
@@ -145,7 +203,7 @@ take. Before that guard existed, the drift landed in every cell's motion figure 
 verdict would have sent every card beat to a full-frame takeover for no reason. **The footage still
 pulses, so the render must be corrected too. A correct zone map is not a corrected picture.**
 
-### Three standing deviations, absorbed downstream, never by another take
+### Standing deviations, absorbed downstream, never by another take
 
 1. **Peaks around −2 dBFS** against the −6 to −10 spec. Loudness is correct at −20.8 LUFS and flat
    factor is 0, so this is crest, not level. Finishing handles it.
@@ -153,10 +211,16 @@ pulses, so the render must be corrected too. A correct zone map is not a correct
    OBS records. Confirmed by the low-band to voice-band ratio before and after the change: unchanged
    at about −24 dB, where a working filter reads about −35. Finishing applies the filter to the file
    at no cost.
-3. **Face luma under 130, and the wall brighter than the face.** Position and lights are fixed, and
-   exposure is global, so no camera setting separates them: pushing the face to spec blows the wall.
-   The zone map returns `inverted` or `lightReinforced` panel treatments, which is the correct
-   adaptation rather than a failure.
+3. **Wall by the practical lamp sits above the face** (180 against a lit cheek of 129 and forehead
+   154). The rest of the wall is now level with the lit cheek. Do not grade it out (curves that move
+   the face mean have crushed the face's tonal range before). Fix it with light: dim the lamp.
+4. **Single key, no fill.** At 25 degrees the face split is 27 units, inside the spec's ~25 within
+   noise. Moving the key back toward 45 degrees reopens it to about 60.
+5. **Noise floor above spec, environmental.** Confirmed by the human on 2026-09-29: the neighbourhood
+   is loud and the room cannot be insulated further. **Record 3 to 5 seconds of room tone at the head
+   of every take.** It is the only way to measure the floor, since no take in six sessions contained
+   genuine silence, and it gives finishing a real noise profile to subtract rather than one guessed
+   from the gaps between words.
 
 **Clips are NOT frame-locked.** Source Record stops both filters at the same instant but starts them
 a few frames apart — observed 14 frames under encoder load, 2 frames when healthy. **Align at the
@@ -179,7 +243,9 @@ more than one video before it was written down on 2026-08-30; the zone is `heroL
 
 **Shown to the human before it is acted on, without being asked:**
 1. **Footage check against the recording spec** — before any editing, with drift reported.
-2. **The cutsheet as readable text** — the whole edit checkable without watching anything.
+2. **The cutsheet as readable text**, for the edit's logic, **and the join reel plus the base-cut
+   audit**, for how it sounds. Text cannot carry a stutter or a missing breath, so approving the
+   text is not sign-off on the cut (hard rule 15).
 3. **The graphics plan** — the beat table, before a single composition is built.
 4. **Any conflict** between local direction and the style file, or inside the style file itself.
 5. **Every composition-review finding** — fixed, or raised as a decision with options. Hard rule 10:
@@ -199,6 +265,24 @@ A question whose answer is in the footage is a defect in this skill, not a gap i
 Stages **1, 2, 4 and 5** from `CLAUDE.md`, using the `rough-cut`, `graphics`, `finishing` and
 `export` skills for the mechanics. This skill owns the decisions specific to the two-clip technical
 video.
+
+The sequence, with its two human checkpoints before anything expensive runs:
+
+1. Rough cut, then **the base-cut gate** (CLAUDE.md hard rule 15; `rough-cut` skill, "The base-cut
+   gate"): acoustic audit, independent re-transcription, judging agent, then the human listens to
+   the join reel and signs off. **Nothing graphics-related starts before that sign-off**, and an
+   unattended run stops here and pings the human.
+1b. Then the graphics plan. **The human approves the plan.**
+2. Build every graphic. Then the **graphics checkpoint** (CLAUDE.md hard rule 13; `graphics` skill,
+   "The graphics checkpoint"): preview reel, copy table, measured checks, composition review on
+   the reel. **The human signs off.** Animation is iterated in single-part previews (hard rule 14).
+3. The full chain, once: demo scene, composite, gates, mix.
+4. Finishing review of the full cut. Fixes go through the incremental chain: one part, its
+   window, its gates.
+5. Packaging (Step 4b) while the human reviews, then export.
+
+On the first video after 05-agent-swarm, build the incremental chain before step 3 (`graphics`
+skill, "Rebuild time", 05 section).
 
 **Stage 3 (`ai-broll`) does not run for this format. That is a decision, not an omission.** Every
 beat in a two-clip technical video already has footage — the speaker or the screen — so a generated
@@ -377,6 +461,49 @@ Per the `finishing` skill. For this format specifically:
   consonants; the chosen correction was −3 dB at 280 Hz and +4.5 dB at 3.8 kHz. A stronger version of
   the same move was rejected as sounding "like a phonograph", which no measurement would have told
   you.
+
+## Step 4b: packaging (thumbnails, titles, description)
+
+Runs while the human reviews the final cut. Standing process, human 2026-09-30 (05-agent-swarm).
+
+**Two thumbnails, both face + infographic,** 1280x720, each with a `-feed-360.png` preview, in the
+job's `assets/thumbnail/`. Built by `graphics-build/make_thumbnails.py`, which takes the raw clip,
+the face time and the source render as arguments and rebuilds both exactly (copy the last job's
+builder and adapt it). Judge them at 360px: that is the size a thumbnail is chosen at.
+
+- **The face comes from the raw, found by a `frame-verifier` sub-agent,** never guessed. Search in
+  this order: deliberate thumbnail takes in the pre-roll; the emotional peaks the transcript names
+  ("impressed", "aha", "brilliant"); pauses at sentence ends, where the mouth is at rest. Eyes to
+  the lens, mouth not caught mid-syllable, sharp, no hand, head not turned. **The two variants use
+  two different faces** (one smiling or excited, one serene or otherwise distinct), so the test is
+  not two cards on one photo.
+- **Full frame with shoulders,** face right, the card in the left negative space. A neck crop reads
+  as "sinking".
+- **No grade: the face looks exactly as it does in the video** (human 2026-10-18, 01-robotics-as-de:
+  the graded faces read "a bit overexposed"; "keep exposure same as finished.mov"). The plate is the
+  raw frame, downscaled, with only a light sharpen after the downscale. Take the sharpest frame within
+  two frames of the chosen time, measured on the eyes, unless the exact frame IS the expression (on
+  01 the frame after the raised brow on "out" was sharper and read calm, close to tired).
+  (Superseded: 05's black point + S-curve + midtone lift. It suited 05's flatter footage; against
+  the video itself it reads overexposed.)
+- **A calm face can read as tired.** On 05 a closed-lip "serene" frame was rejected for that.
+  Prefer bright eyes: a genuine smile or laugh beats a neutral rest.
+- **The infographic is the video's own drawing,** lifted from a render (the team art from g03 on
+  05, the g19 card on 04), on a `$bg` panel, plus one short heavy phrase ("Works.", "They talk.",
+  "SPLIT THE WORK.") and an `$accent` rule. Not a new illustration.
+
+**Titles and description** go to `outputs/youtube-titles-and-description.txt`: three or four
+titles, a recommended A/B pairing, the description, chapters on the final cut's times, and tags.
+
+- **Name the viewer's problem and offer the fix.** On 04, "AI Hallucinates Because It Doesn't Know
+  Your Business. Here's the Fix" reached 600+ views in 6 days against 60-150 for the others.
+- **But every claim must be true to the video.** Check numbers against the video's own cards, not
+  only the speech: on 05 the speaker said the team took 11 minutes, and the usage card shows that
+  as API time, with wall time equal to the single agent's. A title promising a speed-up would have
+  been contradicted by the video. Where the video counts something two ways, flag it.
+- About 60 characters survives on mobile and in the sidebar (100 hard cap), with counts noted. No
+  em-dashes. Pair each title with a thumbnail; the recommended test pits two different formats
+  (problem/fix vs curiosity), not two wordings of one.
 
 ## Step 5 — export
 

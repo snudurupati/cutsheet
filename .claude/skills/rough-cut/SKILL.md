@@ -200,6 +200,80 @@ A recurring brand name goes into the permanent list in `brand.md`. A one-off goe
 **Only ever auto-apply single-word, whole-word swaps.** A two-words-into-one fix changes the word
 count and breaks every timestamp downstream. Those get flagged for a human, never applied.
 
+## Joins need breath, not a fixed pad
+
+One pad everywhere (0.15s head + 0.28s tail, a 0.43s join) is right inside a sentence and wrong
+between thoughts. When the last kept word ends a sentence and the next one starts a new idea, the
+join keeps a pause of **0.6 to 0.9s**, taken from the recording's own silence after the sentence
+(never invented with padding). Mid-sentence joins stay tight. On 01-robotics-as-de "and hear me
+out why I think so." ran straight into "Modern robotics is..." with 0.43s and read as clipped.
+
+## WhisperX drops what a cut most needs to see
+
+It drops repeated words and false starts: "and not, not as much" comes back as "and not as much".
+Cut points are placed from its words, so an untranscribed stutter survives inside a pad, or a
+segment's head repeats the last word of the one before it. **No check built on the transcript can
+see this, including a re-transcription with the same model.** That is what the gate below is for.
+
+**The fix is a targeted re-listen, then cutting on the audio.** `probe_gaps.py` re-transcribes only
+the audit's flagged spots (disfluent prompt) and records each heard word's source time. The builder
+(`--relisten`) splits every long WhisperX span into the words heard inside it ("data." 4.8s became
+"data. Every time, every time I move"), cuts the first copy of any phrase said twice in a row (the
+retake is always kept), and cuts fillers from the **energy**, not WhisperX's times (they are off by
+up to 0.6s): only the voiced run goes, the silence either side stays, and a filler stays in when
+less than 0.18s of silence (0.5s after a sentence) would remain. A kept "uh" beats two words
+butted together. The refined word list is written into the cutsheet (`words`), and the audit and
+the remap read it from there.
+
+**What three judge rounds on 01-robotics-as-de taught (each was a real defect a listener would hear):**
+
+- **A repeat that straddles a full stop is rhetoric, not a retake.** "...called an episode. An
+  episode might have..." and "the follower. The follower follows..." are kept. Cutting the first
+  copy leaves "is called An episode might". The retake detector never cuts across `.?!`.
+- **Never fence a pad at a hand-placed kill boundary or a WhisperX word end.** Hand kills sit right
+  against the kept word, and WhisperX stretches word ends over the silence after them; both ate the
+  sentence pause at every retake. Fence at where the killed words' *sound* starts and stops.
+- **A 10-40ms voiced blip is a consonant release or a lip click, not the next word.** Search for
+  "the next speech" as a voiced run of 40ms or more, or every tail stops 30ms after its word.
+- **When a speaker ran a drone or a false start straight into the next word, there is no silence to
+  cut to.** Keep the picture and fill the audio with the session's own room tone (the builder picks
+  the quietest 3s; `cut-overrides.json` "mutes"), with 25ms/10ms fades. Never digital zero: the air
+  dropping out is audible.
+- **A slow word can be split into two by the long-word refinement and then cut as a "retake"**
+  ("two hundred... six" became "six"). Every cut the detectors make goes past the judge; on a
+  mismatch with the independent re-listen, the re-listen wins.
+- **Judged fixes live in `transcript/cut-overrides.json`**, each citing the judge item and the audio
+  evidence, applied last by the builder. An override that no longer matches a boundary stops the
+  build (rule 12), so a re-cut never silently drops a judged fix.
+
+## The base-cut gate (CLAUDE.md hard rule 15)
+
+The rough cut is not done when it renders. It is done when the gate passes, and graphics do not
+start before that.
+
+1. **Acoustic audit** (`graphics-build/audit_cut.py`), evidence from the audio, not the transcript:
+   - **Uncovered speech.** 10ms RMS against the measured room-tone floor, over every kept span. Any
+     run of speech energy over about 0.12s that no transcribed word covers is flagged: that is
+     where untranscribed stutters, false starts and retake tails live.
+   - **Pads.** Speech energy inside a segment's head or tail pad, beyond its first or last word, is
+     flagged: the pad has caught part of another word.
+   - **Word durations.** A word over 1.0s, or one much longer than its syllables justify, is
+     flagged (stumbles merge into one span).
+   - **Join pauses.** The silence actually rendered at each join, against what the join needs:
+     tight mid-sentence, 0.6-0.9s between thoughts.
+2. **Independent re-transcription** of the rendered base cut, set to keep disfluencies (a
+   different model size and a disfluent `--initial_prompt`). The script then looks for any word or
+   2-4 word phrase that repeats across or near a join, and any word in it that the cut transcript
+   does not have.
+3. **Judging agent.** It reads the audit and the measurements behind each flag (energy traces,
+   spectrograms of the flagged clips, the independent transcript), then passes or fails every flag
+   with a reason. It never passes a flag because the transcript reads cleanly.
+4. **Human sign-off.** The human listens to the **full cut end to end** on their Mac and signs off.
+   A join reel is a supplement, never a phone proxy: full resolution, about 4s either side of each
+   join, slated (`graphics-build/join_reel.py`). On 01-robotics-as-de the 240p, 2s reel "didn't make
+   sense" and was skipped; the end-to-end listen is what found the one remaining preference (longer
+   section pauses). Fix what they flag, re-run 1-3, and send again.
+
 ## Done when
 
 - `transcript/transcript.json` exists and is durable.
@@ -207,5 +281,7 @@ count and breaks every timestamp downstream. Those get flagged for a human, neve
 - `outputs/base-cut.mp4` exists, opens on the hook, and has no click at any join.
 - `outputs/transcript-cut.json` is remapped onto the edited timeline.
 - Three ranked hook candidates have been put in front of the human.
+- **The base-cut gate has passed: the audit is clean or every flag is judged, and the human has
+  listened to the full cut end to end and signed off.**
 
-Hand off to `graphics`. **The base cut is never re-rendered after that point.**
+Hand off to `graphics` only then. **The base cut is never re-rendered after that point.**

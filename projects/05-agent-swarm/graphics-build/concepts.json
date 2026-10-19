@@ -1,0 +1,603 @@
+{
+  "source": "projects/05-agent-swarm/outputs/transcript-cut.json",
+  "fps": 30.0,
+  "totalSeconds": 1287.3,
+  "candidates": [
+    {
+      "start": 15.71,
+      "end": 28.66,
+      "cue": "analogy",
+      "scene": "analogy",
+      "marker": "imagine",
+      "draw": "One drawn object, line art, built in movements on the spoken cues.",
+      "section": null,
+      "text": "Imagine you're taking the GRE or the GMAT and you only had 30 minutes to finish all the sections. You wouldn't fare well. But instead, if you had three hours, you would ace the exam."
+    },
+    {
+      "start": 41.49,
+      "end": 54.52,
+      "cue": "magnitude",
+      "scene": "stat",
+      "marker": "30 minutes",
+      "draw": "Count-up or proportion bar. Lands ON the number being said.",
+      "section": null,
+      "text": "Give each section of the exam to a different agent and let them solve each section using the full 30 minutes. This way, we parallelize the tasks and make use of the time we have."
+    },
+    {
+      "start": 88.97,
+      "end": 107.52,
+      "cue": "journey",
+      "scene": "loop",
+      "marker": "all the way to",
+      "draw": "Path draw from A to B. The route is the graphic.",
+      "section": null,
+      "text": "In the previous episode, we built an end-to-end data processing pipeline using a single agent. Today, I'll show you the same task, starting from data ingestion all the way to building data marts, but this time using a team of agents. So let's get started."
+    },
+    {
+      "start": 107.67,
+      "end": 117.59,
+      "cue": "deixis",
+      "scene": "self-demonstrating",
+      "marker": "right here",
+      "draw": "Annotation anchored to the real thing. Measure the point.",
+      "section": null,
+      "text": "so i've already cloned an empty repo let me show you that in this terminal right here so i'm on the episode 5 demo branch"
+    },
+    {
+      "start": 194.65,
+      "end": 205.73,
+      "cue": "before-after",
+      "scene": "contrast",
+      "marker": "now it's",
+      "draw": "One object, two states, morph between them. Never two cards.",
+      "section": null,
+      "text": "So this is the message board log. Right now it's empty because my agents are not active. And once I kick off my agents, we'll start seeing messages being exchanged within the agent team. And I'll show you that in a bit."
+    },
+    {
+      "start": 288.76,
+      "end": 356.93,
+      "cue": "deixis",
+      "scene": "self-demonstrating",
+      "marker": "right here",
+      "draw": "Annotation anchored to the real thing. Measure the point.",
+      "section": null,
+      "text": "Now that I have my Claude code ready, I can fire up the prompt. Let me click enter and then show you what the prompt says. So here, I'm telling it the same thing. I'm asking it to read the conventions the standards and requirements and then build me an end-to-end data pipeline but this time and informing it to use an agent team and i'm also telling it to create a plan and then a plan with some tasks and also asking it to exchange messages on a message board And once everything is done, I'm asking it to write a report as to what it did, what it couldn't do, and what it could not infer from the context I provided. So here, the team has not started yet. The master or the parent process defines all the tasks. It builds the whole plan. And once the plan is ready, that's when it goes ahead and starts up the team. And once the team has started, we'll be able to look at them all on the screen right here."
+    },
+    {
+      "start": 366.09,
+      "end": 425.13,
+      "cue": "journey",
+      "scene": "loop",
+      "marker": "all the way to",
+      "draw": "Path draw from A to B. The route is the graphic.",
+      "section": null,
+      "text": "All right. Now we can see that my master agent, call it the parent agent, spawned four teammates, one each for a data source. so here we can see i have an erp agent an e-commerce agent a crm agent and a pos agent there is also a fifth agent to build the data marts which is on standby and which will get kicked off once all the four different uh source system pipelines are built all the way to staging So this is a team of agents working for you, each working on a different data set. And now let's go and monitor the message board to see if the agents are exchanging any messages. All right. So here I'm at the message board and you can already see that the team lead has sent individual messages to each of the agent, the teammates agent."
+    },
+    {
+      "start": 520.96,
+      "end": 581.2,
+      "cue": "before-after",
+      "scene": "contrast",
+      "marker": "now it's",
+      "draw": "One object, two states, morph between them. Never two cards.",
+      "section": null,
+      "text": "All right. So now it's reporting that all tasks are done and the teammates are now idle. So let's see what is a summary. What is it telling us? So it's telling us that it created one, two, three, four, five different agents which took care of five different tasks. There were eight sources, five intermediate models, six marts, and 149 tests. So it put the report in the buildreport.md, which we'll go look at it in a bit. And it's also reporting a few other things that it did. So one thing, while I was looking at this message, Claude codes the master agent's output. So I'd asked it to create a message board, but I never told it or gave it a mechanism of doing that."
+    },
+    {
+      "start": 581.28,
+      "end": 653.88,
+      "cue": "magnitude",
+      "scene": "stat",
+      "marker": "11 minutes, 20 minutes",
+      "draw": "Count-up or proportion bar. Lands ON the number being said.",
+      "section": null,
+      "text": "So what Claude did, it created its own JSON file, which it passed on to the individual agents for them to use it as a message board. So we'll go and browse and see if we can find any interesting messages in there. But before I quit out of this one, I just want to see what the usage numbers looks like. So let me go to the master agent and type slash usage. And it's reporting me that the total cost is about $4.56, and the entire duration is 11 minutes and 7 seconds. That's what each agent or the whole task took when we parallelized this. Is this of any consequence? I don't know yet. One thing I do remember is that a single agent took about 20 minutes to finish the task end-to-end and the team took 11 minutes. Again, like I said, is it of any consequence? I don't know, but we'll circle back to that in a bit. So with that said, let me exit out of Claude Code. and go look at the message board itself. So let me do slash exit."
+    },
+    {
+      "start": 672.73,
+      "end": 740.51,
+      "cue": "journey",
+      "scene": "loop",
+      "marker": "all the way to",
+      "draw": "Path draw from A to B. The route is the graphic.",
+      "section": null,
+      "text": "So the plan says build a warehouse from landing all the way to three reports as given in the requirements.md and it tells to read the conventions for business rules and standards for build standards. The team was formed thus. So there's a lead agent and there is one agent per source data, which is CRM, ECOM, ERP, POS. And finally, to build the reports, to build the data match itself, there is one extra agent. So we have four plus two, which is six agents in total. And each agent has been given a file ownership. So the lead owns the project YAML, the profiles, the macros and the reports. And each of the sub agents or the teammates, they get each source file each. And if you look at the task list, it's been divided into 10 tasks where each task responsibility has been given to each of the teammate. So again, you know, nice teamwork."
+    },
+    {
+      "start": 839.88,
+      "end": 866.65,
+      "cue": "cycle",
+      "scene": "loop",
+      "marker": "back and forth",
+      "draw": "Closed ring. Travelling dot so a long beat is never still.",
+      "section": null,
+      "text": "If I look at line number 39, finally, the ECOM agent is conceding. It's basically saying that, hey, agreed on point number two, we'll do it as you're proposing it. And you can see there's a back and forth, right? Agents are communicating like people would do. They're proposing things. They're pushing back. And that's brilliant. That's beautiful, actually. The first time I've seen agents communicate in a swarm setting, and I'm actually kind of impressed."
+    },
+    {
+      "start": 885.26,
+      "end": 947.46,
+      "cue": "cycle",
+      "scene": "loop",
+      "marker": "back and forth",
+      "draw": "Closed ring. Travelling dot so a long beat is never still.",
+      "section": null,
+      "text": "And if I look at line 53, the team lead is passing on this message to all the other agents saying that, hey, now we have, you know, so and so column created. Go ahead and make use of it. So, you know, that's, I mean, OpenAI hugging face hacking was done accidentally. But here, Claude, using its teammate feature, it gives you a way of doing message boards. And then teams, the agent teams, agent teammates collaborate, do back and forth using this message board. And I'm just glad I'm alive today watching agents communicate. I mean, it's nothing short of an aha moment or even more than that for me. So I'm impressed. All right. So that's good. Let me also go look at the report, the build report itself. Typical things. Let me scroll down a few things from last time, which I am looking for."
+    },
+    {
+      "start": 947.9,
+      "end": 971.57,
+      "cue": "superlative",
+      "scene": "card",
+      "marker": "the one thing",
+      "draw": "Typographic hit. Scale jump, not another row.",
+      "section": null,
+      "text": "So the build report does have the one thing we know is last time that, you know, the web is not created as a branch because it doesn't have a city. So this revenue won't be accounted, you know, in the when building the daily sales mart. But let's just, you know, go ahead and run a few SQLs just to make sure that, you know, things are just as same as the last time when we ran with a single agent."
+    },
+    {
+      "start": 1014.55,
+      "end": 1055.31,
+      "cue": "cycle",
+      "scene": "loop",
+      "marker": "back and forth",
+      "draw": "Closed ring. Travelling dot so a long beat is never still.",
+      "section": null,
+      "text": "so there we are we built an agent swarm or what Claude calls an agent team a set of six teammates one lead one summary agent and other you know agent teammates that built a data mart from source files all the way to data marts build the entire data pipeline tests rules everything based on the context we provided And they also made use of a message board to communicate back and forth. So that is brilliant. Actually, like I mentioned earlier, I'm impressed. But now that brings up the big question as to to what use."
+    },
+    {
+      "start": 1055.77,
+      "end": 1097.81,
+      "cue": "before-after",
+      "scene": "contrast",
+      "marker": "now it's",
+      "draw": "One object, two states, morph between them. Never two cards.",
+      "section": null,
+      "text": "So one agent is already bad. And when I say bad, bad for humans, right? So I started off this series saying, am I still a data engineer if Claude does all the work? And now it's not just one Claude agent, it's six teammates doing the job. So am I still relevant? Like you saw earlier, I had to provide the conventions, you know, that part, that experience, that business experience, that years of building data pipeline. is still relevant. One agent or five, they don't understand your business and no matter how much context you provide, someone always has to spot check things to make sure things are not completely haywire."
+    },
+    {
+      "start": 1098.25,
+      "end": 1130.76,
+      "cue": "analogy",
+      "scene": "analogy",
+      "marker": "think of a, think of a",
+      "draw": "One drawn object, line art, built in movements on the spoken cues.",
+      "section": null,
+      "text": "So with that said, is there a use case, right? It's a shiny new tool. Yeah, agent swarms can do things faster, more efficiently, debatable. Maybe it'll cost you more in tokens. So what is the use of it? So I can think of a few use cases myself. So leaving the moral conundrum alone, I can think of a few good use cases where agent swarms or a team of agents can be useful. One of them I've encountered time and again in my career is migrations."
+    },
+    {
+      "start": 1168.32,
+      "end": 1189.37,
+      "cue": "constraint",
+      "scene": "analogy",
+      "marker": "within the",
+      "draw": "Boundary box or fence. Draw the edge, not the rule text.",
+      "section": null,
+      "text": "on dealing with the mission-critical things and not worrying about the boilerplate and the core code, which the agent swarms can take care of. And they don't get tired. They don't get burnt out. That means we can finish our migration within the given amount of time. A second use case I can think of is niche skills. In my career, I had an instance where we had to migrate"
+    },
+    {
+      "start": 1266.34,
+      "end": 1269.53,
+      "cue": "deixis",
+      "scene": "self-demonstrating",
+      "marker": "right here",
+      "draw": "Annotation anchored to the real thing. Measure the point.",
+      "section": null,
+      "text": "And you can find my details on the screen right here."
+    }
+  ],
+  "signals": [
+    {
+      "kind": "long-pause",
+      "at": 163.25,
+      "seconds": 1.76,
+      "why": "1.76s of silence before 'what'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 210.57,
+      "seconds": 4.84,
+      "why": "4.84s of silence before 'Now'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 278.71,
+      "seconds": 4.84,
+      "why": "4.84s of silence before 'All'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 366.09,
+      "seconds": 9.17,
+      "why": "9.17s of silence before 'All'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 413.57,
+      "seconds": 1.9,
+      "why": "1.90s of silence before 'All'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 448.54,
+      "seconds": 1.98,
+      "why": "1.98s of silence before 'across'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 495.68,
+      "seconds": 9.17,
+      "why": "9.17s of silence before 'Okay,'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 520.96,
+      "seconds": 9.16,
+      "why": "9.16s of silence before 'All'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 772.46,
+      "seconds": 1.67,
+      "why": "1.67s of silence before 'let'. He is landing something."
+    },
+    {
+      "kind": "long-beat",
+      "at": 54.96,
+      "seconds": 23.17,
+      "why": "23.2s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 54.96,
+      "seconds": 23.17,
+      "why": "'that's' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 54.96,
+      "seconds": 23.17,
+      "why": "'agent' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 88.97,
+      "seconds": 18.55,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 120.86,
+      "seconds": 45.58,
+      "why": "45.6s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 120.86,
+      "seconds": 45.58,
+      "why": "'empty' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 120.86,
+      "seconds": 45.58,
+      "why": "'files' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 166.85,
+      "seconds": 25.23,
+      "why": "25.2s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 215.35,
+      "seconds": 24.47,
+      "why": "24.5s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 215.35,
+      "seconds": 24.47,
+      "why": "'tmux' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 244.97,
+      "seconds": 43.36,
+      "why": "43.4s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 244.97,
+      "seconds": 43.36,
+      "why": "'claude' said 7 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 244.97,
+      "seconds": 43.36,
+      "why": "'code' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 288.76,
+      "seconds": 68.17,
+      "why": "68.2s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 288.76,
+      "seconds": 68.17,
+      "why": "'here' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 288.76,
+      "seconds": 68.17,
+      "why": "'asking' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 288.76,
+      "seconds": 68.17,
+      "why": "'team' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 288.76,
+      "seconds": 68.17,
+      "why": "'plan' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 288.76,
+      "seconds": 68.17,
+      "why": "'once' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 366.09,
+      "seconds": 59.04,
+      "why": "59.0s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 366.09,
+      "seconds": 59.04,
+      "why": "'agent' said 9 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 366.09,
+      "seconds": 59.04,
+      "why": "'each' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 366.09,
+      "seconds": 59.04,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 425.56,
+      "seconds": 60.95,
+      "why": "61.0s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 425.56,
+      "seconds": 60.95,
+      "why": "'it's' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 425.56,
+      "seconds": 60.95,
+      "why": "'here' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 425.56,
+      "seconds": 60.95,
+      "why": "'also' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 425.56,
+      "seconds": 60.95,
+      "why": "'agent' said 5 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 495.68,
+      "seconds": 16.11,
+      "why": "'agent' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 495.68,
+      "seconds": 16.11,
+      "why": "'marts' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 520.96,
+      "seconds": 60.24,
+      "why": "60.2s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 520.96,
+      "seconds": 60.24,
+      "why": "'it's' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 520.96,
+      "seconds": 60.24,
+      "why": "'five' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 581.28,
+      "seconds": 37.19,
+      "why": "37.2s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 618.93,
+      "seconds": 34.95,
+      "why": "35.0s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 618.93,
+      "seconds": 34.95,
+      "why": "'took' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 672.73,
+      "seconds": 67.79,
+      "why": "67.8s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 672.73,
+      "seconds": 67.79,
+      "why": "'build' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 672.73,
+      "seconds": 67.79,
+      "why": "'reports' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 672.73,
+      "seconds": 67.79,
+      "why": "'given' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 672.73,
+      "seconds": 67.79,
+      "why": "'agent' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 672.73,
+      "seconds": 67.79,
+      "why": "'each' said 6 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 672.73,
+      "seconds": 67.79,
+      "why": "'been' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 740.84,
+      "seconds": 66.19,
+      "why": "66.2s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 740.84,
+      "seconds": 66.19,
+      "why": "'agents' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 740.84,
+      "seconds": 66.19,
+      "why": "'through' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 839.88,
+      "seconds": 26.77,
+      "why": "26.8s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 885.26,
+      "seconds": 62.19,
+      "why": "62.2s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 885.26,
+      "seconds": 62.19,
+      "why": "'message' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 947.9,
+      "seconds": 23.67,
+      "why": "23.7s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1014.55,
+      "seconds": 40.76,
+      "why": "40.8s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1014.55,
+      "seconds": 40.76,
+      "why": "'agent' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1014.55,
+      "seconds": 40.76,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1055.77,
+      "seconds": 42.05,
+      "why": "42.0s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1055.77,
+      "seconds": 42.05,
+      "why": "'agent' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1055.77,
+      "seconds": 42.05,
+      "why": "'still' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1168.32,
+      "seconds": 21.05,
+      "why": "21.1s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1214.0,
+      "seconds": 19.32,
+      "why": "'where' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1233.74,
+      "seconds": 13.69,
+      "why": "'saying' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1269.63,
+      "seconds": 15.04,
+      "why": "'agents' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    }
+  ]
+}

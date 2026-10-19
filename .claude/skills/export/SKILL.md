@@ -1,6 +1,6 @@
 ---
 name: export
-description: Stage 5 of the video pipeline. Turn a messy outputs folder into one unambiguous final file — promote the newest real render, retire superseded drafts, keep everything needed to reopen the job, copy the deliverable somewhere convenient, and absorb standing corrections into the style file. Dry run by default. Use to close out a job or to reclaim disk afterwards.
+description: Stage 5 of the video pipeline. Turn a messy outputs folder into one unambiguous final file — promote the newest real render, retire superseded drafts, keep everything needed to reopen the job, and absorb standing corrections into the style file. Dry run by default. Use to close out a job or to reclaim disk afterwards.
 argument-hint: "projects/<job> [--reclaim] [--apply]"
 user-invocable: true
 allowed-tools: Bash, Read, Write, Edit, Glob
@@ -59,7 +59,8 @@ that is entirely your own measurement.
 - **Retire** the superseded drafts.
 - **Keep**, always: the base cut, the transcripts, and `graphics-build/` — the job has to be
   reopenable.
-- **Drop a copy** somewhere convenient, e.g. `~/Downloads/`.
+- **No copy is made anywhere else.** The final lives in `outputs/` only (human, 2026-09-24): a
+  second 10GB copy in `~/Downloads/` was never used and doubled the disk cost of every job.
 
 ## Record what shipped, and resolve it by that record
 
@@ -77,12 +78,29 @@ Content hashing does not solve this. The finishing master and the graphics pass 
 stream md5 whenever the mix was muxed with `-c:v copy`, so the picture cannot tell the shipped
 file from the draft it came from. Only a record can.
 
-## The lossless master is not swept by promotion
+**A job can ship more than one file.** A Short cut from the long form is a deliverable too. List it
+in `deliverable.json` → `alsoShipped` (name, bytes, mtime) when it is made, and the draft sweep
+keeps it by name or size. On 2026-10-19 the 01 Short was listed as a superseded draft, and only
+the mtime guard (it happened to be newer than the master) kept it out of the delete.
 
-The file you promoted FROM carries the same picture with audio that has never been through a
-lossy encode. Regenerating it means re-running the composite and the mix, the most expensive step
-in the job. Keep it unless the human asks for it by name, behind an explicit `--drop-master`.
-Promoting is not consent to delete the master.
+## The lossless master goes under --reclaim, never on promotion alone
+
+The file you promoted FROM (`finished.mov`) carries the same picture with audio that has never
+been through a lossy encode. A plain `--apply`, the close-out right after rendering, keeps it.
+`--reclaim` retires it, and only after the final MP4 has verified against it (video stream md5
+identical, duration within 50ms, audio present). Human decision 2026-09-24: once the final
+verifies, the master's picture is bit-identical to it, and a music claim is fixed from
+`base-audio.wav` (the voice alone, always kept) plus `audio-plan.json`, remixed and muxed onto the
+final's video. The master buys nothing a shipped job needs.
+
+## --reclaim leaves nothing behind but the record
+
+Human 2026-09-30 (05-agent-swarm): after a reclaim the emptied `*-work` cache folders and the run
+logs (`assemble.log`, `mix.log`, `round4.log` and the like, top level of `outputs/` and
+`graphics-build/`) were still there and read as an unfinished cleanup. `--reclaim` removes both.
+What stays in `outputs/` is the final plus the KEEP_ALWAYS records: `base-cut`, `base-audio.wav`,
+`audio-plan.json`, `transcript-cut.json` and `deliverable.json`. Each is there for a reason given
+above; none is scratch.
 
 ## Never sweep build source out of a reclaim target
 
@@ -100,7 +118,7 @@ Reclaimable: render scratch, cached intermediate renders, stray `node_modules`.
 
 ## Two rules make this safe enough to trust
 
-**0. Promote freely; never reclaim on your own initiative.** Promoting and copying the deliverable is
+**0. Promote freely; never reclaim on your own initiative.** Promoting the deliverable is
 finishing the job. Deleting is not — the plan exists to be read by a human, so an unattended session
 prints it and stops there, even when told to "finish the job". Everything reclaimable is regenerable
 from `raw/` plus the scripts; the hours saved by deleting it are never worth deleting something the
@@ -109,10 +127,18 @@ user wanted for the morning's iteration.
 **1. Dry run by default, always.** Both halves print exactly what they would promote, delete and
 keep, and do nothing until an explicit `--apply` flag is passed after the plan has been read.
 
-The RETIRE list is only deleted with `--reclaim --apply`. A bare `--apply` promotes and writes
-`deliverable.json`, prints "applied" and deletes nothing. On 04-lightweight-ontology that looked
-like a finished cleanup with all three drafts still on disk. Run `--reclaim` (dry) first and check
-its list against the plan the human approved.
+`--apply` promotes, writes `deliverable.json` and retires the RETIRE drafts after a verified
+promote. `--reclaim --apply` also clears the render caches (`graphics-build/renders`,
+`outputs/splice-work`, `outputs/screen-work`, `outputs/review`), file by file: anything newer
+than the deliverable is kept and reported, and a cache holding authored files is refused. Until
+2026-09-24 drafts were only deleted under `--reclaim` and the caches were never in the list, so
+every shipped job kept its renders and 03 kept 16GB of drafts after "applied".
+
+**What survives a close-out:** `raw/`, `audio/` (music and effects), `transcript/`, the
+`graphics-build/` source including `parts/`, `assets/` (thumbnails), and in `outputs/` the base
+cut, `base-audio.wav` (the voice alone, which is what a music claim needs: remix it with the audio
+plan and mux onto the final's video), the audio plan, the cut transcript, the final MP4, the
+publish sidecars. The lossless master `finished.mov` survives `--apply` and goes under `--reclaim`.
 
 ```bash
 python3 .claude/skills/export/export.py projects/<job>            # prints the plan, changes nothing
@@ -146,6 +172,5 @@ correction tightens every future review with no extra wiring.
 
 - Exactly one file in `outputs/` reads as the deliverable, by name.
 - Drafts are retired; base cut, transcripts and `graphics-build/` are intact.
-- A copy is in the convenient location.
 - Standing corrections are in the style file, with the diff shown and approved.
 - Nothing newer than the deliverable was deleted.

@@ -16,7 +16,7 @@ counter reset (graphics skill: seeking to a start point leaves zoompan's counter
 wrong and the ramp comes out constant). Output is capped at the part's exact
 frame count and verified.
 """
-import argparse, json, math, subprocess, sys
+import argparse, hashlib, json, math, os, subprocess, sys
 
 EYE = (2020, 1100)
 Z1 = 0.06
@@ -52,12 +52,24 @@ def main():
         vf = (f"trim=start_frame={sf}:end_frame={ef},setpts=PTS-STARTPTS,"
               f"zoompan=z='{z}':x='{ex}*(1-1/({z}))':y='{ey}*(1-1/({z}))':d=1:s=3840x2160:fps=30")
         out = f"{a.renders}/{p['id']}.mp4"
+        # skip when the key of everything this push depends on is unchanged and the
+        # output is whole: the pushes re-encoded on every rebuild (~1.5 min) though
+        # nothing they read had moved (2026-09-23)
+        st = os.stat(a.base)
+        key = json.dumps({"sf": sf, "ef": ef, "z1": Z1, "eye": EYE, "vf": vf,
+                          "base": [st.st_size, int(st.st_mtime)],
+                          "script": hashlib.sha1(open(__file__, "rb").read()).hexdigest()}, sort_keys=True)
+        kf = out + ".key"
+        if os.path.exists(out) and os.path.exists(kf) and open(kf).read() == key and probe_frames(out) == n:
+            print(f"  {p['id']}  up to date, skipping")
+            continue
         subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-y", "-i", a.base, "-vf", vf, "-an",
                         "-frames:v", str(n), "-c:v", "hevc_videotoolbox", "-b:v", "60M", "-tag:v", "hvc1",
                         "-pix_fmt", "yuv420p", "-r", "30", out], check=True)
         got = probe_frames(out)
         if got != n:
             sys.exit(f"{p['id']}: wanted {n} frames, got {got}")
+        open(kf, "w").write(key)
         print(f"  {p['id']}  {n} frames  push 1.00->{1 + Z1:.2f} on the eyes {EYE}")
 
 

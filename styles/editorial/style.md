@@ -49,7 +49,7 @@ Every beat in a cut sheet is one of these, by name.
 | `panel` | Face reframed to picture-in-picture, content beside it. | Stats, lists, comparisons, screenshots that need the face for reaction. |
 | `takeover` | Content fills the frame, face gone. | A screen recording or diagram that needs every pixel. |
 | `push` | Face full-frame with a slow camera move on it. | Payoff lines, the hook, the last line before a turn. |
-| `slot` | A generated or shot B-roll clip fills the frame. | A beat with no real footage. |
+| `slot` | A shot B-roll clip fills the frame. Never AI-generated (2026-10-16). | A beat with no real footage. |
 | `demo` | A screen recording fills the frame with the face inset in a corner. | A live demo or walkthrough that needs every pixel *and* the speaker's presence. |
 | `analogy` | A drawn object built in movements, line art on the full frame. | The speaker reaches for a comparison: "imagine", "think of it as", "it's basically a". |
 | `contrast` | Split frame, two states side by side, both still visible at the end. | "the difference between", "instead of", "it used to be, now it". |
@@ -221,13 +221,18 @@ Long form, 1920×1080 frame:
   rather than a browser segment: it is pure geometry for minutes at a time, and round-tripping that
   much footage through a headless render costs ~3% luma on every frame of it.
 - The inset enters once and leaves once, exactly like `panel`. No bouncing.
-- It **may move to the opposite corner, or fade out entirely**, for a span where the screen
+- It **may move to the opposite corner, to the top-right, or fade out entirely**, for a span where the screen
   content needs the space: a slide whose columns are building, or a diagram using the whole
   frame. A fade uses the same enter and exit mechanic. A corner change **slides** over 0.6s
   with a smoothstep ease (see Transitions), so the move is seen to happen rather than
   teleporting on a cut. The one-entry rule is about the frame changing between full and
   picture-in-picture; here the frame is unchanged and only the inset moves, so that rule is
   not the one in play. `style.json` carries the permission.
+- **Top-right** (added 2026-09-29, 05-agent-swarm): for an editor showing a full-width,
+  word-wrapped document, where both bottom corners cover text being read. It sits on the tab
+  and title chrome. Prefer it over hiding when the speaker's reactions carry the beat: on
+  05-agent-swarm the human kept their face on screen through the agents' negotiation for exactly
+  that reason.
 
 Short form, 1080×1920 frame:
 
@@ -376,6 +381,9 @@ headline word. Never both.
 
 ## Pacing (measured, not vibes)
 
+- Cut pauses (`cut` in `style.json`): **0.6–1.0s between sentences, 1.5s at a section change**
+  (hook to thesis, intro to demo, demo to outro), taken from the recording's own silence. Mid-sentence
+  joins stay tight. A section beat is the place a later music swell or graphic can land.
 - Average `head` beat: 4–7s. Anything over 12s wants a `chip` or a `push`.
 - `panel` runs: 15–45s, containing 2–5 content swaps.
 - `takeover`: 6–20s. Under 6s reads as a glitch.
@@ -402,6 +410,31 @@ headline word. Never both.
 
 Corrections that should apply to every future video get appended here (and to `learned` in
 `style.json`) before a job is closed out. One-off notes are applied and forgotten.
+
+- 2026-10-17: a section change gets a 1.5s beat, longer than a sentence pause (01-robotics-as-de,
+  after an end-to-end review: "a bit of pause between transitions", at section changes only).
+- 2026-10-17: **the hook follows the script's [MG] cue** when the script has one (01: "I asked you to
+  refer the hook from my script"). On 01 that meant a Wi-Fi card whose password types out word by word
+  as it is spoken, a check, then everything dissolving except "Simple?", held at card size; the card
+  then grows into blank paper just before the montage's first icon (match-cut), and the series
+  humanoid closes the scene lifting a cup. A conflict between the cue and this file is raised.
+- 2026-10-17: **drawn worlds go full screen.** Analogy and contrast scenes (factory vs home, the bike)
+  are takeovers: the scene keeps its layout and is scaled up whole to about 1600x900 on the paper page
+  with dust, grain and drift; it match-cuts from an abutting card (the card's last frame redrawn, the
+  sheet grown from it) or opens on a hard cut, and exits on a hard cut. A contrast scene shows both
+  worlds from the first full frame, the second dimmed until its cue, so the page is never half empty.
+  Text and stat beats stay cards.
+- 2026-10-17: **punch-ins do not drift.** zoompan rounds its crop to whole pixels per frame, so a slow
+  push reads as shake (01 gZ1/gZ2). A held punch-in is still; the live screen carries the motion.
+- 2026-10-17: **a card holds 1.2s past its last cue**, and **no mark goes where the speaker is already
+  pointing** with the cursor (01 g16b, gZ4).
+- 2026-10-18: **short-form captions sit at y 1600** (bottom-anchored, inside the 1620 safe line), on
+  the shirt below the chin. At 1420 they covered the mouth in both the face-band and full-face layouts.
+  A Short splits into graphic-over-face only while a card is fully drawn, measured on its render's
+  alpha, and shows the face full-frame otherwise.
+- 2026-10-17: **the end card ends about 2.3s after the sign-off**, before the speaker looks away. Its
+  rows follow the 05 anatomy: channel-name eyebrow, label over value, the accent rule under the first
+  row, the card growing as each row lands, each row revealed top-down once the card has room.
 
 - **2026-08-19 — long form may reframe.** The original wording said long form "never reframes" while
   this same file specified long-form PiP geometry and `head → panel` transitions. The no-reframe line
@@ -442,5 +475,58 @@ Corrections that should apply to every future video get appended here (and to `l
   `opensOnMotion` stays: frame 1 moves, but the motion is the `push` on the face, and the hook's
   drawn object enters on the first clause break after the opening words, not on frame 0. See "The
   hook is a drawn object". The hook's sound effect is derived from the same cue, never typed in.
+- **2026-09-29: an agent is a robot with a jar for a head.** Replaces the brain in a jar with limbs,
+  which read as ugly on 05-agent-swarm. The head is the full jar (lid, glass, liquid, both
+  highlights, bubbles), on a boxy body with jointed arms and two wheels. The arms and wheels move:
+  wheels turn by the distance rolled, arms bend at shoulder and elbow. A robot that stands for a
+  named teammate wears a name band across the glass instead of a separate label. Fills take the
+  panel's background, so on an ink card the robot is ink-filled with paper lines.
+- **2026-10-16: a physical robot is a humanoid.** Settled by the human at the start of the
+  physical-AI series (01-robotics-as-de). Line art: a faceless rounded visor head, neck, segmented
+  torso, arms that bend at shoulder and elbow with two-finger grippers, hips and knees, two feet.
+  It is hardware and the agent is software, so the two never share a head or a base: the agent keeps
+  the jar head and wheels, the robot has the visor and legs. The SO-101 arm is drawn as itself only
+  when the beat is about that arm; a "classical" robot in a contrast may be a fixed industrial arm.
+  It moves honestly: feet stay planted unless it steps, what it moves it holds.
+- **2026-10-16: no AI-generated footage in the series.** Settled by the human with the humanoid
+  robot: "stay away from AI-generated videos in the series." A beat that would have taken generated
+  b-roll gets a drawn scene, a real photo or a screen recording. Nothing generated is shown as if it
+  were filmed.
+- **2026-10-16: full-screen graphics carry drifting ink dust.** Every takeover (and only takeovers:
+  never inside a panel beside the face, never on a punch-in or the demo) sits on a faint field of
+  about 500 flecks in `$ink` and `$muted` at 6-12% opacity, mostly 2px, with a few soft specks for
+  depth, drifting up and to the right at about 35px/s with a little noise. It is behind every drawn
+  element, present from the first frame, and not driven by the audio. Positions are computed from
+  a fixed seed and the timeline time, so every seek renders the same frame. From a reference the
+  human liked (dust behind full-screen charts), translated from white-on-black to ink on paper.
+- **2026-09-30: card-to-takeover is a match-cut (standing, human-approved).** The takeover's first
+  frame redraws the card's last frame at the same pixels and grows from that rect, carrying the key
+  object across. Nothing changes on the cut frame: backdrop layers fade in with the grow.
+- **2026-09-30: strikes are sized by the text, marks by the pixels.** A strike-through is a child of
+  the word's own box at its full rendered width, never a length computed from the character count.
+  A box or underline on a screen recording snaps its edges to the real word ends in the frame
+  (snap_marks.py); an OCR character-count estimate alone cuts through the last letters.
+  No padding on a strike: a 2px outset becomes 4px on the 2x stage and reads as overshoot. A
+  mark's edge stops at the last letter, not at trailing punctuation; an edge inside a run with no
+  space ("headers.source_order_date") moves by the other edge's snap. Verify strikes and marks
+  by measured ink extents on the render, within 3px.
+- **2026-09-29: the robot moves honestly.** What it moves, it holds, in its gripper; it rolls
+  within reach first; nothing passes through its body; it rolls in rather than fading in and
+  shuffling; wheels turn only while it rolls; raised arms stay outside the jar. Check robot motion
+  on consecutive frames, not single stills: a still-frame QA passed every one of these faults.
+- **2026-09-29: marks over a screen recording are paper, not ink.** A box, underline or tick that is
+  not the one `$accent` mark is drawn in `$bg`. Terminals measure dark, and on 05-agent-swarm every
+  ink mark disappeared into them.
+- **2026-09-29: the demo inset hides only when a punch-in needs its corner.** Hide it for the frames
+  where the zoomed target reaches the inset, merge hides less than 20s apart, and prefer moving it
+  top-right when the speaker's reactions are part of the beat.
+- **2026-09-29: marks follow the line pitch.** OCR boxes are taller than a line, so boxes and
+  underlines sized from them cross the next line and read as strikes. Size them from the measured
+  pitch: vertical pad no more than half the leading, underline just under the descender.
+- **2026-09-29: with the inset top-right, punch-ins frame their line at 60% height.** A centred
+  line runs under the face, which reaches the middle of the frame.
+- **2026-09-29: a demo stretch of 60s or more with no graphic gets a legibility punch-in** on what
+  the speaker or the agents are reading, chosen from screen OCR. If OCR finds nothing worth
+  zooming, leave the stretch bare rather than invent a target.
 - **2026-08-19 — `demo` scene added.** Screen recordings with the speaker present get a corner inset
   over a full-frame screen, not the `panel` split, which shrinks dense screen text past legibility.

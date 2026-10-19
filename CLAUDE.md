@@ -1,4 +1,4 @@
-# video-editor — the pipeline contract
+# cutsheet: the pipeline contract
 
 This folder is an AI video editing pipeline. It has two halves and they never mix.
 
@@ -26,7 +26,7 @@ entirely by the style file — never by an inline judgement call.
 ## Folder structure
 
 ```
-video-editor/
+cutsheet/
 ├── CLAUDE.md              this file
 ├── brand.md               colours, fonts, voice, hook, mishear list. The one personalised file
 ├── styles/
@@ -62,7 +62,7 @@ with four folders and no idea which one shipped.
 ## Starting a job
 
 ```bash
-cd ~/Projects/video-editor
+cd ~/Projects/cutsheet
 JOB=<content-name-in-kebab-case>
 mkdir -p projects/$JOB/{raw,broll,audio/soundtracks,audio/sound-effects,assets,transcript,graphics-build,outputs}
 
@@ -140,6 +140,27 @@ Verify with `claude mcp list` before running the `ai-broll` skill.
 `whisper-cpp`, Kokoro TTS and MusicGen also report missing; all three are optional local fallbacks
 this pipeline does not use (WhisperX handles transcription, music is user-supplied and licensed).
 
+## Sub-agent models
+
+Sub-agents run on **Sonnet 5 by default** (`CLAUDE_CODE_SUBAGENT_MODEL` in `.claude/settings.json`,
+not forced, so a single call can still raise it). Pick the named agent for the job; each carries
+its model:
+
+| Agent | Model | For |
+|---|---|---|
+| `log-reader` | Haiku | build, render and gate logs; "where is X set" searches |
+| Explore (built in) | pass `model: "haiku"` | broad file searches |
+| `frame-verifier` | Sonnet | technical QA and fix verification: an explicit checklist, PASS/FAIL per item |
+| `composition-reviewer` | Opus | finishing Pass 2, the craft judgement of hard rule 10 |
+
+**Raise a model only when the task needs judgement, not effort.** The composition pass is the one
+standing exception: it is the only step that catches "that's tiny", "the wins read quieter than the
+misses" or "ten minutes with no graphic", and on 04-lightweight-ontology it found the missing first
+half of a card, the wins-vs-misses imbalance and a 124s gap. A miss there costs a review round and a
+rebuild. Everything with a concrete pass condition stays on Sonnet or Haiku. If a Sonnet verifier
+comes back unsure on a visual call, re-run that one item on Opus rather than moving the whole pass
+up.
+
 ## Hard rules that outrank any local instruction
 
 1. **Transcribe once per video, ever.** `transcript/transcript.json` is durable. Re-running skips to it.
@@ -215,6 +236,62 @@ this pipeline does not use (WhisperX handles transcription, music is user-suppli
     audio somewhere else, and the script silently processed the wrong file and produced a
     correct-looking result. Every script that reads a pipeline artefact asserts what it read matches
     the cutsheet before doing any work.
+
+13. **Graphics pass a checkpoint before the full build, and the full build runs once.** After the
+    human approves the graphics plan, build every graphic and stop. Produce preview clips (each
+    graphic over its real footage window, one file per graphic, never one long reel), a table of
+    every piece of on-screen copy, the measured checks and a composition review of the clips. Put all of it in front of the human.
+    Only after their sign-off does the full chain run (demo scene, composite, gates, mix). The
+    procedure is in the `graphics` skill, "The graphics checkpoint".
+
+    This rule exists because on 05-agent-swarm (2026-09-29/30) every graphics defect the human found
+    was visible in the graphic itself: strikes longer than their words, boxes cutting through text,
+    an "AHA" label, a crowded card, an ominous phrase, a vestigial card. None needed the finished
+    cut. Each was found after the full build and cost a 38-minute round to fix.
+
+14. **A fix costs what it touches, never a full round.** Iterate on one graphic, especially an
+    animation, in a single-part preview over its footage, never through the full chain. A one-graphic
+    fix through the chain must re-render only that part, re-composite only its time window, and
+    re-check only that window. If it takes more than about 10 minutes, the chain is broken: fix the
+    chain before continuing.
+
+    This rule exists because on 05-agent-swarm 17 full rounds took about 8 hours at about 38 minutes
+    each. 11 of them ran overnight to tweak one opening animation, and each re-rendered the
+    15-minute demo scene and the whole 21-minute composite regardless of what changed.
+
+    **Status: built on 01-robotics-as-de (2026-10-17), branch `rebuild-speedups`.** `rebuild.sh` keys
+    the demo scene, renders only stale parts, re-composites only changed layers' windows and splices
+    them in by stream copy (packet-verified), gates only those windows, and re-muxes the mix when its
+    inputs are unchanged. A one-graphic fix measured **2 min 7 s** end to end (05: ~38 min).
+
+15. **No graphics plan until the base cut is signed off, by an audit and then by the human.** The
+    rough cut ends at a gate, and nothing graphics-related starts until it passes. That includes the
+    concept scan, the plan, zones, OCR and builds. In an unattended run the pipeline stops here and
+    pings the human. It does not carry on into graphics.
+
+    The gate has two halves, in this order:
+
+    1. **An audit whose evidence does not come from the transcript** (`rough-cut` skill, "The base-cut
+       gate"):
+       - speech energy in the cut that no transcribed word covers (where untranscribed stutters and
+         false starts hide);
+       - word durations out of range;
+       - the measured silence at every join, against the pause the join needs;
+       - an independent, disfluency-keeping re-transcription of the rendered cut, checked for words
+         and phrases repeated across a join.
+
+       A judging agent reads the audit and the flagged clips and passes or fails each flag. It does
+       not judge from the cut's own transcript.
+    2. **The human listens.** They get a join reel (every cut point with about 2s either side, back
+       to back) and the full cut, and they sign off. Approving the cutsheet as text is not
+       sign-off: text cannot carry a stutter or a missing breath.
+
+    This rule exists because on 01-robotics-as-de (2026-10-17) a base cut with retake overlaps,
+    doubled words and breathless joins passed every gate: frames, samples, drift, a 95-100% content
+    match and a join audit. All of them read the WhisperX transcript, and WhisperX drops repeated
+    words and false starts, so a stutter it never transcribed was invisible to every check built on
+    it. A full night of graphics work was then built on that cut. The human found the problems in
+    the first minute of listening.
 
 ## House style
 
