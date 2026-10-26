@@ -38,8 +38,8 @@ headlines, 700 for chips and captions, 500 for support.
 
 ## Scene vocabulary
 
-Twelve scene types in two groups. The first seven carry the video's layout: where the face sits and
-what shares the frame with it. The last five carry its ideas, and their anatomy is below the table.
+Fifteen scene types in two groups. The first seven carry the video's layout: where the face sits and
+what shares the frame with it. The last eight carry its ideas, and their anatomy is below the table.
 Every beat in a cut sheet is one of these, by name.
 
 | Name | What it is | When it runs |
@@ -56,6 +56,9 @@ Every beat in a cut sheet is one of these, by name.
 | `loop` | A closed circuit or path, one node lit at a time, a dot travelling between. | A cycle, a chain of consequences, a fork, a route from A to B. |
 | `strike-list` | Rows that land on their cues and get struck through as they are dismissed. | A counted list, or an absence: what a thing cannot see or is not given. |
 | `self-demonstrating` | The graphic performs the thing being described. | The speaker points at the screen and refers to what is on it. |
+| `map` | A node diagram of the video's territory, planted once and returned to with its state changed. | The speaker places the subject among its neighbours ("not the same as X, Y or Z"), or a journey across a field. |
+| `lens` | One node of a `map` opens into a circle of detail while the map stays around it. | The speaker zooms into one part of something already on screen ("a single moment in a robot's life"). |
+| `unit-dots` | A count drawn as a field of identical dots with a key; the small number lit as a cluster. | A number compared against another ("80,000, up from 1,100"). |
 
 Rhythm: `head` is the floor and everything returns to it. Never more than two consecutive non-`head`
 scenes without a `head` beat between them, except inside one continuous `panel` run (see below).
@@ -137,6 +140,92 @@ Anchor it to a measured point in the real frame, not to a zone: g005 measured th
 x415 y775 and started an `$accent` dot there before travelling it up into the card. The travelling
 element and the final accent rule are one element throughout, which keeps a flourish inside the
 one-accent budget.
+
+## Anatomy of `map`, `lens` and `unit-dots` (2026-10-25)
+
+Taken from a reference explainer and proven on motion-techniques-poc, a re-graphicking of the first
+5:27 of 01-robotics-as-de. All three live in a card in the left column (700x540 at x 48, y 96 on the
+01 framing) over live face, so the lightReinforced panel and card edge apply as for any card. Worked
+code: `projects/motion-techniques-poc/graphics-build/build.mjs`.
+
+### `map`
+
+Four or five nodes, each a 15px-radius circle with a 3.5px `$muted` ring, joined by 3px `$rule`
+edges. The subject's node is the one `$accent`; the others fill `$ink` when lit. Labels are display
+700 at 22px, tracked caps 0.14em, on a `$bg` backing (3px 12px padding, 8px radius) so an edge or a
+travelling dot passes behind the letters rather than across them. Each label sits on the side of
+its node that no edge enters: on 01, ENTERPRISE left of its node, WEB TEXT above, the other two below.
+Edges stop 22px short of each node.
+
+The first frame shows the whole map unlit: dashed `$rule` placeholders where the nodes will be, so
+the card reads as a map waiting to fill rather than an empty card. Each node lights on its spoken
+name (pop in 0.35s, `back.out`, label rising 14px). Relationships named in the speech get a mark on
+their edge: on 01, a 38px `≠` disc on each edge into ROBOTICS as he says "not the same as the
+enterprise, the web text, industrial IoT".
+
+Three dots travel each lit edge continuously (one every third of a 2.4s period), which is what keeps
+a 60s map alive between cues.
+
+The point of the scene is the return. The second visit uses the same geometry with the state
+changed: on 01 the same four nodes came back with a 13-tick path drawn from ENTERPRISE to ROBOTICS
+for the 13-week series, the three topics lighting segments of it on their cues. Two visits is the
+proven count; plan the first visit as a setup and the second as its payoff.
+
+### `lens`
+
+A `map` node grows into a 330px circle, 6px white border and the card shadow, centred where it
+covers the fewest labels. The open is 0.8s `power3.inOut` from the node's own position at 8% scale,
+starting 0.3s before the cue word so it is visibly opening as the word lands. The map dims to 45%
+behind it. The node it came from stays visible outside the circle, joined to the rim by a 3px `$ink`
+leader; labels and edge marks the circle covers fade while it is open and return when it closes.
+
+Content is in the lens from its first frame: on 01, the five sensor streams already ticking faintly
+at 30% while he says "highly multimodal". The detail then builds on top (see step-build below). A
+dashed `$rule` ring inside the rim turns 90 degrees across the whole open span. To close, the
+contents fade over 0.2s first, then the circle shrinks back into its node over 1.0s `sine.inOut`
+and the map returns to full strength.
+
+### `unit-dots`
+
+One dot per unit, 4.5px radius on a 15px pitch, in a grid that sweeps in left to right (clip-path,
+1.0s) just after the big number's count-up lands on its cue. A key sits under the grid in 24px
+`$muted`: a dot, then "= 100 datasets". The comparison is the beat: on the smaller number, every dot
+but the small count drops to 14% and the small count turns `$accent` as a compact block at the top
+left (on 01, 11 dots as a 4x3 block less one), with its label in `$accent` 26px at the right. That
+contrast holds until the next number. While it holds, the cluster breathes (scale 1.00 to 1.12,
+1.6s cycle), and before it a soft `$bg` light band crosses the grid every 2.2s, so the card is
+never a still.
+
+When the next figure arrives, the dot block leaves the card (slides up out of a clipping card,
+0.5s) and the new figure takes the space at full size.
+
+### Cards that build in steps
+
+A card whose content is a list of parts builds one part per spoken cue into a container that fills
+as they land: on 01, CAMERA FRAMES, JOINTS, COMMANDS, TIMESTAMP as 20px `$ink` chips, one per word,
+inside a `$rule` outline whose clip-path grows down to each new chip. Parts land with a 0.3s
+`power3.out` from 70% scale. When the parts then turn into something else (the chips unspooling
+into five streams), they fade as the new form arrives in the same place.
+
+## On trial: three techniques for one more video
+
+Each worked once on motion-techniques-poc. `style.json` `graphics.trial` holds whether each is on.
+Use them on the next video and promote or drop each after that.
+
+**A recurring motif.** One drawn object introduced in a head beat and paid off later in a changed
+state. On 01 it was a stream line with ticks: five sensor streams out of sync in the lens, then the
+same five snapping into step on "dissect the data" with an `$accent` playhead drawing top to bottom.
+It reads only as one object with one silhouette; five related shapes did not read as a return.
+
+**A drawn marker for the speaker.** An `$ink` teardrop pin (30x46) with a "you" label in 24px 900
+on a paper backing lands on the data on its cue (0.45s `bounce.out`) and travels onto a point (0.6s
+`power2.inOut`), arriving at least 1.2s before the card leaves. A photo of the speaker belongs only
+where the real face is off screen.
+
+**A running headline.** Off by default. If the human asks for it: tracked caps, display 700 at 20px,
+`$muted` on a slim pill above the card (x 48, y 16), one line per section that only accumulates
+(" · "), entering on its section's first cue. The keyword lights to `$ink` with a 2px `$ink`
+underline drawing under it on its cue. It stays off takeovers and off cards that label themselves.
 
 ## The hook is a drawn object, not a card
 
@@ -528,5 +617,10 @@ Corrections that should apply to every future video get appended here (and to `l
 - **2026-09-29: a demo stretch of 60s or more with no graphic gets a legibility punch-in** on what
   the speaker or the agents are reading, chosen from screen OCR. If OCR finds nothing worth
   zooming, leave the stretch bare rather than invent a target.
+- **2026-10-25: three scene types added from a reference video.** `map`, `lens` and `unit-dots`
+  (anatomy above), plus the step-build for cards, after a POC with three composition-review rounds
+  on the 01 intro. Two lessons that apply beyond these scenes: a graphic that replaces one the human
+  praised has to beat it (the POC's map first replaced the humanoid montage and the human restored
+  the montage), and no on-screen text is set below 20px.
 - **2026-08-19 — `demo` scene added.** Screen recordings with the speaker present get a corner inset
   over a full-frame screen, not the `panel` split, which shrinks dense screen text past legibility.
