@@ -1,0 +1,11 @@
+{
+ "enters": {
+  "cutSeconds": 457.2,
+  "frame": 13716
+ },
+ "leaves": {
+  "cutSeconds": 1809.6,
+  "frame": 54288
+ },
+ "_why": "derived from the cutsheet's demo section"
+}

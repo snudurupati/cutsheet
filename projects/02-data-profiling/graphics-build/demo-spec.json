@@ -1,0 +1,579 @@
+{
+ "span": {
+  "start": 457.2,
+  "end": 1809.6,
+  "_why": "derived from transcript/cutsheet.json"
+ },
+ "base": "outputs/base-cut.mov",
+ "screen": "outputs/base-screen.mp4",
+ "_screenWhy": "demo segments only (sessions c and d), cut per segment from each session's screen clip; one 2.1s flash of the Obsidian vault and desktop held over with the last Rerun frame (leak.json holds)",
+ "inset": {
+  "sourceCrop": {
+   "w": 2000,
+   "h": 2000,
+   "x": 1060,
+   "y": 60
+  },
+  "_sourceCropWhy": "02: 01's 2000px square moved left to centre this framing's face (x ~2060 on takes c and d)",
+  "_delivery": {
+   "width": 960,
+   "height": 960,
+   "left": 2736,
+   "top": 1056,
+   "radius": 48,
+   "repositionSeconds": 0.6,
+   "enterSeconds": 0.5,
+   "exitSeconds": 0.35
+  },
+  "reposition": [
+   {
+    "start": 579.8,
+    "end": 604.667,
+    "corner": "topRight",
+    "why": "the zoomed target reaches the bottom-right corner but not the top-right (demoInset.mayReposition)"
+   }
+  ],
+  "_repositionWhy": "measured per punch-in from its zoomed box (make_demo_spec.py): a target clear of the bottom-right keeps the face there; one that reaches only the bottom-right moves it top-right; one that reaches both hides it",
+  "hiddenDuring": [
+   {
+    "start": 474.3,
+    "end": 483.467,
+    "why": "the zoomed target reaches both right-hand corners (style.json demoInset.mayHide)"
+   }
+  ]
+ },
+ "punchIns": {
+  "items": [
+   {
+    "id": "gZ0",
+    "part": "gZ0",
+    "start": 474.5,
+    "end": 483.267,
+    "cx": 1393,
+    "cy": 844,
+    "zoom": 3.16,
+    "box": [
+     936,
+     533,
+     1832,
+     1156
+    ],
+    "framing": "full",
+    "target": "the notebook's nine-checks table, Check and Question columns complete, centred; at 3.16 the window's left edge is the editor's (x 785), so no file tree. The push starts at 474.50, after his scroll onto the table settles (474.00-474.13); the plateau ends on the next scroll at 482.10",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 7,
+    "_plateau": [
+     475.7,
+     482.067
+    ],
+    "_outBox4k": [
+     476,
+     96,
+     3308,
+     2064
+    ],
+    "_inset": "hide"
+   },
+   {
+    "id": "gZ1",
+    "part": "gZ1",
+    "start": 580.6,
+    "end": 604.467,
+    "cx": 1769,
+    "cy": 1337,
+    "zoom": 1.88,
+    "box": [
+     869,
+     1393,
+     2669,
+     1557
+    ],
+    "framing": "full",
+    "target": "the overview row (206, 25650, 1, 10, motors, [2], action names) at 62% height, clear of the inset top-right; the push starts at 580.60, after the scroll at 580.13 settles; scroll at 603.60 ends it",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 25,
+    "_plateau": [
+     581.8,
+     603.567
+    ],
+    "_outBox4k": [
+     230,
+     1186,
+     3610,
+     1494
+    ],
+    "rampOut": 27,
+    "_inset": "topRight"
+   },
+   {
+    "id": "gZ2a",
+    "part": "gZ2",
+    "start": 619.467,
+    "end": 662.7,
+    "cx": 1746,
+    "cy": 1435,
+    "zoom": 2.1,
+    "box": [
+     869,
+     1234,
+     2100,
+     1636
+    ],
+    "framing": "full",
+    "target": "both stats tables (metadata 206 / 25650 / 49 / 246 / 124.5, data 206 / 25650) left of the bottom-right inset; ends on the 162px scroll at 662.47",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 45,
+    "_plateau": [
+     620.667,
+     662.4
+    ],
+    "_outBox4k": [
+     77,
+     658,
+     2663,
+     1502
+    ],
+    "rampOut": 9,
+    "_inset": "stay"
+   },
+   {
+    "id": "gZ2b",
+    "part": "gZ2",
+    "start": 662.4,
+    "end": 673.3,
+    "cx": 1746,
+    "cy": 1277,
+    "zoom": 2.1,
+    "box": [
+     869,
+     1081,
+     2099,
+     1473
+    ],
+    "framing": "full",
+    "target": "the same two tables on their new position after the scroll; scroll at 671.57 ends it",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 9,
+    "_plateau": [
+     662.7,
+     671.533
+    ],
+    "_outBox4k": [
+     78,
+     668,
+     2662,
+     1492
+    ],
+    "rampIn": 9,
+    "rampOut": 53,
+    "_inset": "stay"
+   },
+   {
+    "id": "gZ3a",
+    "part": "gZ3",
+    "start": 757.4,
+    "end": 773.534,
+    "cx": 1457,
+    "cy": 1474,
+    "zoom": 2.2,
+    "box": [
+     863,
+     1091,
+     1324,
+     1856
+    ],
+    "framing": "full",
+    "target": "the IQR output (99 148 49) down to the fences (25.5 221.5); a quick 0.3s push that starts once the scroll at 757.07-757.33 has settled (round 3: no push across a scroll); the scroll at 772.17 ends it",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 14,
+    "_plateau": [
+     757.7,
+     772.1
+    ],
+    "_outBox4k": [
+     613,
+     238,
+     1627,
+     1922
+    ],
+    "rampIn": 9,
+    "rampOut": 43,
+    "_inset": "stay"
+   },
+   {
+    "id": "gZ3b",
+    "part": "gZ3",
+    "start": 772.1,
+    "end": 783.567,
+    "cx": 1423,
+    "cy": 1389,
+    "zoom": 2.2,
+    "box": [
+     863,
+     1253,
+     1256,
+     1525
+    ],
+    "framing": "full",
+    "target": "the IQR output, the fences and the outlier table after the re-run; scroll at 783.30 ends it",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 10,
+    "_plateau": [
+     773.534,
+     783.233
+    ],
+    "_outBox4k": [
+     688,
+     781,
+     1552,
+     1379
+    ],
+    "rampIn": 43,
+    "rampOut": 10,
+    "_inset": "stay"
+   },
+   {
+    "id": "gZ3c",
+    "part": "gZ3",
+    "start": 783.233,
+    "end": 786.434,
+    "cx": 1396,
+    "cy": 1250,
+    "zoom": 2.4,
+    "box": [
+     863,
+     1114,
+     1263,
+     1385
+    ],
+    "framing": "full",
+    "target": "fences and outlier table ('we do have two episodes'); 41px scroll at 786.20 ends it",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 3,
+    "_plateau": [
+     783.567,
+     786.133
+    ],
+    "_outBox4k": [
+     640,
+     755,
+     1600,
+     1405
+    ],
+    "rampIn": 10,
+    "rampOut": 9,
+    "_inset": "stay"
+   },
+   {
+    "id": "gZ3d",
+    "part": "gZ3",
+    "start": 786.133,
+    "end": 792.4,
+    "cx": 1393,
+    "cy": 1208,
+    "zoom": 2.4,
+    "box": [
+     863,
+     1069,
+     1257,
+     1346
+    ],
+    "framing": "full",
+    "target": "fences and outlier table, episodes 184 and 174 named; scroll at 791.87 ends it",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 6,
+    "_plateau": [
+     786.434,
+     791.833
+    ],
+    "_outBox4k": [
+     647,
+     748,
+     1593,
+     1412
+    ],
+    "rampIn": 9,
+    "rampOut": 17,
+    "_inset": "stay"
+   },
+   {
+    "id": "gZ8a",
+    "part": "gZ8",
+    "start": 686.6,
+    "end": 698.0,
+    "cx": 1725,
+    "cy": 1258,
+    "zoom": 1.7,
+    "box": [
+     884,
+     767,
+     2166,
+     1749
+    ],
+    "framing": "full",
+    "target": "the sorted episode-length S-curve; starts after the re-run and scroll at 684.27-685.90, ends before the re-run at 698.13 (scrolls measured with make_demo_spec's detector, 2026-10-28)",
+    "_boxFrom": "frame-measured (PLOT_SCURVE)",
+    "_ocrSamples": 0,
+    "_plateau": [
+     687.45,
+     697.6
+    ],
+    "_outBox4k": [
+     490,
+     245,
+     2670,
+     1915
+    ],
+    "rampIn": 26,
+    "rampOut": 12,
+    "_inset": "stay"
+   },
+   {
+    "id": "gZ8b",
+    "part": "gZ8",
+    "start": 711.6,
+    "end": 734.333,
+    "cx": 1736,
+    "cy": 1273,
+    "zoom": 1.6,
+    "box": [
+     856,
+     706,
+     2166,
+     1840
+    ],
+    "framing": "full",
+    "target": "the percentile plot and its printed 25th/50th/75th lines; the push starts 711.60, 0.3s after the plot settles (review 2026-10-28: at 710.70 it ramped while the page still drifted ~40px), lands 712.40, the zoom-out ends with the part (734.33), before the 16px scroll at 734.67",
+    "_boxFrom": "frame-measured (PLOT_PCTL)",
+    "_ocrSamples": 0,
+    "_plateau": [
+     712.4,
+     733.133
+    ],
+    "_outBox4k": [
+     512,
+     173,
+     2608,
+     1987
+    ],
+    "rampIn": 24,
+    "_inset": "stay"
+   },
+   {
+    "id": "gZ9",
+    "part": "gZ9",
+    "start": 1509.067,
+    "end": 1550.55,
+    "cx": 1305,
+    "cy": 1395,
+    "zoom": 2.0,
+    "box": [
+     456,
+     1106,
+     1674,
+     1684
+    ],
+    "framing": "full",
+    "target": "Rerun's observation.images.top panel, ALOHA's two arms (Rerun on screen from 1507.53, steady to the part's end); the zoom-out runs 1549.90-1550.55 so the accent on 'inserts' holds >= 1.5s first (review 2026-10-28)",
+    "_boxFrom": "frame-measured (RERUN_ALOHA)",
+    "_ocrSamples": 0,
+    "_plateau": [
+     1510.267,
+     1549.9
+    ],
+    "_outBox4k": [
+     222,
+     502,
+     2658,
+     1658
+    ],
+    "rampOut": 19,
+    "_inset": "stay"
+   },
+   {
+    "id": "gZ5",
+    "part": "gZ5",
+    "start": 845.5,
+    "end": 866.133,
+    "cx": 1915,
+    "cy": 1393,
+    "zoom": 1.92,
+    "box": [
+     1400,
+     942,
+     2304,
+     1844
+    ],
+    "framing": "full",
+    "target": "Rerun's observation.image panel, PushT episode 184 playing",
+    "_boxFrom": "frame-measured (RERUN_IMAGE)",
+    "_ocrSamples": 0,
+    "_plateau": [
+     846.7,
+     864.933
+    ],
+    "_outBox4k": [
+     934,
+     216,
+     2666,
+     1944
+    ],
+    "_inset": "stay"
+   },
+   {
+    "id": "gZ6",
+    "part": "gZ6",
+    "start": 885.4,
+    "end": 902.6,
+    "cx": 1915,
+    "cy": 1393,
+    "zoom": 1.92,
+    "box": [
+     1400,
+     942,
+     2304,
+     1844
+    ],
+    "framing": "full",
+    "target": "Rerun's observation.image panel, PushT episode 174 playing",
+    "_boxFrom": "frame-measured (RERUN_IMAGE)",
+    "_ocrSamples": 0,
+    "_plateau": [
+     886.6,
+     901.4
+    ],
+    "_outBox4k": [
+     934,
+     216,
+     2666,
+     1944
+    ],
+    "_inset": "stay"
+   },
+   {
+    "id": "gZ7a",
+    "part": "gZ7",
+    "start": 1446.3,
+    "end": 1467.667,
+    "cx": 1557,
+    "cy": 992,
+    "zoom": 2.6,
+    "box": [
+     863,
+     662,
+     1759,
+     1323
+    ],
+    "framing": "full",
+    "target": "the least- and most-movement tables (rows 47 5 19, 3 30 44); 63px scroll at 1467.50 ends it",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 22,
+    "_plateau": [
+     1447.5,
+     1467.433
+    ],
+    "_outBox4k": [
+     115,
+     221,
+     2445,
+     1939
+    ],
+    "rampOut": 7,
+    "_inset": "stay"
+   },
+   {
+    "id": "gZ7b",
+    "part": "gZ7",
+    "start": 1467.433,
+    "end": 1483.534,
+    "cx": 1557,
+    "cy": 928,
+    "zoom": 2.6,
+    "box": [
+     863,
+     601,
+     1759,
+     1256
+    ],
+    "framing": "full",
+    "target": "the same two tables after the scroll; scrolls at 1481.77 and 1483.10 end it",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 16,
+    "_plateau": [
+     1467.667,
+     1481.7
+    ],
+    "_outBox4k": [
+     115,
+     228,
+     2445,
+     1932
+    ],
+    "rampIn": 7,
+    "rampOut": 55,
+    "_inset": "stay"
+   },
+   {
+    "id": "gZ7c",
+    "part": "gZ7",
+    "start": 1481.7,
+    "end": 1490.367,
+    "cx": 1552,
+    "cy": 1425,
+    "zoom": 2.6,
+    "box": [
+     869,
+     1309,
+     1742,
+     1541
+    ],
+    "framing": "full",
+    "target": "the median-rows table (46 40 34) under its code",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 7,
+    "_plateau": [
+     1483.534,
+     1489.167
+    ],
+    "_outBox4k": [
+     145,
+     778,
+     2415,
+     1382
+    ],
+    "rampIn": 55,
+    "_inset": "stay"
+   },
+   {
+    "id": "gZ4",
+    "part": "gZ4",
+    "start": 1770.667,
+    "end": 1809.2,
+    "cx": 1696,
+    "cy": 1402,
+    "zoom": 2.2,
+    "box": [
+     878,
+     1080,
+     1932,
+     1725
+    ],
+    "framing": "full",
+    "target": "the notebook's comparison table, ALOHA beside PushT, left of the bottom-right inset; the zoom-out ends at 1809.20, before the inset's exit dissolve at the demo's end (1809.25)",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 37,
+    "_plateau": [
+     1771.867,
+     1808.0
+    ],
+    "_outBox4k": [
+     121,
+     370,
+     2439,
+     1790
+    ],
+    "_inset": "stay"
+   }
+  ]
+ }
+}

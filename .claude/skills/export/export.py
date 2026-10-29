@@ -17,7 +17,7 @@ Usage:
   --reclaim  also clear the render caches and retire the lossless master
              (finished.mov) once the final MP4 has verified against it
 """
-import os, sys, shutil, json, time, subprocess, array, math
+import os, re, sys, shutil, json, time, subprocess, array, math
 
 # Matched by STEM, not by full name: a base cut carried as .mov (to keep audio lossless
 # through to finishing) is the same durable artefact as one carried as .mp4, and naming
@@ -331,7 +331,12 @@ def do_reclaim(job, deliverable_mtime, apply_):
         dp = os.path.join(job, d)
         for f in sorted(os.listdir(dp)) if os.path.isdir(dp) else []:
             fp = os.path.join(dp, f)
-            if f.endswith('.log') and os.path.isfile(fp) and os.path.getmtime(fp) <= deliverable_mtime:
+            # 2026-10-28 (02-data-profiling, human: "a bunch of .log and .key files"): a sidecar whose
+            # render is gone (graphics-pass.mov.json, finished.mov.key after the master retires) is
+            # scratch too; it describes a file that no longer exists
+            orphan = (f.endswith('.key') or re.search(r'\.(mov|mp4)\.json$', f)) and \
+                not os.path.exists(os.path.join(dp, re.sub(r'\.(key|json)$', '', f)))
+            if (f.endswith('.log') or orphan) and os.path.isfile(fp) and os.path.getmtime(fp) <= deliverable_mtime:
                 total += os.path.getsize(fp)
                 print(f"      {d}/{f}")
                 if apply_:
@@ -398,7 +403,14 @@ def main():
     # PROMOTE FIRST. Nothing is deleted until the deliverable exists on disk and
     # has been size-verified against what it was promoted from.
     promoted_ok = False
-    if apply_ and os.path.exists(final) and verify_promoted(src, final):
+    # A remix keeps the master's picture, so the video md5 still matches the old final and
+    # verify_promoted passes on a file carrying the OLD mix. 2026-10-28, 02-data-profiling: the
+    # music was lowered 1 dB after export and the re-export kept the louder final. A master
+    # newer than the final is always promoted again.
+    stale = os.path.exists(final) and os.path.getmtime(src) > os.path.getmtime(final)
+    if stale:
+        print("      the master is newer than the final (a remix): promoting again")
+    if apply_ and os.path.exists(final) and not stale and verify_promoted(src, final):
         print("      already promoted and verified, not re-encoding")
         promoted_ok = True
     elif apply_:

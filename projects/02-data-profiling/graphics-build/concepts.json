@@ -1,0 +1,533 @@
+{
+  "source": "projects/02-data-profiling/outputs/transcript-cut.json",
+  "fps": 30.0,
+  "totalSeconds": 1954.5,
+  "candidates": [
+    {
+      "start": 85.78,
+      "end": 91.8,
+      "cue": "cycle",
+      "scene": "loop",
+      "marker": "every time",
+      "draw": "Closed ring. Travelling dot so a long beat is never still.",
+      "section": null,
+      "text": "These large language models were very inconsistent with getting you the same metric every time."
+    },
+    {
+      "start": 124.62,
+      "end": 133.25,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "instead of",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "And finally, we started building context pipelines instead of data pipelines to feed our models with the latest context."
+    },
+    {
+      "start": 247.13,
+      "end": 267.21,
+      "cue": "analogy",
+      "scene": "analogy",
+      "marker": "think of it",
+      "draw": "One drawn object, line art, built in movements on the spoken cues.",
+      "section": null,
+      "text": "is an attempt at a task end to end. So in case of Push T, it will be starting from the starting position until the pusher has pushed the T all the way onto the outline. A frame is a one moment in time. Think of it as a camera frame. A video consists of many frames in the same way an episode consists of many frames,"
+    },
+    {
+      "start": 388.46,
+      "end": 398.49,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "instead of",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "Same question as the action, right ranges, are the ranges seeing any outlier, but this time on the robot's own recorded data instead of the action data."
+    },
+    {
+      "start": 474.16,
+      "end": 487.76,
+      "cue": "journey",
+      "scene": "loop",
+      "marker": "all the way to",
+      "draw": "Path draw from A to B. The route is the graphic.",
+      "section": null,
+      "text": "So these are the different kinds of checks I'm performing, which I described earlier, A through I, overview all the way to outcomes. And then, you know, I have used Claude code like I always do to"
+    },
+    {
+      "start": 564.41,
+      "end": 570.75,
+      "cue": "cycle",
+      "scene": "loop",
+      "marker": "every time",
+      "draw": "Closed ring. Travelling dot so a long beat is never still.",
+      "section": null,
+      "text": "So I have parameterized this notebook. So every time the data set changes, all I need to do is change the repo ID"
+    },
+    {
+      "start": 578.35,
+      "end": 579.51,
+      "cue": "deixis",
+      "scene": "self-demonstrating",
+      "marker": "this one",
+      "draw": "Annotation anchored to the real thing. Measure the point.",
+      "section": null,
+      "text": "So let me run this one."
+    },
+    {
+      "start": 641.79,
+      "end": 647.89,
+      "cue": "causal-chain",
+      "scene": "loop",
+      "marker": "which means",
+      "draw": "Flow with drawn connectors. The arrow is the content.",
+      "section": null,
+      "text": "compared to others, which, you know, given we have 10 frames per second, which means some tasks completed earlier than others."
+    },
+    {
+      "start": 648.46,
+      "end": 657.83,
+      "cue": "failure",
+      "scene": "screenshot",
+      "marker": "failed",
+      "draw": "The real terminal, the real error, the real diff. Not a recreation.",
+      "section": null,
+      "text": "And then we can analyze, right, to see what went down. If some of them are actually maybe didn't finish the task, maybe they failed. We don't know yet. but all we know is that the min length to max length"
+    },
+    {
+      "start": 689.0,
+      "end": 697.52,
+      "cue": "causal-chain",
+      "scene": "loop",
+      "marker": "which means",
+      "draw": "Flow with drawn connectors. The arrow is the content.",
+      "section": null,
+      "text": "which means the median, most of the episodes, you know, kind of have same or similar number of frames uh, with the few outliers at the top."
+    },
+    {
+      "start": 698.25,
+      "end": 704.05,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "instead of",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "So let's actually plot them on percentiles instead of the actual values"
+    },
+    {
+      "start": 750.44,
+      "end": 771.7,
+      "cue": "magnitude",
+      "scene": "stat",
+      "marker": "1.5 times",
+      "draw": "Count-up or proportion bar. Lands ON the number being said.",
+      "section": null,
+      "text": "the 25th percentile is the IQR distance. So let me calculate that. And the IQR distance comes out to be 49. And the general rule, right, again, it's not a law, general rule is we flag anything which is more than 1.5 times the IQR on either end. So let's"
+    },
+    {
+      "start": 805.99,
+      "end": 810.65,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "not use them for training, but",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "So maybe we should not use them for training, but let's actually go look at rerun."
+    },
+    {
+      "start": 811.4,
+      "end": 814.07,
+      "cue": "deixis",
+      "scene": "self-demonstrating",
+      "marker": "right here",
+      "draw": "Annotation anchored to the real thing. Measure the point.",
+      "section": null,
+      "text": "So let me open up the terminal right here."
+    },
+    {
+      "start": 1016.67,
+      "end": 1022.05,
+      "cue": "failure",
+      "scene": "screenshot",
+      "marker": "failed",
+      "draw": "The real terminal, the real error, the real diff. Not a recreation.",
+      "section": null,
+      "text": "or entire episodes which are entirely idle where nothing happened and the robot maybe failed. It was just sitting idle there."
+    },
+    {
+      "start": 1084.91,
+      "end": 1099.31,
+      "cue": "journey",
+      "scene": "loop",
+      "marker": "all the way to",
+      "draw": "Path draw from A to B. The route is the graphic.",
+      "section": null,
+      "text": "all the way to 0. Yeah, different range. So they vary with each episode and only positive rewards, no negative rewards. So yeah, that looks"
+    },
+    {
+      "start": 1119.52,
+      "end": 1125.07,
+      "cue": "branch",
+      "scene": "loop",
+      "marker": "otherwise",
+      "draw": "Fork. Two paths from one node, the taken one in accent.",
+      "section": null,
+      "text": "um otherwise should be scored lower so let's just you know kind of uh find try to find that out"
+    },
+    {
+      "start": 1147.11,
+      "end": 1161.39,
+      "cue": "containment",
+      "scene": "analogy",
+      "marker": "sits in",
+      "draw": "Nested boxes or a cross-section. Depth is the point.",
+      "section": null,
+      "text": "episodes based on frame lengths. But again, for the most part, the reward sits in the middle. Maybe there is no correlation. Again, the data itself says there is a 0.01 correlation. So it looks like"
+    },
+    {
+      "start": 1212.64,
+      "end": 1221.63,
+      "cue": "causal-chain",
+      "scene": "loop",
+      "marker": "leads to",
+      "draw": "Flow with drawn connectors. The arrow is the content.",
+      "section": null,
+      "text": "leads to higher reward, uh, let me run um, a bit of a query and try to find that out. And here also I can see that"
+    },
+    {
+      "start": 1221.89,
+      "end": 1229.14,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "versus",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "know, the path length versus final reward is pretty equally distributed with a correlation of 0.02, which means that"
+    },
+    {
+      "start": 1289.59,
+      "end": 1295.83,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "not just simple leader follower, but",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "complex set of motions, things have to get right, not just simple leader follower, but two arms trying to work in tandem."
+    },
+    {
+      "start": 1296.58,
+      "end": 1321.75,
+      "cue": "deixis",
+      "scene": "self-demonstrating",
+      "marker": "this one, this one",
+      "draw": "Annotation anchored to the real thing. Measure the point.",
+      "section": null,
+      "text": "and let's quickly run uh the metadata so this one has 50 episodes far fewer than the previous one but again a similar number of total frames which is 25 000 exactly total task is one which is insertion uh but this one is recorded at a higher frame rate 50 frames per second okay so that is good and now let's just do the episode lengths,"
+    },
+    {
+      "start": 1331.79,
+      "end": 1346.32,
+      "cue": "deixis",
+      "scene": "self-demonstrating",
+      "marker": "this one",
+      "draw": "Annotation anchored to the real thing. Measure the point.",
+      "section": null,
+      "text": "min episode length is 500, max upload length is 500, average is 500, which is curious because in Push-T, we had a huge variance, right? We had min at 59, max at 200 something. And in this one, each episode has the exact same number of frames,"
+    },
+    {
+      "start": 1404.63,
+      "end": 1423.72,
+      "cue": "failure",
+      "scene": "screenshot",
+      "marker": "failed",
+      "draw": "The real terminal, the real error, the real diff. Not a recreation.",
+      "section": null,
+      "text": "five minutes every episode, right? And then maybe there are some episodes where they failed, the task was not accomplished, and the robot just, you know, stopped halfway between. Again, what this would mean is that the tail end of the frames would be idle. That's my hunch. So what I'm checking for in"
+    },
+    {
+      "start": 1460.91,
+      "end": 1469.81,
+      "cue": "failure",
+      "scene": "screenshot",
+      "marker": "failed",
+      "draw": "The real terminal, the real error, the real diff. Not a recreation.",
+      "section": null,
+      "text": "maybe something is wrong. Maybe the robot failed, did not accomplish the task. These are the few episodes I want to look at. And if I look at these episodes,"
+    },
+    {
+      "start": 1518.78,
+      "end": 1539.77,
+      "cue": "deixis",
+      "scene": "self-demonstrating",
+      "marker": "this one",
+      "draw": "Annotation anchored to the real thing. Measure the point.",
+      "section": null,
+      "text": "uh trying to coordinate in between let's let's run this one and see what it's trying to do okay so we have a robot with the blue rectangle and a robot with the red rectangle and basically we're just trying to insert a red square a rectangle into a blue peg and let me rerun"
+    },
+    {
+      "start": 1810.29,
+      "end": 1818.65,
+      "cue": "causal-chain",
+      "scene": "loop",
+      "marker": "so the whole",
+      "draw": "Flow with drawn connectors. The arrow is the content.",
+      "section": null,
+      "text": "So the whole point of the profiler is every time I want to train a policy, I've curated"
+    },
+    {
+      "start": 1833.28,
+      "end": 1847.57,
+      "cue": "deixis",
+      "scene": "self-demonstrating",
+      "marker": "this one",
+      "draw": "Annotation anchored to the real thing. Measure the point.",
+      "section": null,
+      "text": "And this one notebook, the parameterized notebook I built, handled two simulated data sets, um, And uh, since LeRobot follows a standard and I built it to the spec, I'm confident it should be able to also work on real-world data, but I'll test it, you know,"
+    },
+    {
+      "start": 1867.19,
+      "end": 1872.04,
+      "cue": "cycle",
+      "scene": "loop",
+      "marker": "back and forth",
+      "draw": "Closed ring. Travelling dot so a long beat is never still.",
+      "section": null,
+      "text": "Claude did assist me and then we had fun together analyzing the data doing back and forth it was fun"
+    }
+  ],
+  "signals": [
+    {
+      "kind": "long-pause",
+      "at": 387.25,
+      "seconds": 1.93,
+      "why": "1.93s of silence before 'state.'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 563.07,
+      "seconds": 2.4,
+      "why": "2.40s of silence before 'All'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 870.24,
+      "seconds": 1.83,
+      "why": "1.83s of silence before 'other'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 926.1,
+      "seconds": 2.19,
+      "why": "2.19s of silence before 'Alright,'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 967.9,
+      "seconds": 1.89,
+      "why": "1.89s of silence before 'uh,'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 1155.57,
+      "seconds": 2.01,
+      "why": "2.01s of silence before 'Maybe'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 1316.29,
+      "seconds": 1.58,
+      "why": "1.58s of silence before 'okay'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 1320.87,
+      "seconds": 1.62,
+      "why": "1.62s of silence before 'episode'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 1527.66,
+      "seconds": 1.64,
+      "why": "1.64s of silence before 'rectangle'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 1534.86,
+      "seconds": 2.46,
+      "why": "2.46s of silence before 'square'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 1586.49,
+      "seconds": 1.99,
+      "why": "1.99s of silence before 'rectangle'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 1737.65,
+      "seconds": 1.6,
+      "why": "1.60s of silence before 'Nine'. He is landing something."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 98.7,
+      "seconds": 6.56,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 171.02,
+      "seconds": 20.47,
+      "why": "20.5s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 171.02,
+      "seconds": 20.47,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 247.13,
+      "seconds": 20.09,
+      "why": "20.1s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 373.2,
+      "seconds": 10.63,
+      "why": "'joints' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 407.29,
+      "seconds": 8.58,
+      "why": "'does' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 418.57,
+      "seconds": 20.86,
+      "why": "20.9s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 626.35,
+      "seconds": 8.1,
+      "why": "'length' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 658.15,
+      "seconds": 13.95,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 715.12,
+      "seconds": 14.45,
+      "why": "'percentile' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 715.12,
+      "seconds": 14.45,
+      "why": "'frames' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 750.44,
+      "seconds": 21.26,
+      "why": "21.3s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 818.61,
+      "seconds": 15.35,
+      "why": "'rerun' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 898.32,
+      "seconds": 10.45,
+      "why": "'it's' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1057.44,
+      "seconds": 27.32,
+      "why": "27.3s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1057.44,
+      "seconds": 27.32,
+      "why": "'does' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1057.44,
+      "seconds": 27.32,
+      "why": "'reward' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1057.44,
+      "seconds": 27.32,
+      "why": "'next' said 5 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1263.84,
+      "seconds": 11.97,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1331.79,
+      "seconds": 14.53,
+      "why": "'500' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1450.03,
+      "seconds": 6.1,
+      "why": "'motion' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1518.78,
+      "seconds": 20.99,
+      "why": "21.0s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1518.78,
+      "seconds": 20.99,
+      "why": "'trying' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1518.78,
+      "seconds": 20.99,
+      "why": "'rectangle' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1733.88,
+      "seconds": 27.47,
+      "why": "27.5s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1872.59,
+      "seconds": 20.19,
+      "why": "20.2s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1872.59,
+      "seconds": 20.19,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    }
+  ]
+}

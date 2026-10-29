@@ -497,7 +497,9 @@
     "sfxDb": -10,
     "sfxPerVideoMax": 6,
     "_musicBedDbWhy": "Changed to -12 on 2026-09-09: at -9 the director found the bed too loud under both the intro and the outro. -12 is the next rung down on the same four-way A/B (-18/-12/-9/-6) he ran on 2026-08-31, when -18 was inaudible and he picked -9. Previously: Changed from -18 to -9 on 2026-08-31: the human could not hear the bed at -18 and picked -9 from a four-way A/B at -18/-12/-9/-6. Still NOT ducked; if a future bed fights the voice, lower it before reaching for a sidechain.",
-    "_voiceEq": "140Hz +1, 280Hz -3 (Q1.1), 3400Hz +4.0 (Q2.0), then a de-esser. Chosen by ear. The presence bell must stay NARROW: a first attempt at 3.8kHz Q0.9 lifted 5-9kHz with the consonants and read as harsh and sibilant."
+    "_voiceEq": "140Hz +1, 280Hz -3 (Q1.1), 3400Hz +4.0 (Q2.0), then a de-esser. Chosen by ear. The presence bell must stay NARROW: a first attempt at 3.8kHz Q0.9 lifted 5-9kHz with the consonants and read as harsh and sibilant.",
+    "musicIntroEnd": "openingBitPause",
+    "_musicIntroEndWhy": "Human 2026-10-28 (02-data-profiling): the intro bed ends in the first natural pause after the opening bit (the turn to \"So this week...\"), not at the demo entry. On 02 it ran to 7:37 and went on too long; it now ends at 3:35. The fade lands inside the pause. Anchored by words in the cut transcript, never typed. style.md Pacing has the how."
   },
   "render": {
     "hyperframesVersion": "0.8.3",
@@ -812,6 +814,10 @@
     {
       "date": "2026-10-25",
       "rule": "Type that restates the speech (a running headline) lands on its cue, never before, and never on cards that already label themselves."
+    },
+    {
+      "date": "2026-10-28",
+      "rule": "The intro music bed ends in the first natural pause after the opening bit, not at the demo."
     }
   ],
   "cut": {

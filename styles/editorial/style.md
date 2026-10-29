@@ -473,6 +473,14 @@ headline word. Never both.
 - Cut pauses (`cut` in `style.json`): **0.6–1.0s between sentences, 1.5s at a section change**
   (hook to thesis, intro to demo, demo to outro), taken from the recording's own silence. Mid-sentence
   joins stay tight. A section beat is the place a later music swell or graphic can land.
+- **The intro music bed stops when the opening bit ends, not at the demo** (human, 2026-10-28,
+  02-data-profiling). The bed covers the hook and the opening argument, then fades out into the
+  first natural pause after it, usually the pause before "So this week..." or wherever the video
+  turns to what it will actually do. The fade lands inside that pause, so the next section
+  starts dry. On 02 the bed ran under the whole intro to the demo (7:37) and "goes on for too
+  long"; it now ends at 3:35. Find the pause in the cut transcript by its words, never as a typed
+  time, and check the file afterwards by measuring the pauses on either side. The outro bed is
+  unchanged.
 - Average `head` beat: 4–7s. Anything over 12s wants a `chip` or a `push`.
 - `panel` runs: 15–45s, containing 2–5 content swaps.
 - `takeover`: 6–20s. Under 6s reads as a glitch.
@@ -605,7 +613,10 @@ Corrections that should apply to every future video get appended here (and to `l
   on consecutive frames, not single stills: a still-frame QA passed every one of these faults.
 - **2026-09-29: marks over a screen recording are paper, not ink.** A box, underline or tick that is
   not the one `$accent` mark is drawn in `$bg`. Terminals measure dark, and on 05-agent-swarm every
-  ink mark disappeared into them.
+  ink mark disappeared into them. **Refined 2026-10-28 (02-data-profiling):** the rule is about the
+  luma under the mark, not the source. Over a region that measures light (a white matplotlib plot, a
+  Rerun image panel) marks are `$ink`, because paper vanishes there exactly as ink does on a terminal.
+  Measure the region; never choose by the app name.
 - **2026-09-29: the demo inset hides only when a punch-in needs its corner.** Hide it for the frames
   where the zoomed target reaches the inset, merge hides less than 20s apart, and prefer moving it
   top-right when the speaker's reactions are part of the beat.
