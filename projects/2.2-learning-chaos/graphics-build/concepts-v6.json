@@ -1,0 +1,465 @@
+{
+  "source": "projects/2.2-learning-chaos/outputs/transcript-cut-v6.json",
+  "fps": 30.0,
+  "totalSeconds": 1467.167,
+  "candidates": [
+    {
+      "start": 10.34,
+      "end": 26.67,
+      "cue": "branch",
+      "scene": "loop",
+      "marker": "unless",
+      "draw": "Fork. Two paths from one node, the taken one in accent.",
+      "section": null,
+      "text": "Unless you introduce stochasticity into the learning process, you cannot get a machine to handle the real world. Dennis Noble said that in a lecture on biological intelligence, quoting Alan Turing back to 1950."
+    },
+    {
+      "start": 27.41,
+      "end": 37.12,
+      "cue": "failure",
+      "scene": "screenshot",
+      "marker": "failed",
+      "draw": "The real terminal, the real error, the real diff. Not a recreation.",
+      "section": null,
+      "text": "But I ignored both the advice last week and tried to code a deterministic robot policy and failed miserably at it."
+    },
+    {
+      "start": 78.73,
+      "end": 91.6,
+      "cue": "failure",
+      "scene": "screenshot",
+      "marker": "failed",
+      "draw": "The real terminal, the real error, the real diff. Not a recreation.",
+      "section": null,
+      "text": "how I went about creating a deterministic policy, what failed, how I fell back on learning from data, and then how I eventually met success. And then, you know, how"
+    },
+    {
+      "start": 129.4,
+      "end": 140.83,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "not make use of mujoco, but",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "All right. So like I already mentioned, Gym Push T does not make use of MuJoCo, but it makes use of Pymunk 2D physics somewhat easier. I don't need like a specialist machine for that. I can just run uh,"
+    },
+    {
+      "start": 154.81,
+      "end": 168.62,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "instead of",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "the current position of the pusher. And the render mode is RGB array. That means I'm asking it to collect data instead of running a sim for a human observation on the screen. So let's run this cell."
+    },
+    {
+      "start": 494.63,
+      "end": 510.59,
+      "cue": "cycle",
+      "scene": "loop",
+      "marker": "in a loop",
+      "draw": "Closed ring. Travelling dot so a long beat is never still.",
+      "section": null,
+      "text": "its edge and swinging it down in a loop as a cowboy would try to, you know, rope something, right? uh, That's why I call this policy a cowboy. So the this was my attempt. at using or creating determinism or creating a deterministic policy"
+    },
+    {
+      "start": 534.8,
+      "end": 564.19,
+      "cue": "containment",
+      "scene": "analogy",
+      "marker": "sits in",
+      "draw": "Nested boxes or a cross-section. Depth is the point.",
+      "section": null,
+      "text": "was a failure. So then I tried something else. I'm like, hey, you know what? I am not super smart. Let me try AI. Right. So I asked Gemini to write me a policy. I don't have the code here because the policy. uh, Jim, I did not even understand the basics. I did not even take into consideration where the current position is. It just assumed that, you know, the goal is 400 by 400. So if I ran the policy, which I did, it just, the pusher just goes and sits in a corner. He doesn't even make"
+    },
+    {
+      "start": 571.6,
+      "end": 574.46,
+      "cue": "duration",
+      "scene": "stat",
+      "marker": "took me",
+      "draw": "Timeline bar or clock. Compare against the alternative duration.",
+      "section": null,
+      "text": "five minutes. It took me a whole week to figure things out,"
+    },
+    {
+      "start": 574.86,
+      "end": 586.0,
+      "cue": "cycle",
+      "scene": "loop",
+      "marker": "back and forth",
+      "draw": "Closed ring. Travelling dot so a long beat is never still.",
+      "section": null,
+      "text": "do back and forth, bunch of codes, bunch of versions, uh, And then I'm like, hey, I'm just wasting my time. And that's when the whole learning from Dennis Noble and then uh, Alan Turing came where, hey, you know, to do,"
+    },
+    {
+      "start": 648.37,
+      "end": 659.77,
+      "cue": "magnitude",
+      "scene": "stat",
+      "marker": "80 minutes",
+      "draw": "Count-up or proportion bar. Lands ON the number being said.",
+      "section": null,
+      "text": "you know, more than just, you know, X episodes, uh, And running the policy for 50 episodes on a M5 Pro took me about 80 minutes, 80 to 90 minutes. So I couldn't run a whole thousand episodes,"
+    },
+    {
+      "start": 682.88,
+      "end": 696.93,
+      "cue": "magnitude",
+      "scene": "stat",
+      "marker": "74 percent",
+      "draw": "Count-up or proportion bar. Lands ON the number being said.",
+      "section": null,
+      "text": "74 percent success rate. So that was good, right? So finally I got my SIM data running on my own machine and not using the community data. So the next thing which I actually wanted to do, I set out to do, is"
+    },
+    {
+      "start": 727.06,
+      "end": 735.89,
+      "cue": "deixis",
+      "scene": "self-demonstrating",
+      "marker": "right here",
+      "draw": "Annotation anchored to the real thing. Measure the point.",
+      "section": null,
+      "text": "Yeah, right here. So here, I'm uh, defining DS as a Lee robot data set. The name is push_t underscore sim, FPS 10."
+    },
+    {
+      "start": 812.51,
+      "end": 834.29,
+      "cue": "failure",
+      "scene": "screenshot",
+      "marker": "failed",
+      "draw": "The real terminal, the real error, the real diff. Not a recreation.",
+      "section": null,
+      "text": "from the... uh from the actual diffusion policy and since each one of them you know runs until completion or for 300 frames i have approximately 300 uh k plus frames which makes sense especially all of those thousand uh random policies they ran for 300 steps and they failed right uh none of them"
+    },
+    {
+      "start": 895.88,
+      "end": 914.67,
+      "cue": "failure",
+      "scene": "screenshot",
+      "marker": "failed",
+      "draw": "The real terminal, the real error, the real diff. Not a recreation.",
+      "section": null,
+      "text": "And then if I show you here, so the random policy all have 300 frames because my logic said either until termination where the task succeeds or you run 300 steps and all of them failed after trying for 300 steps. So they are all 300. And then I look at the diffusion policy, they go all the way from"
+    },
+    {
+      "start": 983.64,
+      "end": 999.36,
+      "cue": "failure",
+      "scene": "screenshot",
+      "marker": "failed, failed",
+      "draw": "The real terminal, the real error, the real diff. Not a recreation.",
+      "section": null,
+      "text": "episodes dead joints let's also check them and then yeah no dead joints no idle episodes again yeah even though i have this random policy nothing just you know failed and sat there uh even the random ones ran for the whole steps that it tried to do something and then they failed"
+    },
+    {
+      "start": 1176.52,
+      "end": 1182.91,
+      "cue": "magnitude",
+      "scene": "stat",
+      "marker": "most of",
+      "draw": "Count-up or proportion bar. Lands ON the number being said.",
+      "section": null,
+      "text": "it does understand their style it tries to generate something new out of it again most of it is slop again"
+    },
+    {
+      "start": 1261.13,
+      "end": 1264.72,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "not i don't know but",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "catastrophic or not i don't know but i am hopeful about the future"
+    },
+    {
+      "start": 1322.31,
+      "end": 1349.4,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "not easy, as in not writing the code, but",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "And another last takeaway for me from this week is generating data is not easy, as in not writing the code, but the kind of compute power you need. It takes, like in my case, just generating 50 episodes from a diffusion policy. I don't know what the size of the neural net is, how many million or thousands of parameters. I don't know. I'll need to look it up."
+    },
+    {
+      "start": 1350.19,
+      "end": 1355.9,
+      "cue": "magnitude",
+      "scene": "stat",
+      "marker": "90 minutes",
+      "draw": "Count-up or proportion bar. Lands ON the number being said.",
+      "section": null,
+      "text": "on an m5 pro like a consumer class pro machine it took me 90 minutes"
+    },
+    {
+      "start": 1356.21,
+      "end": 1365.72,
+      "cue": "analogy",
+      "scene": "analogy",
+      "marker": "imagine",
+      "draw": "One drawn object, line art, built in movements on the spoken cues.",
+      "section": null,
+      "text": "once i had everything figured out it took me 90 minutes for me to generate the data just for 50 episodes imagine i need thousand two thousand maybe 100k episodes"
+    },
+    {
+      "start": 1395.55,
+      "end": 1405.05,
+      "cue": "contrast",
+      "scene": "contrast",
+      "marker": "not take the naming on face value. but",
+      "draw": "Split frame. Two states side by side, both visible at the end.",
+      "section": null,
+      "text": "was misleading or I could not take the naming on face value. But again, a lot of data sets out there. So the goal is to learn to make use of them."
+    }
+  ],
+  "signals": [
+    {
+      "kind": "long-pause",
+      "at": 396.76,
+      "seconds": 1.56,
+      "why": "1.56s of silence before 'overlapping'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 613.06,
+      "seconds": 1.66,
+      "why": "1.66s of silence before 'when'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 767.86,
+      "seconds": 1.7,
+      "why": "1.70s of silence before 'uh,'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 814.9,
+      "seconds": 1.67,
+      "why": "1.67s of silence before 'uh'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 967.5,
+      "seconds": 1.58,
+      "why": "1.58s of silence before 'I'm'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 980.08,
+      "seconds": 1.8,
+      "why": "1.80s of silence before 'expect'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 983.14,
+      "seconds": 1.67,
+      "why": "1.67s of silence before 'uh'. He is landing something."
+    },
+    {
+      "kind": "long-pause",
+      "at": 1007.59,
+      "seconds": 1.8,
+      "why": "1.80s of silence before 'per'. He is landing something."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 181.29,
+      "seconds": 5.26,
+      "why": "'5-fold' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 200.24,
+      "seconds": 11.89,
+      "why": "'there's' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 253.46,
+      "seconds": 24.47,
+      "why": "24.5s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 295.38,
+      "seconds": 21.81,
+      "why": "21.8s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 295.38,
+      "seconds": 21.81,
+      "why": "'each' said 5 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 295.38,
+      "seconds": 21.81,
+      "why": "'episode' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 295.38,
+      "seconds": 21.81,
+      "why": "'seed' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 295.38,
+      "seconds": 21.81,
+      "why": "'position' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 295.38,
+      "seconds": 21.81,
+      "why": "'certain' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 317.8,
+      "seconds": 24.36,
+      "why": "24.4s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 364.36,
+      "seconds": 11.46,
+      "why": "'policy' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 413.88,
+      "seconds": 21.35,
+      "why": "21.3s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 453.19,
+      "seconds": 41.19,
+      "why": "41.2s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 453.19,
+      "seconds": 41.19,
+      "why": "'here' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 516.94,
+      "seconds": 7.11,
+      "why": "'without' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 534.8,
+      "seconds": 29.39,
+      "why": "29.4s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 534.8,
+      "seconds": 29.39,
+      "why": "'policy' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 534.8,
+      "seconds": 29.39,
+      "why": "'even' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 648.37,
+      "seconds": 11.4,
+      "why": "'episodes' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 704.05,
+      "seconds": 9.52,
+      "why": "'data' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 788.66,
+      "seconds": 23.35,
+      "why": "23.4s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 812.51,
+      "seconds": 21.78,
+      "why": "21.8s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 917.51,
+      "seconds": 6.14,
+      "why": "'succeed' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 949.23,
+      "seconds": 22.6,
+      "why": "22.6s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1008.57,
+      "seconds": 22.76,
+      "why": "22.8s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1183.47,
+      "seconds": 12.29,
+      "why": "'code' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1210.85,
+      "seconds": 49.98,
+      "why": "50.0s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1290.61,
+      "seconds": 25.11,
+      "why": "25.1s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1290.61,
+      "seconds": 25.11,
+      "why": "'data' said 5 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1290.61,
+      "seconds": 25.11,
+      "why": "'policy' said 4 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1322.31,
+      "seconds": 27.1,
+      "why": "27.1s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    },
+    {
+      "kind": "repeated-word",
+      "at": 1382.45,
+      "seconds": 12.87,
+      "why": "'were' said 3 times in one breath group. That word is the concept. Promote it to type and drop the rest."
+    },
+    {
+      "kind": "long-beat",
+      "at": 1412.15,
+      "seconds": 25.88,
+      "why": "25.9s in one breath group. Above the style's 20s continuous-motion floor, so whatever goes here must keep moving for its whole run."
+    }
+  ]
+}

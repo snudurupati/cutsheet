@@ -1,0 +1,7 @@
+{
+ "_note": "Authoritative zones for 02-data-profiling, canvas 1920x1080. Measured with styles/measure_zones.py on all four camera takes, re-run on a 96x54 grid (20px cells) because the default 60px grid read takes a-c as 480 wide, one cell under the 500x260 minimum (zones-by-take/zf-*.json are the fine runs, zones-*.json the default ones). Clear wall left of the face: a and b x 0-500 to y 900 plus x 500-720 to y 560; c x 0-520 to y 860 plus 520-660 to y 500; d x 0-640 to y 640 plus x 0-260 to y 1040. The speaker's shoulders fill the lower left on a-c, so a card taller than about y 540 must stay narrow.",
+ "heroLeft":   {"x": 48, "y": 48,  "w": 592, "h": 492, "why": "clear on all four takes (tightest: c, x<=660 above y 500; d above y 640)"},
+ "column":     {"x": 48, "y": 48,  "w": 432, "h": 812, "why": "tall narrow column clear on all takes (a-c x<=500 to y 860)"},
+ "demoInset":  "from style.json graphics.pip.demoInset; the demo is a screen recording, so cards there go opaque regardless of luma",
+ "panelTreatment": "left wall measures 136-145 on every take (lightReinforced); the right edge strip x 1800+ reads 156 (inverted) but is too narrow for cards"
+}

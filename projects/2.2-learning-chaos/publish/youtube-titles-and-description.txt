@@ -1,0 +1,40 @@
+2.2-learning-chaos: titles, description, tags
+
+Youtube Playlist: AI-Assisted Data Engineering for Robotics.
+
+TITLES (characters in brackets; about 60 survives on mobile and in the sidebar)
+
+Human Approved
+A. I Tried to Hand-Code a Robot Policy. Physics Said No.
+   Thumbnail A: the smiling face (face-finder variant A) centred on the right,
+   head and shoulders full in frame, the Push-T board card in the left negative
+   space: the T mid-swing on the cowboy loop arc in $accent under "PHYSICS HAS
+   ITS OWN MIND", "CHAOS." big at the bottom.
+
+
+DESCRIPTION
+
+The description body in youtube-description.txt is built only from verbatim spoken
+lines (make_publish.py gates it): the hook, the chaos line, the Turing line and the
+Denis Noble attribution, exactly as said.
+
+Chapters (16, all verbatim, from youtube-description.txt; chapters 7-11 ride the
+story beats inside the demo, 12-16 the takeaways):
+
+Full description = youtube-description.txt as written by make_publish.py.
+Add at upload, below the chapters if the human wants links visible:
+
+  Code and datasets: github.com/snudurupati (physical-ai-data-architect, week-03)
+  The profiler runs on any LeRobot dataset: 01_profiler.ipynb
+
+TAGS
+
+youtube-tags.txt, 16 tags, 206 chars (YouTube limit 500). Every tag is a term the
+transcript contains; LeRobot passes via the flagged-mishear fix.
+
+THUMBNAILS
+
+assets/thumbnail/thumb-A-*.png and thumb-B-*.png, 1280x720, plus -feed-360.png
+previews. Face plates from the RAW clips (frame-finder picks, two distinct
+expressions), no grade, light sharpen only, per skill Step 4b. Built by
+graphics-build/make_thumbnails.py (ported from 2.1).

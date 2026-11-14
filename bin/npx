@@ -1,0 +1,8 @@
+#!/bin/bash
+# npx wrapper: redirects npm's cache out of $HOME so the workspace-write file
+# sandbox never turns ~/.npm/_logs write denials into EACCES errors. The cache
+# lives inside the workspace, so it is writable under every sandbox mode and
+# hyperframes stays warm between runs. Put <repo>/bin first on PATH.
+export npm_config_cache="${npm_config_cache:-$HOME/Projects/cutsheet/.scratch/npm-cache}"
+# Absolute path on purpose: a bare `exec npx` would match this wrapper again.
+exec /opt/homebrew/bin/npx "$@"

@@ -1,8 +1,14 @@
 # cutsheet
 
-An opinionated pipeline for editing long-form technical talking-head video with Claude
-Code. Raw camera and screen recordings go in, a finished, graded, graphicked 4K video
+An opinionated pipeline for editing long-form technical talking-head video with a coding
+agent. Raw camera and screen recordings go in, a finished, graded, graphicked 4K video
 comes out, and every step is gated on a measurement rather than a judgement call.
+
+**Agent stack (v4.0.0, 2026-11-14):** the pipeline runs on DeepSeek Harness with Qwen 3.8
+Flash Next FP4 on an NVIDIA DGX Spark. Earlier releases, v3.0.0 and below, were driven by
+Claude Code. The pipeline is model-agnostic. The contract files, the five skills, the style
+system and every gate are plain files and scripts. What the model supplies is judgement at
+the checkpoints; what the harness supplies is the tools around it.
 
 It is not a video editor. There is no timeline and no UI. It is five stages with
 artifacts between them, and a style system that decides how things look so the model
@@ -16,7 +22,7 @@ excluded, because they are either regenerable or belong to a particular video.
 
 | # | Stage | What happens | Runs on |
 |---|-------|--------------|---------|
-| 0 | Setup | Workspace, brand file, style files. Once, ever. | Claude |
+| 0 | Setup | Workspace, brand file, style files. Once, ever. | The agent (v4: Qwen 3.8 Flash Next FP4 on DGX Spark via DeepSeek Harness; v3 and below: Claude Code) |
 | 1 | Rough cut | Transcribe every word with timings, decide what goes, cut and stitch. | WhisperX + FFmpeg |
 | 2 | Graphics | Decide which lines earn a graphic, then build each as code. | HyperFrames |
 | 3 | B-roll | Generate footage for beats that have none. | HyperFrames + Higgsfield |

@@ -118,7 +118,10 @@
       "contrast",
       "loop",
       "strike-list",
-      "self-demonstrating"
+      "self-demonstrating",
+      "map",
+      "lens",
+      "unit-dots"
     ],
     "defaultToNoGraphic": true,
     "pipEntersOncePerRun": true,
@@ -419,6 +422,70 @@
     "endCard": {
       "endsAfterSignOffSeconds": 2.3,
       "_why": "01-robotics-as-de (human 2026-10-17): the end card's first ~4s are the whole of it; the video ends ~2.3s after the spoken sign-off, before the speaker looks away. A longer hold shows the speaker turning from camera."
+    },
+    "_newSceneTypesWhy": "map, lens and unit-dots were taken from a reference explainer (Matt Madigan, '1,000 Years of Tech Comes in the Next 10 Years?') and proven on motion-techniques-poc (the first 5:27 of 01-robotics-as-de, 2026-10-25): after three review rounds the composition reviewer judged these three and the step-build the techniques that clearly beat the shipped cut. Anatomy in style.md.",
+    "map": {
+      "visitsPerVideo": {
+        "min": 2,
+        "max": 3
+      },
+      "sameGeometryEveryVisit": true,
+      "stateChangesBetweenVisits": true,
+      "unlitNodesFaintFromFirstFrame": true,
+      "labelsOnPaperBacking": true,
+      "edgeStopsShortOfNodePx": 22,
+      "_why": "a single orange node in an empty card for 8s read as 'why is the card empty' (m2, review round 2); edges ended inside labels and travelling dots sat on letters until labels got a paper backing (round 1)."
+    },
+    "lens": {
+      "growsOutOfItsNode": true,
+      "nodeStaysVisibleWithLeader": true,
+      "maxDiameterPx": 330,
+      "showsContentFromFirstFrame": true,
+      "coveredLabelsFadeWhileOpen": true,
+      "contentsFadeBeforeItCloses": true,
+      "closeSeconds": 1.0,
+      "_why": "an empty white disc that hid the node it grew from read as a modal popup, not a zoom (round 1); a 4s near-empty disc over 'multimodal' wasted the beat built to show it (round 2)."
+    },
+    "unitDots": {
+      "keyRequired": true,
+      "smallCountLitAsCluster": true,
+      "contrastHoldsUntilNextBeat": true,
+      "bigNumberLeavesRatherThanShrinks": true,
+      "_why": "without a '1 dot = N' key the dots were decoration; 11 lit dots in a column read as an orange line; a miniaturised 80,000 block left 7px labels; re-inking the grid buried the 11 again (reviews 2026-10-25)."
+    },
+    "stepBuild": {
+      "oneElementPerCue": true,
+      "containerFillsAsElementsLand": true,
+      "minFontPx": 20,
+      "overshootEaseWhenGapUnderPx": 8,
+      "_why": "the step-build is the beat, so it plays at readable size: 14px chips in a lens read as a thumbnail (round 1); a back.out pop touched the chip above when they sat 5px apart (DOM check, round 3). overshootEaseWhenGapUnderPx: below this gap use a plain ease-out."
+    },
+    "minReadableTextPx": 20,
+    "_minReadableTextPxWhy": "round 2 QA measured lens labels and topic labels at 16-18px; every new card was raised to 20-22px.",
+    "trial": {
+      "_what": "techniques that worked once on motion-techniques-poc. Use them on the next video; promote them to standard only after a second use confirms them (composition reviewer, 2026-10-25).",
+      "recurringMotif": {
+        "enabled": true,
+        "oneSilhouettePerVideo": true,
+        "plantInAHeadBeat": true,
+        "_how": "one drawn object (on 01: a stream line with ticks) introduced early and paid off later in a changed state. As five loosely related shapes it did not read as one object returning; only m2 into l1 did."
+      },
+      "speakerMarker": {
+        "enabled": true,
+        "drawnPinWhenFaceOnScreen": true,
+        "photoOnlyWhenFaceOffScreen": true,
+        "arrivalHoldsSeconds": 1.2,
+        "_how": "a photo badge of the speaker 700px from his real face read as a sticker; a small ink pin labelled 'you' that lands on the data and travels onto a point worked once its arrival held (rounds 1-2)."
+      },
+      "runningHeadline": {
+        "enabled": false,
+        "onlyOverCardsThatDoNotLabelThemselves": true,
+        "onTakeovers": false,
+        "onePerSectionAccumulatingOnly": true,
+        "keywordAccent": false,
+        "entersOnItsSectionsFirstCue": true,
+        "_why": "on every card it repeated the speech and the cards' own labels, added a second and third accent and blinked per card (round 1). Trimmed, it was 'acceptable, not essential' (round 2). Off by default; the human turns it on per video."
+      }
     }
   },
   "audio": {
@@ -430,7 +497,13 @@
     "sfxDb": -10,
     "sfxPerVideoMax": 6,
     "_musicBedDbWhy": "Changed to -12 on 2026-09-09: at -9 the director found the bed too loud under both the intro and the outro. -12 is the next rung down on the same four-way A/B (-18/-12/-9/-6) he ran on 2026-08-31, when -18 was inaudible and he picked -9. Previously: Changed from -18 to -9 on 2026-08-31: the human could not hear the bed at -18 and picked -9 from a four-way A/B at -18/-12/-9/-6. Still NOT ducked; if a future bed fights the voice, lower it before reaching for a sidechain.",
-    "_voiceEq": "140Hz +1, 280Hz -3 (Q1.1), 3400Hz +4.0 (Q2.0), then a de-esser. Chosen by ear. The presence bell must stay NARROW: a first attempt at 3.8kHz Q0.9 lifted 5-9kHz with the consonants and read as harsh and sibilant."
+    "_voiceEq": "140Hz +1, 280Hz -3 (Q1.1), 3400Hz +4.0 (Q2.0), then a de-esser. Chosen by ear. The presence bell must stay NARROW: a first attempt at 3.8kHz Q0.9 lifted 5-9kHz with the consonants and read as harsh and sibilant.",
+    "musicIntroEnd": "openingBitPause",
+    "_musicIntroEndWhy": "Human 2026-10-28 (02-data-profiling): the intro bed ends in the first natural pause after the opening bit (the turn to \"So this week...\"), not at the demo entry. On 02 it ran to 7:37 and went on too long; it now ends at 3:35. The fade lands inside the pause. Anchored by words in the cut transcript, never typed. style.md Pacing has the how.",
+    "musicIntroStart": "frame0",
+    "_musicIntroStartWhy": "Human 2026-11-13 (2.2-learning-chaos): the intro bed runs under the hook from 0:00. The 2.2 plan opened dry to 0:27 and the human corrected it ('music should start at 0:00'). This is the same direction as musicIntroEnd: the bed covers the hook and the opening argument, so it cannot start after the hook has begun. A dry cold open only when the human asks for one.",
+    "musicClickFreeHeadSeconds": 0.8,
+    "_musicClickFreeHeadWhy": "Not a musical fade-in (musicFadeIn stays false: a bed entering mid-video starts inside a natural pause, no ramp). A bed starting at frame 0 needs an ~0.8s afade=t=in:st=0 on its first samples or the first frame clicks. mix_audio.py reads an optional fadeIn key the plan emits for placements at 0."
   },
   "render": {
     "hyperframesVersion": "0.8.3",
@@ -725,6 +798,90 @@
     {
       "date": "2026-10-18",
       "rule": "Short-form captions are bottom-anchored at y 1600, not 1420: on this framing 1420 is the mouth. And a Short splits its layout only while a card is FULLY drawn (measured on the render's alpha), never on the part's span."
+    },
+    {
+      "date": "2026-10-25",
+      "rule": "A diagram planted early and returned to with its state changed (map) beats a fresh diagram each time; it is the strongest technique taken from the reference video."
+    },
+    {
+      "date": "2026-10-25",
+      "rule": "A count shown as dots needs a '1 dot = N' key and the small number lit as a cluster, and the comparison holds until the next beat."
+    },
+    {
+      "date": "2026-10-25",
+      "rule": "A lens grows out of a node, keeps that node visible on a leader, and has content on its first frame."
+    },
+    {
+      "date": "2026-10-25",
+      "rule": "A drawn object can replace a photo of the speaker when the speaker is on screen; the photo reads as a sticker."
+    },
+    {
+      "date": "2026-10-25",
+      "rule": "Type that restates the speech (a running headline) lands on its cue, never before, and never on cards that already label themselves."
+    },
+    {
+      "date": "2026-10-28",
+      "rule": "The intro music bed ends in the first natural pause after the opening bit, not at the demo."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "Graphics go on the side the face is NOT on, measured per job into zones.json; never hardcoded left. A recording that mirrors the room must not mirror the style file."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "Hold the end card +2.3s only when the look-away tail exists in the footage; when the human asks to cut at the sign-off word, cut there."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "A mood aside gets a lighter card weight with one accent word; loudness follows whether the line is the argument, not whether it is positive."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "Skip the subject-matte pass when no card box overlaps the measured face column; matte envelopes are built only for parts that composite over the speaker."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "Calibrate the face edge near card borders on skin chroma, not luma; skin and a lit wall can match on luma with the cheek 2px off the card edge."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "drawOn(): the id goes on the <path> itself, never a wrapper group, or the entrance animates nothing at render time."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "exitIfFree adds no exit tween when the next part abuts within 0.02s; audit only gaps above 0.02s."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "A music track shorter than the outro continues by restarting from its head in placements until the end (2.1 m1/m1b/m2 pattern), one final 1.5s fade under the end card; brief lifts ride story beats by part-id lookup, not typed seconds."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "Card hold floor: if the human flags a graphic as flashing (~1s), extend the part end into the measured gap; cues are part-relative so extending an end never breaks them (2.2 g04/g05/gZ11/gZ20b/g23b/g25)."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "Demo inset sourceCrop is measured from the head extent on the face cam (contiguous skin-chroma blob), centred with margin, verified on frames across the span; a guessed corner crop clipped half the face for the whole demo (2.2)."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "Intro bed starts at 0:00 under the hook (see audio.musicIntroStart); dry cold-open delays are plan inventions, not style."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "Over a dark editor/notebook theme, the WHOLE mark set (grid strokes, axis numbers, underlines, non-accent marks) goes paper, not just the accent; ink-on-terminal vanishes. Per-region luma still decides, and a mid-hold frame is the proof (2.2 gZ3)."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "Pill/chip size is relative to neighbouring elements (a 13px-cap pill beside 2.6x zoomed code is illegible); default 30px+ near punch-ins, judged at delivered scale (2.2 gZ1)."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "Row-helper sub-labels inside bordered panels are right-aligned and box-measured (PIL) against the panel interior minus a gutter; a left-pinned nowrap label clipped the border at 4K and the checkpoint missed it (2.2 g27)."
+    },
+    {
+      "date": "2026-11-13",
+      "rule": "Parts are audited for a MISSING exitIfFree call, not just a no-op one: a part with no exit call hard-cuts on its last frame even when it has a real gap to the next part (2.2 gZ11)."
     }
   ],
   "cut": {

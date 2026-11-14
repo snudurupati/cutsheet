@@ -1,0 +1,253 @@
+/Users/snudurupati/.matplotlib is not a writable directory
+Matplotlib created a temporary cache directory at /var/folders/yp/w9_5qj011jg2z7v8rx1xtnpm0000gn/T/matplotlib-uc1kbek3 because there was an issue with the default path ({configdir}); it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+
+Fontconfig error: No writable cache directories
+	/opt/homebrew/var/cache/fontconfig
+	/Users/snudurupati/.cache/fontconfig
+	/Users/snudurupati/.fontconfig
+Matplotlib is building the font cache; this may take a moment.
+/Users/snudurupati/.local/share/uv/tools/whisperx/lib/python3.11/site-packages/pyannote/audio/core/io.py:48: UserWarning: 
+torchcodec is not installed correctly so built-in audio decoding will fail. Solutions are:
+* use audio preloaded in-memory as a {'waveform': (channel, time) torch.Tensor, 'sample_rate': int} dictionary;
+* fix torchcodec installation. Error message was:
+
+Could not load libtorchcodec. Likely causes:
+          1. FFmpeg is not properly installed in your environment. We support
+             versions 4, 5, 6 and 7.
+          2. The PyTorch version (2.8.0) is not compatible with
+             this version of TorchCodec. Refer to the version compatibility
+             table:
+             https://github.com/pytorch/torchcodec?tab=readme-ov-file#installing-torchcodec.
+          3. Another runtime dependency; see exceptions below.
+        The following exceptions were raised as we tried to load libtorchcodec:
+        
+[start of libtorchcodec loading traceback]
+FFmpeg version 7: dlopen(/Users/snudurupati/.local/share/uv/tools/whisperx/lib/python3.11/site-packages/torchcodec/libtorchcodec_core7.dylib, 0x0006): Library not loaded: @rpath/libavutil.59.dylib
+  Referenced from: <BF448463-930B-3F08-856F-2AF9AFFF76BA> /Users/snudurupati/.local/share/uv/tools/whisperx/lib/python3.11/site-packages/torchcodec/libtorchcodec_core7.dylib
+  Reason: tried: '/Users/snudurupati/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/libavutil.59.dylib' (no such file), '/Users/snudurupati/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/libavutil.59.dylib' (no such file)
+FFmpeg version 6: dlopen(/Users/snudurupati/.local/share/uv/tools/whisperx/lib/python3.11/site-packages/torchcodec/libtorchcodec_core6.dylib, 0x0006): Library not loaded: @rpath/libavutil.58.dylib
+  Referenced from: <6E3ACDED-AF57-30E4-9358-1125BD1A728E> /Users/snudurupati/.local/share/uv/tools/whisperx/lib/python3.11/site-packages/torchcodec/libtorchcodec_core6.dylib
+  Reason: tried: '/Users/snudurupati/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/libavutil.58.dylib' (no such file), '/Users/snudurupati/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/libavutil.58.dylib' (no such file)
+FFmpeg version 5: dlopen(/Users/snudurupati/.local/share/uv/tools/whisperx/lib/python3.11/site-packages/torchcodec/libtorchcodec_core5.dylib, 0x0006): Library not loaded: @rpath/libavutil.57.dylib
+  Referenced from: <DC904C0D-5983-30FC-B8F0-675709386079> /Users/snudurupati/.local/share/uv/tools/whisperx/lib/python3.11/site-packages/torchcodec/libtorchcodec_core5.dylib
+  Reason: tried: '/Users/snudurupati/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/libavutil.57.dylib' (no such file), '/Users/snudurupati/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/libavutil.57.dylib' (no such file)
+FFmpeg version 4: dlopen(/Users/snudurupati/.local/share/uv/tools/whisperx/lib/python3.11/site-packages/torchcodec/libtorchcodec_core4.dylib, 0x0006): Library not loaded: @rpath/libavutil.56.dylib
+  Referenced from: <71D7CAF1-D4C7-3A4F-8420-4076952A403C> /Users/snudurupati/.local/share/uv/tools/whisperx/lib/python3.11/site-packages/torchcodec/libtorchcodec_core4.dylib
+  Reason: tried: '/Users/snudurupati/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/libavutil.56.dylib' (no such file), '/Users/snudurupati/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/libavutil.56.dylib' (no such file)
+[end of libtorchcodec loading traceback].
+  warnings.warn(
+2026-11-11 14:02:26.624 python[18012:1826394] 2026-11-11 14:02:26.624500 [W:onnxruntime:Default, telemetry.cc:800 operator()] Failed to persist telemetry device ID; using an in-memory identifier
+2026-11-11 14:02:26 - whisperx.asr - INFO - Compute type not specified, defaulting to float32 for device cpu
+Ignored error while writing commit hash to /Users/snudurupati/.cache/huggingface/hub/models--Systran--faster-whisper-large-v3/refs/main: [Errno 1] Operation not permitted: '/Users/snudurupati/.cache/huggingface/hub/models--Systran--faster-whisper-large-v3/refs/main'.
+2026-11-11 14:02:28 - whisperx.asr - INFO - No language specified, language will be detected for each audio file (increases inference time)
+2026-11-11 14:02:28 - whisperx.vads.pyannote - INFO - Performing voice activity detection using Pyannote...
+Lightning automatically upgraded your loaded checkpoint from v1.5.4 to v2.6.5. To apply the upgrade to your files permanently, run `python -m lightning.pytorch.utilities.upgrade_checkpoint ../../../../.local/share/uv/tools/whisperx/lib/python3.11/site-packages/whisperx/assets/pytorch_model.bin`
+2026-11-11 14:02:29 - whisperx.transcribe - INFO - Performing transcription...
+2026-11-11 14:02:36.117 python[18012:1826860] Error: stepSQLStatement:toCompletionWithRetry - stepping returned unhandled result=8, DB=/Users/snudurupati/Library/Caches/python/Cache.db
+2026-11-11 14:02:36.249 python[18012:1826855] Error: stepSQLStatement:toCompletionWithRetry - stepping returned unhandled result=8, DB=/Users/snudurupati/Library/Caches/python/Cache.db
+2026-11-11 14:03:14 - whisperx.asr - INFO - Detected language: en (0.97) in first 30s of audio
+Transcript: [12.012 --> 15.117]  Hello, hello, testing, testing, testing.
+Transcript: [26.17 --> 55.027]  Unless you introduce stochasticity into the learning process, you cannot get a machine to handle the real world. Dennis Noble said that in a lecture on biological intelligence, quoting Alan Turing back to 1950. Cut. Restart all over again. Everything restart. Cut, cut, cut. Go.
+Transcript: [56.731 --> 84.44]  Unless you introduce stochasticity into the learning process, you cannot get a machine to handle the real world. Dennis Noble said that in a lecture on biological intelligence, quoting Alan Turing's 1915 paper. If your system is completely deterministic, it cannot learn. You need a baseline of chaos for the system to learn about the real world.
+Transcript: [86.178 --> 96.235]  But I ignored both the advice last week and tried to code a deterministic robot policy and failed miserably at it.
+Transcript: [100.437 --> 123.927]  I tried to profile other people's data from the community and then I found out they were missing success labels. So I set out to create my own robot policy completely deterministically without using any kind of heuristics or any kind of machine learning involved. And I soon realized that physics has its own mind.
+Transcript: [129.479 --> 145.274]  And I just can't hand code all the logics, all the Newtonian mechanics into a deterministic policy. So I fell back on using a community data trained policy, diffusion in this case.
+Transcript: [145.932 --> 166.688]  And that's exactly what I want to show you today, how I went about creating a deterministic policy, what failed, how I fell back on learning from data, and then how I eventually met success. And then, you know, how I went about profiling my data, what did I measure? So let's get started with the demo.
+Transcript: [178.13 --> 201.417]  So here, if you can see my screen
+Transcript: [203.915 --> 227.945]  I have a notebook, it's called SIM Push-T V2, an iPad or notebook. And initially I'm just, you know, doing some housekeeping, importing a few libraries. I'm importing a gymnasium. This is what I'll use to run the Push-T simulations. I'm not using Mojoco for this yet. And then the Gym Push-T, which
+Transcript: [227.945 --> 256.278]  actually lets you invoke and run the simulations. So I am attached to the appropriate kernel. Let me go run this cell. All right. So like I already mentioned, Jim Push T does not make use of Mojoco, but it makes use of PyMonk 2D physics somewhat easier. I don't need like a specialist machine for that. I can just run it on my MacBook.
+Transcript: [257.273 --> 284.138]  So here I'm making the gym environment, telling it I'm using the PushD version zero and the observation type is state. So it'll give me a numpy array with the X and Y coordinates of the current position of the pusher. And the render mode is RGB array. That means I'm asking it to collect data instead of running a sim for a human observation on the screen. So let's run this cell.
+Transcript: [286.467 --> 313.467]  And then if I look at the action space, the action space is the amount of area we allotted for the simulation, which happens to be a 5-fold by 5-fold grid. In the action space, the lowest coordinates are 0 and 0, and the highest are 5-fold, 5-fold, right? So it's a 5-fold by 5-fold. The square is where the whole sim is happening. And here, when I ask...
+Transcript: [314.294 --> 325.263]  When I enable the environment and ask it to show the observation, it gives me a few values. So it gives me the coordinates, x and y coordinates of the pusher, which are at 390 and 304.
+Transcript: [325.583 --> 354.22]  uh it also tells me uh where the actual block is uh so again if you remember the whole task of push t is uh there's a t outline there's a t block and there's a pusher the actual robot which tries to push this t block onto the t outline so right now the outline is sitting at 241.5 and 268.5 at a 3.3 degree angle radians
+Transcript: [355.807 --> 381.524]  And then the goal that we're trying to achieve, task complete, right, when we're called the task complete, is when I push the T onto the reference, which is at 256 and at 0.78 degree radians. So if I'm successfully able to push the T onto this outline, that's called a success.
+Transcript: [382.992 --> 408.524]  The way this works is, the whole sim works is, excuse me. Down with a bit of a cold and a cough. So the way the sim works is,
+Transcript: [412.27 --> 428.639]  you if you remember my last episode right so the simulation runs in episodes and each episode is a complete task from end to end so here i want to run the experiment the simulation for n episodes
+Transcript: [429.854 --> 458.896]  And I can define what n is, and I've defined n to be 100 here. So I'm running 100 episodes. And each episode has a set of tasks, right? And the task is read the environment where the pusher is right now, and related to it, perform an action. And the policy is supposed to inform, given the current state, as to what the action should be. So that's exactly what I'm doing. I have two loops. Outer loop defines each episode. And for each episode,
+Transcript: [459.52 --> 488.393]  I'm doing an environment of reset with seed is equal to episode. And for each episode, I change the seed. Just to simplify things, what the seed does is it sets the initial position. So earlier we saw that the pusher is at a certain position and the block is at a certain position, certain angle, and this seed value sets it and I'm changing it for each episode. So each episode starts at a different starting point, right? To say so.
+Transcript: [489.507 --> 515.95]  while not done or end less than 300. So each episode has to complete a task and I can't, especially in my sim with the tiny machine that I'm running on, I can't wait forever for it to take like unlimited number of steps to try and finish the task, right? So I need to have an upper boundary as to, hey, you know, either, you know, you get a status of done or you already reached, tried 300 steps.
+Transcript: [515.95 --> 545.617]  whichever one, you know, condition comes first, stop the loop. And here what I'm doing is I'm doing an ENB step and doing a make action. So what does make action does when I call the policy is basically it's a sampling the the whole action space, the fight will be a vital grid and random sample. And then it's just, you know, choosing an arbitrary value. So so basically
+Transcript: [545.617 --> 568.448]  This is not a real policy, right? This is a truly random policy because a policy means you read the current state and then you decide what the next action is and then perform the step. But in this case, the next action is completely random because I'm just doing a sample of the action space and thus the random policy. And when I ran it, I did 100 episodes and I got
+Transcript: [569.022 --> 578.928]  zero successes, which is again, you know, which is which is expected. And the max coverage I got is 0.115. And coverage means the T block
+Transcript: [580.025 --> 601.81]  overlapping the T outline. And then we are looking for, you know, a coverage of 95% or more is what we call success. And the max I got is like about 11%, which is bad. And again, it's a random policy. And then, you know, even though for learning, we require randomness, pure randomness,
+Transcript: [601.81 --> 623.798]  pure chaos does not create order, which is also true. So I choose a random policy, write it for 100 episodes and nothing came out of it, which is expected. And then I tried to use a deterministic policy, just did some planning, basic pure coordinate geometry where I'm like, hey, this is where my pusher is.
+Transcript: [623.798 --> 642.243]  This is where my T is, this is where my outline is. So my goal is to bring the pusher to where the star is and then start pushing it in a straight line. That's what I planned, right? And after each step, it keeps pushing in a straight line and then they should go overlap it for whatever percentage, right? That's what I thought.
+Transcript: [642.833 --> 656.62]  it should work, it should happen. Again, real world, if I were doing it physically, manually, if I were the pusher, and if I walk all the way here, and then I start pushing this T,
+Transcript: [656.975 --> 678.473]  In a way. Right. Maybe the T will rotate, but it should move and go here. Right. That's what we expect. So to do that, I did, you know, some simple linear algebra where I'm calculating these and basically, you know, calculating the next step. And I'm telling the policy, hey, go do it. Then I run it. And the unexpected happens.
+Transcript: [680.11 --> 698.47]  the T just keeps, you know, circling. And I call this a cowboy because the pusher here is holding the T by its edge and swinging it down in a loop as a cowboy would try to, you know, rope something, right? That's why I call this policy a cowboy. So this was my attempt.
+Transcript: [698.47 --> 722.77]  at using or creating determinism or creating a deterministic policy to see if I can get at least some success. But then even after, you know, 100 or so episodes, again, all it does is without friction, without gravity, without those physics that we find in real world which are absent in this sim.
+Transcript: [722.77 --> 745.079]  It just creates torque. And, you know, the pusher just keeps rotating or swinging, you know, the T around and around. And that's actually what happened. So that was that was that was a failure. So then I tried something else. I'm like, hey, you know what? I am not super smart. Let me try AI. Right. So I asked Gemini to write me a policy. I don't have the code here because the policy.
+Transcript: [745.079 --> 766.105]  Jim, I did not even understand the basics. I did not even take into consideration where the current position is. It just assumed that, you know, the goal is 400 by 400. So if I ran the policy, which I did, it just, the pusher just goes and sits in a corner. He doesn't even make contact with the T-block. So that was a failure.
+Transcript: [766.662 --> 791.806]  So then I decided, hey, you know what? I'm just wasting my time. And I'm telling you all this in like five minutes. It took me a whole week to figure things out, to do back and forth, bunch of codes, bunch of versions. And then I'm like, hey, I'm just wasting my time. And that's when the whole learning from Dennis Noble and then Alan Turing came where, hey, you know, to get a machine to learn,
+Transcript: [791.806 --> 798.607]  from from the real world you need to have some level of randomness in the learning process so
+Transcript: [799.687 --> 825.893]  I fell back on the diffusion policy, the default policy published by Hugging Face. And then they also gave me an eval. I ran the evals, tested a few things to see if it has any successes. They promised about 64% to 65% success when they ran it. And I did run the eval, and then I did get a good chunk of successes.
+Transcript: [825.893 --> 839.545]  And here is one example where, you know, if you use diffusion policy in the URL, right, so it just successfully pushes the T block onto the T outline. So that was settled. So my...
+Transcript: [840.001 --> 867.271]  you know, for me to generate the data. The goal here was to just go and, you know, download the policy and then make use of the policy, you know, in my SIM. So that's what I did. But again, I wanted a set of data, you know, more than just, you know, X episodes. And running the policy for 50 episodes on a M5 Pro took me about 80 minutes, 80 to 90 minutes.
+Transcript: [867.271 --> 874.797]  So I couldn't run a whole thousand episodes, so I did a mix. I did a mix of thousand episodes using my random policy here.
+Transcript: [876.198 --> 900.346]  event environment dot action space or sample. And then another 50 episodes where I used the diffusion policy, loaded the weights, you know, from the from the model tensors and then ran ran the same using the policies. And then in those 50 episodes, I got about 36 episodes, which were successes. That's about 70, 74 percent success rate.
+Transcript: [900.346 --> 908.716]  So that was good, right? So finally I got my SIM data running on my own machine and not using the community data.
+Transcript: [909.104 --> 937.1]  So the next thing which I actually wanted to do, I set out to do, is I built a profiler. I built a profiler to profile all this data and to see if there are any outliers, if the data is good, things like that. So the profiler worked fine for Push-T community data. It worked fine for Aloha community data. And I wanted to test my profiler on my own data. So that was my next task. And I'll show you how my profiler fared.
+2026-11-11 14:06:17 - whisperx.transcribe - INFO - Performing transcription...
+2026-11-11 14:06:53 - whisperx.asr - INFO - Detected language: en (0.99) in first 30s of audio
+Transcript: [16.366 --> 26.407]  So before I jump into the profiler, I just want to show you how I collected the diffusion policy SIM data. So here, where did it go?
+Transcript: [28.904 --> 57.541]  Yeah, right here. So here, I'm defining DS as a Lee robot data set. The name is pushd underscore sim, FPS 10. These are all the features that I'm collecting. And if you noticed, I did not collect any video data, again, given my machine capacity and the amount of time I had. And since I wasted so much of my time trying to create a deterministic policy, I did not capture any video frames.
+Transcript: [57.929 --> 73.825]  So define the data set here, and my policy was running, and each time I was getting a frame, I'm doing a ds.addframe, and then writing everything onto a location. So let's move on to the profiler itself.
+Transcript: [75.243 --> 98.615]  So here, my data, even though I didn't download it, I put it in the default location so I don't break my profiler. So I put it on in my home folder, .cache, HuggingFacelyRobot, repo ID, which I gave my own handle, snudarapati slash push T underscore sim. So when I run this, I am attached to the kernel.
+Transcript: [99.998 --> 126.391]  So I get my data files, everything, you know, right there. And when I print the schema, since it's a lead robot data set, it follows the schema pattern. And let me show you what I have here. So I have 1,050 episodes. And like I mentioned, 1,000 are purely random policy, random sampling from the action space. And then 50 of them are from the...
+Transcript: [127.201 --> 156.614]  uh from the actual diffusion policy and since each one of them you know runs until completion or for 300 frames i have approximately 300 uh k plus frames which makes sense especially all of those thousand uh random policies they ran for 300 steps and they failed right uh none of them succeeded succeeded so there will be a constant uh 300 frames thousand episodes and uh
+Transcript: [159.888 --> 185.892]  Yeah, so if I just do a count from the metadata and the data just to make sure, just to check that the data and the metadata match, they match exactly, which is expected since I did write it in the robot dataset format. And then let me verify that the frames, you know, the frames, actual frames match between the metadata.
+Transcript: [186.382 --> 195.562]  and actual data and get a count of zero. That means everything matches, nothing's out of the ordinary. And now let's look at the episode length distribution.
+Transcript: [196.591 --> 222.899]  And here, if you look at it, I have two data sets, even them trying to perform the same task, having all those random thousand random episodes which all have failures, you know, just using them together or clubbing them together with the diffusion policy would skew my data. Right. It'll show that there is a huge number of outliers there. So I kind of split them by task.
+Transcript: [223.355 --> 229.97]  And then if I show you here, so the random policy all have 300 frames because my logic said either
+Transcript: [230.527 --> 256.784]  until termination where the task succeeds or you run 300 steps and all of them failed after trying for 300 steps. So they are all 300. And then I look at the diffusion policy, they go all the way from 50 to 300, right? So that's expected because it's a real policy. Some succeed, some fail. And the ones which succeed are going to succeed, you know, sooner, like at 100 steps, 150 steps, 200 steps, 250 steps.
+Transcript: [256.784 --> 281.523]  So, I have a nice distribution, which is also good. And I'm also doing the same thing for the interquartile distance. I'm completely discounting the random policy. And if I see the diffusion once the IQR is 161, so anything below 139 or anything above 300 are the outliers, is what I should go look at.
+Transcript: [287.48 --> 305.317]  And since I don't have any video in there, it doesn't even make sense to count the video frames. So that is completely skipped. Action sizes and ranges to all check out comes out to be zero. And then
+Transcript: [305.738 --> 321.078]  I'm also here checking to see if there are any bad values, like any missing joins, something that did not perform well, the way I did in my profiler, and everything checks out here, right, the way I would expect it to happen.
+Transcript: [322.225 --> 342.83]  uh idle episodes episodes dead joints let's also check them and then yeah no dead joints no idle episodes again yeah even though i have this random policy nothing just you know failed and sat there uh even the random ones ran for the whole 300 steps that it tried to do something and then they failed no idle episodes as well
+Transcript: [349.647 --> 365.543]  And if I just look at the observation state, the min max frames per dimension, things like that, no null values, no nan values. So that's good. No cameras. I didn't record them. So there is no point even looking at them.
+Transcript: [367.18 --> 383.38]  And if I look at the success episodes compared to the failures, it says 36 succeeded compared to the 1,050, which, again, we know why the reason for the low success because 1,000 of them are random policies. So, again, the point here being that, you know,
+Transcript: [384.038 --> 399.817]  the data set, the the profile I built even works for the same data that I generated. Right. So it works. In this case, all I had to do is just to separate this queue. I had to filter by task type because
+Transcript: [399.817 --> 427.66]  Honestly, I have two different policies, which can be counted as two different tasks. But the profiler itself works. It tells me the state of things. It helps me give an idea of what's happening with my data set. So that works, and that's a good thing to report back. And if I run this, I only have one data set, so nothing to compare to. But I get the whole summary, which is written down into the file system. So that's the profiler, right?
+Transcript: [506.585 --> 528.691]  So what are my key takeaways from this week's worth of work? Again, my key takeaway is there is this whole debate about LLMs, generative AI, being just parrots. They just went too.
+Transcript: [529.13 --> 555.742]  They just went through the whole corpus of human-generated knowledge, and they're just doing a massive search. I mean, I'm dumbing it down, but that's kind of a sentiment of a certain sect if you go onto Reddit, right, and search for AI parrot or LLM star parrot, right? You'll hit, like, thread switch, talk about that. The truth is, again, you know, in my worldview, based on what I've seen with LLMs themselves and with the robotics data,
+Transcript: [555.742 --> 566.795]  especially last week, trying to generate a deterministic policy and failing miserably. What I realize, again, just to quote Dennis Noble and Alan Turing, is that
+Transcript: [568.28 --> 589.205]  In biological intelligence, I'm not a biologist, didn't even do an AP biology course back in my high school days. But again, based on what I've heard Dennis Noble say, even in biology, the cellular processes are stochastic. There is a certain level of randomness, and that's how our biological processes work.
+Transcript: [589.458 --> 610.754]  And the same applies based on Alan Turing. For you to make a machine learn, especially learn in a real world, the learning process has to have a certain level of randomness, stochasticity built in. And that's exactly what large language model training tries to emulate. We have a large neural network and we
+Transcript: [610.754 --> 627.173]  throw a huge corpus of data, an enormous corpus of data, and then the model does learn patterns. So when we ask it to write a limerick or a haiku or an essay, it's not just parroting Ernst Hemingway or...
+Transcript: [627.663 --> 650.714]  emerson right it it it does understand their style it tries to generate something new out of it again most of it is slop again you know if you if you know how to spot it uh same thing also applies to code so when we ask it to write a piece of code yes it reads it has a knowledge of all the code that has been written but it also learned patterns right it can create something new out of it
+Transcript: [650.714 --> 666.087]  So again, one key takeaway is that just because your training process is stochastic doesn't mean your model is useless. On the contrary, what I learned this week is for you to
+Transcript: [667.083 --> 688.075]  make a machine, a model, right, you know, a processor or even a robot behave, understand real world, it can't be rigidly, purely deterministic. You have to have an element of stochasticity, randomness built into that. That's my key takeaway from this week, right? And I'm actually excited because
+Transcript: [688.075 --> 718.062]  So yeah, we're talking about AI downturn, AI collapse. People said the same thing about the whole IT, you know, computers back in 2000s. Yes, it did collapse. The bubble did burst. But that's when I was getting into college and I had a vision that, hey, you know, we are not going to just go back to the old ways, right, of doing files, physical files and folders. Computers are here to stay. And it is true. Like it took, I don't know, like four decades for us to get to the point of AI. So yes, AI.
+Transcript: [718.062 --> 738.143]  bubble may burst but ai is here to stay it's only going to improve catastrophic or not i don't know but i am hopeful about the future of computer science and robotics and ai and the second ground truth what i learned is a policy
+Transcript: [740.793 --> 761.903]  is a function of data whether it be deterministic or whether it'll be a it'd be a neural net or some kind of regression model you pass in data it spits out you know your result and the same garbage and garbage out still applies so we have curated clean uh
+Transcript: [762.899 --> 790.152]  indicative of the sample data set, you will get the right kind of action. If you train your policy on bad data or if you use bad data with a good policy, you're just going to get garbage out of it. But again, once we know that from a data engineering point of view, once we know that policy is nothing but a function of data, our life becomes easy, right? I can, again, you should not, but I can treat policy as a black box.
+Transcript: [790.895 --> 796.143]  It just falls into place. I am not lost anymore. I know how to handle that pipeline.
+Transcript: [801.222 --> 830.838]  And another last takeaway for me from this week is generating data is not easy, as in not writing the code, but the kind of compute power you need. It takes, like in my case, just generating 50 episodes from a diffusion policy. I don't know what the size of the neural net is, how many million or thousands of parameters. I don't know. I'll need to look it up.
+Transcript: [831.361 --> 848.405]  on an m5 pro like a consumer class pro machine it took me 90 minutes once i had everything figured out it took me 90 minutes for me to generate the data just for 50 episodes imagine i need thousand two thousand maybe 100k episodes
+Transcript: [848.793 --> 869.532]  Generating it is not easy. So my goal here is to keep refining my profiler so I can make good use of all the wealth of community data, community robotics data that's being produced out there. Just get an intuition for that. You know, I saw some data sets which said success.
+Transcript: [869.836 --> 898.861]  V2. But when I went and looked at the success metrics, they were zero. But it doesn't mean that they were completely useless because the data set was curated. There were so many successful episodes in there. It's just that the naming was misleading or I could not take the naming on face value. But again, a lot of data sets out there. So the goal is to learn to make use of them. Oh, this cough is killing me.
+Transcript: [928.865 --> 948.659]  So now that I have a new appreciation for robotic policies, how to generate data, how to curate data, how to look for data sets from the community. So I'm going to try to profile more data sets. And I also have a Spark, which I invested in. I'm trying to run.
+Transcript: [948.659 --> 969.533]  complete sovereign local ai it has a lot of cuda cores so i'm gonna transfer my simulations to that machine and see if i can generate uh some good data sets maybe aloha this time or for the so101 arm and also try to get into some teleop and generate some episodes from that
+Transcript: [969.533 --> 994.745]  So that's my goal. Again, if you have a way of, you know, searching for datasets in the community, since I found that the namings and the labels are misleading, if there's a way you filter on hugging face, just, you know, leave me a comment. But until then, I'll, you know, so until then, goodbye, and I'll see you next week with more of my own insights. Thank you.
+2026-11-11 14:09:47 - whisperx.transcribe - INFO - Performing alignment...
+2026-11-11 14:10:25 - whisperx.transcribe - INFO - Performing alignment...

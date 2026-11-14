@@ -1,0 +1,351 @@
+{
+  "g01a": {
+    "min": 136.8,
+    "max": 139.1,
+    "mean": 138.5,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g02": {
+    "min": 135.9,
+    "max": 139.3,
+    "mean": 137.4,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g03": {
+    "min": 135.4,
+    "max": 139.6,
+    "mean": 137.3,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g04": {
+    "min": 133.2,
+    "max": 138.4,
+    "mean": 136.5,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g05": {
+    "min": 135.1,
+    "max": 138.7,
+    "mean": 137.5,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g06": {
+    "min": 137.4,
+    "max": 139.6,
+    "mean": 138.7,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g07": {
+    "min": 137.2,
+    "max": 138.3,
+    "mean": 137.9,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g08": {
+    "min": 139.4,
+    "max": 141.9,
+    "mean": 140.8,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g09": {
+    "min": 134.6,
+    "max": 142.6,
+    "mean": 140.4,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g10": {
+    "min": 135.9,
+    "max": 140.3,
+    "mean": 138.2,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g11": {
+    "min": 134.8,
+    "max": 138.1,
+    "mean": 136.6,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g12": {
+    "min": 134.9,
+    "max": 141.5,
+    "mean": 138.8,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "gZ1": {
+    "min": 134.9,
+    "max": 137.7,
+    "mean": 136.3,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "gZ2": {
+    "min": 136.5,
+    "max": 139.5,
+    "mean": 137.7,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "gZ3": {
+    "min": 138.0,
+    "max": 139.8,
+    "mean": 139.0,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "g13": {
+    "min": 138.1,
+    "max": 139.1,
+    "mean": 138.7,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "g14": {
+    "min": 139.3,
+    "max": 141.4,
+    "mean": 140.3,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "g15": {
+    "min": 137.0,
+    "max": 139.7,
+    "mean": 137.9,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "g16": {
+    "min": 134.6,
+    "max": 138.1,
+    "mean": 136.7,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "g17": {
+    "min": 134.6,
+    "max": 138.4,
+    "mean": 136.8,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "g18": {
+    "min": 137.2,
+    "max": 139.4,
+    "mean": 138.1,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "g19": {
+    "min": 138.8,
+    "max": 141.1,
+    "mean": 140.2,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "g20": {
+    "min": 137.1,
+    "max": 139.0,
+    "mean": 138.1,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "g21": {
+    "min": 135.8,
+    "max": 138.6,
+    "mean": 137.3,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "g22": {
+    "min": 135.4,
+    "max": 138.5,
+    "mean": 136.8,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "g23": {
+    "min": 134.4,
+    "max": 138.6,
+    "mean": 136.7,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "gZ4": {
+    "min": 132.2,
+    "max": 137.1,
+    "mean": 135.4,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": true,
+    "treatment": "opaque"
+  },
+  "g24": {
+    "min": 134.4,
+    "max": 138.5,
+    "mean": 137.5,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g25": {
+    "min": 137.7,
+    "max": 139.1,
+    "mean": 138.4,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g26": {
+    "min": 136.1,
+    "max": 142.2,
+    "mean": 139.7,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g27": {
+    "min": 136.1,
+    "max": 139.8,
+    "mean": 138.2,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g28": {
+    "min": 139.7,
+    "max": 140.6,
+    "mean": 140.3,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g29": {
+    "min": 140.5,
+    "max": 140.9,
+    "mean": 140.8,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "g01b": {
+    "min": 136.8,
+    "max": 139.1,
+    "mean": 138.5,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "gS": {
+    "treatment": "opaque",
+    "overScreen": true,
+    "_why": "added overnight 2026-10-28: sits over the screen recording, opaque regardless of luma"
+  },
+  "gZ5": {
+    "treatment": "opaque",
+    "overScreen": true,
+    "_why": "added overnight 2026-10-28: sits over the screen recording, opaque regardless of luma"
+  },
+  "gZ6": {
+    "treatment": "opaque",
+    "overScreen": true,
+    "_why": "added overnight 2026-10-28: sits over the screen recording, opaque regardless of luma"
+  },
+  "gZ7": {
+    "treatment": "opaque",
+    "overScreen": true,
+    "_why": "added overnight 2026-10-28: sits over the screen recording, opaque regardless of luma"
+  },
+  "g05t": {
+    "treatment": "lightReinforced",
+    "_why": "full-frame takeover alternate of g05; its own paper page, treatment unused"
+  },
+  "g01c": {
+    "min": 136.8,
+    "max": 139.1,
+    "mean": 138.5,
+    "meanTreatment": "lightReinforced",
+    "spansThreshold": false,
+    "overScreen": false,
+    "treatment": "lightReinforced"
+  },
+  "gZ8": {
+    "treatment": "opaque",
+    "overScreen": true,
+    "_why": "added 2026-10-28 for the finished-cut review gaps: a punch-in over the screen recording, opaque regardless of luma"
+  },
+  "gZ9": {
+    "treatment": "opaque",
+    "overScreen": true,
+    "_why": "added 2026-10-28 for the finished-cut review gaps: a punch-in over the screen recording, opaque regardless of luma"
+  }
+}

@@ -1,0 +1,19 @@
+If your system is completely deterministic, it cannot learn. You need a baseline of chaos for the system to learn about the real world. Unless you introduce stochasticity into the learning process, you cannot get a machine to handle the real world. Denis Noble said that in a lecture on biological intelligence, quoting Alan Turing But I ignored both the advice last week and tried to code a deterministic robot policy and failed miserably at it.
+
+Chapters
+00:00 If your system is completely deterministic
+00:10 Unless you introduce stochasticity into the learning process
+00:29 Tried to code a deterministic robot policy
+00:56 Physics has its own mind
+01:17 How I went about creating a deterministic policy
+01:33 So let's get started with the demo
+08:05 I call this a cowboy
+08:54 Let me try AI
+09:49 I fell back on the diffusion policy
+11:28 I built a profiler to profile all this data
+13:14 So I have 1,050 episodes
+17:36 What are my key takeaways from this week's
+19:41 Just because your training process is stochastic
+20:53 A policy is a function of data
+21:51 Generating data is not easy
+24:03 Goodbye, and I'll see you next week

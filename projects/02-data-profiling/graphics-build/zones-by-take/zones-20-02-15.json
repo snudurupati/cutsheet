@@ -1,0 +1,86 @@
+{
+  "video": "raw/Camera-2026-10-27 20-02-15.mov",
+  "measuredFrames": [
+    18.46,
+    36.92,
+    55.39,
+    73.85,
+    92.31,
+    110.77,
+    129.24,
+    147.7,
+    166.16,
+    184.62,
+    203.08,
+    221.55,
+    240.01,
+    258.47
+  ],
+  "canvas": [
+    1920,
+    1080
+  ],
+  "thresholds": {
+    "detailMax": 18.0,
+    "motionMax": 4.5,
+    "driftWarn": 2.0
+  },
+  "globalExposureDrift": {
+    "frameMeanMin": 110.1,
+    "frameMeanMax": 116.5,
+    "range": 6.4,
+    "stdev": 1.8
+  },
+  "motionExposureNormalised": true,
+  "zones": {
+    "primary": {
+      "x": [
+        0,
+        480
+      ],
+      "y": [
+        0,
+        960
+      ],
+      "detail": 1.4,
+      "motion": 1.1,
+      "luma": 142.6,
+      "panelTreatment": "lightReinforced"
+    },
+    "secondary": {
+      "x": [
+        480,
+        720
+      ],
+      "y": [
+        0,
+        540
+      ],
+      "detail": 2.5,
+      "motion": 1.07,
+      "luma": 144.0,
+      "panelTreatment": "lightReinforced"
+    },
+    "tertiary": {
+      "x": [
+        1800,
+        1920
+      ],
+      "y": [
+        0,
+        1020
+      ],
+      "detail": 3.4,
+      "motion": 0.91,
+      "luma": 157.0,
+      "panelTreatment": "inverted"
+    }
+  },
+  "heroTypeZone": null,
+  "heroTypeZoneMinimum": {
+    "widthPx": 500,
+    "heightPx": 260
+  },
+  "heroTypeAsOverlayPossible": false,
+  "_note": "Authoritative for this job. style.json zones are a fallback and a shape reference only. Re-run if the cut changes."
+}
