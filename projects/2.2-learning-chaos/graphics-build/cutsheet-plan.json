@@ -1,0 +1,567 @@
+{
+ "source": "outputs/transcript-cut-v9.json",
+ "fps": 30.0,
+ "totalSeconds": 1449.0,
+ "parts": [
+  {
+   "id": "g01",
+   "kind": "analogy",
+   "class": "overlay",
+   "start": 0.133333,
+   "end": 10.333333,
+   "direction": "Hook, drawn (style hook.mustBeDrawnObject). The series line-art humanoid stands at a control lever on a deterministic rail: it moves in perfect lockstep, ticks stamped at its feet, reading 'DETERMINISTIC'. Frame 1 carries motion (hook.opensOnMotion): the humanoid walks its rail before any type lands. On 'completely deterministic' the rail locks with a click (the style's one accent element: the lock). On 'cannot learn' its grip slackens. On 'baseline of chaos' the rail shatters into drifting dots; on 'real world' the humanoid steps off onto uneven ground and keeps walking. heroLeft band; the face plate carries the speaker. Built inside g01 (like 2.1's lower third): Sreeram Nudurupati / AI for the Working Data Engineer / @snudurupati, name display 900 40px, role 500 24px $muted, wipes up 2s in, out at 7.6, on the lower-left band under the rail (face plate is right; nothing spoken is repeated there).",
+   "notes": "",
+   "draw": "series humanoid; rail; lock; chaos dots"
+  },
+  {
+   "id": "g02",
+   "kind": "card",
+   "class": "overlay",
+   "start": 10.333333,
+   "end": 25.866667,
+   "direction": "The opening statement as a quote card on the right plate. Small eyebrow 'THE CLAIM' 22px $muted; the quote builds verbatim line by line as spoken, 44px display, '$accent' on 'stochasticity' only (accentElementsPerScene=1). Attribution block lands on 'Dennis Noble': 'Dennis Noble' 900 / 'on biological intelligence, quoting Alan Turing' 500 $muted / '1950' on the year (printed attribution fact: the Imitation Game is 1950, and the human sign-off trim removed the spoken 'back to 1950', so the card is the only place the year appears). NO card or caption prints 1915 anywhere in this video.",
+   "notes": "right-anchored per human treatment decision; panel over screen is opaque",
+   "draw": null
+  },
+  {
+   "id": "g03",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 31.666667,
+   "end": 35.833333,
+   "direction": "'DETERMINISTIC' struck through in $accent on 'failed miserably', and under it a week counter lands: '1 week' 160px display (statMinFontPx) with '0 successes' under it in $muted. The strike is the scene's one accent.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "g04",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 41.633333,
+   "end": 46.633333,
+   "direction": "Community dataset rows: three small rows land (LeRobot dataset tiles), each missing its 'success' column: the column header ticks to a dashed empty slot in $accent-soft. Label 'success labels: missing'.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "g05",
+   "kind": "diagram",
+   "class": "overlay",
+   "start": 56.533333,
+   "end": 62.233333,
+   "direction": "'physics has its own mind': a hand-coded flowchart (if/then diamonds) on the left, on 'physics' an arrow bends off the chart by itself and draws its own squiggle to the right. Dashed 'can't hand-code this' chip.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "g06",
+   "kind": "card",
+   "class": "overlay",
+   "start": 76.866667,
+   "end": 88.3,
+   "direction": "Today's map: four numbered stops draw as a route, each landing on its spoken word: 1 deterministic policy (lands grey, gets struck), 2 what failed, 3 learning from data, 4 success. Route line in $rule, the one accent on stop 4. heroLeft.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "g07",
+   "kind": "card",
+   "class": "overlay",
+   "start": 90.933333,
+   "end": 93.033333,
+   "direction": "Stop 5 'profiling my data' joins the route, chip 'what did I measure?' This is the handoff into the demo; the map leaves on 'let's get started' (demo begins at 'So here, if you can see my screen', cut 96.90).",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "g08",
+   "kind": "card",
+   "class": "overlay",
+   "start": 99.533333,
+   "end": 124.533333,
+   "direction": "Notebook ID card over the opening cells: the screen title OCRs to 'sim_pushTV2.ipynb', so the chip prints exactly that (spoken 'SIM Push-T V2, an ipynb notebook'). Below it a small Jupyter glyph ticks 'kernel attached' on 'attached to the appropriate kernel'. Import chip names 'gymnasium' as he says it. Right-anchored, opaque panel.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ1",
+   "kind": "zoom",
+   "class": "overlay",
+   "start": 132.9,
+   "end": 135.533333,
+   "direction": "Punch-in on the notebook import cells: mark 'import gymnasium' and 'gym_pusht' as they are named. Chip 'no MuJoCo: Pymunk 2D' beside the mark, and the contrast lands here: a small 'MuJoCo' tile greyed out vs 'Pymunk' active (style: contrast over screen is opaque panel).",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ2",
+   "kind": "zoom",
+   "class": "overlay",
+   "start": 144.433333,
+   "end": 148.066667,
+   "direction": "Punch-in on the env creation line: underline 'PushT-v0' and 'observation_type=state' as read. No marks drift (1.00-1.03 push) so a held still screen is never frozen.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ2b",
+   "kind": "diagram",
+   "class": "overlay",
+   "start": 158.933333,
+   "end": 164.133333,
+   "direction": "'collect data instead of running a sim for a human observation': two tiny tiles, 'render for eyes' greyed with a slash vs 'collect frames' active in $accent (one accent). The data-engineering move at the top of the notebook: capture, don't watch.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ3",
+   "kind": "zoom",
+   "class": "overlay",
+   "start": 168.1,
+   "end": 181.333333,
+   "direction": "Punch-in on the action space print from 'action space is the amount of area we allotted': a 5x5 grid draws over the output, x/y axes marked 0..5, one cell lights $accent on 'lowest ... highest'",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ4",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 196.566667,
+   "end": 236.1,
+   "direction": "Over the Push-T board: coordinate labels land as he reads them, pusher '390, 304' with a leader line to the pusher dot, outline '241.5, 268.5' at '3.3 degree angle', goal '0.78 degree radians' counting on screen. The Push-T task legend (pusher / block / outline) names each part once so the demo reads without the speaker.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ5",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 257.333333,
+   "end": 265.266667,
+   "direction": "Punch-in on 'n_episodes = 100': counter ticks '100 episodes' 160px on the number itself.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ6",
+   "kind": "diagram",
+   "class": "overlay",
+   "start": 291.366667,
+   "end": 298.966667,
+   "direction": "Seed diagram over the loop: three small boards, each with the pusher and block at a different spot, one $accent seed chip feeding them. 'each episode starts somewhere new'.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ7",
+   "kind": "zoom",
+   "class": "overlay",
+   "start": 317.633333,
+   "end": 339.133333,
+   "direction": "Punch-in on 'end less than 300' in the loop condition: a step meter fills, dashed ceiling labelled '300'; on 'whichever condition comes first, stop the loop' a second exit arrow 'done' lights above the ceiling.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ7b",
+   "kind": "diagram",
+   "class": "overlay",
+   "start": 363.0,
+   "end": 381.533333,
+   "direction": "'This is not a real policy': two tiny flow diagrams stacked. Top (the real one): read state -> decide action -> step. Bottom (his): sample(action_space) -> go, arrow skipping state with a dashed bypass. The bypass is the scene's accent. Lands as he defines what a policy means, closes on 'the random policy'.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ8",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 384.1,
+   "end": 390.333333,
+   "direction": "Random policy scorecard: '0 / 100' successes lands 160px $ink, 'max coverage 0.115' under it in $muted with a tiny 11.5% fill bar (the bar is the scene's accent element). The one payoff of the random baseline.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ8a",
+   "kind": "contrast",
+   "class": "overlay",
+   "start": 407.266667,
+   "end": 413.4,
+   "direction": "'pure chaos does not create order': left, scattered dots in free motion labelled 'chaos' (the scene's accent: the scatter); right, the same dots refusing to form a T outline, dashed target ghost empty. The line is his: learning needs chaos, chaos alone builds nothing. Sets up why the random policy was still the right choice.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ8b",
+   "kind": "diagram",
+   "class": "overlay",
+   "start": 423.366667,
+   "end": 449.8,
+   "direction": "The hand-coded plan drawn: pusher dot bottom-left, star target top-right, an arrow draws 'go to star' then 'push in a straight line', a ghost outline shows the expected overlap. Dashed 'that should work' chip lands on 'That's what I thought. It should work, should happen.' The plan's own confidence makes the circling failure land; one accent (the arrow head).",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ9",
+   "kind": "analogy",
+   "class": "overlay",
+   "start": 478.833333,
+   "end": 496.7,
+   "direction": "The cowboy: on 'the unexpected happens' the board appears and the T starts circling (drawn from the real circling motion on screen); the line-art rope loop arcs over the spinning T, the pusher dot swings it in a loop on 'swinging it down in a loop'. Chip 'the cowboy policy'. The humanoid wears the series line-art cowboy hat here (human request 2026-11-12; costume for this beat only, the recurring robot stays hatless elsewhere). This beat is the video's comic beat: let the loop spin a full extra cycle past the last 'cowboy'.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ9b",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 498.9,
+   "end": 535.433333,
+   "direction": "Attempt 1 verdict: a 'was a failure' stamp lands on the spinning cowboy board, the rope dissolves; 'attempt 1: deterministic, failed' ledger row ticks under gZ9's ledger. Then 'hey, you know what? I am not super smart. Let me try AI.' lands as a small chip on 'try AI' (one accent: the stamp).",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ10",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 536.633333,
+   "end": 557.2,
+   "direction": "AI interlude: a terminal glyph types a prompt, then a small board: the pusher dot walks to a corner and sits, an X marks the spot. 'assumed the goal was 400x400' chip. One accent: the X.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ11",
+   "kind": "contrast",
+   "class": "overlay",
+   "start": 565.533333,
+   "end": 571.566667,
+   "direction": "'five minutes' vs 'a whole week': a clock glyph left, a 5-day strip of code/version chips right that fills on 'back and forth, bunch of codes, bunch of versions'. The week strip is $accent-soft, the clock hands $accent.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ11b",
+   "kind": "card",
+   "class": "overlay",
+   "start": 581.0,
+   "end": 586.966667,
+   "direction": "The thesis returns mid-demo as a mini quote card: 'to get a machine to learn ... you need some level of randomness in the learning process', attribution chip 'Dennis Noble / Alan Turing' (the names he credits on this line). Small card, right plate; the echo of g02 that tips him toward the diffusion policy.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ12",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 602.766667,
+   "end": 611.533333,
+   "direction": "Hugging Face promise: '64-65% success' count-up 160px, 'their eval' caption; on 'I did get a good chunk of successes' a small check ticks under the number.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ12b",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 615.1,
+   "end": 623.166667,
+   "direction": "First success replay: punch-in on the sim running the diffusion policy, the T block slides onto the outline; a 'success' tick lands in $accent on 'successfully pushes', chip 'that was settled' on 'settled'. The first green light after three failed attempts.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ13",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 648.7,
+   "end": 650.5,
+   "direction": "'80-90 min for 50 episodes' 160px with a small M5 Pro chip glyph. Sets up gZ14's arithmetic and g24's wall.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ14",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 673.0,
+   "end": 676.733333,
+   "direction": "His own eval: '36 / 50 = 74%' 160px count-up on '74 percent', the % the one accent. Spelled as spoken.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ14b",
+   "kind": "card",
+   "class": "overlay",
+   "start": 689.066667,
+   "end": 709.033333,
+   "direction": "'I built a profiler': a small gauge/lens glyph over the dataset tile, two check rows land as he names them, 'outliers?' and 'is the data good?', then a 'tested on Push-T community ' tick, an 'ALOHA community' tick, and the beat line 'now: my own data' in $accent (one accent). The profiler enters as a character here, before its own demo.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ15",
+   "kind": "diagram",
+   "class": "overlay",
+   "start": 724.7,
+   "end": 736.366667,
+   "direction": "Dataset card: push_t_sim, fps 10, features list scrolls as he reads it, a 'no video captured' chip dashed with the reason 'machine capacity'. LeRobot dataset chip lands on 'LeRobot dataset'.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ15b",
+   "kind": "zoom",
+   "class": "overlay",
+   "start": 746.833333,
+   "end": 750.766667,
+   "direction": "Punch-in on the collection loop: underline 'ds.add_frame' as he says it, tiny frame-stack glyph filling once. Two seconds, then releases to the full screen.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ15c",
+   "kind": "zoom",
+   "class": "overlay",
+   "start": 785.2,
+   "end": 790.533333,
+   "direction": "Punch-in on the printed schema: mark the schema keys as they appear (episode index, frame index, timestamp, action, observation), chip 'LeRobot schema: it just follows it'. The convention is the point: he writes nothing, the format is already right.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ16",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 795.333333,
+   "end": 805.366667,
+   "direction": "Dataset size: '1,050 episodes' 160px, splits beneath on 'a thousand ... 50': '1,000 random' + '50 diffusion' as two tinted blocks of a stacked bar.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ16b",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 811.333333,
+   "end": 814.333333,
+   "direction": "'~300k frames' count-up 160px beside a small frame-stack glyph; '1,000 x 300 steps' caption (the arithmetic he narrates: all the random ones ran the full 300).",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ16b2",
+   "kind": "diagram",
+   "class": "overlay",
+   "start": 829.333333,
+   "end": 851.966667,
+   "direction": "Metadata vs data check: two stacked tiles 'metadata' and 'data' with a counter on each; on 'they match exactly' an = lights between them, on 'count of zero' a check stamp 'everything matches' lands. The data-engineering discipline beat: verify, don't assume.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ17",
+   "kind": "diagram",
+   "class": "overlay",
+   "start": 856.3,
+   "end": 877.066667,
+   "direction": "Two datasets, one task card: left tile '1,000 random, all failures', right tile '50 diffusion, 36 successes'; on 'would skew my data' the left tile slides behind a split line. 'split by task' chip closes the beat.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ17b",
+   "kind": "diagram",
+   "class": "overlay",
+   "start": 885.033333,
+   "end": 913.066667,
+   "direction": "Episode-length picture drawn over the real distribution plot: the random rows all pin at 300 (flat ceiling of bars, 'all ran to the cap'), the diffusion rows spread 50-300 with the early finishers $accent-soft and a marker at 250 'success sooner'. Drawn bars track the real histogram on screen.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ18",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 929.366667,
+   "end": 933.366667,
+   "direction": "'IQR = 161' count-up 160px; a whisker plot band lands under it marking the 139-300 outlier window on 'below 139 or above 300'.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ19",
+   "kind": "diagram",
+   "class": "overlay",
+   "start": 968.166667,
+   "end": 999.9,
+   "direction": "Profiler checklist over the report: idle episodes, dead joints, null values, nan values, cameras: each row ticks in sequence as he clears them ('no dead joints no idle episodes', 'no null values no nan values', 'no cameras, I didn't record them'). Ticks $accent (one accent row: the last tick). The checklist is the profiler's argument.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ19b",
+   "kind": "stat",
+   "class": "overlay",
+   "start": 1005.533333,
+   "end": 1013.933333,
+   "direction": "'36 succeeded / 1,050' 160px with the reason line '$muted: 1,000 of them are random policies' landing on the explanation. The number that makes the low rate make sense.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ19c",
+   "kind": "card",
+   "class": "overlay",
+   "start": 1035.133333,
+   "end": 1051.7,
+   "direction": "'The profiler itself works' chip: same profiler, my own data; 'filter by task type' mini diagram (one queue splits by policy), 'summary written to file system' footer tick. The profiler earns its keep before the takeaways.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ20",
+   "kind": "analogy",
+   "class": "overlay",
+   "start": 1069.233333,
+   "end": 1084.866667,
+   "direction": "Takeaway lead-in: 'LLMs are just parrots?' A drawn parrot-on-perch silhouette (line art, series style) beside the Reddit-style thread glyph ('search: AI parrot / LLM star parrot'). Sets up gZ21.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ20b",
+   "kind": "card",
+   "class": "overlay",
+   "start": 1100.933333,
+   "end": 1120.266667,
+   "direction": "Quote echo card (g02's voice returns): 'In biological intelligence, the cellular processes are stochastic. There is a certain level of randomness ...' attribution 'Dennis Noble'. Aside chip 22px $muted: 'not a biologist, no AP bio' (his own joke on this line).",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ20c",
+   "kind": "card",
+   "class": "overlay",
+   "start": 1123.833333,
+   "end": 1136.266667,
+   "direction": "The Turing half of the quote: 'to make a machine learn, especially learn in a real world, the learning process has to have a level of randomness, stochasticity built in' attribution 'Alan Turing'. The two quote cards together re-state the thesis at the moment his data proves it.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ20d",
+   "kind": "diagram",
+   "class": "overlay",
+   "start": 1138.7,
+   "end": 1148.266667,
+   "direction": "'exactly what LLM training tries to emulate': network glyph left, a corpus block (stacked lines) feeds it, 'learns patterns' ticks out right. The same diagram family as gZ21's right side, drawn plain here so gZ21's contrast reads.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "gZ21",
+   "kind": "contrast",
+   "class": "overlay",
+   "start": 1151.366667,
+   "end": 1178.4,
+   "direction": "Parrot vs pattern-learner: left, a parrot mirroring two author tiles (Hemingway, Emerson, spelled correctly, the transcript's Ernst/Hummingway mishears are not screen copy); right, the same tiles feeding a small network glyph that emits a NEW tile. On 'create something new out of it' the right side wins: the new tile lifts and the parrot dims to $muted. Chip: 'same for code'.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "g22",
+   "kind": "strike-list",
+   "class": "overlay",
+   "start": 1179.666667,
+   "end": 1204.833333,
+   "direction": "Takeaway one as a counted row: 'Stochastic training is not a bug' 44px with 'a model that can be wrong can be right' $muted under it. Rises on 'On the contrary'.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "g22b",
+   "kind": "card",
+   "class": "overlay",
+   "start": 1211.466667,
+   "end": 1249.033333,
+   "direction": "The AI-collapse aside as a quote card: 'AI downturn? AI collapse? The bubble may burst. AI is here to stay and only going to improve' with a small 'hopeful' signature line 'future of CS and robotics'. One accent: 'here to stay'. Lighter card weight than g22 (this is a mood beat, not an argument).",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "g23",
+   "kind": "strike-list",
+   "class": "overlay",
+   "start": 1251.666667,
+   "end": 1275.366667,
+   "direction": "Takeaway two: 'policy = f(data)' lands 90px as the formula types itself (font: display 900), then 'garbage in, garbage out' stamps beneath on 'garbage and garbage out' (the spoken wording), $accent on 'garbage' once. Data-curation chip on 'curated clean ... indicative' (1272-1276).",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "g23b",
+   "kind": "diagram",
+   "class": "overlay",
+   "start": 1290.133333,
+   "end": 1302.266667,
+   "direction": "'treat policy as a black box': an opaque rounded box, 'data' arrow in, 'action' arrow out, 'our life becomes easy' chip. The abstraction a data engineer gets to use. On 'falls into place' the arrows snap straight.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "g24",
+   "kind": "strike-list",
+   "class": "overlay",
+   "start": 1338.3,
+   "end": 1350.233333,
+   "direction": "Takeaway three: '50 episodes = 90 min on an M5 Pro' 160px count, then a 1000/2000/100k stack grows on 'thousand ... two thousand ... 100k' and stops, unresolved: 'imagine'. The compute wall, drawn.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "g24b",
+   "kind": "strike-list",
+   "class": "overlay",
+   "start": 1366.966667,
+   "end": 1379.366667,
+   "direction": "The misleading-names lesson: a dataset tile reads 'success_v2', the success metric under it counts to 0 (strike lands on the tile name), chip 'curated, many successes inside: naming misleads'. On face value: no. The profiler's reason to exist, one line.",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "g25",
+   "kind": "card",
+   "class": "overlay",
+   "start": 1402.633333,
+   "end": 1426.133333,
+   "direction": "Next episode preview as three route chips that light in turn as he names them: 'Spark box: transfer the sims' (CUDA cores chip), 'ALOHA / SO-101', 'teleop episodes'. Right-anchored, opaque panel (over the desk wall it is lightReinforced per zones).",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "g26",
+   "kind": "card",
+   "class": "overlay",
+   "start": 1435.0,
+   "end": 1438.066667,
+   "direction": "The ask: 'know a way to filter datasets on Hugging Face? leave a comment', a comment bubble glyph lands on 'leave me a comment'. $accent bubble (one accent).",
+   "notes": "",
+   "draw": null
+  },
+  {
+   "id": "g27",
+   "kind": "card",
+   "class": "overlay",
+   "start": 1443.766667,
+   "end": 1449.0,
+   "direction": "End card: five brand rows from brand.md (YouTube @snudurupati with channel name 'AI for the Working Data Engineer' above, blog nudurupati.co, github, linkedin, x @srnudurupati) rise in 0.4s apart on 'goodbye', hold to the last frame (+2.3s hold per style). Panel x96-680 above y660 (measured wall), one $accent rule under the first row. Per the human sign-off decision 2026-11-12 the video ends at 24:09.0 on the end card, two frames after 'you.' (no face-turn tail: the human asked not to wait for the turn).",
+   "notes": "",
+   "draw": null
+  }
+ ]
+}

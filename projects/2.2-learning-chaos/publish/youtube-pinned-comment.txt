@@ -1,0 +1,12 @@
+This week: 1,050 Push-T episodes generated in sim, and three policies on trial. The random baseline scored 0 of 100. My hand-coded deterministic policy, the "cowboy", fought the physics and lost. The diffusion policy scored 36 of 50.
+
+Everything is in the repo:
+https://github.com/snudurupati/physical-ai-data-architect
+
+- weeks/week-03/notebooks/sim_pushTV2.ipynb: generates the data and runs all three policies.
+- weeks/week-03/notebooks/01_profiler.ipynb: the profiler, nine checks, runs on any LeRobot dataset.
+- weeks/week-03/notebooks/results/: every number you see in the video, as measured JSON.
+
+If the profiler finds something odd on your dataset, open an issue. Real-world data is the best test I can buy.
+
+Next week: Open X-Embodiment. One million episodes, many formats, one schema.

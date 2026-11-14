@@ -1,0 +1,86 @@
+{
+  "video": "projects/2.2 learning-chaos/raw/Camera-2026-11-11 11-14-09.mov",
+  "measuredFrames": [
+    66.54,
+    133.08,
+    199.61,
+    266.15,
+    332.69,
+    399.23,
+    465.76,
+    532.3,
+    598.84,
+    665.38,
+    731.92,
+    798.45,
+    864.99,
+    931.53
+  ],
+  "canvas": [
+    1920,
+    1080
+  ],
+  "thresholds": {
+    "detailMax": 18.0,
+    "motionMax": 4.5,
+    "driftWarn": 2.0
+  },
+  "globalExposureDrift": {
+    "frameMeanMin": 110.1,
+    "frameMeanMax": 116.7,
+    "range": 6.6,
+    "stdev": 2.1
+  },
+  "motionExposureNormalised": true,
+  "zones": {
+    "primary": {
+      "x": [
+        1620,
+        1920
+      ],
+      "y": [
+        0,
+        960
+      ],
+      "detail": 5.4,
+      "motion": 2.02,
+      "luma": 145.7,
+      "panelTreatment": "lightReinforced"
+    },
+    "secondary": {
+      "x": [
+        0,
+        240
+      ],
+      "y": [
+        0,
+        720
+      ],
+      "detail": 1.1,
+      "motion": 2.32,
+      "luma": 147.7,
+      "panelTreatment": "lightReinforced"
+    },
+    "tertiary": {
+      "x": [
+        1080,
+        1620
+      ],
+      "y": [
+        480,
+        720
+      ],
+      "detail": 4.1,
+      "motion": 2.0,
+      "luma": 194.5,
+      "panelTreatment": "inverted"
+    }
+  },
+  "heroTypeZone": null,
+  "heroTypeZoneMinimum": {
+    "widthPx": 500,
+    "heightPx": 260
+  },
+  "heroTypeAsOverlayPossible": false,
+  "_note": "Authoritative for this job. style.json zones are a fallback and a shape reference only. Re-run if the cut changes."
+}

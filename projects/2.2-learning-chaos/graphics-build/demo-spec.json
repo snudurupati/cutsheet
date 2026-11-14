@@ -1,0 +1,197 @@
+{
+ "span": {
+  "start": 95.467,
+  "end": 1056.267,
+  "_why": "derived from the edit cutsheet's demo section"
+ },
+ "base": "../outputs/base-cut-v9.mov",
+ "screen": "raw/Screen-2026-11-11 10-56-42.mov",
+ "_screenWhy": "the demo's 153 segments split across two screen recordings in the edit cutsheet: s010-s106 carry screen 'raw/Screen-2026-11-11 10-56-42.mov' (97 segments, the majority, and what this field records) and s107-s162 carry 'raw/Screen-2026-11-11 11-14-09.mov' (56 segments). demo_scene.py takes --screen on its CLI; the per-segment mapping lives in transcript/cutsheet-v9.json, which the screen splice reads, so this field is documentation of the render input, not the input.",
+ "inset": {
+  "sourceCrop": {
+   "w": 2000,
+   "h": 2000,
+   "x": 0,
+   "y": 60
+  },
+  "_sourceCropWhy": "human review 2026-11-13 finding 4: the old crop (x 1330-3330) put the left half of the face under the inset's left edge. The face head spans 4K x ~230-1620 (measured, skin chroma over the demo span, face_position.py); 2000x2000 at (0, 60) keeps the whole face with headroom and shoulders square for the 960x960 delivery.",
+  "_delivery": {
+   "width": 960,
+   "height": 960,
+   "left": 2736,
+   "top": 1056,
+   "radius": 48,
+   "repositionSeconds": 0.6,
+   "enterSeconds": 0.5,
+   "exitSeconds": 0.35
+  },
+  "reposition": [],
+  "_repositionWhy": "bottom-right throughout, measured on screen-ocr.json over every inset-visible window. CODE never enters the footprint (x 2736-3696, y 1056-2016): code stops at x 3400 and the Python/kernel chips sit at x 3583-3793 above y 250, over the notebook gutter and status bar, above the inset's top. Long markdown prose lines (bulleted cells, 'Phase A:', 'Goal:') do graze the footprint's left edge by up to ~960px while they scroll, but they are transient background reading, never the read-along content the punch-ins target (all punch-in boxes sit at x < 2100), and the inset is hidden during every punch-in anyway. No corner is measurably cleaner: bottom-left is worse in every window (8-76 Mpx^2 versus bottom-right's max 9.3), and top-right is worse during the 339-746 markdown scroll (18.2 versus 9.3 Mpx^2).",
+  "hiddenDuring": [
+   {
+    "start": 132.7,
+    "end": 181.533,
+    "why": "a punch-in's zoomed target reaches the inset corner (style.json demoInset.mayHide)"
+   },
+   {
+    "start": 257.133,
+    "end": 265.467,
+    "why": "a punch-in's zoomed target reaches the inset corner (style.json demoInset.mayHide)"
+   },
+   {
+    "start": 317.433,
+    "end": 339.333,
+    "why": "a punch-in's zoomed target reaches the inset corner (style.json demoInset.mayHide)"
+   },
+   {
+    "start": 746.633,
+    "end": 750.967,
+    "why": "a punch-in's zoomed target reaches the inset corner (style.json demoInset.mayHide)"
+   },
+   {
+    "start": 786.4,
+    "end": 790.65,
+    "why": "a punch-in's zoomed target reaches the inset corner (style.json demoInset.mayHide)"
+   }
+  ]
+ },
+ "punchIns": {
+  "items": [
+   {
+    "id": "gZ1",
+    "part": "gZ1",
+    "start": 132.9,
+    "end": 135.533,
+    "cx": 1562,
+    "cy": 1026,
+    "zoom": 2.6,
+    "box": [
+     919,
+     986,
+     2206,
+     1067
+    ],
+    "framing": "full",
+    "target": "env = gym.make(gym_pusht/PushT-v0, obs_type=state): the import line he reads",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 3
+   },
+   {
+    "id": "gZ2",
+    "part": "gZ2",
+    "start": 144.433,
+    "end": 148.067,
+    "cx": 1562,
+    "cy": 1026,
+    "zoom": 2.6,
+    "box": [
+     919,
+     986,
+     2206,
+     1067
+    ],
+    "framing": "full",
+    "target": "same line: PushT-v0 and obs_type=state underlined",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 2
+   },
+   {
+    "id": "gZ3",
+    "part": "gZ3",
+    "start": 168.1,
+    "end": 181.333,
+    "cx": 1044,
+    "cy": 1110,
+    "zoom": 2.6,
+    "box": [
+     869,
+     1069,
+     1218,
+     1150
+    ],
+    "framing": "full",
+    "target": "action space print [0. 0.] [512. 512.]",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 14
+   },
+   {
+    "id": "gZ5",
+    "part": "gZ5",
+    "start": 257.333,
+    "end": 265.267,
+    "cx": 1292,
+    "cy": 792,
+    "zoom": 2.6,
+    "box": [
+     919,
+     751,
+     1664,
+     832
+    ],
+    "framing": "full",
+    "target": "def run_policy(make_action, n_episodes=100)",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 8
+   },
+   {
+    "id": "gZ7",
+    "part": "gZ7",
+    "start": 317.633,
+    "end": 339.133,
+    "cx": 1280,
+    "cy": 1119,
+    "zoom": 2.6,
+    "box": [
+     1042,
+     1081,
+     1519,
+     1157
+    ],
+    "framing": "full",
+    "target": "the loop ceiling while not done and n < 300",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 22,
+    "rampOut": 12
+   },
+   {
+    "id": "gZ15b",
+    "part": "gZ15b",
+    "start": 746.833,
+    "end": 750.767,
+    "cx": 1246,
+    "cy": 1204,
+    "zoom": 2.6,
+    "box": [
+     1108,
+     1158,
+     1385,
+     1251
+    ],
+    "framing": "full",
+    "target": "ds.add_frame call in the collection loop",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 2
+   },
+   {
+    "id": "gZ15c",
+    "part": "gZ15c",
+    "start": 786.6,
+    "end": 790.45,
+    "cx": 1660,
+    "cy": 1816,
+    "zoom": 2.6,
+    "box": [
+     1231,
+     1772,
+     2088,
+     1859
+    ],
+    "framing": "full",
+    "target": "the SQL schema query lines (state_names AS); narrowed window: the cell scrolls before 786.6",
+    "_boxFrom": "ocr",
+    "_ocrSamples": 3,
+    "_moveTol": 45
+   }
+  ]
+ }
+}

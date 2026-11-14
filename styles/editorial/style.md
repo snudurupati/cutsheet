@@ -508,6 +508,74 @@ headline word. Never both.
 Corrections that should apply to every future video get appended here (and to `learned` in
 `style.json`) before a job is closed out. One-off notes are applied and forgotten.
 
+- **2026-11-13 (2.2-learning-chaos): graphics go on the side the face is NOT on, measured per
+  job, never hardcoded left.** The whole zone system above assumes speaker-right / wall-left
+  because the camera historically sat left of the desk. On 2.2 the presenter sat left of frame
+  (his monitor-side perspective), so the human ruled: "for fullscreen scenes put all graphics on
+  the right, period." `zones.json` measures which side the face is on; the side cards get is the
+  complement. A recording that mirrors the layout does not mirror the style file.
+- **2026-11-13 (2.2): the end card can end at the sign-off word when the human asks.** The +2.3s
+  hold above exists because the speaker tends to look away just after finishing; hold it only
+  when that tail is in the footage. On 2.2 the human's instruction was to cut two frames after
+  "you." with no face-turn tail, and the direct instruction outranked the default (rule 3:
+  recorded, not silently overridden).
+- **2026-11-13 (2.2): a mood aside gets a lighter card, not a quieter argument.** g22b (the
+  AI-collapse aside) deliberately carries one accent word ("here to stay") and lighter weight:
+  mood beats read as hedging when styled like argument beats. This is the inverse of the
+  wins-vs-misses rule above: loudness follows whether the line IS the argument, not whether it
+  is positive.
+- **2026-11-13 (2.2): when cards stay clear of the face column, the subject matte is not built.**
+  2.2 shipped `matte: 0` on all 56 parts: every card sat on the opposite wall or on the screen
+  recording, so the matte pass (per the 2.1 chain) would have rendered 56 masks nothing
+  composited. Run `face_mattes.py` only when a card's box overlaps the measured face column.
+- **2026-11-13 (2.2): calibrate the face edge on skin chroma, not luma.** The strict face-vs-wall
+  calibration for hero-card widths found a cheek sitting 0-2px off the card edge during a hold
+  (gZ2b): skin and that wall matched on luma. Where a card's edge lands near the face column,
+  measure the boundary on skin-tone chroma distance and keep >=24px canvas clearance to the
+  nearest face pixel over the whole hold, sampled at entrance, hold and exit frames.
+- **2026-11-13 (2.2): `drawOn()`'s id belongs on the `<path>` element itself, never on a
+  wrapping group.** The HyperFrames runtime reads path length off the node carrying the id; on a
+  group the draw animates nothing and the entrance fails silently at render, not at check.
+- **2026-11-13 (2.2): `exitIfFree` adds no exit tween when the next part abuts within 0.02s.**
+  That is the contract, not a bug: the neighbour's entrance covers the boundary. Auditing
+  "missing exits" on abutting parts is wasted time; audit gaps above 0.02s only. The corollary,
+  learned the hard way on gZ11: a part that does not sit against a neighbour must **call**
+  `exitIfFree`. A part authored with no exit call at all hard-cuts on its last frame, and the
+  abutting-neighbour excuse does not apply to it.
+- **2026-11-13 (2.2, human review): a card the viewer must read holds at least ~4s; a sub-2s
+  flash reads as a glitch, not a graphic.** When the human flags something as "flashes ~1s,
+  persist it", extend the part's end into the following gap (the gap was measured when the plan
+  was built; extensions consume it and never overlap the next part). Extending a part end never
+  breaks existing `cueIn` cues: cues are part-relative and an extension only adds tail. Six parts
+  on 2.2 were held out this way (g04, g05, gZ11 to ~5-6s; gZ20b, g23b, g25 by +1s).
+- **2026-11-13 (2.2, human review): the demo face inset crop is measured from the head, never a
+  guessed corner.** The inset's `sourceCrop` must contain the speaker's whole face at all times.
+  Measure the head's horizontal extent on the face cam (contiguous skin-chroma blob, not luma,
+  and not the whole frame: a lit lamp reads as skin), centre the square crop on it with margin,
+  and check frames across the span. On 2.2 the first crop clipped the left half of the face
+  for the whole demo; the head spanned 4K x ~230-1620 and the crop landed at x 0-2000.
+- **2026-11-13 (2.2, human review): the intro music bed may run from 0:00.** A cold open with no
+  bed until the opening bit warms up was a plan decision on 02-data-profiling, not style law.
+  The human overrode it on 2.2 ("music should start at 0:00"): the bed runs under the hook from
+  frame 0. A bed starting at 0 needs a click-free head, ~0.8s `afade=t=in:st=0:d=0.8` ahead of
+  the volume stage in the mix chain.
+- **2026-11-13 (2.2): marks over a dark code theme go paper-light across the whole mark set, not
+  just the accent.** The paper-vs-ink rule above is per-region, and a dark editor or notebook
+  theme makes every ink mark on it invisible: grid strokes, axis numbers and underlines included,
+  not only boxes. Set the part's mark constant to `$bg` over dark themes (opaque pills keep their
+  own dark chip), then check a mid-hold frame; gZ3's grid was black-on-black on the finished
+  file because the theme was dark but the marks were ink.
+- **2026-11-13 (2.2): pill and chip size is relative to the neighbour, not the canvas.** A 13px-cap
+  pill next to 2.6x-zoomed code reads as illegible even when it clears the 20px floor next to
+  normal type. Where a pill sits beside a punch-in or other large element, size it against that
+  element (default 30px+ on canvas, 10px 20px padding, 16px radius), and read a delivered-scale
+  frame before shipping.
+- **2026-11-13 (2.2): right-align labels inside a bordered panel and measure their box.** A
+  left-pinned `nowrap` sub-label in a row helper ran 0.5px past the panel border at 4K (g27
+  "youtube") and the checkpoint still called it clean. Measure the rendered label widths (PIL)
+  against the panel interior minus a ~34px gutter, right-align against the value column, and
+  drop the main line's size until the gutter holds.
+
 - 2026-10-17: a section change gets a 1.5s beat, longer than a sentence pause (01-robotics-as-de,
   after an end-to-end review: "a bit of pause between transitions", at section changes only).
 - 2026-10-17: **the hook follows the script's [MG] cue** when the script has one (01: "I asked you to

@@ -1,0 +1,2338 @@
+1
+00:00:00,144 --> 00:00:02,545
+If your system is completely
+deterministic,
+
+2
+00:00:03,245 --> 00:00:04,305
+it cannot learn.
+
+3
+00:00:04,905 --> 00:00:06,526
+You need a baseline of chaos
+
+4
+00:00:07,266 --> 00:00:09,587
+for the system to learn about the real
+world.
+
+5
+00:00:10,337 --> 00:00:11,378
+Unless you introduce
+
+6
+00:00:12,018 --> 00:00:17,381
+stochasticity into the learning process,
+you cannot get a machine to handle the
+
+7
+00:00:17,421 --> 00:00:18,121
+real world.
+
+8
+00:00:19,302 --> 00:00:21,544
+Denis Noble said that in a lecture
+
+9
+00:00:22,144 --> 00:00:24,585
+on biological intelligence, quoting
+
+10
+00:00:25,166 --> 00:00:26,646
+Alan Turing But I ignored
+
+11
+00:00:27,507 --> 00:00:30,292
+both the advice last week and tried to
+
+12
+00:00:30,913 --> 00:00:35,822
+code a deterministic robot policy and
+failed miserably at it.
+
+13
+00:00:36,684 --> 00:00:41,146
+I tried to profile other people's data
+from the community and then I found out
+
+14
+00:00:41,346 --> 00:00:42,647
+they were missing success labels.
+
+15
+00:00:43,427 --> 00:00:45,048
+So I set out to create my own
+
+16
+00:00:45,788 --> 00:00:46,668
+robot policy
+
+17
+00:00:47,229 --> 00:00:51,391
+completely deterministically without using
+any kind of heuristics
+
+18
+00:00:52,051 --> 00:00:54,272
+or any kind of machine learning involved.
+
+19
+00:00:54,993 --> 00:00:58,234
+And I soon realized that physics has its
+own mind.
+
+20
+00:00:58,972 --> 00:01:00,433
+And I just can't hand code
+
+21
+00:01:01,174 --> 00:01:05,919
+all the logics, all the Newtonian
+mechanics into a deterministic policy.
+
+22
+00:01:06,840 --> 00:01:09,002
+So I fell back on using a
+
+23
+00:01:09,922 --> 00:01:10,622
+community
+
+24
+00:01:11,424 --> 00:01:14,106
+data trained policy, diffusion in this
+case.
+
+25
+00:01:15,425 --> 00:01:19,449
+And that's exactly what I want to show you
+today, how I went about creating a
+
+26
+00:01:19,489 --> 00:01:21,470
+deterministic policy, what failed,
+
+27
+00:01:21,790 --> 00:01:23,091
+how I fell back on
+
+28
+00:01:24,012 --> 00:01:25,233
+learning from data,
+
+29
+00:01:26,014 --> 00:01:28,295
+and then how I eventually met success.
+
+30
+00:01:29,096 --> 00:01:33,033
+And then, you know, how went about
+profiling my data, what did I measure?
+
+31
+00:01:33,334 --> 00:01:34,875
+So let's get started with the demo.
+
+32
+00:01:35,603 --> 00:01:41,597
+So here, if you can see my screen I have a
+notebook, it's called SIM Push-T V2,
+
+33
+00:01:41,997 --> 00:01:42,938
+a Jupyter notebook,
+
+34
+00:01:43,298 --> 00:01:47,239
+And initially I'm just, you know, doing
+some housekeeping, importing a few
+
+35
+00:01:47,299 --> 00:01:47,850
+libraries.
+
+36
+00:01:47,900 --> 00:01:48,600
+I'm importing
+
+37
+00:01:49,120 --> 00:01:49,901
+a gymnasium.
+
+38
+00:01:50,141 --> 00:01:52,622
+This is what I'll use to the Push-T
+simulations.
+
+39
+00:01:52,662 --> 00:01:53,362
+I'm not using
+
+40
+00:01:54,063 --> 00:01:57,685
+MuJoCo for this yet, And then the Gym
+Push-T, which
+
+41
+00:01:58,745 --> 00:02:00,959
+actually lets you invoke and run the
+simulations.
+
+42
+00:02:02,040 --> 00:02:04,521
+So I am attached to the appropriate
+kernel.
+
+43
+00:02:04,721 --> 00:02:05,421
+Let me go
+
+44
+00:02:06,682 --> 00:02:07,382
+run this cell.
+
+45
+00:02:08,099 --> 00:02:08,309
+All right.
+
+46
+00:02:08,359 --> 00:02:12,521
+So like I already mentioned, Gym Push-T
+does not make use of MuJoCo, but it makes
+
+47
+00:02:12,581 --> 00:02:14,241
+use of Pymunk 2D physics
+
+48
+00:02:14,862 --> 00:02:15,512
+somewhat easier.
+
+49
+00:02:15,562 --> 00:02:17,683
+I don't need like a specialist machine for
+that.
+
+50
+00:02:18,223 --> 00:02:19,611
+I can just it on my MacBook.
+
+51
+00:02:21,086 --> 00:02:25,301
+So here I'm making the gym environment,
+telling it I'm using the Push-T version
+
+52
+00:02:25,321 --> 00:02:26,021
+zero
+
+53
+00:02:26,281 --> 00:02:28,061
+and the observation type is state.
+
+54
+00:02:28,727 --> 00:02:33,143
+So it'll give me a numpy array with the X
+and Y coordinates of the current position
+
+55
+00:02:33,203 --> 00:02:34,043
+of the pusher.
+
+56
+00:02:34,983 --> 00:02:36,703
+And the render mode is RGB array.
+
+57
+00:02:36,723 --> 00:02:37,603
+That means I'm asking
+
+58
+00:02:38,464 --> 00:02:40,164
+it to collect data instead of
+
+59
+00:02:40,824 --> 00:02:44,125
+running a sim for a human observation on
+the screen.
+
+60
+00:02:44,825 --> 00:02:46,185
+So let's run this cell.
+
+61
+00:02:46,947 --> 00:02:51,659
+And then if I look action space is the
+amount of area we allotted simulation,
+
+62
+00:02:51,739 --> 00:02:53,161
+which happens to be a 5-fold
+
+63
+00:02:54,141 --> 00:02:55,122
+by 5-fold grid.
+
+64
+00:02:55,502 --> 00:02:59,099
+In the action space, the lowest
+coordinates 0, and the highest 5-fold,
+
+65
+00:02:59,139 --> 00:02:59,289
+right?
+
+66
+00:02:59,339 --> 00:03:01,320
+So it's a 5-fold by 5-fold.
+
+67
+00:03:01,340 --> 00:03:04,122
+The square is where the whole sim is
+happening.
+
+68
+00:03:04,898 --> 00:03:06,840
+And here, when I ask...
+
+69
+00:03:08,087 --> 00:03:12,010
+When I enable the environment and ask it
+to show the observation, it gives me a few
+
+70
+00:03:12,050 --> 00:03:14,186
+values, So it gives me the coordinates,
+
+71
+00:03:14,307 --> 00:03:16,982
+x and y coordinates of the pusher, which
+are at 390 and 304.
+
+72
+00:03:17,803 --> 00:03:21,185
+it also tells me where the actual block is
+
+73
+00:03:21,966 --> 00:03:24,827
+so again if you remember the whole task of
+Push-T is
+
+74
+00:03:25,408 --> 00:03:30,024
+there's a t outline there's a t block and
+there's a pusher the actual robot which
+
+75
+00:03:30,084 --> 00:03:30,904
+tries to push
+
+76
+00:03:31,986 --> 00:03:34,487
+t block onto the t outline so right now
+
+77
+00:03:35,067 --> 00:03:39,630
+the outline is sitting at 241.5 and 268.5
+at a 3.3 degree angle radians
+
+78
+00:03:40,200 --> 00:03:42,381
+And then the goal that we're trying to
+achieve,
+
+79
+00:03:43,282 --> 00:03:46,284
+task complete, right, when are, we're
+called the task complete,
+
+80
+00:03:46,904 --> 00:03:49,546
+is when I push the T onto the reference,
+
+81
+00:03:50,547 --> 00:03:51,287
+which is
+
+82
+00:03:51,848 --> 00:03:52,548
+at
+
+83
+00:03:53,970 --> 00:03:56,091
+and at 0.78 degree radians.
+
+84
+00:03:56,919 --> 00:04:01,996
+if I'm successfully able to push the T
+onto this outline, and called a success.
+
+85
+00:04:02,803 --> 00:04:04,803
+So the way the sim works is, you
+
+86
+00:04:05,704 --> 00:04:10,761
+if you remember my last episode right so
+the simulation runs in episodes and
+
+87
+00:04:11,027 --> 00:04:11,728
+episode is
+
+88
+00:04:11,768 --> 00:04:12,648
+a complete task
+
+89
+00:04:13,308 --> 00:04:14,469
+from end to end
+
+90
+00:04:15,470 --> 00:04:19,312
+so here i want to run the experiment the
+simulation for n episodes
+
+91
+00:04:21,047 --> 00:04:24,410
+And I can define what n is, and I've
+defined n and to be 100 here.
+
+92
+00:04:24,430 --> 00:04:25,771
+So I'm running 100 episodes.
+
+93
+00:04:26,551 --> 00:04:29,313
+And each episode has a set of tasks,
+right?
+
+94
+00:04:29,353 --> 00:04:30,114
+And the task is
+
+95
+00:04:31,175 --> 00:04:33,877
+read the environment where the pusher is
+right now,
+
+96
+00:04:34,577 --> 00:04:36,446
+and related to it, perform an action.
+
+97
+00:04:36,566 --> 00:04:41,270
+And the policy is supposed to inform,
+given the current state, as to what the
+
+98
+00:04:41,330 --> 00:04:42,030
+action should be.
+
+99
+00:04:42,311 --> 00:04:43,452
+So that's exactly what I'm doing.
+
+100
+00:04:43,472 --> 00:04:44,172
+I have two loops.
+
+101
+00:04:44,232 --> 00:04:45,153
+Outer loop defines
+
+102
+00:04:45,874 --> 00:04:46,574
+each episode.
+
+103
+00:04:47,068 --> 00:04:48,089
+And for each episode,
+
+104
+00:04:49,253 --> 00:04:52,434
+I'm doing an environment of reset with
+seed is equal to episode.
+
+105
+00:04:52,535 --> 00:04:55,950
+And for each episode, I change the seed.
+
+106
+00:04:55,991 --> 00:04:59,472
+Just to simplify things, what the seed
+does is each, it sets the initial
+
+107
+00:04:59,492 --> 00:04:59,902
+position.
+
+108
+00:04:59,952 --> 00:05:00,813
+So earlier we saw
+
+109
+00:05:01,533 --> 00:05:04,734
+that each, the pusher is at a certain
+position and the block is at a certain
+
+110
+00:05:04,774 --> 00:05:07,716
+position, certain angle, and this seed
+value sets
+
+111
+00:05:07,816 --> 00:05:09,657
+it and I'm changing it for each episode.
+
+112
+00:05:10,277 --> 00:05:13,338
+So each episode starts at a different
+starting point, right?
+
+113
+00:05:14,259 --> 00:05:14,959
+To say so.
+
+114
+00:05:15,367 --> 00:05:17,990
+while not done or end less than 300.
+
+115
+00:05:18,330 --> 00:05:21,112
+So each episode has to complete a task and
+I can't,
+
+116
+00:05:21,673 --> 00:05:25,737
+especially in my sim with the tiny machine
+that I'm running on, I can't wait forever
+
+117
+00:05:26,097 --> 00:05:27,899
+for it to take like unlimited number
+
+118
+00:05:27,919 --> 00:05:30,161
+of steps to try and finish the task,
+right?
+
+119
+00:05:30,181 --> 00:05:31,962
+So I need to have an upper boundary as to,
+
+120
+00:05:32,943 --> 00:05:36,046
+hey, you know, either, you know, you get a
+status of done
+
+121
+00:05:36,806 --> 00:05:37,506
+or
+
+122
+00:05:37,607 --> 00:05:42,651
+you already reached, tried 300 whichever
+one, you know, condition comes first, stop
+
+123
+00:05:42,671 --> 00:05:43,371
+the loop.
+
+124
+00:05:44,171 --> 00:05:48,866
+And here what I'm doing is I'm doing an
+env step and doing a make action.
+
+125
+00:05:48,966 --> 00:05:53,627
+So what does make action does when I call
+the policy is basically it's a sampling
+
+126
+00:05:53,781 --> 00:05:55,182
+the whole action space,
+
+127
+00:05:55,442 --> 00:05:58,383
+the fight will be a vital grid and random
+sample.
+
+128
+00:05:58,463 --> 00:06:00,563
+And then it's just, you know, choosing an
+arbitrary value.
+
+129
+00:06:01,324 --> 00:06:02,024
+so basically
+
+130
+00:06:02,704 --> 00:06:04,045
+This is not a real policy, right?
+
+131
+00:06:04,065 --> 00:06:06,586
+This is a truly random policy because a
+policy means
+
+132
+00:06:07,406 --> 00:06:09,567
+you read the current state and then you
+decide
+
+133
+00:06:10,328 --> 00:06:12,789
+what the next action is and then perform
+the step.
+
+134
+00:06:13,635 --> 00:06:14,335
+in this case,
+
+135
+00:06:14,774 --> 00:06:18,158
+the next action is completely random
+because I'm just doing a sample
+
+136
+00:06:18,798 --> 00:06:21,519
+of the action space and thus the random
+policy.
+
+137
+00:06:21,539 --> 00:06:26,043
+And when I ran it, I did 100 episodes and
+I got zero successes, which is again, you
+
+138
+00:06:26,304 --> 00:06:27,004
+is expected.
+
+139
+00:06:27,244 --> 00:06:30,326
+And the max coverage I got is 0.115.
+
+140
+00:06:30,446 --> 00:06:32,175
+And coverage means the T block
+
+141
+00:06:33,732 --> 00:06:35,293
+overlapping T outline.
+
+142
+00:06:35,453 --> 00:06:39,534
+And then we are looking for, you know, a
+coverage of or more is what we call
+
+143
+00:06:39,574 --> 00:06:40,274
+success.
+
+144
+00:06:40,734 --> 00:06:43,481
+And the max I got is like about 11%, is
+bad.
+
+145
+00:06:43,521 --> 00:06:44,743
+And again, it's a random policy,
+
+146
+00:06:45,743 --> 00:06:49,362
+And then, you know, even though for
+learning, we require
+
+147
+00:06:50,850 --> 00:06:51,550
+pure chaos
+
+148
+00:06:52,251 --> 00:06:54,631
+does not create order, which is also true.
+
+149
+00:06:54,731 --> 00:06:56,352
+So I choose a random policy,
+
+150
+00:06:56,952 --> 00:06:57,953
+write it for 100 episodes
+
+151
+00:06:58,733 --> 00:06:59,753
+and nothing came out of it,
+
+152
+00:07:00,414 --> 00:07:01,114
+which is expected.
+
+153
+00:07:01,854 --> 00:07:07,589
+And then I tried to use a deterministic
+policy, just did some planning, basic pure
+
+154
+00:07:07,629 --> 00:07:07,980
+coordinate
+
+155
+00:07:08,030 --> 00:07:12,572
+geometry where I'm like, hey, this is
+where my pusher this is where my outline
+
+156
+00:07:12,692 --> 00:07:12,822
+is.
+
+157
+00:07:12,872 --> 00:07:15,532
+So my goal is to bring the pusher to where
+the star is
+
+158
+00:07:16,233 --> 00:07:18,173
+and then start pushing it in a straight
+line.
+
+159
+00:07:18,928 --> 00:07:19,888
+what I planned, right?
+
+160
+00:07:20,568 --> 00:07:24,129
+And after each step, it keeps pushing in a
+straight line and then they should go
+
+161
+00:07:24,269 --> 00:07:26,690
+overlap it for whatever percentage, right?
+
+162
+00:07:26,710 --> 00:07:27,470
+That's what I thought.
+
+163
+00:07:28,480 --> 00:07:29,815
+it should work, should happen.
+
+164
+00:07:30,675 --> 00:07:34,477
+Again, real world, if I were doing it
+physically, manually,
+
+165
+00:07:35,357 --> 00:07:37,819
+if I were the pusher, and if I walk all
+the way here,
+
+166
+00:07:38,419 --> 00:07:39,740
+and then I start pushing this T,
+
+167
+00:07:40,895 --> 00:07:41,406
+In a way.
+
+168
+00:07:41,456 --> 00:07:41,866
+Right.
+
+169
+00:07:41,916 --> 00:07:45,119
+Maybe the T will rotate, but it should
+move and go here.
+
+170
+00:07:45,319 --> 00:07:45,509
+Right.
+
+171
+00:07:45,559 --> 00:07:46,380
+That's what we expect.
+
+172
+00:07:46,681 --> 00:07:50,698
+So to do that, I did, you know, some
+simple linear algebra where I'm
+
+173
+00:07:50,738 --> 00:07:52,980
+calculating these and basically, you know,
+calculating
+
+174
+00:07:53,000 --> 00:07:53,700
+the next step.
+
+175
+00:07:54,241 --> 00:07:56,503
+And I'm telling the policy, hey, go do it.
+
+176
+00:07:57,023 --> 00:07:57,723
+Then I run it.
+
+177
+00:07:58,525 --> 00:07:59,786
+And the unexpected happens.
+
+178
+00:08:01,823 --> 00:08:03,305
+the T just keeps,
+
+179
+00:08:04,266 --> 00:08:05,027
+you know, circling.
+
+180
+00:08:05,167 --> 00:08:09,045
+And I call this a cowboy because the
+pusher here is holding the T by its edge
+
+181
+00:08:09,246 --> 00:08:10,667
+and swinging it down in a loop
+
+182
+00:08:11,468 --> 00:08:14,311
+as a cowboy would try to, you know, rope
+something, right?
+
+183
+00:08:14,809 --> 00:08:16,694
+That's why I call this policy a cowboy.
+
+184
+00:08:17,615 --> 00:08:19,297
+So the this was my attempt.
+
+185
+00:08:19,937 --> 00:08:25,469
+at using or creating determinism or
+creating a deterministic policy to see can
+
+186
+00:08:25,509 --> 00:08:26,060
+get at least
+
+187
+00:08:26,110 --> 00:08:26,810
+some success.
+
+188
+00:08:27,683 --> 00:08:31,575
+But then even after, you know, 100 or so
+episodes, again,
+
+189
+00:08:32,215 --> 00:08:33,577
+all it does is without friction,
+
+190
+00:08:34,261 --> 00:08:38,949
+without gravity, without those physics
+that we find in real are sim.
+
+191
+00:08:39,120 --> 00:08:39,820
+sim
+
+192
+00:08:40,810 --> 00:08:41,750
+It just creates torque.
+
+193
+00:08:42,211 --> 00:08:44,872
+And, you know, the pusher just keeps
+rotating or swinging,
+
+194
+00:08:45,632 --> 00:08:48,460
+you know, T And that's actually what
+happened.
+
+195
+00:08:48,734 --> 00:08:49,434
+was a failure.
+
+196
+00:08:50,415 --> 00:08:51,115
+So
+
+197
+00:08:51,235 --> 00:08:52,195
+then I tried something else.
+
+198
+00:08:52,255 --> 00:08:52,956
+I'm like, hey, you know what?
+
+199
+00:08:53,256 --> 00:08:54,396
+I am not super smart.
+
+200
+00:08:54,536 --> 00:08:55,437
+Let me try AI.
+
+201
+00:08:55,657 --> 00:08:55,867
+Right.
+
+202
+00:08:55,917 --> 00:08:59,078
+So I asked Gemini to write me a policy.
+
+203
+00:08:59,098 --> 00:09:00,859
+I don't have the code here because the
+policy.
+
+204
+00:09:01,532 --> 00:09:03,340
+Jim, I did not even understand the basics.
+
+205
+00:09:03,360 --> 00:09:05,780
+I did not even take into consideration
+where the
+
+206
+00:09:06,541 --> 00:09:07,401
+current position is.
+
+207
+00:09:07,461 --> 00:09:08,581
+It just assumed that, you know,
+
+208
+00:09:09,301 --> 00:09:10,862
+the goal is 400 by 400.
+
+209
+00:09:12,402 --> 00:09:14,643
+So if I ran the policy, which I did,
+
+210
+00:09:15,203 --> 00:09:17,204
+it just, the pusher just goes and sits in
+a corner.
+
+211
+00:09:17,384 --> 00:09:20,305
+He doesn't even make T block, So that was
+a failure.
+
+212
+00:09:21,362 --> 00:09:22,723
+So then I decided, hey, you know what?
+
+213
+00:09:22,844 --> 00:09:23,844
+I'm just wasting my time.
+
+214
+00:09:23,965 --> 00:09:26,055
+And I'm telling you all this in like five
+minutes.
+
+215
+00:09:26,816 --> 00:09:30,613
+It took me a whole week to figure things
+out, do back and forth, bunch of codes,
+
+216
+00:09:30,653 --> 00:09:31,358
+bunch of versions,
+
+217
+00:09:32,298 --> 00:09:34,137
+And then I'm like, hey, I'm just wasting
+my time.
+
+218
+00:09:34,617 --> 00:09:38,921
+And that's when the whole learning from
+Denis Noble and then Alan Turing came
+
+219
+00:09:38,961 --> 00:09:41,118
+where, hey, you know, to do, to, to get
+
+220
+00:09:41,158 --> 00:09:43,003
+a machine to learn, the real world
+
+221
+00:09:43,625 --> 00:09:47,497
+you need to have some level of randomness
+in the learning process so
+
+222
+00:09:49,820 --> 00:09:54,656
+I fell back on the diffusion policy, the
+default policy published by Hugging Face.
+
+223
+00:09:54,976 --> 00:09:56,416
+And then they also gave me an eval.
+
+224
+00:09:56,456 --> 00:10:01,617
+I ran the evals, tested a few things to
+see if it has any successes.
+
+225
+00:10:02,557 --> 00:10:06,272
+They promised about 64% to 65% success
+when they ran it.
+
+226
+00:10:06,832 --> 00:10:11,526
+And I did run the eval, and then I, you
+know, I did get a good chunk of successes.
+
+227
+00:10:12,607 --> 00:10:15,950
+And here is one example where, you know,
+if you use diffusion policy
+
+228
+00:10:16,590 --> 00:10:20,308
+in the URL, right, it just successfully
+pushes the T block
+
+229
+00:10:20,908 --> 00:10:21,769
+onto the T outline.
+
+230
+00:10:22,109 --> 00:10:24,105
+So that was settled, So my...
+
+231
+00:10:25,461 --> 00:10:26,962
+you know, for me to generate the data.
+
+232
+00:10:27,742 --> 00:10:29,963
+The goal here was to just go and,
+
+233
+00:10:30,543 --> 00:10:31,944
+you know, download the policy
+
+234
+00:10:33,144 --> 00:10:34,396
+and then make use of the policy,
+
+235
+00:10:35,116 --> 00:10:36,326
+you know, in my SIM.
+
+236
+00:10:37,066 --> 00:10:37,786
+So that's what I did.
+
+237
+00:10:38,483 --> 00:10:42,075
+But again, I wanted a set of data, you
+know, more than just, you know,
+
+238
+00:10:42,735 --> 00:10:43,435
+X episodes,
+
+239
+00:10:44,042 --> 00:10:48,978
+And running the policy for 50 episodes on
+a M5 Pro took me about 80 minutes, 80 to
+
+240
+00:10:49,058 --> 00:10:49,758
+90 minutes.
+
+241
+00:10:50,438 --> 00:10:54,437
+So I couldn't run a whole thousand
+episodes, I did a mix of thousand episodes
+
+242
+00:10:54,535 --> 00:10:55,836
+using my random policy here.
+
+243
+00:10:56,625 --> 00:10:58,852
+event environment dot action space or
+sample.
+
+244
+00:10:59,832 --> 00:11:04,405
+And then another 50 episodes where I used
+the diffusion policy, loaded the weights,
+
+245
+00:11:04,788 --> 00:11:06,242
+you know, from the model tensors
+
+246
+00:11:06,442 --> 00:11:09,043
+and then ran the same using the policies.
+
+247
+00:11:09,363 --> 00:11:14,432
+And in those 50 episodes, I got about 36
+episodes, which were successes.
+
+248
+00:11:14,452 --> 00:11:15,152
+That's about
+
+249
+00:11:15,452 --> 00:11:16,733
+74 percent success rate.
+
+250
+00:11:17,467 --> 00:11:18,529
+So that was good, right?
+
+251
+00:11:18,729 --> 00:11:21,853
+So finally I got my SIM data running on my
+own machine
+
+252
+00:11:22,754 --> 00:11:24,055
+and not using the community data.
+
+253
+00:11:25,124 --> 00:11:29,335
+So the next thing which I actually wanted
+to do, I set out to do, is I built a
+
+254
+00:11:29,355 --> 00:11:31,336
+profiler to profile all this data
+
+255
+00:11:31,356 --> 00:11:34,298
+and to see if there are any outliers, if
+the data is good, things like that.
+
+256
+00:11:35,078 --> 00:11:35,778
+So the
+
+257
+00:11:35,852 --> 00:11:37,773
+worked fine for Push-T community data.
+
+258
+00:11:38,013 --> 00:11:40,455
+It worked fine for ALOHA community data.
+
+259
+00:11:40,975 --> 00:11:43,576
+And I wanted to test my profiler on my own
+data.
+
+260
+00:11:44,037 --> 00:11:46,405
+So that was next task.
+
+261
+00:11:47,026 --> 00:11:49,047
+And I'll show you how my profiler fared.
+
+262
+00:11:49,679 --> 00:11:53,624
+So before I jump into the profiler, I just
+want to show you how I collected the
+
+263
+00:11:53,644 --> 00:11:55,207
+diffusion policy SIM data.
+
+264
+00:11:55,789 --> 00:11:56,489
+So here,
+
+265
+00:11:57,113 --> 00:11:57,813
+where did it go?
+
+266
+00:11:58,364 --> 00:11:59,064
+Yeah, right here.
+
+267
+00:11:59,685 --> 00:12:03,627
+So here, I'm defining DS as a LeRobot data
+set.
+
+268
+00:12:04,548 --> 00:12:07,189
+The name is push_t underscore sim, FPS 10.
+
+269
+00:12:07,490 --> 00:12:09,511
+are all the features that I'm collecting.
+
+270
+00:12:09,551 --> 00:12:14,534
+And if you noticed, I did not collect any
+video data, again, given my machine
+
+271
+00:12:14,554 --> 00:12:15,715
+capacity and the amount
+
+272
+00:12:15,755 --> 00:12:16,455
+of time I had.
+
+273
+00:12:17,209 --> 00:12:21,018
+And since I wasted so much of my time
+trying to create a deterministic policy,
+
+274
+00:12:21,306 --> 00:12:23,247
+did not collect capture any video frames.
+
+275
+00:12:24,036 --> 00:12:27,754
+So define the data set here, my policy was
+running, and each time I was getting a
+
+276
+00:12:27,881 --> 00:12:30,764
+frame, I'm doing a ds.add_frame,
+
+277
+00:12:30,984 --> 00:12:31,684
+and then
+
+278
+00:12:32,045 --> 00:12:34,061
+writing everything a location.
+
+279
+00:12:35,462 --> 00:12:37,458
+So let's move on profiler itself.
+
+280
+00:12:39,155 --> 00:12:40,591
+So here, my
+
+281
+00:12:41,232 --> 00:12:44,533
+data, even though I didn't download it, I
+put it in the default location so I don't
+
+282
+00:12:44,553 --> 00:12:45,354
+break my profiler.
+
+283
+00:12:46,074 --> 00:12:50,296
+So I put it on in my home folder,.cache,
+hugging, phased, you know, bot, repo ID,
+
+284
+00:12:50,316 --> 00:12:51,477
+which I own handle,
+
+285
+00:12:52,838 --> 00:12:55,940
+snudurupati slash Push-T underscore sim.
+
+286
+00:12:56,653 --> 00:12:57,394
+when I run this,
+
+287
+00:12:58,134 --> 00:12:59,255
+I am attached to the kernel.
+
+288
+00:12:59,965 --> 00:13:04,267
+So I get my data files, everything, you
+know, right there.
+
+289
+00:13:04,547 --> 00:13:05,928
+And when I print the schema,
+
+290
+00:13:06,608 --> 00:13:10,550
+since it's a LeRobot data set, it follows
+the schema pattern.
+
+291
+00:13:11,771 --> 00:13:12,671
+And let me show you
+
+292
+00:13:13,252 --> 00:13:14,012
+what I have here.
+
+293
+00:13:14,272 --> 00:13:16,113
+So I have 1,050 episodes.
+
+294
+00:13:16,173 --> 00:13:21,156
+And like I mentioned, 1,000 are purely
+random policy, random sampling from the
+
+295
+00:13:21,356 --> 00:13:22,056
+action space.
+
+296
+00:13:22,216 --> 00:13:23,317
+And then 50 of them
+
+297
+00:13:23,915 --> 00:13:29,277
+the actual diffusion policy and since each
+one of them you know runs until completion
+
+298
+00:13:29,337 --> 00:13:30,007
+or for 300
+
+299
+00:13:30,057 --> 00:13:31,938
+frames i have approximately 300
+
+300
+00:13:33,059 --> 00:13:35,200
+k plus frames which makes sense
+
+301
+00:13:36,160 --> 00:13:40,782
+especially all of those thousand random
+policies they ran for 300 steps and they
+
+302
+00:13:40,802 --> 00:13:42,303
+failed right none
+
+303
+00:13:42,323 --> 00:13:45,439
+of them succeeded so there will be a
+constant 300 frames
+
+304
+00:13:46,059 --> 00:13:51,751
+thousand episodes and Yeah, so if I just
+do a count from the metadata and the data
+
+305
+00:13:51,791 --> 00:13:52,222
+just to make
+
+306
+00:13:52,272 --> 00:13:56,016
+sure, just to check that the data and the
+metadata match, they match exactly, which
+
+307
+00:13:56,396 --> 00:13:59,294
+is expected since I did write it in the
+robot
+
+308
+00:13:59,747 --> 00:14:00,815
+dataset format.
+
+309
+00:14:01,571 --> 00:14:04,861
+And then let me verify that frames, actual
+frames match
+
+310
+00:14:05,542 --> 00:14:06,242
+between the
+
+311
+00:14:07,203 --> 00:14:07,903
+metadata.
+
+312
+00:14:10,035 --> 00:14:11,961
+and actual data get a count of zero.
+
+313
+00:14:11,981 --> 00:14:13,985
+That means everything matches, nothing's
+out of the ordinary.
+
+314
+00:14:15,108 --> 00:14:18,175
+And now let's look at the episode length
+distribution.
+
+315
+00:14:19,524 --> 00:14:24,205
+And here, if you look at it, I have two
+data sets, even them trying to perform the
+
+316
+00:14:24,245 --> 00:14:24,945
+same task,
+
+317
+00:14:25,906 --> 00:14:30,635
+having all those random thousand random,
+you know, episodes which all have
+
+318
+00:14:30,695 --> 00:14:32,015
+failures, you know, just
+
+319
+00:14:32,115 --> 00:14:33,756
+using them together or clubbing them
+together
+
+320
+00:14:34,916 --> 00:14:37,057
+with the diffusion policy would skew my
+data.
+
+321
+00:14:37,117 --> 00:14:37,247
+Right.
+
+322
+00:14:37,297 --> 00:14:39,778
+It'll show that there is a huge number of
+outliers
+
+323
+00:14:40,638 --> 00:14:40,948
+there.
+
+324
+00:14:40,998 --> 00:14:42,478
+So I kind of split them by task.
+
+325
+00:14:43,275 --> 00:14:48,126
+And then if I show you here, so the random
+policy all have 300 frames because my
+
+326
+00:14:48,307 --> 00:14:49,309
+logic said either
+
+327
+00:14:50,427 --> 00:14:54,910
+until termination where the task succeeds
+or you run 300 steps and all of them
+
+328
+00:14:54,970 --> 00:14:56,451
+failed after trying for
+
+329
+00:14:56,471 --> 00:14:57,211
+300 steps.
+
+330
+00:14:57,692 --> 00:14:58,472
+So they are all 300.
+
+331
+00:14:58,512 --> 00:14:59,212
+And
+
+332
+00:14:59,573 --> 00:15:04,256
+then I look at the diffusion policy, they
+go all the way from 50 to 300, right?
+
+333
+00:15:04,276 --> 00:15:07,151
+So that's expected because it's a real
+policy.
+
+334
+00:15:07,191 --> 00:15:08,372
+Some succeed, some fail.
+
+335
+00:15:08,953 --> 00:15:13,310
+And the ones which succeed are going to
+succeed, know, sooner, like at 250 steps.
+
+336
+00:15:13,439 --> 00:15:14,139
+steps,
+
+337
+00:15:14,851 --> 00:15:19,055
+So, I have a nice distribution, which is
+also good.
+
+338
+00:15:20,135 --> 00:15:23,078
+And I'm also doing the same thing for the
+interquartile distance.
+
+339
+00:15:23,995 --> 00:15:26,420
+I'm completely discounting the random
+policy.
+
+340
+00:15:27,201 --> 00:15:32,892
+And if I see the diffusion once the IQR is
+161, so anything below 139 or anything
+
+341
+00:15:32,932 --> 00:15:33,382
+above 300
+
+342
+00:15:33,432 --> 00:15:35,854
+are the outliers, is what I should go look
+at.
+
+343
+00:15:36,627 --> 00:15:37,828
+And since I don't have
+
+344
+00:15:38,509 --> 00:15:39,490
+any video in there,
+
+345
+00:15:40,311 --> 00:15:43,207
+it doesn't even make sense to count the
+video frames.
+
+346
+00:15:44,168 --> 00:15:45,389
+So that is completely skipped,
+
+347
+00:15:46,510 --> 00:15:49,173
+Action sizes and ranges to all check out
+
+348
+00:15:49,754 --> 00:15:50,775
+comes out to be zero.
+
+349
+00:15:51,876 --> 00:15:57,492
+And I'm also here checking to see if there
+are any bad values, like missing joins,
+
+350
+00:15:57,519 --> 00:15:58,070
+something that
+
+351
+00:15:58,120 --> 00:16:02,019
+did not perform well, way I did in my
+profiler, and everything checks out here,
+
+352
+00:16:02,279 --> 00:16:03,040
+right, the way I would
+
+353
+00:16:04,843 --> 00:16:06,245
+expect it to happen.
+
+354
+00:16:07,912 --> 00:16:12,926
+idle episodes dead joints let's also check
+them and then yeah no dead joints no idle
+
+355
+00:16:12,966 --> 00:16:14,007
+episodes again
+
+356
+00:16:14,847 --> 00:16:18,508
+yeah even though i have this random policy
+nothing just you know failed and sat there
+
+357
+00:16:19,288 --> 00:16:21,108
+even the random ones ran for the whole
+
+358
+00:16:21,742 --> 00:16:25,663
+steps that it tried to do something and
+then they failed no idle episodes as well
+
+359
+00:16:26,054 --> 00:16:27,836
+And if I just look at the
+
+360
+00:16:27,996 --> 00:16:33,429
+observation state, the min max frames per
+dimension, things like that, no null
+
+361
+00:16:33,469 --> 00:16:34,040
+values, no
+
+362
+00:16:34,090 --> 00:16:34,741
+nan values.
+
+363
+00:16:34,791 --> 00:16:35,531
+So that's good.
+
+364
+00:16:36,052 --> 00:16:36,752
+No cameras.
+
+365
+00:16:36,913 --> 00:16:37,694
+I didn't record them.
+
+366
+00:16:37,774 --> 00:16:39,896
+So there is no point even looking at them.
+
+367
+00:16:41,793 --> 00:16:45,938
+And if I look at the success episodes
+compared to the failures, it says 36
+
+368
+00:16:45,958 --> 00:16:47,961
+succeeded compared to the thousand, 1,050,
+
+369
+00:16:48,241 --> 00:16:51,805
+which, again, we know why the reason for
+the low success because 1,000 of them are
+
+370
+00:16:51,825 --> 00:16:53,928
+random policies.
+
+371
+00:16:54,008 --> 00:16:59,436
+So, again, the point here being that, you
+know, the data set, the profile I built
+
+372
+00:16:59,577 --> 00:17:00,087
+even works
+
+373
+00:17:00,137 --> 00:17:01,058
+for the
+
+374
+00:17:01,699 --> 00:17:03,281
+same data that I generated.
+
+375
+00:17:04,102 --> 00:17:04,467
+Right.
+
+376
+00:17:04,517 --> 00:17:05,148
+it works.
+
+377
+00:17:05,198 --> 00:17:07,621
+In this case, all I had to do is just to
+separate this queue.
+
+378
+00:17:07,941 --> 00:17:09,743
+I had to filter by task type because
+
+379
+00:17:10,504 --> 00:17:13,186
+Honestly, I have two different policies,
+which can be counted as two different
+
+380
+00:17:13,226 --> 00:17:13,926
+tasks.
+
+381
+00:17:14,153 --> 00:17:15,414
+But the profiler itself works.
+
+382
+00:17:15,474 --> 00:17:16,876
+It tells me the state of things.
+
+383
+00:17:16,936 --> 00:17:20,226
+It helps me give an idea of what's
+happening with my data set.
+
+384
+00:17:21,130 --> 00:17:23,537
+So that works, a good thing to report
+back,
+
+385
+00:17:24,317 --> 00:17:27,732
+And if I run this, I only have one data
+set, so nothing to compare to.
+
+386
+00:17:28,044 --> 00:17:31,696
+too, But I get the whole summary, which is
+written down into the file system.
+
+387
+00:17:33,477 --> 00:17:34,638
+So that's the profiler,
+
+388
+00:17:35,499 --> 00:17:36,199
+right?
+
+389
+00:17:36,452 --> 00:17:40,703
+what are my key takeaways from this week's
+is worth of work,
+
+390
+00:17:42,521 --> 00:17:43,741
+my key takeaway is
+
+391
+00:17:44,702 --> 00:17:49,623
+this whole debate about LLMs, generative
+AI, being just parrots.
+
+392
+00:17:50,443 --> 00:17:53,945
+They just went through the whole corpus of
+human-generated knowledge, and they're
+
+393
+00:17:53,965 --> 00:17:55,085
+just doing a
+
+394
+00:17:55,885 --> 00:17:56,585
+massive search.
+
+395
+00:17:56,666 --> 00:18:00,575
+I mean, I'm dumbing it down, that's kind
+of a sentiment of a certain sect if you go
+
+396
+00:18:00,615 --> 00:18:03,136
+onto Reddit, right, and search for AI
+
+397
+00:18:03,196 --> 00:18:06,938
+parrot or LLM star parrot, hit, like,
+thread switch, talk about that.
+
+398
+00:18:07,486 --> 00:18:08,186
+The truth is,
+
+399
+00:18:08,786 --> 00:18:12,614
+again, you know, my worldview, based on
+what I've seen with LLMs themselves and
+
+400
+00:18:12,654 --> 00:18:13,995
+with the robotics data,
+
+401
+00:18:14,635 --> 00:18:18,680
+especially last week, trying to generate a
+deterministic policy and failing
+
+402
+00:18:18,720 --> 00:18:19,251
+miserably.
+
+403
+00:18:19,301 --> 00:18:21,183
+What I realize, again, just to quote
+
+404
+00:18:21,864 --> 00:18:23,546
+Denis Noble and Alan Turing,
+
+405
+00:18:24,267 --> 00:18:24,967
+is that
+
+406
+00:18:25,220 --> 00:18:30,021
+In biological intelligence, I'm not a
+biologist, didn't even do an AP biology
+
+407
+00:18:30,081 --> 00:18:31,422
+course back in my high school
+
+408
+00:18:31,442 --> 00:18:31,712
+days.
+
+409
+00:18:31,762 --> 00:18:36,903
+But again, based on what I've heard Denis
+Noble say, even in biology,
+
+410
+00:18:37,523 --> 00:18:39,283
+the cellular processes are stochastic.
+
+411
+00:18:39,363 --> 00:18:42,825
+There is a certain level of randomness,
+how our biological processes work.
+
+412
+00:18:43,618 --> 00:18:46,580
+And the same applies based on Alan Turing.
+
+413
+00:18:46,761 --> 00:18:49,203
+you to make a machine learn, especially
+learn
+
+414
+00:18:50,083 --> 00:18:50,824
+in a real world,
+
+415
+00:18:51,484 --> 00:18:55,928
+the learning process has to have a certain
+level of randomness, stochasticity built
+
+416
+00:18:56,008 --> 00:18:56,708
+in.
+
+417
+00:18:56,994 --> 00:19:00,426
+that's, exactly what large language model
+training tries to emulate.
+
+418
+00:19:00,466 --> 00:19:01,987
+We have a large neural network and we
+
+419
+00:19:02,627 --> 00:19:06,352
+throw a huge corpus of data, an enormous
+corpus of data, and then
+
+420
+00:19:06,912 --> 00:19:08,254
+the model does learn patterns.
+
+421
+00:19:09,047 --> 00:19:14,501
+So when we ask it to write a limerick or a
+haiku or an essay, it's not just parroting
+
+422
+00:19:15,863 --> 00:19:17,052
+Ernest Hemingway or...
+
+423
+00:19:18,536 --> 00:19:23,466
+Emerson right it does understand their
+style it tries to generate something new
+
+424
+00:19:23,846 --> 00:19:24,646
+out of it again
+
+425
+00:19:24,766 --> 00:19:27,428
+most of it is slop again you know if you
+know how to spot it
+
+426
+00:19:28,329 --> 00:19:31,750
+same thing also applies to code so when we
+ask it to write a piece of code yes it
+
+427
+00:19:31,790 --> 00:19:34,612
+reads it has a knowledge of all the code
+
+428
+00:19:34,632 --> 00:19:38,414
+that has been written but it also learned
+patterns right it can create something new
+
+429
+00:19:38,494 --> 00:19:40,856
+out of it So again, one key takeaway is
+
+430
+00:19:41,337 --> 00:19:45,201
+that just because your training process is
+stochastic, doesn't mean
+
+431
+00:19:45,882 --> 00:19:47,223
+model is useless.
+
+432
+00:19:47,384 --> 00:19:49,505
+On the contrary, what I learned this week
+is
+
+433
+00:19:50,466 --> 00:19:55,834
+for you to make a machine, a model, right,
+you know, a processor or even a robot
+
+434
+00:19:55,874 --> 00:19:57,134
+behave, understand
+
+435
+00:19:57,194 --> 00:20:00,796
+real world, it can't be rigidly, purely
+deterministic.
+
+436
+00:20:00,917 --> 00:20:01,997
+You have to have an element of
+
+437
+00:20:02,698 --> 00:20:04,839
+stochasticity, randomness built into that.
+
+438
+00:20:06,059 --> 00:20:07,961
+That's my key takeaway from this week,
+right?
+
+439
+00:20:07,981 --> 00:20:09,201
+And I'm actually excited because
+
+440
+00:20:10,442 --> 00:20:14,143
+So yeah, we're talking about AI downturn,
+AI collapse.
+
+441
+00:20:14,716 --> 00:20:16,283
+People said the same thing about
+
+442
+00:20:16,904 --> 00:20:17,864
+the whole IT,
+
+443
+00:20:18,604 --> 00:20:20,564
+you know, computers back in 2000s.
+
+444
+00:20:21,144 --> 00:20:22,045
+Yes, it did collapse.
+
+445
+00:20:22,065 --> 00:20:22,925
+The bubble did burst.
+
+446
+00:20:22,985 --> 00:20:23,685
+But
+
+447
+00:20:24,225 --> 00:20:27,686
+that's when I was getting into college and
+I had a vision that, hey, you know, we are
+
+448
+00:20:27,726 --> 00:20:30,287
+not going to just go back to the old ways,
+right, of doing
+
+449
+00:20:30,367 --> 00:20:32,147
+files, physical files and folders.
+
+450
+00:20:32,247 --> 00:20:33,287
+Computers are here to stay.
+
+451
+00:20:33,327 --> 00:20:34,668
+And it is true.
+
+452
+00:20:34,748 --> 00:20:35,448
+Like it took,
+
+453
+00:20:36,133 --> 00:20:38,889
+I don't know, like four decades for us to
+get to the point of AI.
+
+454
+00:20:39,069 --> 00:20:39,789
+So yes, AI.
+
+455
+00:20:40,990 --> 00:20:44,895
+bubble may burst but AI is here to stay
+it's only going to improve catastrophic or
+
+456
+00:20:44,935 --> 00:20:47,097
+not i don't know but i am hopeful
+
+457
+00:20:47,137 --> 00:20:49,033
+about the future of computer science
+
+458
+00:20:49,734 --> 00:20:55,006
+and robotics and AI and the second ground
+truth what i learned is a policy is a
+
+459
+00:20:55,066 --> 00:20:55,757
+function of
+
+460
+00:20:55,807 --> 00:20:56,507
+data
+
+461
+00:20:56,987 --> 00:21:01,469
+whether it be deterministic or whether
+it'll be a it'd be a neural net or some
+
+462
+00:21:01,509 --> 00:21:03,258
+kind of regression model
+
+463
+00:21:03,598 --> 00:21:07,340
+you pass in data it spits out you know
+your result
+
+464
+00:21:07,980 --> 00:21:12,122
+and the same garbage and garbage out still
+applies so we have curated clean
+
+465
+00:21:13,223 --> 00:21:17,734
+indicative of the sample data set, you
+will get the right kind of action.
+
+466
+00:21:17,774 --> 00:21:19,355
+If you train your policy
+
+467
+00:21:20,235 --> 00:21:24,577
+on bad data or if you use bad data with a
+good policy, you're just going to get
+
+468
+00:21:24,617 --> 00:21:25,418
+garbage out of it.
+
+469
+00:21:26,018 --> 00:21:29,660
+But again, once we know that from a data
+engineering point of view, once we know
+
+470
+00:21:29,680 --> 00:21:32,021
+that policy is nothing but a function
+
+471
+00:21:32,041 --> 00:21:34,862
+of data, our life becomes easy, right?
+
+472
+00:21:34,922 --> 00:21:35,622
+I can,
+
+473
+00:21:35,803 --> 00:21:38,824
+again, you should not, but I can treat
+policy as a black box.
+
+474
+00:21:39,648 --> 00:21:41,271
+It just falls into place.
+
+475
+00:21:41,491 --> 00:21:42,191
+I
+
+476
+00:21:42,252 --> 00:21:43,174
+am not lost anymore.
+
+477
+00:21:43,274 --> 00:21:44,616
+I know how to handle that pipeline.
+
+478
+00:21:45,409 --> 00:21:46,310
+And another
+
+479
+00:21:47,270 --> 00:21:47,970
+last
+
+480
+00:21:48,351 --> 00:21:50,492
+takeaway for me from this week is
+
+481
+00:21:51,472 --> 00:21:53,253
+generating data is not easy,
+
+482
+00:21:54,314 --> 00:21:56,675
+as in not writing the code, but the kind
+of
+
+483
+00:21:57,436 --> 00:21:59,637
+compute power you need.
+
+484
+00:21:59,737 --> 00:22:02,798
+It takes, like in my case, just generating
+50 episodes from
+
+485
+00:22:03,919 --> 00:22:04,960
+a diffusion policy.
+
+486
+00:22:05,640 --> 00:22:10,503
+I don't know what the size of the neural
+net is, how many million or thousands of
+
+487
+00:22:10,543 --> 00:22:10,953
+parameters.
+
+488
+00:22:11,003 --> 00:22:11,673
+I don't know.
+
+489
+00:22:11,723 --> 00:22:12,504
+I'll need to look it up.
+
+490
+00:22:13,288 --> 00:22:19,451
+on an M5 Pro like a consumer class pro
+machine it took me 90 minutes once
+
+491
+00:22:19,651 --> 00:22:22,095
+i had everything figured out it took me 90
+minutes
+
+492
+00:22:22,756 --> 00:22:26,641
+for me to generate the data just for 50
+episodes imagine i need thousand two
+
+493
+00:22:26,681 --> 00:22:28,824
+thousand maybe 100k episodes
+
+494
+00:22:29,441 --> 00:22:30,242
+it is not easy.
+
+495
+00:22:30,362 --> 00:22:32,243
+So my goal here is to
+
+496
+00:22:33,004 --> 00:22:34,425
+keep refining my profiler
+
+497
+00:22:35,426 --> 00:22:41,051
+so I can make good use of all the wealth
+of community data, community robotics data
+
+498
+00:22:41,192 --> 00:22:41,542
+that's being
+
+499
+00:22:41,592 --> 00:22:42,913
+produced out there.
+
+500
+00:22:42,953 --> 00:22:44,395
+Just get an intuition for that.
+
+501
+00:22:44,982 --> 00:22:47,391
+You know, saw some data sets which said
+success.
+
+502
+00:22:48,396 --> 00:22:49,096
+V2.
+
+503
+00:22:49,836 --> 00:22:52,077
+But when I went and looked at the success
+metrics, they were zero.
+
+504
+00:22:52,597 --> 00:22:54,997
+But it doesn't mean that they were
+completely useless because the data set
+
+505
+00:22:55,037 --> 00:22:55,607
+was curated.
+
+506
+00:22:55,657 --> 00:22:57,518
+There were so many successful episodes in
+there.
+
+507
+00:22:57,578 --> 00:23:01,211
+It's just that the naming was misleading
+or I could not take the naming on face
+
+508
+00:23:01,271 --> 00:23:01,971
+value.
+
+509
+00:23:02,732 --> 00:23:04,472
+But again, a lot of data sets out there.
+
+510
+00:23:05,692 --> 00:23:06,572
+So the goal is to
+
+511
+00:23:07,232 --> 00:23:08,153
+learn to make use of them.
+
+512
+00:23:08,925 --> 00:23:13,603
+So now that I have a new appreciation for
+robotic policies, how to curate data, how
+
+513
+00:23:13,643 --> 00:23:15,412
+to look for data sets from
+
+514
+00:23:15,432 --> 00:23:16,132
+the community.
+
+515
+00:23:16,813 --> 00:23:17,513
+So I'm going to
+
+516
+00:23:18,154 --> 00:23:19,715
+try to profile more data sets.
+
+517
+00:23:19,955 --> 00:23:21,656
+And I also have a
+
+518
+00:23:22,617 --> 00:23:23,978
+Spark, which I invested in.
+
+519
+00:23:24,238 --> 00:23:25,219
+I'm trying to run.
+
+520
+00:23:25,999 --> 00:23:29,962
+complete sovereign local AI it has a lot
+of CUDA cores so i'm gonna
+
+521
+00:23:30,742 --> 00:23:32,564
+transfer my simulations to
+
+522
+00:23:33,424 --> 00:23:36,867
+that machine and see if i can generate
+some good data sets
+
+523
+00:23:37,527 --> 00:23:38,588
+maybe ALOHA this time
+
+524
+00:23:39,568 --> 00:23:42,258
+or for the SO-101 arm also try to
+
+525
+00:23:42,858 --> 00:23:46,414
+get into some teleop and generate some
+episodes from that my goal.
+
+526
+00:23:47,021 --> 00:23:50,549
+Again, you have a way of, you know,
+searching for datasets in the community,
+
+527
+00:23:51,130 --> 00:23:54,972
+since I found the namings and the labels
+are misleading, if there's a way you
+
+528
+00:23:55,012 --> 00:23:57,313
+filter on Hugging Face, just, you know,
+
+529
+00:23:57,373 --> 00:23:58,073
+leave me a comment.
+
+530
+00:23:59,474 --> 00:24:01,855
+But until then, I'll, you know,
+
+531
+00:24:03,076 --> 00:24:06,978
+so until then, goodbye, and I'll see you
+next week with more of my own insights.
+
+532
+00:24:07,458 --> 00:24:08,158
+Thank you.
+

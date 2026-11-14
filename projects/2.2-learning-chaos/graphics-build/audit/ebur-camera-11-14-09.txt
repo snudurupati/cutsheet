@@ -1,0 +1,6 @@
+  Integrated loudness:
+    I:         -21.0 LUFS
+    Threshold: -32.0 LUFS
+
+  Loudness range:
+    LRA:         3.6 LU
