@@ -732,6 +732,10 @@ was work whose inputs had not changed:
   identity, script hash) and are skipped when the key matches and the frame count is right.
 - **The review proxy is optional** and encodes alongside the audio step. The two composite
   gates run in parallel.
+- **Fire independent steps and keep working.** Part renders, the demo scene, the OCR pass, the
+  panel measurement and the screen splice share no inputs: start them together and author the next
+  artifact while they run. Interleaving think-render-think serializes work that was never
+  dependent. (2.2-learning-chaos retrospective, 2026-11-14.)
 
 What remains every time is the real work: the composite (~10 min at 4K), the gates and the mix.
 When the demo spec changes, the demo scene (~7 min) as well.
@@ -771,6 +775,43 @@ packet-identical) 81s, windowed gates 2s, audio re-mux + verify_cut 29s. The cha
 `graphics-build/rebuild.sh` + `assemble.py` on that job; `FULL=1` forces a whole pass (~15 min of
 composite and gates after the renders). Keyframes are forced at every layer boundary with no
 B-frames, which is what makes the stream-copy splice exact.
+
+**Copy `rebuild.sh` + `assemble.py` from `projects/2.1-robotics-as-de/graphics-build/` at graphics
+setup, before the first build, and put every fix after the first through it.** On 2.2-learning-chaos
+(2026-11-14) the chain was rebuilt mid-job on day three; the fix rounds before it paid full-chain
+prices, and most of the job's excess wall time was those rounds. The chain is a starting condition
+now, not an optimization to reach for when rounds start hurting.
+
+### Layer freeze after the graphics sign-off (2.2-learning-chaos retrospective)
+
+The screen inset was added after the graphics were built, on the next-to-last day, and re-touched
+composition work across the timeline. **The set of composited layers is decided at the graphics
+sign-off and frozen there.** Any later addition (an inset, a new overlay track, a B-roll layer) is
+a change request: state its cost in affected windows and re-runs, and get the human's go before
+building it. A quiet layer is how a signed-off pass stops being signed off.
+
+## The tool shelf: never rebuild what a past job already wrote
+
+Past jobs leave reusable, rule-12 tools. Copy them into the new job's `graphics-build/` at setup,
+adapt in place, do not rewrite:
+
+| Need | Tool, and where it lives |
+|---|---|
+| Face position for framing/crops | `graphics-build/face_position.py` (2.2) |
+| Panel luma under each card box | `graphics-build/measure_panels.py` (2.2) |
+| OCR the screen for punch-in timing | `graphics-build/screen_ocr.py` + `ocr.swift` (2.2) |
+| Cut screen clips on the base segments | `graphics-build/splice_screen.py` (2.2) |
+| Checkpoint preview clips | `graphics-build/make_previews.py` (2.2) |
+| Copy table for the checkpoint | `graphics-build/copy_table.py` (2.2) |
+| Incremental chain | `rebuild.sh` + `assemble.py` (2.1, see above) |
+| Zone measurement | `styles/measure_zones.py` |
+| Concept scan | `styles/scan_concepts.py` |
+
+Every tool takes its inputs as arguments and asserts what it read (hard rule 12). A tool worth
+keeping after a job gets copied into the owning skill's folder or `styles/`, with the table above
+updated. Ad hoc one-off probes (`hum.mjs`, `cues-probe.mjs` on 2.2) stay disposable; the moment one
+proves reusable it joins this shelf. Mid-job tool authoring is a hidden round: it costs a writing
+round plus a debug round, on top of the work it was meant to speed.
 
 ## Linter and workflow notes
 
@@ -831,6 +872,14 @@ their sign-off. Human decision, 2026-09-30 (05-agent-swarm retrospective).
    Every finding is fixed or escalated before the human sees the clips.
 5. **Fix, re-render the affected parts, repeat** until the human signs off. Iterate on a part in
    a single-part preview, never through the chain (hard rule 14).
+
+   **One round means one complete ledger.** When review feedback arrives, write every finding into
+   `checkpoints/fix-round-<n>.md` first: each item, its severity, its fix, its cost. Fix the whole
+   ledger, then re-present once. Partial fixes answered by new reactions are how one review becomes
+   three rounds: on 2.2-learning-chaos the thumbnail card burned three rounds because each rejection
+   answered one complaint and surfaced the next. A rejected concept does not get polished, it gets a
+   new brief: ask for it with two or three cheap candidate compositions to pick from, never a
+   finished card to react to.
 
 Only then run the full chain, once. What remains for the full-cut review is what only shows in
 context: hold lengths, pacing against speech, the audio. Those fixes go through the incremental

@@ -491,6 +491,16 @@ builder and adapt it). Judge them at 360px: that is the size a thumbnail is chos
 - **The infographic is the video's own drawing,** lifted from a render (the team art from g03 on
   05, the g19 card on 04), on a `$bg` panel, plus one short heavy phrase ("Works.", "They talk.",
   "SPLIT THE WORK.") and an `$accent` rule. Not a new illustration.
+- **Concepts before pixels.** Each thumbnail's infographic half is a concept, and concept rejections
+  are cheap only before the card is built. Put two or three one-line concept briefs per variant in
+  front of the human first ("card left: grey T spinning at 0/100, arrow down, snapped T in the goal
+  outline at 36 of 50"), let them pick or write their own, then build. On 2.2-learning-chaos B burned
+  three built rounds this way; the round that shipped was the one where the human wrote the brief.
+- **The approved face plate is that exact frame.** Once a frame time is approved, later rounds move
+  it on the canvas (crop to head-to-shoulders, paste with a blurred extension of the frame's own
+  pixels to keep the card's negative space). Never mirror it, never re-time it, never substitute a
+  "better" frame: on 2.2 a mirrored plate read as "you changed the entire frame with a different
+  one". Re-timing the face is allowed only as its own flagged decision.
 
 **Titles and description** go to `outputs/youtube-titles-and-description.txt`: three or four
 titles, a recommended A/B pairing, the description, chapters on the final cut's times, and tags.

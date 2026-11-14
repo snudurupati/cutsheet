@@ -268,6 +268,13 @@ start before that.
 3. **Judging agent.** It reads the audit and the measurements behind each flag (energy traces,
    spectrograms of the flagged clips, the independent transcript), then passes or fails every flag
    with a reason. It never passes a flag because the transcript reads cleanly.
+
+   **Fix rounds are flag-scoped, not audit-scoped.** Cache each round's evidence (clips, traces,
+   the independent transcript) under `transcript/`. After a fix, re-run the audit only on the spans
+   whose flags changed plus their neighbours, re-judge those, and carry the passed flags forward
+   unchanged. On 2.2-learning-chaos the audit ran v1 to v8 over the whole cut each time and the
+   loop cost about 7h; a re-run of the whole cut for one changed join is the rule-14 mistake moved
+   one stage earlier. The full audit runs again only when a fix moves a cut across a flag boundary.
 4. **Human sign-off.** The human listens to the **full cut end to end** on their Mac and signs off.
    A join reel is a supplement, never a phone proxy: full resolution, about 4s either side of each
    join, slated (`graphics-build/join_reel.py`). On 01-robotics-as-de the 240p, 2s reel "didn't make

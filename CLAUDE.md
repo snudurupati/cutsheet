@@ -23,6 +23,11 @@ Format does not change which stages run. Short form and long form use the same f
 All that changes is how graphics and captions behave inside stages 2 and 4, and that is driven
 entirely by the style file — never by an inline judgement call.
 
+Every stage logs to `projects/<job>/checkpoints/timings.jsonl` on completion, one JSON line:
+`{stage, startedAt, finishedAt, wallSeconds, agentActiveSeconds}`. "Was it faster" is answered
+from these numbers, never from memory (2.2-learning-chaos retrospective: 69 wall hours, and the
+honest split between compute and human-gate waiting was unmeasurable after the fact).
+
 ## Folder structure
 
 ```
